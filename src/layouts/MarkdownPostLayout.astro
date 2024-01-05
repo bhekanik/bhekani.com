@@ -1,50 +1,47 @@
 ---
 import { Image } from "astro:assets";
+import Case from "case";
+import { format } from "date-fns";
 import BaseLayout from "./BaseLayout.astro";
 const { frontmatter } = Astro.props;
 ---
 
 <BaseLayout pageTitle={frontmatter.title}>
-  <p>{frontmatter.pubDate.toString().slice(0, 10)}</p>
-  <p>
+  {
+    frontmatter.image && (
+      <div class="w-full border">
+        <Image
+          class="object-contain"
+          src={frontmatter.image}
+          width="300"
+          height="300"
+          alt=""
+        />
+      </div>
+    )
+  }
+  <h1 class="text-3xl mb-4 mt-2">{frontmatter.title}</h1>
+  <p class="mb-4 text-[hsl(var(--muted-foreground))]">
     <em>{frontmatter.description}</em>
   </p>
-
-  <p>Written by: <a href="/about/">{frontmatter.author}</a></p>
-  <Image
-    src={frontmatter.image}
-    width="300"
-    height="300"
-    alt={frontmatter.image.alt ?? ""}
-  />
-
-  <div class="tags">
+  <div>
+    <p class="text-xs">{Case.upper(frontmatter.author)}</p>
+    <p class="mb-4 text-sm text-[hsl(var(--muted-foreground))]">
+      {format(frontmatter.pubDate, "MMMM dd, yyyy")}
+    </p>
+  </div>
+  <div class="flex flex-wrap gap-4 mb-8">
     {
       frontmatter.tags.map((tag: string) => (
-        <p class="tag">
-          <a href={`/tags/${tag}`}>{tag}</a>
-        </p>
+        <a
+          class="text-sm hover:text-[hsl(var(--muted-foreground))]"
+          href={`/tags/${tag}`}
+        >
+          #{tag}
+        </a>
       ))
     }
   </div>
+
   <slot />
 </BaseLayout>
-<style>
-  a {
-    color: #00539f;
-  }
-
-  .tags {
-    display: flex;
-    flex-wrap: wrap;
-  }
-
-  .tag {
-    margin: 0.25em;
-    border: dotted 1px #a1a1a1;
-    border-radius: 0.5em;
-    padding: 0.5em 1em;
-    font-size: 1.15em;
-    background-color: #f8fcfd;
-  }
-</style>

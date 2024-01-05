@@ -1,22 +1,23 @@
 ---
+import FooterNavigation from "./FooterNavigation.astro";
 import Social from "./Social.astro";
-
-const platform = "github";
-const username = "withastro";
 ---
 
-<footer>
-  <p>Learn more about my projects on</p>
-  <Social platform="twitter" username="bhekanik" />
-  <Social platform="github" username="bhekanik" />
-  <Social platform="youtube" username="bhekanik" />
+<footer
+  class="flex w-full items-start mt-8 justify-between p-4 border-t border-[hsl(var(--muted))]"
+>
+  <h1 class="text-xl font-logo">BK</h1>
+  <FooterNavigation />
+
+  <nav class="flex flex-col">
+    <Social href="https://twitter.com/bhekanik" title="Twitter" />
+    <Social href="https://github.com/bhekanik" title="Github" />
+    <Social href="https://youtube.com/bhekanik" title="YouTube" />
+  </nav>
 </footer>
 
 <style>
   footer {
     grid-area: footer;
-    display: flex;
-    gap: 1rem;
-    margin-top: 2rem;
   }
 </style>
