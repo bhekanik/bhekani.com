@@ -5,46 +5,67 @@ import { format } from "date-fns";
 import RelatedPosts from "../components/RelatedPosts.astro";
 import BaseLayout from "./BaseLayout.astro";
 const {
-  post: { data: frontmatter },
+  post: { data: frontmatter, slug },
   post,
 } = Astro.props;
 ---
 
 <BaseLayout pageTitle={frontmatter.title}>
-  {
-    frontmatter.image && (
-      <div class="w-full mb-8 h-56 overflow-hidden">
-        <Image
-          class="w-full object-cover h-full"
-          src={frontmatter.image}
-          width="1200"
-          height="300"
-          alt=""
-        />
-      </div>
-    )
-  }
-  <h1 class="text-3xl mb-4 mt-2">{frontmatter.title}</h1>
-  <p class="mb-4 text-[hsl(var(--muted-foreground))]">
-    <em>{frontmatter.description}</em>
-  </p>
-  <div>
-    <p class="text-xs">{Case.upper(frontmatter.author)}</p>
-    <p class="mb-4 text-sm text-[hsl(var(--muted-foreground))]">
-      {format(frontmatter.pubDate, "MMMM dd, yyyy")}
-    </p>
-  </div>
-  <div class="flex flex-wrap gap-4 mb-8">
+  <div transition:name={`card-${slug}`}>
     {
-      frontmatter.tags.map((tag: string) => (
-        <a
-          class="text-sm hover:text-[hsl(var(--muted-foreground))]"
-          href={`/tags/${tag}`}
-        >
-          #{tag}
-        </a>
-      ))
+      frontmatter.image && (
+        <div class="w-full mb-8 h-56 overflow-hidden">
+          <Image
+            transition:name={`image-${slug}`}
+            class="w-full object-cover h-full"
+            src={frontmatter.image}
+            width="1200"
+            height="300"
+            alt=""
+          />
+        </div>
+      )
     }
+    <p>
+      <a
+        transition:name={`back-${slug}`}
+        class="text-sm hover:text-[hsl(var(--muted-foreground))]"
+        href="/blog"
+      >
+        ← All Posts
+      </a>
+    </p>
+
+    <h1 transition:name={`title-${slug}`} class="text-3xl mb-4 mt-2">
+      {frontmatter.title}
+    </h1>
+    <p
+      transition:name={`description-${slug}`}
+      class="mb-4 text-[hsl(var(--muted-foreground))]"
+    >
+      <em>{frontmatter.description}</em>
+    </p>
+    <div>
+      <p class="text-xs">{Case.upper(frontmatter.author)}</p>
+      <p
+        transition:name={`date-${slug}`}
+        class="mb-4 text-sm text-[hsl(var(--muted-foreground))]"
+      >
+        {format(frontmatter.pubDate, "MMMM dd, yyyy")}
+      </p>
+    </div>
+    <div class="flex flex-wrap gap-4 mb-8">
+      {
+        frontmatter.tags.map((tag: string) => (
+          <a
+            class="text-sm hover:text-[hsl(var(--muted-foreground))]"
+            href={`/tags/${tag}`}
+          >
+            #{tag}
+          </a>
+        ))
+      }
+    </div>
   </div>
 
   <slot />

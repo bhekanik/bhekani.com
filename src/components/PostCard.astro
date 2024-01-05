@@ -10,19 +10,24 @@ const {
 ---
 
 <div
+  transition:name={`card-${slug}`}
   class="card grid gap-2 text-[hsl(var(--card-foreground))] bg-[hsl(var(--card))] hover:bg-[hsl(var(--muted))] items-center h-56 duration-1000"
 >
   <div class="content p-4 px-8">
     <a href={`/posts/${slug}/`}>
-      <h1 class="text-xl mb-4">{title}</h1>
+      <h1 transition:name={`title-${slug}`} class="text-xl mb-4">{title}</h1>
     </a>
     <p
-      class="mb-4 text-[hsl(var(--muted-foreground))] h-12 text-ellipsis overflow-hidden"
+      class="mb-4 text-[hsl(var(--muted-foreground))] max-h-12 text-ellipsis overflow-hidden"
+      transition:name={`description-${slug}`}
     >
       <em>{description}</em>
     </p>
     <div>
-      <p class="mb-4 text-sm text-[hsl(var(--muted-foreground))]">
+      <p
+        transition:name={`date-${slug}`}
+        class="mb-4 text-sm text-[hsl(var(--muted-foreground))]"
+      >
         {format(date, "MMMM dd, yyyy")}
       </p>
     </div>
@@ -44,6 +49,7 @@ const {
     image && (
       <div class="image h-full overflow-hidden">
         <Image
+          transition:name={`image-${slug}`}
           class="object-cover h-full"
           src={image}
           width="300"
