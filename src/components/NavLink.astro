@@ -1,0 +1,14 @@
+---
+import { cn } from "../utils/cn";
+const { pathname } = Astro.url;
+
+const { href, title } = Astro.props;
+---
+
+<a
+  class={cn(
+    "text-[hsl(var(--muted-foreground))]",
+    pathname === href ? "text-[hsl(var(--foreground))]" : ""
+  )}
+  href={href}>{title}</a
+>

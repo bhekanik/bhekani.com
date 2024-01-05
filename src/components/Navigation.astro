@@ -1,10 +1,10 @@
 ---
-
+import NavLink from "./NavLink.astro";
 ---
 
-<div class="nav-links">
-  <a href="/">Home</a>
-  <a href="/about/">About</a>
-  <a href="/blog/">Blog</a>
-  <a href="/tags/">Tags</a>
-</div>
+<nav class="flex gap-2">
+  <NavLink href="/" title="Home" />
+  <NavLink href="/blog/" title="Blog" />
+  <NavLink href="/about/" title="About" />
+  <NavLink href="/tags/" title="Tags" />
+</nav>

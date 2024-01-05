@@ -1,5 +1,6 @@
 ---
 import { getCollection } from "astro:content";
+import AboutCard from "../components/AboutCard.astro";
 import BlogPost from "../components/BlogPost.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 const pageTitle = "Bhekani.com";
@@ -8,29 +9,20 @@ const allPosts = await getCollection("posts");
 ---
 
 <BaseLayout pageTitle={pageTitle}>
-  <h1>Bhekani Khumalo</h1>
-  <h2>@bhekanik everywhere</h2>
-  <p><i>Software Engineer, Writer</i></p>
-  <p>
-    I write about non-tech subjects that interest me on <a
-      href="https://justreflections.bhekani.com/"
-      target="_blank">Just Reflections</a
-    >, and I am shining light on the African early stage tech startup ecosystem
-    at <a href="https://dealbase.africa/" target="_blank">Dealbase.Africa</a>.
-  </p>
-  <p>
-    <a class="text-gray-600 dark:text-gray-400 italic" href="/about"
-      >→ More on About page</a
-    >
-  </p>
-  <h2>Recent Posts</h2>
+  <AboutCard />
+
+  <h2 class="text-2xl mb-4 mt-2">Recent Posts</h2>
 
   <ul>
     {
       allPosts
         .slice(0, 3)
         .map((post) => (
-          <BlogPost url={`/posts/${post.slug}/`} title={post.data.title} />
+          <BlogPost
+            url={`/posts/${post.slug}/`}
+            title={post.data.title}
+            date={post.data.pubDate}
+          />
         ))
     }
   </ul>

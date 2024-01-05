@@ -1,5 +1,11 @@
 ---
-const { title, url } = Astro.props;
+import { format } from "date-fns";
+const { title, url, date } = Astro.props;
 ---
 
-<li><a href={url}>{title}</a></li>
+<li class="flex gap-2 items-center">
+  <a href={url}>{title}</a><span
+    class="text-sm text-[hsl(var(--muted-foreground))]"
+    >{format(date, "MMMM dd, yyyy")}</span
+  >
+</li>

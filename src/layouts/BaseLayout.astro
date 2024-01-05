@@ -1,4 +1,7 @@
 ---
+import "@fontsource-variable/jetbrains-mono";
+import "@fontsource/abril-fatface";
+import "@fontsource/ibm-plex-sans";
 import { ViewTransitions } from "astro:transitions";
 import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
@@ -19,13 +22,9 @@ const { pageTitle } = Astro.props;
   </head>
   <body>
     <Header />
-
-    <h1>{pageTitle}</h1>
-
-    <slot />
+    <main>
+      <slot />
+    </main>
     <Footer />
-    <script>
-      import "../scripts/menu.js";
-    </script>
   </body>
 </html>
