@@ -3,7 +3,7 @@ title: "Writing is Thinking"
 pubDate: 2023-07-19
 description: "Does writing intimidate you? Unlock the power of writing as a tool for thinking. Discover how writing aids in articulating thoughts, understanding complex ideas, and communicating effectively. "
 author: "Bhekani Khumalo"
-image: "../_images/writing-is-thinking.png"
+image: "../_images/writing-is-thinking.webp"
 tags: ["writing", "thinking", "just-reflections"]
 ---
 
