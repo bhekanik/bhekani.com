@@ -16,6 +16,7 @@ const allPosts = await getCollection("posts");
   <ul>
     {
       allPosts
+        .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
         .slice(0, 3)
         .map((post) => (
           <BlogPost

@@ -3,36 +3,9 @@ import { Image } from "astro:assets";
 import BK from "../images/BK.jpeg";
 ---
 
-<style>
-  .card {
-    width: 100%;
-    display: grid;
-    grid-template:
-      "image ."
-      "content content";
-    gap: 2rem;
-  }
-
-  .content {
-    grid-area: content;
-  }
-
-  .image {
-    grid-area: image;
-  }
-
-  @media screen and (min-width: 768px) {
-    .card {
-      grid-template:
-        "content image"
-        "content image";
-    }
-  }
-</style>
-
 <div class="card pb-12">
   <div class="content">
-    <h1 class="text-3xl md:text-4xl mb-0 leading-none">
+    <h1 class="text-3xl md:text-4xl mb-0 leading-none font-logo">
       Bhekani Khumalo <span
         class="text-lg font-code text-[hsl(var(--muted-foreground))]"
         >(@bhekanik)</span
@@ -62,3 +35,30 @@ import BK from "../images/BK.jpeg";
     height="200"
   />
 </div>
+
+<style>
+  .card {
+    width: 100%;
+    display: grid;
+    grid-template:
+      "image ."
+      "content content";
+    gap: 2rem;
+  }
+
+  .content {
+    grid-area: content;
+  }
+
+  .image {
+    grid-area: image;
+  }
+
+  @media screen and (min-width: 768px) {
+    .card {
+      grid-template:
+        "content image"
+        "content image";
+    }
+  }
+</style>

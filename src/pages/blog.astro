@@ -11,9 +11,15 @@ const pageTitle = "Blog";
 <BaseLayout pageTitle={pageTitle}>
   <ul>
     {
-      allPosts.map((post) => (
-        <BlogPost url={`/posts/${post.slug}/`} title={post.data.title} />
-      ))
+      allPosts
+        .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+        .map((post) => (
+          <BlogPost
+            url={`/posts/${post.slug}/`}
+            title={post.data.title}
+            date={post.data.pubDate}
+          />
+        ))
     }
   </ul>
 </BaseLayout>
