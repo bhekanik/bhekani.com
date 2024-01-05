@@ -2,8 +2,12 @@
 import { Image } from "astro:assets";
 import Case from "case";
 import { format } from "date-fns";
+import RelatedPosts from "../components/RelatedPosts.astro";
 import BaseLayout from "./BaseLayout.astro";
-const { frontmatter } = Astro.props;
+const {
+  post: { data: frontmatter },
+  post,
+} = Astro.props;
 ---
 
 <BaseLayout pageTitle={frontmatter.title}>
@@ -44,4 +48,6 @@ const { frontmatter } = Astro.props;
   </div>
 
   <slot />
+
+  <RelatedPosts slug={post.slug} frontmatter={frontmatter} />
 </BaseLayout>

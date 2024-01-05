@@ -1,0 +1,43 @@
+---
+import { getCollection } from "astro:content";
+import BlogPost from "./BlogPost.astro";
+import RecentPosts from "./RecentPosts.astro";
+
+const {
+  frontmatter: { tags },
+  slug,
+} = Astro.props;
+
+const allPosts = await getCollection("posts");
+const posts = allPosts.filter((post) => {
+  if (slug === post.slug) return false;
+
+  let keep = false;
+  tags.forEach((tag: string) => {
+    if (post.data.tags.includes(tag)) {
+      keep = true;
+    }
+  });
+
+  return keep;
+});
+---
+
+{
+  posts.length === 0 ? (
+    <RecentPosts />
+  ) : (
+    <div class="my-8">
+      <h2 class="text-2xl mb-4 mt-2">Related Posts</h2>
+      <ul>
+        {posts.map((post) => (
+          <BlogPost
+            url={`/posts/${post.slug}/`}
+            title={post.data.title}
+            date={post.data.pubDate}
+          />
+        ))}
+      </ul>
+    </div>
+  )
+}

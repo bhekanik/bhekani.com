@@ -1,7 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import AboutCard from "../components/AboutCard.astro";
-import BlogPost from "../components/BlogPost.astro";
+import RecentPosts from "../components/RecentPosts.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 const pageTitle = "Bhekani.com";
 
@@ -11,38 +11,5 @@ const allPosts = await getCollection("posts");
 <BaseLayout pageTitle={pageTitle}>
   <AboutCard />
 
-  <h2 class="text-2xl mb-4 mt-2">Recent Posts</h2>
-
-  <ul>
-    {
-      allPosts
-        .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-        .slice(0, 3)
-        .map((post) => (
-          <BlogPost
-            url={`/posts/${post.slug}/`}
-            title={post.data.title}
-            date={post.data.pubDate}
-          />
-        ))
-    }
-  </ul>
-
-  <a
-    class="mt-8 flex h-6 rounded-lg leading-7 text-gray-600 transition-all dark:text-gray-400 dark:hover:text-gray-200"
-    href="/blog"
-    >See all posts<svg
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-      class="ml-1 h-6 w-6"
-      ><path
-        stroke="currentColor"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
-        d="M17.5 12h-15m11.667-4l3.333 4-3.333-4zm3.333 4l-3.333 4 3.333-4z"
-      ></path></svg
-    ></a
-  >
+  <RecentPosts />
 </BaseLayout>
