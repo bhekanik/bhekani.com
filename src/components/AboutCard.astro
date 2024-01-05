@@ -3,7 +3,7 @@ import { Image } from "astro:assets";
 import BK from "../images/BK.webp";
 ---
 
-<div class="card pb-12">
+<div class="card grid gap-2">
   <div class="content">
     <h1 class="text-3xl md:text-4xl mb-0 leading-none font-logo">
       Bhekani Khumalo <span
@@ -27,23 +27,23 @@ import BK from "../images/BK.webp";
       >
     </p>
   </div>
-  <Image
-    class="image rounded-lg"
-    src={BK}
-    alt="Bhekani Khumalo"
-    width="200"
-    height="200"
-  />
+  <div class="image h-15 w-15">
+    <Image
+      class="rounded-lg"
+      src={BK}
+      alt="Bhekani Khumalo"
+      width="200"
+      height="200"
+    />
+  </div>
 </div>
 
 <style>
   .card {
     width: 100%;
-    display: grid;
     grid-template:
       "image ."
       "content content";
-    gap: 2rem;
   }
 
   .content {
