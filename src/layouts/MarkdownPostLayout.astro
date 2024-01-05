@@ -13,11 +13,11 @@ const {
 <BaseLayout pageTitle={frontmatter.title}>
   {
     frontmatter.image && (
-      <div class="w-full border">
+      <div class="w-full mb-8 h-56 overflow-hidden">
         <Image
-          class="object-contain"
+          class="w-full object-cover h-full"
           src={frontmatter.image}
-          width="300"
+          width="1200"
           height="300"
           alt=""
         />

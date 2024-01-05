@@ -1,6 +1,6 @@
 ---
 import { getCollection } from "astro:content";
-import BlogPost from "../components/BlogPost.astro";
+import PostCard from "../components/PostCard.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import "../styles/global.css";
 
@@ -9,17 +9,12 @@ const pageTitle = "Blog";
 ---
 
 <BaseLayout pageTitle={pageTitle}>
-  <ul>
+  <h1 class="text-3xl mt-2 mb-4">All Posts</h1>
+  <div class="grid gap-4">
     {
       allPosts
         .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-        .map((post) => (
-          <BlogPost
-            url={`/posts/${post.slug}/`}
-            title={post.data.title}
-            date={post.data.pubDate}
-          />
-        ))
+        .map((post) => <PostCard post={post} />)
     }
-  </ul>
+  </div>
 </BaseLayout>

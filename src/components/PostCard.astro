@@ -1,0 +1,67 @@
+---
+import { Image } from "astro:assets";
+import { format } from "date-fns";
+const {
+  post: {
+    slug,
+    data: { tags, title, image, description, pubDate: date },
+  },
+} = Astro.props;
+---
+
+<div
+  class="card grid gap-2 text-[hsl(var(--card-foreground))] bg-[hsl(var(--card))] hover:bg-[hsl(var(--muted))] items-center h-56 duration-1000"
+>
+  <div class="content p-4 px-8">
+    <a href={`/posts/${slug}/`}>
+      <h1 class="text-xl mb-4">{title}</h1>
+    </a>
+    <p
+      class="mb-4 text-[hsl(var(--muted-foreground))] h-12 text-ellipsis overflow-hidden"
+    >
+      <em>{description}</em>
+    </p>
+    <div>
+      <p class="mb-4 text-sm text-[hsl(var(--muted-foreground))]">
+        {format(date, "MMMM dd, yyyy")}
+      </p>
+    </div>
+    <div class="flex flex-wrap gap-4">
+      {
+        tags.map((tag: string) => (
+          <a
+            class="text-sm hover:text-[hsl(var(--muted-foreground))]"
+            href={`/tags/${tag}`}
+          >
+            #{tag}
+          </a>
+        ))
+      }
+    </div>
+  </div>
+
+  {
+    image && (
+      <div class="image h-full overflow-hidden">
+        <Image
+          class="object-cover h-full"
+          src={image}
+          width="300"
+          height="300"
+          alt=""
+        />
+      </div>
+    )
+  }
+</div>
+
+<style>
+  .card {
+    display: grid;
+    grid-template: "content image" / 1fr auto;
+    color: hsl(var(--card-foreground));
+  }
+  a {
+    color: hsl(var(--card-foreground));
+  }
+</style>
