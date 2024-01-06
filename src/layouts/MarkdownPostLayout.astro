@@ -41,20 +41,11 @@ const {
     </h1>
     <p
       transition:name={`description-${slug}`}
-      class="mb-4 text-[hsl(var(--muted-foreground))]"
+      class="mb-1 text-[hsl(var(--muted-foreground))]"
     >
       <em>{frontmatter.description}</em>
     </p>
-    <div>
-      <p class="text-xs">{Case.upper(frontmatter.author)}</p>
-      <p
-        transition:name={`date-${slug}`}
-        class="mb-4 text-sm text-[hsl(var(--muted-foreground))]"
-      >
-        {format(frontmatter.pubDate, "MMMM dd, yyyy")}
-      </p>
-    </div>
-    <div class="flex flex-wrap gap-4 mb-8">
+    <div class="flex flex-wrap gap-4 mb-4">
       {
         frontmatter.tags.map((tag: string) => (
           <a
@@ -65,6 +56,15 @@ const {
           </a>
         ))
       }
+    </div>
+    <div class="mb-8">
+      <p class="text-xs">{Case.upper(frontmatter.author)}</p>
+      <p
+        transition:name={`date-${slug}`}
+        class="text-sm text-[hsl(var(--muted-foreground))]"
+      >
+        {format(frontmatter.pubDate, "MMMM dd, yyyy")}
+      </p>
     </div>
   </div>
 
