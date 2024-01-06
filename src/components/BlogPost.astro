@@ -3,9 +3,11 @@ import { format } from "date-fns";
 const { title, url, date } = Astro.props;
 ---
 
-<li class="flex gap-2 items-center">
-  <a href={url}>{title}</a><span
-    class="text-sm text-[hsl(var(--muted-foreground))]"
-    >{format(date, "MMMM dd, yyyy")}</span
+<li>
+  <a href={url}
+    >{title}
+    <span class="text-sm whitespace-nowrap text-[hsl(var(--muted-foreground))]"
+      >{format(date, "MMMM dd, yyyy")}</span
+    ></a
   >
 </li>

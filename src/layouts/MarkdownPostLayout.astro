@@ -36,7 +36,7 @@ const {
       </a>
     </p>
 
-    <h1 transition:name={`title-${slug}`} class="text-3xl mb-4 mt-2">
+    <h1 transition:name={`title-${slug}`} class="text-3xl mb-4 mt-2 title">
       {frontmatter.title}
     </h1>
     <p
@@ -127,5 +127,9 @@ const {
 
   h6:hover::before {
     color: hsl(var(--foreground));
+  }
+
+  .title:before {
+    content: "";
   }
 </style>

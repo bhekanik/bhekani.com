@@ -67,6 +67,13 @@ main {
 
 a {
   color: hsl(var(--links));
+  transition: all 0.2s ease-in-out;
+}
+
+a:hover {
+  background-color: hsl(var(--muted));
+  color: hsl(var(--links));
+  transition: all 0.2s ease-in-out;
 }
 
 h1,

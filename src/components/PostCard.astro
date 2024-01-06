@@ -11,26 +11,18 @@ const {
 
 <div
   transition:name={`card-${slug}`}
-  class="card grid gap-2 text-[hsl(var(--card-foreground))] bg-[hsl(var(--card))] hover:bg-[hsl(var(--muted))] items-center h-56 duration-1000"
+  class="card grid gap-2 text-[hsl(var(--card-foreground))] bg-[hsl(var(--card))] hover:bg-[hsl(var(--muted))] items-center duration-1000"
 >
   <div class="content p-4 px-8">
-    <a href={`/posts/${slug}/`}>
+    <a href={`/posts/${slug}/`} class="h-fit">
       <h1 transition:name={`title-${slug}`} class="text-xl mb-2">{title}</h1>
     </a>
     <p
-      class="mb-4 text-[hsl(var(--muted-foreground))] max-h-12 text-ellipsis overflow-hidden"
-      transition:name={`description-${slug}`}
+      transition:name={`date-${slug}`}
+      class="text-sm text-[hsl(var(--muted-foreground))]"
     >
-      <em>{description}</em>
+      {format(date, "MMMM dd, yyyy")}
     </p>
-    <div>
-      <p
-        transition:name={`date-${slug}`}
-        class="mb-4 text-sm text-[hsl(var(--muted-foreground))]"
-      >
-        {format(date, "MMMM dd, yyyy")}
-      </p>
-    </div>
     <div class="flex flex-wrap gap-4">
       {
         tags.map((tag: string) => (
@@ -64,10 +56,25 @@ const {
 <style>
   .card {
     display: grid;
-    grid-template: "content content content image" / 3fr 1fr;
+    grid-template: "content image" / 3fr 1fr;
     color: hsl(var(--card-foreground));
+  }
+  .content {
+    grid-area: content;
+    display: grid;
+    grid-template:
+      "title" auto-fit
+      "description" 1fr
+      "date" auto-fit
+      "tags" auto-fit;
+  }
+  .image {
+    grid-area: image;
   }
   a {
     color: hsl(var(--card-foreground));
+  }
+  a:hover {
+    background-color: transparent;
   }
 </style>
