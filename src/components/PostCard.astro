@@ -15,7 +15,7 @@ const {
 >
   <div class="content p-4 px-8">
     <a href={`/posts/${slug}/`}>
-      <h1 transition:name={`title-${slug}`} class="text-xl mb-4">{title}</h1>
+      <h1 transition:name={`title-${slug}`} class="text-xl mb-2">{title}</h1>
     </a>
     <p
       class="mb-4 text-[hsl(var(--muted-foreground))] max-h-12 text-ellipsis overflow-hidden"
@@ -64,7 +64,7 @@ const {
 <style>
   .card {
     display: grid;
-    grid-template: "content image" / 1fr auto;
+    grid-template: "content content content image" / 3fr 1fr;
     color: hsl(var(--card-foreground));
   }
   a {
