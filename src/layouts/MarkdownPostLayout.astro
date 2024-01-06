@@ -73,3 +73,59 @@ const {
   <hr class="my-8" />
   <RelatedPosts slug={post.slug} frontmatter={frontmatter} />
 </BaseLayout>
+
+<style>
+  h1::before {
+    content: "# ";
+    color: hsl(var(--muted));
+  }
+
+  h1:hover::before {
+    color: hsl(var(--foreground));
+  }
+
+  h2::before {
+    content: "## ";
+    color: hsl(var(--muted));
+  }
+
+  h2:hover::before {
+    color: hsl(var(--foreground));
+  }
+
+  h3::before {
+    content: "### ";
+    color: hsl(var(--muted));
+  }
+
+  h3:hover::before {
+    color: hsl(var(--foreground));
+  }
+
+  h4::before {
+    content: "#### ";
+    color: hsl(var(--muted));
+  }
+
+  h4:hover::before {
+    color: hsl(var(--foreground));
+  }
+
+  h5::before {
+    content: "##### ";
+    color: hsl(var(--muted));
+  }
+
+  h5:hover::before {
+    color: hsl(var(--foreground));
+  }
+
+  h6::before {
+    content: "###### ";
+    color: hsl(var(--muted));
+  }
+
+  h6:hover::before {
+    color: hsl(var(--foreground));
+  }
+</style>
