@@ -8,6 +8,7 @@ import { AstroSeo } from "@astrolib/seo";
 import { ViewTransitions } from "astro:transitions";
 import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
+import PostHog from "../components/PostHog.astro";
 import "../styles/global.css";
 
 const { pageTitle, description, title, imageUrl } = Astro.props;
@@ -22,6 +23,7 @@ const { pageTitle, description, title, imageUrl } = Astro.props;
     <meta name="generator" content={Astro.generator} />
     <title>{pageTitle} | Bhekani.com</title>
     <ViewTransitions />
+    <PostHog />
     <AstroSeo
       title={pageTitle}
       description={description ??
