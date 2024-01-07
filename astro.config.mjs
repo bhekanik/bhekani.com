@@ -18,9 +18,9 @@ export default defineConfig({
     robotsTxt(),
     mdx(),
     sentry({
-      dsn: "https://9a6637668c0f45810a75491fe541581e@o1115887.ingest.sentry.io/4506531356672000",
+      dsn: "https://c8fc23d45a17004cddf52ecfee998bf2@o1115887.ingest.sentry.io/4506532148936704",
       sourceMapsUploadOptions: {
-        project: "bhekani-com",
+        project: "website",
         authToken: process.env.SENTRY_AUTH_TOKEN,
         environment:
           process.env.NODE_ENV === "production" ? "production" : "development",
