@@ -3,6 +3,7 @@ import { Image } from "astro:assets";
 import Case from "case";
 import { format } from "date-fns";
 import RelatedThoughts from "../components/RelatedThoughts.astro";
+import Utterances from "../components/Utterances.astro";
 import BaseLayout from "./BaseLayout.astro";
 
 const {
@@ -77,7 +78,10 @@ const {
 
     <slot />
 
+    <Utterances />
+
     <hr class="my-8" />
+
     <RelatedThoughts slug={thought.slug} frontmatter={frontmatter} />
   </main>
 </BaseLayout>

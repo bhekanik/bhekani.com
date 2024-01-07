@@ -20,14 +20,18 @@ const { Content, headings } = await entry.render();
   {
     headings.length > 0 && (
       <section class="mb-4">
-        <h2>Table of Contents</h2>
+        <h2 class="mb-2">Table of Contents</h2>
 
-        <ul class="">
+        <ul class="ml-2">
           {headings.map((heading) => (
             <li
               class={cn(
                 "text-sm",
-                heading.depth === 3 ? "ml-4" : heading.depth === 4 ? "ml-8" : ""
+                heading.depth === 3
+                  ? "ml-4 border-l border-[hsl(var(--links))] pl-4"
+                  : heading.depth === 4
+                    ? "ml-8 border-l border-[hsl(var(--links))] pl-4"
+                    : ""
               )}
             >
               <a href={`#${heading.slug}`}>{heading.text}</a>
