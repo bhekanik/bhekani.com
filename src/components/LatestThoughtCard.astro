@@ -67,6 +67,11 @@ const {
     color: hsl(var(--card-foreground));
   }
   .card:has(.image) {
+    grid-template:
+      "image" 1fr
+      "content" 4fr;
+  }
+  .card:has(.image) {
     grid-template: "image content" / 1fr 1fr;
   }
   .card:not(:has(.image)) {
@@ -81,6 +86,11 @@ const {
       "date" auto-fit
       "tags" auto-fit;
     place-items: center;
+  }
+  @media screen and (min-width: 768px) {
+    .card:has(.image) {
+      grid-template: "image content" / 1fr 1fr;
+    }
   }
   .image {
     grid-area: image;

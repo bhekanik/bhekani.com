@@ -1,0 +1,19 @@
+---
+const { quote, reference } = Astro.props;
+---
+
+<div class="quote relative border-l py-2 px-4 ml-2 bg-[hsl(var(--muted))]">
+  <p>
+    {quote}
+  </p>
+  {
+    reference && (
+      <p class="text-right">
+        <span>&mdash;</span>
+        <span class="text-sm italic leading-none">{reference}</span>
+      </p>
+    )
+  }
+</div>
+
+<style></style>

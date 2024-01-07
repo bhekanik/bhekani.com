@@ -2,9 +2,7 @@
 import Navigation from "./Navigation.astro";
 ---
 
-<header
-  class="flex w-full items-center justify-between mb-8 bg-[hsl(var(--muted))]"
->
+<header class="flex w-full items-center justify-between bg-[hsl(var(--muted))]">
   <a
     class="p-2 text-[hsl(var(--background))] bg-[hsl(var(--foreground))]"
     href="/"
@@ -17,5 +15,8 @@ import Navigation from "./Navigation.astro";
 <style>
   header {
     grid-area: header;
+    position: sticky;
+    top: 0;
+    z-index: 100;
   }
 </style>

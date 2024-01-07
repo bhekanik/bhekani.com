@@ -43,9 +43,11 @@ h6 {
 }
 
 body {
+  position: relative;
   display: grid;
   grid-template:
     "header" auto
+    "page-header" auto
     "main" 1fr
     "footer" auto;
   width: 100%;
@@ -62,7 +64,7 @@ main {
   margin: 0 auto;
   width: 100%;
   max-width: 80ch;
-  padding: 0 2rem;
+  padding: 0 2rem 2rem;
 }
 
 a {

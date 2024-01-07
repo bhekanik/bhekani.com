@@ -26,16 +26,25 @@ const { thoughts } = Astro.props;
 ---
 
 <BaseLayout pageTitle={tag}>
-  <p>Thoughts tagged with {tag}</p>
-  <ul>
-    {
-      thoughts.map((thoughts) => (
-        <BlogPost
-          url={`/thoughts/${thoughts.slug}/`}
-          title={thoughts.data.title}
-          date={thoughts.data.pubDate}
-        />
-      ))
-    }
-  </ul>
+  <main>
+    <p class="my-8">
+      <a
+        class="text-sm hover:text-[hsl(var(--muted-foreground))]"
+        href="/tags/"
+      >
+        ← All tags
+      </a>
+    </p>
+    <ul>
+      {
+        thoughts.map((thoughts) => (
+          <BlogPost
+            url={`/thoughts/${thoughts.slug}/`}
+            title={thoughts.data.title}
+            date={thoughts.data.pubDate}
+          />
+        ))
+      }
+    </ul>
+  </main>
 </BaseLayout>

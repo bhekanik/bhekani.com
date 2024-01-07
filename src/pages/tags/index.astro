@@ -8,20 +8,21 @@ const tags = [
   ...new Set(allThoughts.map((thought) => thought.data.tags).flat()),
 ];
 
-const pageTitle = "Tag Index";
+const pageTitle = "Tags";
 ---
 
 <BaseLayout pageTitle={pageTitle}>
-  <h1 class="text-3xl mt-2 mb-4">Tags</h1>
-  <ul>
-    {
-      tags.map((tag) => (
-        <li class="flex gap-2 items-center">
-          <a class="text-sm" href={`/tags/${tag}`}>
-            {tag}
-          </a>
-        </li>
-      ))
-    }
-  </ul>
+  <main>
+    <ul class="mt-8">
+      {
+        tags.map((tag) => (
+          <li class="flex gap-2 items-center">
+            <a class="text-sm" href={`/tags/${tag}`}>
+              {tag}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </main>
 </BaseLayout>

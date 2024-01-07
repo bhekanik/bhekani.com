@@ -60,9 +60,12 @@ const { pageTitle, description, title, imageUrl } = Astro.props;
   </head>
   <body>
     <Header />
-    <main>
-      <slot />
-    </main>
+    <h1
+      class="page-header text-center text-5xl p-8 border-b-[1px] border-[hsl(var(--muted))] uppercase"
+    >
+      {title ?? pageTitle}
+    </h1>
+    <slot />
     <Footer />
   </body>
 </html>
