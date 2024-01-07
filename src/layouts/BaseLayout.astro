@@ -20,46 +20,48 @@ const { pageTitle, description, title, imageUrl } = Astro.props;
     <link rel="sitemap" href="/sitemap-index.xml" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} />
-    <title>{pageTitle} | Bhekani.com</title>
-    <ViewTransitions />
-    <PostHog />
-    <AstroSeo
-      title={pageTitle}
-      description={description ??
-        "Personal website of Bhekani Khumalo. I write about tech, productivity, life, and more."}
-      canonical="https://www.bhekani.com"
-      openGraph={{
-        url: "https://www.url.ie/a",
-        title: title ?? pageTitle,
-        description:
-          description ??
-          "Personal website of Bhekani Khumalo. I write about tech, productivity, life, and more.",
-        images: [
-          {
-            url: imageUrl ?? "https://www.bhekani.com/BK.jpg",
-            width: 800,
-            height: 600,
-            alt: title ?? pageTitle,
-            type: "image/jpeg",
-          },
-          {
-            url: imageUrl ?? "https://www.bhekani.com/BK.jpg",
-            width: 900,
-            height: 800,
-            alt: title ?? pageTitle,
-            type: "image/jpeg",
-          },
-        ],
-        site_name: "Bhekani.com",
-      }}
-      twitter={{
-        handle: "@bhekanik",
-        site: "@bhekani.com",
-        cardType: "summary_large_image",
-      }}
-    />
-  </head>
+  </head><a href="https://github.com/bhekanik" rel="me">GitHub</a>
+
+  <meta name="generator" content={Astro.generator} />
+  <title>{pageTitle} | Bhekani.com</title>
+  <ViewTransitions />
+  <PostHog />
+  <AstroSeo
+    title={pageTitle}
+    description={description ??
+      "Personal website of Bhekani Khumalo. I write about tech, productivity, life, and more."}
+    canonical="https://www.bhekani.com"
+    openGraph={{
+      url: "https://www.url.ie/a",
+      title: title ?? pageTitle,
+      description:
+        description ??
+        "Personal website of Bhekani Khumalo. I write about tech, productivity, life, and more.",
+      images: [
+        {
+          url: imageUrl ?? "https://www.bhekani.com/BK.jpg",
+          width: 800,
+          height: 600,
+          alt: title ?? pageTitle,
+          type: "image/jpeg",
+        },
+        {
+          url: imageUrl ?? "https://www.bhekani.com/BK.jpg",
+          width: 900,
+          height: 800,
+          alt: title ?? pageTitle,
+          type: "image/jpeg",
+        },
+      ],
+      site_name: "Bhekani.com",
+    }}
+    twitter={{
+      handle: "@bhekanik",
+      site: "@bhekani.com",
+      cardType: "summary_large_image",
+    }}
+  />
+
   <body>
     <Header />
     <h1
