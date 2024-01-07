@@ -4,12 +4,13 @@ import "@fontsource/abril-fatface";
 import "@fontsource/ibm-plex-sans";
 import "@fontsource/permanent-marker";
 
+import { AstroSeo } from "@astrolib/seo";
 import { ViewTransitions } from "astro:transitions";
 import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
 import "../styles/global.css";
 
-const { pageTitle } = Astro.props;
+const { pageTitle, description, title, imageUrl } = Astro.props;
 ---
 
 <html lang="en">
@@ -21,6 +22,41 @@ const { pageTitle } = Astro.props;
     <meta name="generator" content={Astro.generator} />
     <title>{pageTitle} | Bhekani.com</title>
     <ViewTransitions />
+    <AstroSeo
+      title={pageTitle}
+      description={description ??
+        "Personal website of Bhekani Khumalo. I write about tech, productivity, life, and more."}
+      canonical="https://www.bhekani.com"
+      openGraph={{
+        url: "https://www.url.ie/a",
+        title: title ?? pageTitle,
+        description:
+          description ??
+          "Personal website of Bhekani Khumalo. I write about tech, productivity, life, and more.",
+        images: [
+          {
+            url: imageUrl ?? "https://www.bhekani.com/BK.jpg",
+            width: 800,
+            height: 600,
+            alt: title ?? pageTitle,
+            type: "image/jpeg",
+          },
+          {
+            url: imageUrl ?? "https://www.bhekani.com/BK.jpg",
+            width: 900,
+            height: 800,
+            alt: title ?? pageTitle,
+            type: "image/jpeg",
+          },
+        ],
+        site_name: "Bhekani.com",
+      }}
+      twitter={{
+        handle: "@bhekanik",
+        site: "@bhekani.com",
+        cardType: "summary_large_image",
+      }}
+    />
   </head>
   <body>
     <Header />
