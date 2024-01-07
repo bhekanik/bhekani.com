@@ -1,20 +1,21 @@
 ---
 import { getCollection } from "astro:content";
+import FirstPostCard from "../components/FirstPostCard.astro";
 import PostCard from "../components/PostCard.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import "../styles/global.css";
 
 const allPosts = await getCollection("posts");
+const sortedPosts = allPosts.sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+const firstPost = sortedPosts.shift();
 const pageTitle = "Blog";
 ---
 
 <BaseLayout pageTitle={pageTitle}>
-  <h1 class="text-3xl mt-2 mb-4">All Posts</h1>
+  <FirstPostCard post={firstPost} />
   <div class="grid gap-4">
-    {
-      allPosts
-        .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-        .map((post) => <PostCard post={post} />)
-    }
+    {sortedPosts.map((post) => <PostCard post={post} />)}
   </div>
 </BaseLayout>
