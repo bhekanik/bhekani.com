@@ -1,23 +1,23 @@
 ---
 import { getCollection } from "astro:content";
-import BlogPost from "../components/BlogPost.astro";
+import BlogPost from "./ThoughtListItem.astro";
 
-const allPosts = await getCollection("posts");
+const allThoughts = await getCollection("thoughts");
 ---
 
 <div class="my-8">
-  <h2 class="text-2xl mb-4 mt-2">Recent Posts</h2>
+  <h2 class="text-2xl mb-4 mt-2">Recent Thoughts</h2>
 
   <ul>
     {
-      allPosts
+      allThoughts
         .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
         .slice(0, 3)
-        .map((post) => (
+        .map((thought) => (
           <BlogPost
-            url={`/posts/${post.slug}/`}
-            title={post.data.title}
-            date={post.data.pubDate}
+            url={`/thoughts/${thought.slug}/`}
+            title={thought.data.title}
+            date={thought.data.pubDate}
           />
         ))
     }
@@ -26,7 +26,7 @@ const allPosts = await getCollection("posts");
     class="mt-4 flex h-6 rounded-lg leading-7 text-gray-600 transition-all dark:text-gray-400 dark:hover:text-gray-200"
     href="/blog"
   >
-    See all posts
+    See all thoughts
     <svg
       xmlns="http://www.w3.org/2000/svg"
       fill="none"

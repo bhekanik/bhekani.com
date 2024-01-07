@@ -2,12 +2,12 @@
 import { Image } from "astro:assets";
 import Case from "case";
 import { format } from "date-fns";
-import RelatedPosts from "../components/RelatedPosts.astro";
+import RelatedThoughts from "../components/RelatedThoughts.astro";
 import BaseLayout from "./BaseLayout.astro";
 
 const {
-  post: { data: frontmatter, slug },
-  post,
+  thought: { data: frontmatter, slug },
+  thought,
 } = Astro.props;
 ---
 
@@ -36,9 +36,9 @@ const {
       <a
         transition:name={`back-${slug}`}
         class="text-sm hover:text-[hsl(var(--muted-foreground))]"
-        href="/blog"
+        href="/thoughts/"
       >
-        ← All Posts
+        ← All thoughts
       </a>
     </p>
 
@@ -77,7 +77,7 @@ const {
   <slot />
 
   <hr class="my-8" />
-  <RelatedPosts slug={post.slug} frontmatter={frontmatter} />
+  <RelatedThoughts slug={thought.slug} frontmatter={frontmatter} />
 </BaseLayout>
 
 <style>

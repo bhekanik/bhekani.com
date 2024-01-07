@@ -3,9 +3,12 @@ import Navigation from "./Navigation.astro";
 ---
 
 <header
-  class="flex w-full items-center justify-between p-4 mb-8 border-b border-[hsl(var(--muted))]"
+  class="flex w-full items-center justify-between mb-8 bg-[hsl(var(--muted))]"
 >
-  <a href="/">
+  <a
+    class="p-2 text-[hsl(var(--background))] bg-[hsl(var(--foreground))]"
+    href="/"
+  >
     <h1 class="text-xl font-logo">BK</h1>
   </a>
   <Navigation />

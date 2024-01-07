@@ -2,7 +2,7 @@ import rss from "@astrojs/rss";
 import { getCollection } from "astro:content";
 
 export async function GET(context: any) {
-  const posts = await getCollection("posts");
+  const posts = await getCollection("thoughts");
 
   return rss({
     title: "Bhekani.com | Blog",

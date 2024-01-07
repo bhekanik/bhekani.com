@@ -1,15 +1,15 @@
 ---
 import { getCollection } from "astro:content";
 import AboutCard from "../components/AboutCard.astro";
-import RecentPosts from "../components/RecentPosts.astro";
+import RecentThoughts from "../components/RecentThoughts.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 const pageTitle = "Bhekani.com";
 
-const allPosts = await getCollection("posts");
+const allPosts = await getCollection("thoughts");
 ---
 
 <BaseLayout pageTitle={pageTitle}>
   <AboutCard />
 
-  <RecentPosts />
+  <RecentThoughts />
 </BaseLayout>

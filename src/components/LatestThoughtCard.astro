@@ -3,27 +3,29 @@ import { Image } from "astro:assets";
 import { format } from "date-fns";
 const {
   post: {
+    data: { image, tags, title, description, pubDate: date },
     slug,
-    data: { tags, title, image, pubDate: date },
   },
 } = Astro.props;
 ---
 
 <div
-  transition:name={`card-${slug}`}
-  class="card grid gap-2 text-[hsl(var(--card-foreground))] bg-[hsl(var(--card))] hover:bg-[hsl(var(--muted))] items-center duration-1000"
+  class="card mb-8 text-[hsl(var(--card-foreground))] bg-[hsl(var(--muted))] items-center duration-1000"
 >
-  <div class="content p-4">
-    <a href={`/posts/${slug}/`} class="h-fit">
-      <h1 transition:name={`title-${slug}`} class="text-xl mb-2">{title}</h1>
+  <div class="content p-10">
+    <a href={`/thoughts/${slug}/`} class="h-fit">
+      <h1 transition:name={`title-${slug}`} class="text-xl mb-2 text-center">
+        {title}
+      </h1>
     </a>
+
     <p
-      transition:name={`date-${slug}`}
-      class="text-sm text-[hsl(var(--muted-foreground))]"
+      transition:name={`description-${slug}`}
+      class="mt-6 mb-8 text-center text-[hsl(var(--muted-foreground))]"
     >
-      {format(date, "MMMM dd, yyyy")}
+      <em>{description}</em>
     </p>
-    <div class="flex flex-wrap gap-4">
+    <div class="flex gap-4 whitespace-nowrap text-ellipsis">
       {
         tags.map((tag: string) => (
           <a
@@ -35,6 +37,12 @@ const {
         ))
       }
     </div>
+    <p
+      transition:name={`date-${slug}`}
+      class="text-sm text-[hsl(var(--muted-foreground))]"
+    >
+      {format(date, "MMMM dd, yyyy")}
+    </p>
   </div>
 
   {
@@ -44,8 +52,8 @@ const {
           transition:name={`image-${slug}`}
           class="object-cover h-full"
           src={image}
-          width="300"
-          height="300"
+          width="1000"
+          height="10800"
           alt=""
         />
       </div>
@@ -56,8 +64,13 @@ const {
 <style>
   .card {
     display: grid;
-    grid-template: "content image" / 3fr 1fr;
     color: hsl(var(--card-foreground));
+  }
+  .card:has(.image) {
+    grid-template: "image content" / 1fr 1fr;
+  }
+  .card:not(:has(.image)) {
+    grid-template: "content" / 1fr;
   }
   .content {
     grid-area: content;
@@ -67,6 +80,7 @@ const {
       "description" 1fr
       "date" auto-fit
       "tags" auto-fit;
+    place-items: center;
   }
   .image {
     grid-area: image;

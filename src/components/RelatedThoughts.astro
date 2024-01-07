@@ -1,0 +1,43 @@
+---
+import { getCollection } from "astro:content";
+import RecentThoughts from "./RecentThoughts.astro";
+import ThoughtListItem from "./ThoughtListItem.astro";
+
+const {
+  frontmatter: { tags },
+  slug,
+} = Astro.props;
+
+const allThoughts = await getCollection("thoughts");
+const thoughts = allThoughts.filter((thought) => {
+  if (slug === thought.slug) return false;
+
+  let keep = false;
+  tags.forEach((tag: string) => {
+    if (thought.data.tags.includes(tag)) {
+      keep = true;
+    }
+  });
+
+  return keep;
+});
+---
+
+{
+  thoughts.length === 0 ? (
+    <RecentThoughts />
+  ) : (
+    <div class="my-8">
+      <h2 class="text-2xl mb-4 mt-2">Related Thoughts</h2>
+      <ul>
+        {thoughts.slice(0, 3).map((thought) => (
+          <ThoughtListItem
+            url={`/thoughts/${thought.slug}/`}
+            title={thought.data.title}
+            date={thought.data.pubDate}
+          />
+        ))}
+      </ul>
+    </div>
+  )
+}

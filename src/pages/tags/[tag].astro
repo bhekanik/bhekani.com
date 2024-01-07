@@ -1,39 +1,39 @@
 ---
 import { getCollection } from "astro:content";
-import BlogPost from "../../components/BlogPost.astro";
+import BlogPost from "../../components/ThoughtListItem.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
 export async function getStaticPaths() {
-  const allPosts = await getCollection("posts");
+  const allThoughts = await getCollection("thoughts");
 
   const uniqueTags = [
-    ...new Set(allPosts.map((post) => post.data.tags).flat()),
+    ...new Set(allThoughts.map((thought) => thought.data.tags).flat()),
   ];
 
   return uniqueTags.map((tag) => {
-    const filteredPosts = allPosts.filter((post) =>
-      post.data.tags.includes(tag)
+    const filteredPosts = allThoughts.filter((thought) =>
+      thought.data.tags.includes(tag)
     );
     return {
       params: { tag },
-      props: { posts: filteredPosts },
+      props: { thoughts: filteredPosts },
     };
   });
 }
 
 const { tag } = Astro.params;
-const { posts } = Astro.props;
+const { thoughts } = Astro.props;
 ---
 
 <BaseLayout pageTitle={tag}>
-  <p>Posts tagged with {tag}</p>
+  <p>Thoughts tagged with {tag}</p>
   <ul>
     {
-      posts.map((post) => (
+      thoughts.map((thoughts) => (
         <BlogPost
-          url={`/posts/${post.slug}/`}
-          title={post.data.title}
-          date={post.data.pubDate}
+          url={`/thoughts/${thoughts.slug}/`}
+          title={thoughts.data.title}
+          date={thoughts.data.pubDate}
         />
       ))
     }
