@@ -20,49 +20,52 @@ const { pageTitle, description, title, imageUrl } = Astro.props;
     <link rel="sitemap" href="/sitemap-index.xml" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width" />
-  </head><a href="https://github.com/bhekanik" rel="me">GitHub</a>
+    <meta name="generator" content={Astro.generator} />
+    <link
+      rel="webmention"
+      href="https://webmention.io/www.bhekani.com/webmention"
+    />
+    <link rel="pingback" href="https://webmention.io/www.bhekani.com/xmlrpc" />
 
-  <meta name="generator" content={Astro.generator} />
-  <title>{pageTitle} | Bhekani.com</title>
-  <ViewTransitions />
-  <PostHog />
-  <AstroSeo
-    title={pageTitle}
-    description={description ??
-      "Personal website of Bhekani Khumalo. I write about tech, productivity, life, and more."}
-    canonical="https://www.bhekani.com"
-    openGraph={{
-      url: "https://www.url.ie/a",
-      title: title ?? pageTitle,
-      description:
-        description ??
-        "Personal website of Bhekani Khumalo. I write about tech, productivity, life, and more.",
-      images: [
-        {
-          url: imageUrl ?? "https://www.bhekani.com/BK.jpg",
-          width: 800,
-          height: 600,
-          alt: title ?? pageTitle,
-          type: "image/jpeg",
-        },
-        {
-          url: imageUrl ?? "https://www.bhekani.com/BK.jpg",
-          width: 900,
-          height: 800,
-          alt: title ?? pageTitle,
-          type: "image/jpeg",
-        },
-      ],
-      site_name: "Bhekani.com",
-    }}
-    twitter={{
-      handle: "@bhekanik",
-      site: "@bhekani.com",
-      cardType: "summary_large_image",
-    }}
-  />
-
-  <body>
+    <title>{pageTitle} | Bhekani.com</title>
+    <ViewTransitions />
+    <PostHog />
+    <AstroSeo
+      title={pageTitle}
+      description={description ??
+        "Personal website of Bhekani Khumalo. I write about tech, productivity, life, and more."}
+      canonical="https://www.bhekani.com"
+      openGraph={{
+        url: "https://www.url.ie/a",
+        title: title ?? pageTitle,
+        description:
+          description ??
+          "Personal website of Bhekani Khumalo. I write about tech, productivity, life, and more.",
+        images: [
+          {
+            url: imageUrl ?? "https://www.bhekani.com/BK.jpg",
+            width: 800,
+            height: 600,
+            alt: title ?? pageTitle,
+            type: "image/jpeg",
+          },
+          {
+            url: imageUrl ?? "https://www.bhekani.com/BK.jpg",
+            width: 900,
+            height: 800,
+            alt: title ?? pageTitle,
+            type: "image/jpeg",
+          },
+        ],
+        site_name: "Bhekani.com",
+      }}
+      twitter={{
+        handle: "@bhekanik",
+        site: "@bhekani.com",
+        cardType: "summary_large_image",
+      }}
+    />
+  </head><body>
     <Header />
     <h1
       class="page-header text-center text-5xl p-8 border-b-[1px] border-[hsl(var(--muted))] uppercase"
