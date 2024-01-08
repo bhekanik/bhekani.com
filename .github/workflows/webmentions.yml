@@ -2,7 +2,7 @@ name: Webmentions
 
 on:
   schedule:
-    - cron: "*/30 * * * *"
+    - cron: "0 0 */1 * *"
 
 jobs:
   webmentions:
