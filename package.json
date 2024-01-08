@@ -18,7 +18,6 @@
     "@astrojs/vercel": "^6.1.2",
     "@astrolib/seo": "1.0.0-beta.5",
     "@fontsource-variable/jetbrains-mono": "^5.0.19",
-    "@fontsource/abril-fatface": "^5.0.18",
     "@fontsource/ibm-plex-sans": "^5.0.18",
     "@fontsource/oswald": "^5.0.18",
     "@fontsource/permanent-marker": "^5.0.8",
