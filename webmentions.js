@@ -1,7 +1,7 @@
 import fs from "fs";
 import https from "https";
 
-const DOMAIN = "example.com"; // Change this!
+const DOMAIN = "www.bhekani.com";
 
 const webmentions = await fetchWebmentions();
 webmentions.forEach(writeWebMention);
@@ -21,7 +21,9 @@ function fetchWebmentions() {
       res.on("end", () => {
         try {
           const response = JSON.parse(body);
+          console.log("res.statusCode:", res.statusCode);
           if (res.statusCode !== 200) reject(body);
+          console.log("response.children:", response.children);
           resolve(response.children);
         } catch (error) {
           reject(error);
@@ -34,6 +36,7 @@ function fetchWebmentions() {
 }
 
 function writeWebMention(webmention) {
+  console.log("webmention:", webmention);
   // Each post will have its own webmentions json file, named after the slug
   const slug = webmention["wm-target"]
     .replace(`https://${DOMAIN}/`, "")

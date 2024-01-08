@@ -1,0 +1,36 @@
+name: Webmentions
+
+on:
+  schedule:
+    - cron: "*/30 * * * *"
+
+jobs:
+  webmentions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@master
+
+      - name: Set up Node.js
+        uses: actions/setup-node@master
+        with:
+          node-version: 18.x
+
+      - name: Fetch webmentions
+        env:
+          WEBMENTION_APK_KEY: ${{ secrets.WEBMENTION_API_KEY }}
+        run: node ./webmentions.js
+
+      - name: Commit to repository
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          COMMIT_MSG: |
+            add webmentions
+            skip-checks: true
+        run: |
+          git config user.email "your-email@example.com"
+          git config user.name "Your Name"
+          git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/your-username/your-project.git
+          git checkout main
+          git add .
+          git diff --quiet && git diff --staged --quiet || (git commit -m "${COMMIT_MSG}"; git push origin main)
