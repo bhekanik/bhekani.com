@@ -2,10 +2,9 @@ import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
 import tailwind from "@astrojs/tailwind";
 import vercel from "@astrojs/vercel/serverless";
+import sentry from "@sentry/astro";
 import robotsTxt from "astro-robots-txt";
 import { defineConfig } from "astro/config";
-
-import sentry from "@sentry/astro";
 
 // https://astro.build/config
 export default defineConfig({
@@ -13,7 +12,6 @@ export default defineConfig({
   output: "hybrid",
   adapter: vercel(),
   integrations: [
-    tailwind(),
     sitemap(),
     robotsTxt(),
     mdx(),
@@ -26,5 +24,6 @@ export default defineConfig({
           process.env.NODE_ENV === "production" ? "production" : "development",
       },
     }),
+    tailwind(),
   ],
 });
