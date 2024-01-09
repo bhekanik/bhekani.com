@@ -10,6 +10,7 @@ const {
 
 const allThoughts = await getCollection("thoughts");
 const thoughts = allThoughts.filter((thought) => {
+  if (!thought.data.published) return false;
   if (slug === thought.slug) return false;
 
   let keep = false;

@@ -3,6 +3,7 @@ title: "Confrontation as Opportunity: Embracing Difficult Conversations for Pers
 pubDate: 2023-02-13
 description: "Discover the power of confrontation and how to turn it into an opportunity for growth"
 author: "Bhekani Khumalo"
+published: true
 image: "../_images/confrontation-as-opportunity.jpg"
 tags: ["confrontation", "just-reflections"]
 ---

@@ -1,6 +1,7 @@
 ---
 title: "How to Never Get a Job: A Comprehensive Guide to Lifelong Leisure"
 pubDate: 2023-07-05
+published: true
 description: " Looking to maintain your blissful state of unemployment or simply seeking a fresh perspective on job hunting? You're in luck. Here are nine unconventional strategies for not getting a job."
 author: "Bhekani Khumalo"
 image: "../_images/how-to-never-get-a-job.jpg"

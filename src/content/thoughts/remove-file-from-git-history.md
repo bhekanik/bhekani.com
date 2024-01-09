@@ -1,7 +1,7 @@
 ---
 title: "How to remove file from Git history"
 pubDate: 2024-01-08
-description: "Here's how to remove a file from git history"
+published: true
 author: "Bhekani Khumalo"
 tags: ["git"]
 ---

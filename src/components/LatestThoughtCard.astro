@@ -19,12 +19,16 @@ const {
       </h1>
     </a>
 
-    <p
-      transition:name={`description-${slug}`}
-      class="mt-6 mb-8 text-center text-[hsl(var(--muted-foreground))]"
-    >
-      <em>{description}</em>
-    </p>
+    {
+      description && (
+        <p
+          transition:name={`description-${slug}`}
+          class="mt-6 mb-8 text-center text-[hsl(var(--muted-foreground))]"
+        >
+          <em>{description}</em>
+        </p>
+      )
+    }
     <div class="flex gap-4 whitespace-nowrap text-ellipsis">
       {
         tags.map((tag: string) => (

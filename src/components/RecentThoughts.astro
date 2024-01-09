@@ -11,6 +11,7 @@ const allThoughts = await getCollection("thoughts");
   <ul>
     {
       allThoughts
+        .filter((thought) => thought.data.published)
         .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
         .slice(0, 3)
         .map((thought) => (

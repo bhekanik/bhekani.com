@@ -44,15 +44,16 @@ const {
         )
       }
 
-      <!-- <h1 transition:name={`title-${slug}`} class="text-3xl mb-4 mt-2 title">
-        {frontmatter.title}
-      </h1> -->
-      <p
-        transition:name={`description-${slug}`}
-        class="mb-1 text-[hsl(var(--muted-foreground))]"
-      >
-        <em>{frontmatter.description}</em>
-      </p>
+      {
+        frontmatter.description && (
+          <p
+            transition:name={`description-${slug}`}
+            class="mb-1 text-[hsl(var(--muted-foreground))]"
+          >
+            <em>{frontmatter.description}</em>
+          </p>
+        )
+      }
       <div class="flex flex-wrap gap-4 mb-4">
         {
           frontmatter.tags.map((tag: string) => (
