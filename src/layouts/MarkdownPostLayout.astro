@@ -2,6 +2,7 @@
 import { Image } from "astro:assets";
 import Case from "case";
 import { format } from "date-fns";
+import Link from "../components/Link.astro";
 import MainContainer from "../components/MainContainer.astro";
 import RelatedThoughts from "../components/RelatedThoughts.astro";
 import Utterances from "../components/Utterances.astro";
@@ -22,13 +23,13 @@ const {
   <MainContainer>
     <div transition:name={`card-${slug}`}>
       <p class="my-4">
-        <a
+        <Link
           transition:name={`back-${slug}`}
           class="text-sm hover:text-[hsl(var(--muted-foreground))]"
           href="/thoughts/"
         >
           ← All thoughts
-        </a>
+        </Link>
       </p>
       {
         frontmatter.image && (
@@ -58,12 +59,12 @@ const {
       <div class="flex flex-wrap gap-4 mb-4">
         {
           frontmatter.tags.map((tag: string) => (
-            <a
+            <Link
               class="text-sm hover:text-[hsl(var(--muted-foreground))]"
               href={`/tags/${tag}`}
             >
               #{tag}
-            </a>
+            </Link>
           ))
         }
       </div>

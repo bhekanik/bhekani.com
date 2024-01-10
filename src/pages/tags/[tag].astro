@@ -1,5 +1,6 @@
 ---
 import { getCollection } from "astro:content";
+import Link from "../../components/Link.astro";
 import MainContainer from "../../components/MainContainer.astro";
 import BlogPost from "../../components/ThoughtListItem.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
@@ -29,12 +30,12 @@ const { thoughts } = Astro.props;
 <BaseLayout pageTitle={tag}>
   <MainContainer>
     <p class="my-8">
-      <a
+      <Link
         class="text-sm hover:text-[hsl(var(--muted-foreground))]"
         href="/tags/"
       >
         ← All tags
-      </a>
+      </Link>
     </p>
     <ul>
       {

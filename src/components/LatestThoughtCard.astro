@@ -1,6 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import { format } from "date-fns";
+import Link from "./Link.astro";
 const {
   post: {
     data: { image, tags, title, description, pubDate: date },
@@ -32,12 +33,12 @@ const {
     <div class="flex gap-4 whitespace-nowrap text-ellipsis">
       {
         tags.map((tag: string) => (
-          <a
+          <Link
             class="text-sm hover:text-[hsl(var(--muted-foreground))]"
             href={`/tags/${tag}`}
           >
             #{tag}
-          </a>
+          </Link>
         ))
       }
     </div>

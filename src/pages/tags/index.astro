@@ -1,5 +1,6 @@
 ---
 import { getCollection } from "astro:content";
+import Link from "../../components/Link.astro";
 import MainContainer from "../../components/MainContainer.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
@@ -18,9 +19,9 @@ const pageTitle = "Tags";
       {
         tags.map((tag) => (
           <li class="flex gap-2 items-center">
-            <a class="text-sm" href={`/tags/${tag}`}>
+            <Link class="text-sm" href={`/tags/${tag}`}>
               {tag}
-            </a>
+            </Link>
           </li>
         ))
       }

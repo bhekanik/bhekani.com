@@ -1,6 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import BK from "../images/BK.webp";
+import Link from "./Link.astro";
 ---
 
 <div class="card grid gap-2">
@@ -12,18 +13,20 @@ import BK from "../images/BK.webp";
     </h1>
     <p class="font-light mb-4"><i>Software Engineer, Writer</i></p>
     <p class="mb-4">
-      I write about non-tech subjects that interest me on <a
+      I write about non-tech subjects that interest me on <Link
         href="https://justreflections.bhekani.com/"
-        target="_blank">Just Reflections</a
-      >, and I am shining light on the African early stage tech startup
-      ecosystem at <a href="https://dealbase.africa/" target="_blank"
-        >Dealbase.Africa</a
-      >.
+        target="_blank"
+      >
+        Just Reflections
+      </Link>, and I am shining light on the African early stage tech startup
+      ecosystem at <Link href="https://dealbase.africa/" target="_blank">
+        Dealbase.Africa
+      </Link>.
     </p>
     <p>
-      <a class="text-gray-600 dark:text-gray-400 italic" href="/about"
-        >→ More on About page</a
-      >
+      <a class="text-gray-600 dark:text-gray-400 italic" href="/about">
+        More on About page →
+      </a>
     </p>
   </div>
   <div class="image h-15 w-15">

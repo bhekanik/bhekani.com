@@ -1,5 +1,6 @@
 ---
 import { getCollection } from "astro:content";
+import Link from "../../components/Link.astro";
 import Prose from "../../components/Prose.astro";
 import MarkdownPostLayout from "../../layouts/MarkdownPostLayout.astro";
 import { cn } from "../../utils/cn";
@@ -36,7 +37,7 @@ const { Content, headings } = await entry.render();
                     : ""
               )}
             >
-              <a href={`#${heading.slug}`}>{heading.text}</a>
+              <Link href={`#${heading.slug}`}>{heading.text}</Link>
             </li>
           ))}
         </ul>
