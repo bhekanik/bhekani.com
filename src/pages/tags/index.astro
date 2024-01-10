@@ -1,5 +1,6 @@
 ---
 import { getCollection } from "astro:content";
+import MainContainer from "../../components/MainContainer.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
 const allThoughts = await getCollection("thoughts");
@@ -12,7 +13,7 @@ const pageTitle = "Tags";
 ---
 
 <BaseLayout pageTitle={pageTitle}>
-  <main>
+  <MainContainer>
     <ul class="mt-8">
       {
         tags.map((tag) => (
@@ -24,5 +25,5 @@ const pageTitle = "Tags";
         ))
       }
     </ul>
-  </main>
+  </MainContainer>
 </BaseLayout>

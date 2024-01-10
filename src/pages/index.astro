@@ -1,14 +1,15 @@
 ---
 import AboutCard from "../components/AboutCard.astro";
+import MainContainer from "../components/MainContainer.astro";
 import RecentThoughts from "../components/RecentThoughts.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 const pageTitle = "Bhekani Khumalo";
 ---
 
 <BaseLayout pageTitle={pageTitle}>
-  <main>
+  <MainContainer>
     <AboutCard />
 
     <RecentThoughts />
-  </main>
+  </MainContainer>
 </BaseLayout>

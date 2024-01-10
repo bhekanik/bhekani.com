@@ -1,5 +1,6 @@
 ---
 import { getCollection } from "astro:content";
+import MainContainer from "../../components/MainContainer.astro";
 import BlogPost from "../../components/ThoughtListItem.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
@@ -26,7 +27,7 @@ const { thoughts } = Astro.props;
 ---
 
 <BaseLayout pageTitle={tag}>
-  <main>
+  <MainContainer>
     <p class="my-8">
       <a
         class="text-sm hover:text-[hsl(var(--muted-foreground))]"
@@ -46,5 +47,5 @@ const { thoughts } = Astro.props;
         ))
       }
     </ul>
-  </main>
+  </MainContainer>
 </BaseLayout>

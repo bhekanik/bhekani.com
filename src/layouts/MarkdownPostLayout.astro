@@ -2,6 +2,7 @@
 import { Image } from "astro:assets";
 import Case from "case";
 import { format } from "date-fns";
+import MainContainer from "../components/MainContainer.astro";
 import RelatedThoughts from "../components/RelatedThoughts.astro";
 import Utterances from "../components/Utterances.astro";
 import BaseLayout from "./BaseLayout.astro";
@@ -18,7 +19,7 @@ const {
   imageUrl={frontmatter.image?.src}
   pageTitle={frontmatter.title}
 >
-  <main>
+  <MainContainer>
     <div transition:name={`card-${slug}`}>
       <p class="my-4">
         <a
@@ -84,7 +85,7 @@ const {
     <hr class="my-8" />
 
     <RelatedThoughts slug={thought.slug} frontmatter={frontmatter} />
-  </main>
+  </MainContainer>
 </BaseLayout>
 
 <style>

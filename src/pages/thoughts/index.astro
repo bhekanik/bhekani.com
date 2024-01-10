@@ -1,6 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import FirstPostCard from "../../components/LatestThoughtCard.astro";
+import MainContainer from "../../components/MainContainer.astro";
 import PostCard from "../../components/ThoughtCard.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
@@ -13,7 +14,7 @@ const pageTitle = "thoughts";
 ---
 
 <BaseLayout pageTitle={pageTitle}>
-  <main>
+  <MainContainer>
     <div class="w-full flex justify-center mb-8 font-bold">
       <a
         class="px-3 p-2 text-[hsl(var(--foreground))] border-b-[1px] border-l-[1px] border-r-[1px] border-[hsl(var(--muted))]"
@@ -26,5 +27,5 @@ const pageTitle = "thoughts";
     <div class="grid gap-4">
       {sortedPosts.map((post) => <PostCard post={post} />)}
     </div>
-  </main>
+  </MainContainer>
 </BaseLayout>

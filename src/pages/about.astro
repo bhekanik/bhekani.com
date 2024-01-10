@@ -1,5 +1,6 @@
 ---
 import { Image } from "astro:assets";
+import MainContainer from "../components/MainContainer.astro";
 import BK from "../images/BK.webp";
 import BaseLayout from "../layouts/BaseLayout.astro";
 
@@ -7,7 +8,7 @@ const pageTitle = "About Me";
 ---
 
 <BaseLayout pageTitle={pageTitle}>
-  <main>
+  <MainContainer>
     <div class="image h-15 w-15 mt-8">
       <Image
         class="rounded-lg"
@@ -83,5 +84,5 @@ const pageTitle = "About Me";
         >
       </li>
     </ul>
-  </main>
+  </MainContainer>
 </BaseLayout>
