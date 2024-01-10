@@ -9,7 +9,7 @@ const { href, title } = Astro.props;
   class={cn(
     "text-[hsl(var(--muted-foreground))]",
     pathname.split("/")[1] === href.split("/")[1]
-      ? "text-[hsl(var(--foreground))] dark:text-[hsl(var(--foreground))] font-bold"
+      ? "text-[hsl(var(--foreground))] font-bold"
       : ""
   )}
   href={href}>{title}</a
@@ -18,9 +18,5 @@ const { href, title } = Astro.props;
 <style>
   a {
     text-transform: uppercase;
-  }
-
-  :global(.dark) a {
-    color: hsl(var(--muted));
   }
 </style>

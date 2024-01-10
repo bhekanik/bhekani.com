@@ -2,7 +2,9 @@
 const { quote, reference } = Astro.props;
 ---
 
-<div class="quote relative border-l py-2 px-4 ml-2 bg-[hsl(var(--muted))]">
+<div
+  class="quote relative border-l border-l-[hsl(var(--foreground))] py-2 px-4 ml-2 bg-[hsl(var(--muted))]"
+>
   <p>
     {quote}
   </p>

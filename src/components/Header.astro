@@ -1,16 +1,21 @@
 ---
 import Navigation from "./Navigation.astro";
+import ThemeIcon from "./ThemeIcon.astro";
 ---
 
-<header class="flex gap-4 w-full items-center bg-[hsl(var(--muted))]">
+<header
+  class="flex gap-4 w-full items-center justify-between bg-[hsl(var(--muted))]"
+>
   <a
     class="logo p-2 text-[hsl(var(--background))] bg-[hsl(var(--foreground))]"
     href="/"
   >
     <h1 class="text-xl font-logo">BK</h1>
   </a>
-  <Navigation />
-  <!-- <ThemeIcon /> -->
+  <div class="flex pr-4">
+    <Navigation />
+    <ThemeIcon />
+  </div>
 </header>
 
 <style>
@@ -19,14 +24,5 @@ import Navigation from "./Navigation.astro";
     position: sticky;
     top: 0;
     z-index: 100;
-  }
-
-  :global(.dark) header {
-    background-color: hsl(var(--muted-foreground));
-  }
-
-  :global(.dark) .logo {
-    background-color: hsl(var(--background));
-    color: hsl(var(--foreground));
   }
 </style>

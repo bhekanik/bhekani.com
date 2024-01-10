@@ -3,7 +3,7 @@
 ---
 
 <button id="themeToggle">
-  <svg width="30px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <svg width="20px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
     <path
       class="sun"
       fill-rule="evenodd"
@@ -23,17 +23,17 @@
     background: none;
   }
   .sun {
-    fill: white;
-  }
-  .moon {
     fill: transparent;
   }
 
   :global(.dark) .sun {
-    fill: transparent;
+    fill: hsl(var(--foreground));
+  }
+  .moon {
+    fill: hsl(var(--foreground));
   }
   :global(.dark) .moon {
-    fill: white;
+    fill: transparent;
   }
 </style>
 
@@ -49,7 +49,7 @@
       if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
         return "dark";
       }
-      return "light";
+      return "dark";
     })();
 
     if (theme === "light") {
