@@ -60,6 +60,12 @@ const {
     grid-template: "content image" / 3fr 1fr;
     color: hsl(var(--card-foreground));
   }
+
+  :global(.dark) .card {
+    color: hsl(var(--card-foreground));
+    background-color: hsl(var(--card));
+  }
+
   .content {
     grid-area: content;
     display: grid;

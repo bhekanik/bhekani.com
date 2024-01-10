@@ -12,8 +12,18 @@ const { ...props } = Astro.props;
     transition: all 0.2s ease-in-out;
   }
 
+  :global(.dark) a {
+    color: hsl(var(--links));
+  }
+
   a:hover {
     background-color: hsl(var(--muted));
+    color: hsl(var(--links-hovered));
+    transition: all 0.2s ease-in-out;
+  }
+
+  :global(.dark) a:hover {
+    background-color: hsl(var(--muted-foreground));
     color: hsl(var(--links-hovered));
     transition: all 0.2s ease-in-out;
   }
