@@ -70,12 +70,13 @@ const {
       </div>
       <div class="mb-8">
         <p class="text-xs">{Case.upper(frontmatter.author)}</p>
-        <p
+        <time
           transition:name={`date-${slug}`}
           class="text-sm text-[hsl(var(--muted-foreground))]"
+          datetime={frontmatter.pubDate}
         >
           {format(frontmatter.pubDate, "MMMM dd, yyyy")}
-        </p>
+        </time>
       </div>
     </div>
 

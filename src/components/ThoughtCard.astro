@@ -18,12 +18,13 @@ const {
     <a href={`/thoughts/${slug}/`} class="h-fit">
       <h1 transition:name={`title-${slug}`} class="text-xl mb-2">{title}</h1>
     </a>
-    <p
+    <time
       transition:name={`date-${slug}`}
       class="text-sm text-[hsl(var(--muted-foreground))]"
+      datetime={date}
     >
       {format(date, "MMMM dd, yyyy")}
-    </p>
+    </time>
     <div class="flex flex-wrap gap-4">
       {
         tags.map((tag: string) => (
