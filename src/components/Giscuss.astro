@@ -1,0 +1,28 @@
+<div id="giscuss-container" class="mt-8"></div>
+
+<script>
+  const script = document.createElement("script");
+  const container = document.querySelector("#giscuss-container");
+
+  Object.entries({
+    src: "https://giscus.app/client.js",
+    "data-repo": "bhekanik/bhekani.com",
+    "data-repo-id": "R_kgDOLA66VA",
+    "data-category": "Announcements",
+    "data-category-id": "DIC_kwDOLA66VM4CcV11",
+    "data-mapping": "url",
+    "data-strict": "0",
+    "data-reactions-enabled": "1",
+    "data-emit-metadata": "1",
+    "data-input-position": "top",
+    "data-theme": "dark",
+    "data-lang": "en",
+    "data-loading": "lazy",
+    crossorigin: "anonymous",
+  }).forEach(([key, value]) => {
+    script.setAttribute(key, value);
+  });
+  script.setAttribute("async", "true");
+
+  container?.appendChild(script);
+</script>
