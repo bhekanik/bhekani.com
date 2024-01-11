@@ -1,5 +1,5 @@
 ---
-import { getCollection } from "astro:content";
+import { getCollection, type CollectionEntry } from "astro:content";
 import Link from "../../components/Link.astro";
 import Prose from "../../components/Prose.astro";
 import MarkdownPostLayout from "../../layouts/MarkdownPostLayout.astro";
@@ -9,17 +9,21 @@ export async function getStaticPaths() {
   const thoughts = await getCollection("thoughts");
   return thoughts
     .filter((thought) => thought.data.published)
-    .map((entry) => ({
-      params: { slug: entry.slug },
-      props: { entry },
+    .map((thought) => ({
+      params: { slug: thought.slug },
+      props: { thought },
     }));
 }
 
-const { entry } = Astro.props;
-const { Content, headings } = await entry.render();
+export interface Props {
+  thought: CollectionEntry<"thoughts">;
+}
+
+const { thought } = Astro.props;
+const { Content, headings } = await thought.render();
 ---
 
-<MarkdownPostLayout thought={entry}>
+<MarkdownPostLayout thought={thought}>
   {
     headings.length > 0 && (
       <section class="mb-4">
@@ -49,5 +53,3 @@ const { Content, headings } = await entry.render();
     <Content class="content" />
   </Prose>
 </MarkdownPostLayout>
-
-<style></style>

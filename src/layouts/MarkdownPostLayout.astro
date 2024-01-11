@@ -1,5 +1,6 @@
 ---
 import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
 import Case from "case";
 import { format } from "date-fns";
 import Link from "../components/Link.astro";
@@ -7,6 +8,10 @@ import MainContainer from "../components/MainContainer.astro";
 import RelatedThoughts from "../components/RelatedThoughts.astro";
 import Utterances from "../components/Utterances.astro";
 import BaseLayout from "./BaseLayout.astro";
+
+type Props = {
+  thought: CollectionEntry<"thoughts">;
+};
 
 const {
   thought: { data: frontmatter, slug },
@@ -73,7 +78,7 @@ const {
         <time
           transition:name={`date-${slug}`}
           class="text-sm text-[hsl(var(--muted-foreground))]"
-          datetime={frontmatter.pubDate}
+          datetime={frontmatter.pubDate.toDateString()}
         >
           {format(frontmatter.pubDate, "MMMM dd, yyyy")}
         </time>

@@ -5,12 +5,12 @@ import MainContainer from "../../components/MainContainer.astro";
 import PostCard from "../../components/ThoughtCard.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
-const allPosts = await getCollection("thoughts");
-const sortedPosts = allPosts.sort(
+const allThoughts = await getCollection("thoughts");
+const sortedThoughts = allThoughts.sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
-const firstPost = sortedPosts.shift();
-const pageTitle = "thoughts";
+const firstThought = sortedThoughts.shift();
+const pageTitle = "Thoughts";
 ---
 
 <BaseLayout pageTitle={pageTitle}>
@@ -23,9 +23,9 @@ const pageTitle = "thoughts";
         Subscribe to RSS
       </a>
     </div>
-    <FirstPostCard post={firstPost} />
+    {firstThought && <FirstPostCard thought={firstThought} />}
     <div class="grid gap-4">
-      {sortedPosts.map((post) => <PostCard post={post} />)}
+      {sortedThoughts.map((post) => <PostCard post={post} />)}
     </div>
   </MainContainer>
 </BaseLayout>

@@ -2,6 +2,11 @@
 import { cn } from "../utils/cn";
 const { pathname } = Astro.url;
 
+type Props = {
+  href: string;
+  title: string;
+};
+
 const { href, title } = Astro.props;
 ---
 

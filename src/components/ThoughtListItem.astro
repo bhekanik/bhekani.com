@@ -1,6 +1,13 @@
 ---
 import { format } from "date-fns";
 import Link from "./Link.astro";
+
+type Props = {
+  title: string;
+  url: string;
+  date: Date;
+};
+
 const { title, url, date } = Astro.props;
 ---
 

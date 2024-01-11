@@ -1,7 +1,13 @@
 ---
 import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
 import { format } from "date-fns";
 import Link from "./Link.astro";
+
+type Props = {
+  post: CollectionEntry<"thoughts">;
+};
+
 const {
   post: {
     slug,
@@ -21,7 +27,7 @@ const {
     <time
       transition:name={`date-${slug}`}
       class="text-sm text-[hsl(var(--muted-foreground))]"
-      datetime={date}
+      datetime={date.toISOString()}
     >
       {format(date, "MMMM dd, yyyy")}
     </time>

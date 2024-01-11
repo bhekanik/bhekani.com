@@ -1,7 +1,12 @@
 ---
-import { getCollection } from "astro:content";
+import { getCollection, type CollectionEntry } from "astro:content";
 import RecentThoughts from "./RecentThoughts.astro";
 import ThoughtListItem from "./ThoughtListItem.astro";
+
+type Props = {
+  frontmatter: CollectionEntry<"thoughts">["data"];
+  slug: string;
+};
 
 const {
   frontmatter: { tags },

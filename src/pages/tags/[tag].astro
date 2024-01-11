@@ -1,5 +1,5 @@
 ---
-import { getCollection } from "astro:content";
+import { getCollection, type CollectionEntry } from "astro:content";
 import Link from "../../components/Link.astro";
 import MainContainer from "../../components/MainContainer.astro";
 import BlogPost from "../../components/ThoughtListItem.astro";
@@ -21,6 +21,10 @@ export async function getStaticPaths() {
       props: { thoughts: filteredPosts },
     };
   });
+}
+
+export interface Props {
+  thoughts: CollectionEntry<"thoughts">[];
 }
 
 const { tag } = Astro.params;

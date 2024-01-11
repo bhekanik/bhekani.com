@@ -1,9 +1,15 @@
 ---
 import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
 import { format } from "date-fns";
 import Link from "./Link.astro";
+
+type Props = {
+  thought: CollectionEntry<"thoughts">;
+};
+
 const {
-  post: {
+  thought: {
     data: { image, tags, title, description, pubDate: date },
     slug,
   },
