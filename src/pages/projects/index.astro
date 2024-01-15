@@ -1,0 +1,31 @@
+---
+import { getCollection } from "astro:content";
+import MainContainer from "../../components/MainContainer.astro";
+import ProjectCard from "../../components/ProjectCard.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const allProjects = await getCollection("projects");
+const sortedProjects = allProjects.sort(
+  (a, b) =>
+    new Date(b.data.startDate).valueOf() - new Date(a.data.startDate).valueOf()
+);
+// const firstProject = sortedProjects.shift();
+const pageTitle = "Projects";
+---
+
+<BaseLayout pageTitle={pageTitle}>
+  <MainContainer>
+    <div class="w-full flex justify-center mb-8 font-bold"></div>
+    <!-- {firstProject && <FirstProjectCard thought={firstWork} />} -->
+    <div class="projects gap-2">
+      {sortedProjects.map((project) => <ProjectCard projects={project} />)}
+    </div>
+  </MainContainer>
+</BaseLayout>
+
+<style>
+  .projects {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+</style>

@@ -1,0 +1,15 @@
+{
+	"title": "Dealbase.Africa",
+	"description": "A platform for getting the latest information about dealflow in the african tech startup ecosystem. Offering cutting edge analysis, insights, and reporting tools.",
+	"url": "https://dealbase.africa",
+	"image": "../_images/dealbase.png",
+	"startDate": "2022-01-01",
+	"published": true,
+	"tech": [
+		"Next.js",
+		"Postgresql",
+		"Prisma",
+		"Tailwind",
+		"Vercel"
+	]
+}

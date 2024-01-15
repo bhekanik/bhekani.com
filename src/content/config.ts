@@ -1,19 +1,18 @@
-import { defineCollection, z } from "astro:content";
+import { defineCollection } from "astro:content";
+import { projectsSchema } from "./schemas/projects";
+import { thoughtsSchema } from "./schemas/thoughts";
 
 const thoughts = defineCollection({
   type: "content",
-  schema: ({ image }) =>
-    z.object({
-      title: z.string(),
-      pubDate: z.date(),
-      description: z.string().optional(),
-      published: z.boolean(),
-      author: z.string(),
-      image: image().optional(),
-      tags: z.array(z.string()),
-    }),
+  schema: thoughtsSchema,
+});
+
+const projects = defineCollection({
+  type: "data",
+  schema: projectsSchema,
 });
 
 export const collections = {
   thoughts,
+  projects,
 };

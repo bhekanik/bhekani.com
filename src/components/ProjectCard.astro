@@ -1,0 +1,96 @@
+---
+import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
+
+type Props = {
+  projects: CollectionEntry<"projects">;
+};
+
+const {
+  projects: {
+    data: { title, image, startDate, endDate, url, tech },
+  },
+} = Astro.props;
+---
+
+<div
+  class="card grid p-4 text-[hsl(var(--card-foreground))] bg-[hsl(var(--card))] hover:bg-[hsl(var(--muted))] duration-1000"
+>
+  {
+    image && (
+      <div class="image overflow-hidden w-full">
+        <Image
+          class="object-cover w-full h-full"
+          src={image}
+          width="600"
+          height="300"
+          alt=""
+        />
+      </div>
+    )
+  }
+
+  <div class="content pt-4">
+    <a href={url} target="_blank" class="h-fit">
+      <h1 class="text-xl mb-2">{title}</h1>
+    </a>
+    <a
+      href={url}
+      target="_blank"
+      class="text-sm hover:text-[hsl(var(--muted-foreground))]">{url}</a
+    >
+    <!-- <div class="text-sm flex gap-2">
+      <time
+        class="text-[hsl(var(--muted-foreground))]"
+        datetime={new Date(startDate).toISOString()}
+      >
+        {format(new Date(startDate), "MMMM dd, yyyy")}
+      </time>
+      <span>&mdash;</span>
+      <time
+        class="text-[hsl(var(--muted-foreground))]"
+        datetime={new Date(startDate).toISOString()}
+      >
+        {endDate ? format(new Date(endDate), "MMMM dd, yyyy") : "Present"}
+      </time>
+    </div> -->
+    <div class="flex flex-wrap gap-4">
+      {
+        tech.map((tag: string) => (
+          <span class="text-sm hover:text-[hsl(var(--muted-foreground))]">
+            {tag}
+          </span>
+        ))
+      }
+    </div>
+  </div>
+</div>
+
+<style>
+  .card {
+    display: grid;
+    grid-template:
+      "image"
+      "content";
+    color: hsl(var(--card-foreground));
+  }
+
+  .content {
+    grid-area: content;
+    display: grid;
+    grid-template:
+      "title" auto-fit
+      "description" 1fr
+      "date" auto-fit
+      "tags" auto-fit;
+  }
+  .image {
+    grid-area: image;
+  }
+  a {
+    color: hsl(var(--card-foreground));
+  }
+  a:hover {
+    background-color: transparent;
+  }
+</style>

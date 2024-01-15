@@ -1,0 +1,13 @@
+{
+	"title": "Pro-search",
+	"description": "An advanced search engine query builder",
+	"url": "https://pro-search.io",
+	"image": "../_images/pro-search.png",
+	"startDate": "2021-01-01",
+	"published": true,
+	"tech": [
+		"SvelteKit",
+		"Tailwind",
+		"Vercel"
+	]
+}
