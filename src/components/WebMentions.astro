@@ -1,0 +1,119 @@
+---
+import { Image } from "astro:assets";
+import { getCollection, type CollectionEntry } from "astro:content";
+import { format } from "date-fns";
+
+type WebMentionData = CollectionEntry<"webmentions">["data"][0][];
+
+const webmentions = await getCollection("webmentions");
+const webmentionsByTarget = webmentions
+  .map((webmention) => {
+    return webmention.data;
+  })
+  .flat()
+  .filter((webmention) => webmention["wm-target"])
+  .reduce<
+    Record<
+      string,
+      {
+        likes: WebMentionData;
+        mentions: WebMentionData;
+      }
+    >
+  >((acc, webmention) => {
+    const target = webmention["wm-target"].replace(
+      "https://www.bhekani.com",
+      ""
+    );
+    if (!acc[target]) {
+      acc[target] = {
+        likes: [],
+        mentions: [],
+      };
+    }
+    if (webmention["wm-property"] === "like-of") {
+      acc[target].likes.push(webmention);
+    } else if (webmention["wm-property"] === "mention-of") {
+      acc[target].mentions.push(webmention);
+    }
+
+    return acc;
+  }, {});
+
+const { pathname } = Astro.url;
+---
+
+<div class="my-8">
+  <h2 class="text-2xl mb-4 mt-2">Web Mentions</h2>
+  <!-- <pre>{JSON.stringify(webmentionsByTarget[pathname], null, 2)}</pre> -->
+
+  <div class="flex flex-col gap-4 mb-4">
+    <p>
+      Liked by:
+
+      {
+        webmentionsByTarget[pathname]?.likes.map((webmention, index) => {
+          const {
+            author: { name, url },
+          } = webmention;
+
+          return (
+            <a href={webmention.url} target="_blank">
+              {webmentionsByTarget[pathname].likes.length === index + 1 &&
+                " and "}
+              {Boolean(name) && !name.includes("\u200E")
+                ? name
+                : url?.split("/").at(-1) ?? ""}
+              {webmentionsByTarget[pathname].likes.length !== index + 1 && ", "}
+            </a>
+          );
+        })
+      }
+    </p>
+  </div>
+
+  <ul class="flex flex-col gap-4">
+    {
+      webmentionsByTarget[pathname]?.mentions.map((webmention) => {
+        const {
+          author: { photo, name, url },
+        } = webmention;
+        return photo ? (
+          <li class="flex item-center gap-2">
+            <p class="h-full overflow-hidden cursor-pointer">
+              <Image
+                class="object-cover h-full"
+                src={photo}
+                width="30"
+                height="30"
+                alt=""
+              />
+            </p>
+            <a href={webmention.url} target="_blank">
+              {Boolean(name) && !name.includes("\u200E")
+                ? name
+                : url?.split("/").at(-1) ?? ""}
+            </a>
+            <a href={webmention.url} target="_blank">
+              mentioned this
+            </a>{" "}
+            on {format(new Date(webmention["wm-received"]), "yyyy-MM-dd")}
+          </li>
+        ) : null;
+      })
+    }
+  </ul>
+</div>
+
+<style>
+  a {
+    color: hsl(var(--links));
+    transition: all 0.2s ease-in-out;
+  }
+
+  a:hover {
+    background-color: hsl(var(--muted));
+    color: hsl(var(--links-hovered));
+    transition: all 0.2s ease-in-out;
+  }
+</style>

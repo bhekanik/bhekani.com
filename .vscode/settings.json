@@ -1,4 +1,10 @@
 {
   "editor.formatOnSave": true,
-  "cSpell.words": ["astrojs", "Dealbase", "dealflow"]
+  "cSpell.words": [
+    "astrojs",
+    "Dealbase",
+    "dealflow",
+    "webmention",
+    "webmentions"
+  ]
 }
