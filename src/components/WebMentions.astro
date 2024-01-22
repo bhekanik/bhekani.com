@@ -44,55 +44,59 @@ const { pathname } = Astro.url;
 ---
 
 <div class="my-8">
-  <h2 class="text-2xl mb-4 mt-2">Web Mentions</h2>
+  {
+    webmentionsByTarget[pathname]?.likes &&
+      webmentionsByTarget[pathname]?.mentions && (
+        <h2 class="text-2xl mb-4 mt-2">Web Mentions</h2>
+      )
+  }
   <!-- <pre>{JSON.stringify(webmentionsByTarget[pathname], null, 2)}</pre> -->
 
-  <div class="flex flex-col gap-4 mb-4">
-    <p>
-      Liked by:
+  {
+    webmentionsByTarget[pathname]?.likes && (
+      <div class="flex flex-col gap-4 mb-4">
+        <p>
+          Liked by:
+          {webmentionsByTarget[pathname]?.likes?.map((webmention, index) => {
+            const { author } = webmention;
 
-      {
-        webmentionsByTarget[pathname]?.likes.map((webmention, index) => {
-          const {
-            author: { name, url },
-          } = webmention;
-
-          return (
-            <a href={webmention.url} target="_blank">
-              {webmentionsByTarget[pathname].likes.length === index + 1 &&
-                " and "}
-              {Boolean(name) && !name.includes("\u200E")
-                ? name
-                : url?.split("/").at(-1) ?? ""}
-              {webmentionsByTarget[pathname].likes.length !== index + 1 && ", "}
-            </a>
-          );
-        })
-      }
-    </p>
-  </div>
+            return (
+              <a href={webmention.url} target="_blank">
+                {webmentionsByTarget[pathname].likes.length === index + 1 &&
+                  " and "}
+                {Boolean(author?.name) && !author?.name.includes("\u200E")
+                  ? author?.name
+                  : author?.url?.split("/").at(-1) ?? ""}
+                {webmentionsByTarget[pathname].likes.length !== index + 1 &&
+                  ", "}
+              </a>
+            );
+          })}
+        </p>
+      </div>
+    )
+  }
 
   <ul class="flex flex-col gap-4">
     {
-      webmentionsByTarget[pathname]?.mentions.map((webmention) => {
-        const {
-          author: { photo, name, url },
-        } = webmention;
-        return photo ? (
+      webmentionsByTarget[pathname]?.mentions?.map((webmention) => {
+        const { author } = webmention;
+
+        return author?.photo ? (
           <li class="flex item-center gap-2">
             <p class="h-full overflow-hidden cursor-pointer">
               <Image
                 class="object-cover h-full"
-                src={photo}
+                src={author?.photo}
                 width="30"
                 height="30"
                 alt=""
               />
             </p>
             <a href={webmention.url} target="_blank">
-              {Boolean(name) && !name.includes("\u200E")
-                ? name
-                : url?.split("/").at(-1) ?? ""}
+              {Boolean(author?.name) && !author?.name.includes("\u200E")
+                ? author?.name
+                : author?.url?.split("/").at(-1) ?? ""}
             </a>
             <a href={webmention.url} target="_blank">
               mentioned this
