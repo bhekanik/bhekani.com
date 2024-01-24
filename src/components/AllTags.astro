@@ -37,7 +37,7 @@ const { tag, title } = Astro.params;
     }
   </div>
 
-  <div class="flex gap-4">
+  <div class="flex flex-wrap gap-4">
     {tags.map((tag) => <Tag selected={selectedTag === tag} tag={tag} />)}
   </div>
 </div>
