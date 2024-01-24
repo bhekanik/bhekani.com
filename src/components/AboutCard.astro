@@ -6,6 +6,11 @@ import Link from "./Link.astro";
 
 <div class="card grid gap-4 mt-8">
   <div class="content">
+    <h1 class="text-3xl md:text-4xl mb-0 leading-none">
+      <span class="text-lg font-code text-[hsl(var(--muted-foreground))]">
+        (<code>/be̞ɣäɳi kxumälo/</code>)
+      </span>
+    </h1>
     <h1 class="text-3xl md:text-4xl mb-0 leading-none font-logo">
       <span class="text-lg font-code text-[hsl(var(--muted-foreground))]"
         >(@bhekanik)</span
@@ -47,29 +52,29 @@ import Link from "./Link.astro";
       height="250"
     />
   </div>
-</div>
 
-<style>
-  .card {
-    width: 100%;
-    grid-template:
-      "image ."
-      "content content";
-  }
-
-  .content {
-    grid-area: content;
-  }
-
-  .image {
-    grid-area: image;
-  }
-
-  @media screen and (min-width: 768px) {
+  <style>
     .card {
+      width: 100%;
       grid-template:
-        "content image"
-        "content image";
+        "image ."
+        "content content";
     }
-  }
-</style>
+
+    .content {
+      grid-area: content;
+    }
+
+    .image {
+      grid-area: image;
+    }
+
+    @media screen and (min-width: 768px) {
+      .card {
+        grid-template:
+          "content image"
+          "content image";
+      }
+    }
+  </style>
+</div>
