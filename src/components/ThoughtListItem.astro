@@ -19,7 +19,7 @@ const tags = thought.data.tags;
 
 <li>
   <div>
-    <Link href={url}>
+    <Link href={url} transition:name={`title-${thought.slug}`}>
       {title}
     </Link>
 
