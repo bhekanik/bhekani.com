@@ -1,0 +1,24 @@
+---
+import { getCollection } from "astro:content";
+import Tag from "./Tag.astro";
+
+export interface Props {
+  selectedTag?: string;
+}
+
+const allThoughts = await getCollection("thoughts");
+
+const tags = [
+  ...new Set(allThoughts.map((thought) => thought.data.tags).flat()),
+];
+
+const { selectedTag } = Astro.props;
+---
+
+<div class="my-8">
+  <h2 class="text-2xl mb-4 mt-2">View posts by tag</h2>
+
+  <div class="flex gap-4">
+    {tags.map((tag) => <Tag selected={selectedTag === tag} tag={tag} />)}
+  </div>
+</div>

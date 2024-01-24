@@ -1,5 +1,6 @@
 ---
 import { getCollection } from "astro:content";
+import AllTags from "../../components/AllTags.astro";
 import FirstPostCard from "../../components/LatestThoughtCard.astro";
 import MainContainer from "../../components/MainContainer.astro";
 import ThoughtCard from "../../components/ThoughtCard.astro";
@@ -23,6 +24,8 @@ const pageTitle = "Thoughts";
         Subscribe to RSS
       </a>
     </div>
+
+    <AllTags />
     {firstThought && <FirstPostCard thought={firstThought} />}
     <div class="grid gap-4">
       {sortedThoughts.map((post) => <ThoughtCard post={post} />)}

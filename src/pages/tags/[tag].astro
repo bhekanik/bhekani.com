@@ -1,6 +1,6 @@
 ---
 import { getCollection, type CollectionEntry } from "astro:content";
-import Link from "../../components/Link.astro";
+import AllTags from "../../components/AllTags.astro";
 import MainContainer from "../../components/MainContainer.astro";
 import ThoughtListItem from "../../components/ThoughtListItem.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
@@ -33,15 +33,11 @@ const { thoughts } = Astro.props;
 
 <BaseLayout pageTitle={tag}>
   <MainContainer>
-    <p class="my-8">
-      <Link
-        class="text-sm hover:text-[hsl(var(--muted-foreground))]"
-        href="/tags/"
-      >
-        ← All tags
-      </Link>
-    </p>
-    <ul>
+    <AllTags selectedTag={tag} />
+    <h2 class="text-2xl mb-4 mt-2">
+      Posts tagged with "{tag}"
+    </h2>
+    <ul class="flex flex-col gap-8">
       {thoughts.map((thought) => <ThoughtListItem thought={thought} />)}
     </ul>
   </MainContainer>

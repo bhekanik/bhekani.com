@@ -1,10 +1,19 @@
 ---
+import { getCollection } from "astro:content";
 import AboutCard from "../components/AboutCard.astro";
+import AllTags from "../components/AllTags.astro";
 import Link from "../components/Link.astro";
 import MainContainer from "../components/MainContainer.astro";
 import RecentThoughts from "../components/RecentThoughts.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
+
 const pageTitle = "Bhekani Khumalo";
+
+const allThoughts = await getCollection("thoughts");
+
+const tags = [
+  ...new Set(allThoughts.map((thought) => thought.data.tags).flat()),
+];
 ---
 
 <BaseLayout pageTitle={pageTitle}>
@@ -16,5 +25,7 @@ const pageTitle = "Bhekani Khumalo";
     <p class="w-full mb-8 font-bold">
       You can also <Link href="/rss.xml">subscribe with RSS</Link>
     </p>
+
+    <AllTags />
   </MainContainer>
 </BaseLayout>
