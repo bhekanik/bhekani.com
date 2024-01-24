@@ -1,9 +1,8 @@
 ---
 import { getCollection, type CollectionEntry } from "astro:content";
-import Link from "../../components/Link.astro";
 import Prose from "../../components/Prose.astro";
+import TableOfContents from "../../components/TableOfContents.astro";
 import MarkdownPostLayout from "../../layouts/MarkdownPostLayout.astro";
-import { cn } from "../../utils/cn";
 
 export async function getStaticPaths() {
   const thoughts = await getCollection("thoughts");
@@ -20,34 +19,11 @@ export interface Props {
 }
 
 const { thought } = Astro.props;
-const { Content, headings } = await thought.render();
+const { Content } = await thought.render();
 ---
 
 <MarkdownPostLayout thought={thought}>
-  {
-    headings.length > 0 && (
-      <section class="mb-4">
-        <h2 class="text-2xl mb-4 mt-2">Table of Contents</h2>
-
-        <ul class="ml-2">
-          {headings.map((heading) => (
-            <li
-              class={cn(
-                "text-sm",
-                heading.depth === 3
-                  ? "ml-4 border-l border-[hsl(var(--links))] pl-4"
-                  : heading.depth === 4
-                    ? "ml-8 border-l border-[hsl(var(--links))] pl-4"
-                    : ""
-              )}
-            >
-              <Link href={`#${heading.slug}`}>{heading.text}</Link>
-            </li>
-          ))}
-        </ul>
-      </section>
-    )
-  }
+  <TableOfContents thought={thought} />
   <hr class="my-4 border-[hsl(var(--muted))]" />
   <Prose>
     <Content class="content" />

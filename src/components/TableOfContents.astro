@@ -1,0 +1,37 @@
+---
+import { type CollectionEntry } from "astro:content";
+import { cn } from "../utils/cn";
+import Link from "./Link.astro";
+
+export interface Props {
+  thought: CollectionEntry<"thoughts">;
+}
+
+const { thought } = Astro.props;
+const { headings } = await thought.render();
+---
+
+{
+  headings.length > 0 && (
+    <section class="mb-4">
+      <h2 class="text-2xl mb-4 mt-2">Table of Contents</h2>
+
+      <ul class="ml-2 border-l border-[hsl(var(--links))] pl-4">
+        {headings.map((heading) => (
+          <li
+            class={cn(
+              "pb-2",
+              heading.depth === 3
+                ? "ml-4 border-l border-[hsl(var(--links))] pl-4"
+                : heading.depth === 4
+                  ? "ml-8 border-l border-[hsl(var(--links))] pl-4"
+                  : ""
+            )}
+          >
+            <Link href={`#${heading.slug}`}>{heading.text}</Link>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )
+}
