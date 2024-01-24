@@ -1,5 +1,6 @@
 ---
 import AboutCard from "../components/AboutCard.astro";
+import Link from "../components/Link.astro";
 import MainContainer from "../components/MainContainer.astro";
 import RecentThoughts from "../components/RecentThoughts.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
@@ -11,5 +12,9 @@ const pageTitle = "Bhekani Khumalo";
     <AboutCard />
 
     <RecentThoughts limit={5} />
+
+    <p class="w-full mb-8 font-bold">
+      You can also <Link href="/rss.xml">subscribe with RSS</Link>
+    </p>
   </MainContainer>
 </BaseLayout>
