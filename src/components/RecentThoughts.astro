@@ -1,6 +1,6 @@
 ---
 import { getCollection } from "astro:content";
-import BlogPost from "./ThoughtListItem.astro";
+import ThoughtListItem from "./ThoughtListItem.astro";
 
 const allThoughts = await getCollection("thoughts");
 ---
@@ -8,19 +8,13 @@ const allThoughts = await getCollection("thoughts");
 <div class="my-8">
   <h2 class="text-2xl mb-4 mt-2">Recent Thoughts</h2>
 
-  <ul>
+  <ul class="flex flex-col gap-8">
     {
       allThoughts
         .filter((thought) => thought.data.published)
         .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
         .slice(0, 3)
-        .map((thought) => (
-          <BlogPost
-            url={`/thoughts/${thought.slug}/`}
-            title={thought.data.title}
-            date={thought.data.pubDate}
-          />
-        ))
+        .map((thought) => <ThoughtListItem thought={thought} />)
     }
   </ul>
   <a

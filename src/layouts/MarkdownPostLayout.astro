@@ -7,6 +7,7 @@ import Giscuss from "../components/Giscuss.astro";
 import Link from "../components/Link.astro";
 import MainContainer from "../components/MainContainer.astro";
 import RelatedThoughts from "../components/RelatedThoughts.astro";
+import Tag from "../components/Tag.astro";
 import WebMentions from "../components/WebMentions.astro";
 import BaseLayout from "./BaseLayout.astro";
 
@@ -63,16 +64,7 @@ const {
         )
       }
       <div class="flex flex-wrap gap-4 mb-4">
-        {
-          frontmatter.tags.map((tag: string) => (
-            <Link
-              class="text-sm hover:text-[hsl(var(--muted-foreground))]"
-              href={`/tags/${tag}`}
-            >
-              #{tag}
-            </Link>
-          ))
-        }
+        {frontmatter.tags.map((tag: string) => <Tag tag={tag} />)}
       </div>
       <div class="mb-8">
         <p class="text-xs">{Case.upper(frontmatter.author)}</p>

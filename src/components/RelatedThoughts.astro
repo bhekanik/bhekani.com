@@ -37,11 +37,7 @@ const thoughts = allThoughts.filter((thought) => {
       <h2 class="text-2xl mb-4 mt-2">Related Thoughts</h2>
       <ul>
         {thoughts.slice(0, 3).map((thought) => (
-          <ThoughtListItem
-            url={`/thoughts/${thought.slug}/`}
-            title={thought.data.title}
-            date={thought.data.pubDate}
-          />
+          <ThoughtListItem thought={thought} />
         ))}
       </ul>
 

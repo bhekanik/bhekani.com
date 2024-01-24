@@ -2,7 +2,7 @@
 import { Image } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
 import { format } from "date-fns";
-import Link from "./Link.astro";
+import Tag from "./Tag.astro";
 
 type Props = {
   post: CollectionEntry<"thoughts">;
@@ -32,16 +32,7 @@ const {
       {format(date, "MMMM dd, yyyy")}
     </time>
     <div class="flex flex-wrap gap-4">
-      {
-        tags.map((tag: string) => (
-          <Link
-            class="text-sm hover:text-[hsl(var(--muted-foreground))]"
-            href={`/tags/${tag}`}
-          >
-            #{tag}
-          </Link>
-        ))
-      }
+      {tags.map((tag: string) => <Tag tag={tag} />)}
     </div>
   </div>
 

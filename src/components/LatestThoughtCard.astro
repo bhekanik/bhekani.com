@@ -2,7 +2,7 @@
 import { Image } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
 import { format } from "date-fns";
-import Link from "./Link.astro";
+import Tag from "./Tag.astro";
 
 type Props = {
   thought: CollectionEntry<"thoughts">;
@@ -37,16 +37,7 @@ const {
       )
     }
     <div class="flex gap-4 whitespace-nowrap text-ellipsis">
-      {
-        tags.map((tag: string) => (
-          <Link
-            class="text-sm hover:text-[hsl(var(--muted-foreground))]"
-            href={`/tags/${tag}`}
-          >
-            #{tag}
-          </Link>
-        ))
-      }
+      {tags.map((tag: string) => <Tag tag={tag} />)}
     </div>
     <p
       transition:name={`date-${slug}`}

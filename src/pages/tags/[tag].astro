@@ -2,7 +2,7 @@
 import { getCollection, type CollectionEntry } from "astro:content";
 import Link from "../../components/Link.astro";
 import MainContainer from "../../components/MainContainer.astro";
-import BlogPost from "../../components/ThoughtListItem.astro";
+import ThoughtListItem from "../../components/ThoughtListItem.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
 export async function getStaticPaths() {
@@ -42,15 +42,7 @@ const { thoughts } = Astro.props;
       </Link>
     </p>
     <ul>
-      {
-        thoughts.map((thoughts) => (
-          <BlogPost
-            url={`/thoughts/${thoughts.slug}/`}
-            title={thoughts.data.title}
-            date={thoughts.data.pubDate}
-          />
-        ))
-      }
+      {thoughts.map((thought) => <ThoughtListItem thought={thought} />)}
     </ul>
   </MainContainer>
 </BaseLayout>

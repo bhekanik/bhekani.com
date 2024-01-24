@@ -1,0 +1,27 @@
+---
+type Props = {
+  tag: string;
+};
+
+const { tag } = Astro.props;
+---
+
+<a
+  class="text-sm text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--muted-foreground))]"
+  href={`/tags/${tag}`}
+>
+  #{tag}
+</a>
+
+<style>
+  a {
+    transition: all 0.2s ease-in-out;
+    border-bottom: 1px solid hsl(var(--links-hovered));
+  }
+
+  a:hover {
+    background-color: hsl(var(--muted));
+    color: hsl(var(--links-hovered));
+    transition: all 0.2s ease-in-out;
+  }
+</style>
