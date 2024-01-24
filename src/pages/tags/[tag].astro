@@ -31,8 +31,17 @@ const { tag } = Astro.params;
 const { thoughts } = Astro.props;
 ---
 
-<BaseLayout pageTitle={tag}>
+<BaseLayout pageTitle={`Thoughts: #${tag}`}>
   <MainContainer>
+    <div class="w-full flex justify-center mb-8 font-bold">
+      <a
+        class="px-3 p-2 text-[hsl(var(--foreground))] border-b-[1px] border-l-[1px] border-r-[1px] border-[hsl(var(--muted))]"
+        href="/rss.xml"
+      >
+        Subscribe to RSS
+      </a>
+    </div>
+
     <AllTags selectedTag={tag} />
     <h2 class="text-2xl mb-4 mt-2">
       Posts tagged with "{tag}"

@@ -13,9 +13,7 @@ const {
 } = Astro.props;
 ---
 
-<div
-  class="card grid p-4 text-[hsl(var(--card-foreground))] bg-[hsl(var(--card))] hover:bg-[hsl(var(--muted))] duration-1000"
->
+<div class="card grid p-4">
   {
     image && (
       <div class="image overflow-hidden w-full">
@@ -73,6 +71,11 @@ const {
       "image"
       "content";
     color: hsl(var(--card-foreground));
+    background-color: hsl(var(--card));
+  }
+
+  .card:hover {
+    background-color: hsl(var(--muted));
   }
 
   .content {

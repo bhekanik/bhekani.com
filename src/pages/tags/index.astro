@@ -15,6 +15,14 @@ const pageTitle = "Tags";
 
 <BaseLayout pageTitle={pageTitle}>
   <MainContainer>
+    <div class="w-full flex justify-center mb-8 font-bold">
+      <a
+        class="px-3 p-2 text-[hsl(var(--foreground))] border-b-[1px] border-l-[1px] border-r-[1px] border-[hsl(var(--muted))]"
+        href="/rss.xml"
+      >
+        Subscribe to RSS
+      </a>
+    </div>
     <ul class="mt-8">
       {
         tags.map((tag) => (
