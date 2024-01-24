@@ -3,6 +3,7 @@ import { Image } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
 import { format } from "date-fns";
 import Tag from "./Tag.astro";
+import ThoughtDescription from "./ThoughtDescription.astro";
 
 type Props = {
   post: CollectionEntry<"thoughts">;
@@ -28,6 +29,7 @@ const {
     >
       {format(date, "MMMM dd, yyyy")}
     </time>
+    <ThoughtDescription description={title} slug={slug} />
     <div class="flex flex-wrap gap-4">
       {tags.map((tag: string) => <Tag tag={tag} />)}
     </div>

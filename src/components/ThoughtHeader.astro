@@ -1,0 +1,60 @@
+---
+import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
+import Case from "case";
+import { format } from "date-fns";
+import Link from "../components/Link.astro";
+import Tag from "../components/Tag.astro";
+import ThoughtDescription from "./ThoughtDescription.astro";
+
+type Props = {
+  thought: CollectionEntry<"thoughts">;
+};
+
+const {
+  thought: { data: frontmatter, slug },
+} = Astro.props;
+---
+
+<div transition:name={`card-${slug}`}>
+  <p class="my-4">
+    <Link
+      transition:name={`back-${slug}`}
+      class="text-sm hover:text-[hsl(var(--muted-foreground))]"
+      href="/thoughts/"
+    >
+      ← All thoughts
+    </Link>
+  </p>
+  {
+    frontmatter.image && (
+      <div class="w-full mb-8 h-56 overflow-hidden">
+        <Image
+          transition:name={`image-${slug}`}
+          class="w-full object-cover h-full"
+          src={frontmatter.image}
+          width="1200"
+          height="300"
+          alt=""
+        />
+      </div>
+    )
+  }
+
+  <ThoughtDescription description={frontmatter.description} slug={slug} />
+
+  <div class="flex flex-wrap gap-4 mb-4">
+    {frontmatter.tags.map((tag: string) => <Tag tag={tag} />)}
+  </div>
+
+  <div class="mb-8">
+    <p class="text-xs">{Case.upper(frontmatter.author)}</p>
+    <time
+      transition:name={`date-${slug}`}
+      class="text-sm text-[hsl(var(--muted-foreground))]"
+      datetime={frontmatter.pubDate.toDateString()}
+    >
+      {format(frontmatter.pubDate, "MMMM dd, yyyy")}
+    </time>
+  </div>
+</div>
