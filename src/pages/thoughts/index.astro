@@ -25,7 +25,7 @@ const pageTitle = "Thoughts";
       </a>
     </div>
 
-    <AllTags />
+    <AllTags title="Filter by tag" />
     {firstThought && <FirstPostCard thought={firstThought} />}
     <div class="grid gap-4">
       {sortedThoughts.map((post) => <ThoughtCard post={post} />)}

@@ -5,6 +5,7 @@ import Tag from "./Tag.astro";
 
 export interface Props {
   selectedTag?: string;
+  title?: string;
 }
 
 const allThoughts = await getCollection("thoughts");
@@ -15,12 +16,12 @@ const tags = [
 
 const { selectedTag } = Astro.props;
 
-const { tag } = Astro.params;
+const { tag, title } = Astro.params;
 ---
 
 <div class="my-8">
   <div class="flex items-center gap-2">
-    <h2 class="text-2xl mb-4 mt-2">View posts by tag</h2>
+    <h2 class="text-2xl mb-4 mt-2">{title ?? "View posts by tag"}</h2>
 
     {
       tag && (
