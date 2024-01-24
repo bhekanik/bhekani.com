@@ -1,7 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import Link from "./Link.astro";
-import Tag from "./Tag.astro";
+import TagsList from "./TagsList.astro";
 
 export interface Props {
   selectedTag?: string;
@@ -37,7 +37,5 @@ const { tag, title } = Astro.params;
     }
   </div>
 
-  <div class="flex flex-wrap gap-4">
-    {tags.map((tag) => <Tag selected={selectedTag === tag} tag={tag} />)}
-  </div>
+  <TagsList tags={tags} selectedTag={selectedTag} />
 </div>

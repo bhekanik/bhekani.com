@@ -4,7 +4,7 @@ import type { CollectionEntry } from "astro:content";
 import Case from "case";
 import { format } from "date-fns";
 import Link from "../components/Link.astro";
-import Tag from "../components/Tag.astro";
+import TagsList from "./TagsList.astro";
 import ThoughtDescription from "./ThoughtDescription.astro";
 
 type Props = {
@@ -43,9 +43,7 @@ const {
 
   <ThoughtDescription description={frontmatter.description} slug={slug} />
 
-  <div class="flex flex-wrap gap-4 mb-4">
-    {frontmatter.tags.map((tag: string) => <Tag tag={tag} />)}
-  </div>
+  <TagsList tags={frontmatter.tags} />
 
   <div class="mb-8">
     <p class="text-xs">{Case.upper(frontmatter.author)}</p>

@@ -1,0 +1,15 @@
+---
+import type { CollectionEntry } from "astro:content";
+import Tag from "../components/Tag.astro";
+
+type Props = {
+  tags: CollectionEntry<"thoughts">["data"]["tags"];
+  selectedTag?: string;
+};
+
+const { tags, selectedTag } = Astro.props;
+---
+
+<div class="flex flex-wrap gap-4">
+  {tags.map((tag) => <Tag selected={selectedTag === tag} tag={tag} />)}
+</div>
