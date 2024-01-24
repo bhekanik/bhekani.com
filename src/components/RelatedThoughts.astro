@@ -35,7 +35,7 @@ const thoughts = allThoughts.filter((thought) => {
   ) : (
     <div class="my-8">
       <h2 class="text-2xl mb-4 mt-2">Related Thoughts</h2>
-      <ul>
+      <ul class="flex flex-col gap-8">
         {thoughts.slice(0, 3).map((thought) => (
           <ThoughtListItem thought={thought} />
         ))}
