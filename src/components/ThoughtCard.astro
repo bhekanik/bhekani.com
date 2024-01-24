@@ -16,10 +16,7 @@ const {
 } = Astro.props;
 ---
 
-<div
-  transition:name={`card-${slug}`}
-  class="card grid gap-2 text-[hsl(var(--card-foreground))] bg-[hsl(var(--card))] hover:bg-[hsl(var(--muted))] items-center duration-1000"
->
+<div transition:name={`card-${slug}`} class="card grid gap-2 items-center">
   <div class="content p-4">
     <a href={`/thoughts/${slug}/`} class="h-fit">
       <h1 transition:name={`title-${slug}`} class="text-xl mb-2">{title}</h1>
@@ -57,6 +54,11 @@ const {
     display: grid;
     grid-template: "content image" / 3fr 1fr;
     color: hsl(var(--card-foreground));
+    background-color: hsl(var(--card));
+  }
+
+  .card:hover {
+    background-color: hsl(var(--muted));
   }
 
   .content {

@@ -16,9 +16,7 @@ const {
 } = Astro.props;
 ---
 
-<div
-  class="card mb-8 text-[hsl(var(--card-foreground))] bg-[hsl(var(--muted))] items-center duration-1000"
->
+<div class="card mb-8 items-center">
   <div class="content p-10">
     <a href={`/thoughts/${slug}/`} class="h-fit">
       <h1 transition:name={`title-${slug}`} class="text-xl mb-2 text-center">
@@ -66,8 +64,11 @@ const {
 <style>
   .card {
     display: grid;
+    grid-template: "content image" / 3fr 1fr;
     color: hsl(var(--card-foreground));
+    background-color: hsl(var(--muted));
   }
+
   .card:has(.image) {
     grid-template:
       "image" 1fr
