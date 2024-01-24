@@ -1,0 +1,105 @@
+---
+import Link from "../components/Link.astro";
+import MainContainer from "../components/MainContainer.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const pageTitle = "Colophon";
+---
+
+<BaseLayout pageTitle={pageTitle}>
+  <MainContainer>
+    <main>
+      <section class="page-contain colophon mt-8">
+        <p>
+          This site is built using <Link href="https://astro.build/">
+            Astro.js
+          </Link>
+          and hosted on <Link href="https://vercel.com">Vercel</Link>.
+        </p>
+        <h2 class="text-2xl" id="typography">Typography</h2>
+        <p>
+          I’m using <a style="font-family: Oswald" href="#">Oswald</a> for headings
+          and <a style="font-family: IBM Plex Sans" href="#">IBM Plex Sans</a> for
+          body copy, and <code>JetBrains Mono</code> for code. The fonts are all
+          <a href="https://fonts.google.com">Google Fonts</a>, so they’re free.
+        </p>
+        <h2 class="text-2xl" id="color">Color</h2>
+        <ul class="color-list">
+          <li style="--currentVal: var(--background)">background</li>
+          <li style="--currentVal: var(--foreground)">foreground</li>
+          <li style="--currentVal: var(--card)">card</li>
+          <li style="--currentVal: var(--card-foreground)">card-foreground</li>
+          <li style="--currentVal: var(--popover)">popover</li>
+          <li style="--currentVal: var(--popover-foreground)">
+            popover-foreground
+          </li>
+          <li style="--currentVal: var(--primary)">primary</li>
+          <li style="--currentVal: var(--primary-foreground)">
+            primary-foreground
+          </li>
+          <li style="--currentVal: var(--secondary)">secondary</li>
+          <li style="--currentVal: var(--secondary-foreground)">
+            secondary-foreground
+          </li>
+          <li style="--currentVal: var(--muted)">muted</li>
+          <li style="--currentVal: var(--muted-foreground)">
+            muted-foreground
+          </li>
+          <li style="--currentVal: var(--accent)">accent</li>
+          <li style="--currentVal: var(--accent-foreground)">
+            accent-foreground
+          </li>
+          <li style="--currentVal: var(--destructive)">destructive</li>
+          <li style="--currentVal: var(--destructive-foreground)">
+            destructive-foreground
+          </li>
+          <li style="--currentVal: var(--border)">border</li>
+          <li style="--currentVal: var(--input)">input</li>
+          <li style="--currentVal: var(--ring)">ring</li>
+          <li style="--currentVal: var(--radius)">radius</li>
+          <li style="--currentVal: var(--links)">links</li>
+          <li style="--currentVal: var(--links-hovered)">links-hovered</li>
+        </ul>
+      </section>
+    </main>
+  </MainContainer>
+
+  <style>
+    .colophon ul,
+    .colophon ol {
+      padding-left: 2rem;
+      margin-top: 1rem;
+    }
+
+    .color-list {
+      columns: 2;
+      list-style: none;
+      max-width: 65ch;
+      margin: 1rem -1rem 1rem;
+    }
+
+    .color-list li::before {
+      content: "";
+      width: 1em;
+      height: 1em;
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: 0.5rem;
+      border: 1px solid hsl(var(--card));
+      background-color: hsl(var(--currentVal));
+    }
+
+    @media (max-width: 440px) {
+      .colophon ul,
+      .colophon ol {
+        padding-left: 1rem;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .colophon {
+        padding: 0;
+      }
+    }
+  </style>
+</BaseLayout>

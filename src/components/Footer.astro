@@ -1,5 +1,6 @@
 ---
 import FooterNavigation from "./FooterNavigation.astro";
+import Link from "./Link.astro";
 import Social from "./Social.astro";
 ---
 
@@ -16,7 +17,8 @@ import Social from "./Social.astro";
     <div></div>
   </div>
   <p class="text-sm text-center w-full">
-    &copy; {new Date().getFullYear()} Bhekani Khumalo. All rights reserved.
+    &copy; {new Date().getFullYear()} Bhekani Khumalo. All rights reserved. |
+    <Link href="/colophon">Colophon</Link>
   </p>
 </footer>
 
