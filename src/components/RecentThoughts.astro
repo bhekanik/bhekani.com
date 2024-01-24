@@ -3,6 +3,12 @@ import { getCollection } from "astro:content";
 import ThoughtListItem from "./ThoughtListItem.astro";
 
 const allThoughts = await getCollection("thoughts");
+
+interface Props {
+  limit?: number;
+}
+
+const { limit = 3 } = Astro.props;
 ---
 
 <div class="my-8">
@@ -13,7 +19,7 @@ const allThoughts = await getCollection("thoughts");
       allThoughts
         .filter((thought) => thought.data.published)
         .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-        .slice(0, 3)
+        .slice(0, limit)
         .map((thought) => <ThoughtListItem thought={thought} />)
     }
   </ul>
