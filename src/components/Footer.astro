@@ -3,17 +3,21 @@ import FooterNavigation from "./FooterNavigation.astro";
 import Social from "./Social.astro";
 ---
 
-<footer
-  class="flex w-full items-start mt-8 justify-between p-4 bg-[hsl(var(--muted))]"
->
-  <FooterNavigation />
+<footer class="w-full mt-8 p-4 bg-[hsl(var(--muted))]">
+  <div class="flex w-full items-start justify-between">
+    <FooterNavigation />
 
-  <nav class="flex flex-col">
-    <Social href="https://twitter.com/bhekanik" title="Twitter" />
-    <Social href="https://github.com/bhekanik" title="Github" />
-    <Social href="https://youtube.com/bhekanik" title="YouTube" />
-  </nav>
-  <div></div>
+    <nav class="flex flex-col">
+      <Social href="https://twitter.com/bhekanik" title="Twitter" />
+      <Social href="https://github.com/bhekanik" title="Github" />
+      <Social href="https://youtube.com/bhekanik" title="YouTube" />
+    </nav>
+
+    <div></div>
+  </div>
+  <p class="text-sm text-center w-full">
+    &copy; {new Date().getFullYear()} Bhekani Khumalo. All rights reserved.
+  </p>
 </footer>
 
 <style>
