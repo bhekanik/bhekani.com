@@ -14,7 +14,7 @@ const { tag, selected } = Astro.props;
     "text-sm text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--muted-foreground))] whitespace-nowrap",
     selected ? "font-bold text-[hsl(var(--links-hovered))]" : ""
   )}
-  href={`/tags/${tag}`}
+  href={`/thoughts/tags/${tag}`}
 >
   #{tag}
 </a>

@@ -1,9 +1,9 @@
 ---
 import { getCollection, type CollectionEntry } from "astro:content";
-import AllTags from "../../components/AllTags.astro";
-import MainContainer from "../../components/MainContainer.astro";
-import ThoughtListItem from "../../components/ThoughtListItem.astro";
-import BaseLayout from "../../layouts/BaseLayout.astro";
+import AllTags from "../../../components/AllTags.astro";
+import MainContainer from "../../../components/MainContainer.astro";
+import ThoughtListItem from "../../../components/ThoughtListItem.astro";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
 
 export async function getStaticPaths() {
   const allThoughts = await getCollection("thoughts");

@@ -8,14 +8,14 @@ type Props = {
 };
 
 const { href, title } = Astro.props;
+
+const isActive = pathname.split("/")[1] === href.split("/")[1];
 ---
 
 <a
   class={cn(
     "text-[hsl(var(--muted-foreground))]",
-    pathname.split("/")[1] === href.split("/")[1]
-      ? "text-[hsl(var(--foreground))] font-bold"
-      : ""
+    isActive ? "text-[hsl(var(--foreground))] font-bold" : ""
   )}
   href={href}>{title}</a
 >
