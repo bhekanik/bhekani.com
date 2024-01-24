@@ -14,9 +14,9 @@ const tags = [
   ...new Set(allThoughts.map((thought) => thought.data.tags).flat()),
 ];
 
-const { selectedTag } = Astro.props;
+const { selectedTag, title } = Astro.props;
 
-const { tag, title } = Astro.params;
+const { tag } = Astro.params;
 ---
 
 <div class="my-8">
