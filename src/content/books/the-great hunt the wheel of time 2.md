@@ -1,19 +1,20 @@
 ---
-title: The Great Hunt The Wheel of Time 2
+id: 233649
+title: "The Great Hunt The Wheel of Time 2"
 author: Robert Jordan
 authorLF: Jordan Robert
 additionalAuthors: 
-ISBN: 0812517725
-ISBN13: 9780812517729
+ISBN: "0812517725"
+ISBN13: "9780812517729"
 myRating: 4
 averageRating: 4.26
 publisher: Tor
 binding: Mass Market Paperback
 numberOfPages: 705
-yearPublished: 1991
-originalPublicationYear: 1990
-dateRead: 20220302
-dateAdded: 20220218
+yearPublished: "1991"
+originalPublicationYear: "1990"
+dateRead: "2022-03-02"
+dateAdded: "2022-02-18"
 bookshelves: 
 bookshelvesWithPositions: 
 exclusiveShelf: read

@@ -1,19 +1,20 @@
 ---
-title: The Original
+id: 54615879
+title: "The Original"
 author: Brandon Sanderson
 authorLF: Sanderson Brandon
 additionalAuthors: Mary Robinette Kowal Julia Whelan
-ISBN: 
-ISBN13: null
+ISBN: ""
+ISBN13: "undefined"
 myRating: 3
 averageRating: 3.81
 publisher: Recorded Books
 binding: Audible Audio
 numberOfPages: 4
-yearPublished: 2020
-originalPublicationYear: 2020
-dateRead: 20210314
-dateAdded: 20210308
+yearPublished: "2020"
+originalPublicationYear: "2020"
+dateRead: "2021-03-14"
+dateAdded: "2021-03-08"
 bookshelves: 
 bookshelvesWithPositions: 
 exclusiveShelf: read

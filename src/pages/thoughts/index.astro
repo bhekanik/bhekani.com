@@ -1,7 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import AllTags from "../../components/AllTags.astro";
-import FirstPostCard from "../../components/LatestThoughtCard.astro";
+import LatestThoughtCard from "../../components/LatestThoughtCard.astro";
 import MainContainer from "../../components/MainContainer.astro";
 import ThoughtCard from "../../components/ThoughtCard.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
@@ -26,9 +26,9 @@ const pageTitle = "Thoughts";
     </div>
 
     <AllTags title="Filter by tag" />
-    {firstThought && <FirstPostCard thought={firstThought} />}
+    {firstThought && <LatestThoughtCard thought={firstThought} />}
     <div class="grid gap-4">
-      {sortedThoughts.map((post) => <ThoughtCard post={post} />)}
+      {sortedThoughts.map((thought) => <ThoughtCard thought={thought} />)}
     </div>
   </MainContainer>
 </BaseLayout>

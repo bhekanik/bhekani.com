@@ -1,9 +1,8 @@
 ---
-import type { CollectionEntry } from "astro:content";
 import Tag from "../components/Tag.astro";
 
 type Props = {
-  tags: CollectionEntry<"thoughts">["data"]["tags"];
+  tags: string[];
   selectedTag?: string;
 };
 

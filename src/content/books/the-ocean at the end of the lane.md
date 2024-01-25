@@ -1,19 +1,20 @@
 ---
-title: The Ocean at the End of the Lane
+id: 15783514
+title: "The Ocean at the End of the Lane"
 author: Neil Gaiman
 authorLF: Gaiman Neil
 additionalAuthors: 
-ISBN: 0062255657
-ISBN13: 9780062255655
+ISBN: "0062255657"
+ISBN13: "9780062255655"
 myRating: 5
 averageRating: 4.02
 publisher: William Morrow Books
 binding: Hardcover
 numberOfPages: 181
-yearPublished: 2013
-originalPublicationYear: 2013
-dateRead: 
-dateAdded: 20211115
+yearPublished: "2013"
+originalPublicationYear: "2013"
+dateRead: "2024-01-25"
+dateAdded: "2021-11-15"
 bookshelves: 
 bookshelvesWithPositions: 
 exclusiveShelf: read

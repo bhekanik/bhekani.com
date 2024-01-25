@@ -1,19 +1,20 @@
 ---
-title: The Well of Ascension Mistborn 2
+id: 12968706
+title: "The Well of Ascension Mistborn 2"
 author: Brandon Sanderson
 authorLF: Sanderson Brandon
 additionalAuthors: 
-ISBN: 
-ISBN13: null
+ISBN: ""
+ISBN13: "undefined"
 myRating: 4
 averageRating: 4.38
 publisher: Gollancz
 binding: Kindle Edition
 numberOfPages: 804
-yearPublished: 2010
-originalPublicationYear: 2007
-dateRead: 20200525
-dateAdded: 20200521
+yearPublished: "2010"
+originalPublicationYear: "2007"
+dateRead: "2020-05-25"
+dateAdded: "2020-05-21"
 bookshelves: 
 bookshelvesWithPositions: 
 exclusiveShelf: read

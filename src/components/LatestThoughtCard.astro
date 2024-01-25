@@ -2,7 +2,8 @@
 import { Image } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
 import { format } from "date-fns";
-import Tag from "./Tag.astro";
+import TagsList from "./TagsList.astro";
+import ThoughtDescription from "./ThoughtDescription.astro";
 
 type Props = {
   thought: CollectionEntry<"thoughts">;
@@ -24,19 +25,8 @@ const {
       </h1>
     </a>
 
-    {
-      description && (
-        <p
-          transition:name={`description-${slug}`}
-          class="mt-6 mb-8 text-center text-[hsl(var(--muted-foreground))]"
-        >
-          <em>{description}</em>
-        </p>
-      )
-    }
-    <div class="flex gap-4 whitespace-nowrap text-ellipsis">
-      {tags.map((tag: string) => <Tag tag={tag} />)}
-    </div>
+    <ThoughtDescription description={description} />
+    <TagsList tags={tags} />
     <p
       transition:name={`date-${slug}`}
       class="text-sm text-[hsl(var(--muted-foreground))]"

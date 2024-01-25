@@ -1,19 +1,20 @@
 ---
-title: The Book You Wish Your Parents Had Read and Your Children Will Be Glad That You Did
+id: 42348818
+title: "The Book You Wish Your Parents Had Read and Your Children Will Be Glad That You Did"
 author: Philippa Perry
 authorLF: Perry Philippa
 additionalAuthors: 
-ISBN: 
-ISBN13: null
+ISBN: ""
+ISBN13: "undefined"
 myRating: 5
 averageRating: 4.12
 publisher: Penguin
 binding: Kindle Edition
 numberOfPages: 240
-yearPublished: 2020
-originalPublicationYear: 2019
-dateRead: 20211113
-dateAdded: 20211113
+yearPublished: "2020"
+originalPublicationYear: "2019"
+dateRead: "2021-11-13"
+dateAdded: "2021-11-13"
 bookshelves: 
 bookshelvesWithPositions: 
 exclusiveShelf: read

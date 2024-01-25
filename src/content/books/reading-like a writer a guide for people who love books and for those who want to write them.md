@@ -1,19 +1,20 @@
 ---
-title: Reading Like a Writer A Guide for People Who Love Books and for Those Who Want to Write Them
+id: 39934
+title: "Reading Like a Writer A Guide for People Who Love Books and for Those Who Want to Write Them"
 author: Francine Prose
 authorLF: Prose Francine
 additionalAuthors: 
-ISBN: 0060777052
-ISBN13: 9780060777050
+ISBN: "0060777052"
+ISBN13: "9780060777050"
 myRating: 0
 averageRating: 3.77
 publisher: Harper Perennial
 binding: Paperback
 numberOfPages: 302
-yearPublished: 2007
-originalPublicationYear: 2006
-dateRead: 
-dateAdded: 20220308
+yearPublished: "2007"
+originalPublicationYear: "2006"
+dateRead: "2024-01-25"
+dateAdded: "2022-03-08"
 bookshelves: currentlyreading
 bookshelvesWithPositions: currentlyreading 10
 exclusiveShelf: currentlyreading

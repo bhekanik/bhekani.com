@@ -1,0 +1,34 @@
+---
+import type { CollectionEntry } from "astro:content";
+import BookHeader from "../components/BookHeader.astro";
+import Giscuss from "../components/Giscuss.astro";
+import MainContainer from "../components/MainContainer.astro";
+import RelatedBooks from "../components/RelatedBooks.astro";
+import WebMentions from "../components/WebMentions.astro";
+import BaseLayout from "./BaseLayout.astro";
+
+type Props = {
+  book: CollectionEntry<"books">;
+};
+
+const {
+  book: { data: frontmatter },
+  book,
+} = Astro.props;
+---
+
+<BaseLayout title={frontmatter.title} pageTitle={frontmatter.title}>
+  <MainContainer>
+    <BookHeader book={book} />
+
+    <slot />
+
+    <WebMentions />
+
+    <Giscuss />
+
+    <hr class="my-8" />
+
+    <RelatedBooks slug={book.slug} tags={frontmatter.tags} />
+  </MainContainer>
+</BaseLayout>

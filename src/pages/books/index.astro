@@ -1,34 +1,26 @@
 ---
 import { getCollection } from "astro:content";
-import AllTags from "../../components/AllTags.astro";
-import FirstPostCard from "../../components/LatestThoughtCard.astro";
+import AllBookTags from "../../components/AllBookTags.astro";
+import BookCard from "../../components/BookCard.astro";
+import LatestBookCard from "../../components/LatestBookCard.astro";
 import MainContainer from "../../components/MainContainer.astro";
-import ThoughtCard from "../../components/ThoughtCard.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
-const allThoughts = await getCollection("thoughts");
-const sortedThoughts = allThoughts.sort(
-  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+const allBooks = await getCollection("books");
+const sortedBooks = allBooks.sort(
+  (a, b) =>
+    new Date(b.data.dateAdded).valueOf() - new Date(a.data.dateAdded).valueOf()
 );
-const firstThought = sortedThoughts.shift();
-const pageTitle = "Thoughts";
+const firstBook = sortedBooks.shift();
+const pageTitle = "Books";
 ---
 
 <BaseLayout pageTitle={pageTitle}>
   <MainContainer>
-    <div class="w-full flex justify-center mb-8 font-bold">
-      <a
-        class="px-3 p-2 text-[hsl(var(--foreground))] border-b-[1px] border-l-[1px] border-r-[1px] border-[hsl(var(--muted))]"
-        href="/rss.xml"
-      >
-        Subscribe to RSS
-      </a>
-    </div>
-
-    <AllTags title="Filter by tag" />
-    {firstThought && <FirstPostCard thought={firstThought} />}
+    <AllBookTags title="Filter by tag" />
+    {firstBook && <LatestBookCard book={firstBook} />}
     <div class="grid gap-4">
-      {sortedThoughts.map((post) => <ThoughtCard post={post} />)}
+      {sortedBooks.map((book) => <BookCard book={book} />)}
     </div>
   </MainContainer>
 </BaseLayout>

@@ -1,19 +1,20 @@
 ---
-title: Secret History Mistborn 35
+id: 28698036
+title: "Secret History Mistborn 35"
 author: Brandon Sanderson
 authorLF: Sanderson Brandon
 additionalAuthors: 
-ISBN: 
-ISBN13: null
+ISBN: ""
+ISBN13: "undefined"
 myRating: 4
 averageRating: 4.36
 publisher: Dragonsteel LLC
 binding: Kindle Edition
 numberOfPages: 160
-yearPublished: 2016
-originalPublicationYear: 2016
-dateRead: 20200922
-dateAdded: 20200922
+yearPublished: "2016"
+originalPublicationYear: "2016"
+dateRead: "2020-09-22"
+dateAdded: "2020-09-22"
 bookshelves: 
 bookshelvesWithPositions: 
 exclusiveShelf: read

@@ -1,19 +1,20 @@
 ---
-title: Warbreaker Warbreaker 1
+id: 1268479
+title: "Warbreaker Warbreaker 1"
 author: Brandon Sanderson
 authorLF: Sanderson Brandon
 additionalAuthors: 
-ISBN: 
-ISBN13: null
+ISBN: ""
+ISBN13: "undefined"
 myRating: 4
 averageRating: 4.3
 publisher: Selfpublished
 binding: ebook
 numberOfPages: 688
-yearPublished: 2009
-originalPublicationYear: 2009
-dateRead: 20200703
-dateAdded: 20200627
+yearPublished: "2009"
+originalPublicationYear: "2009"
+dateRead: "2020-07-03"
+dateAdded: "2020-06-27"
 bookshelves: 
 bookshelvesWithPositions: 
 exclusiveShelf: read

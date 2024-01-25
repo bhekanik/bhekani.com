@@ -1,19 +1,20 @@
 ---
-title: The Bands of Mourning Mistborn 6
+id: 18739426
+title: "The Bands of Mourning Mistborn 6"
 author: Brandon Sanderson
 authorLF: Sanderson Brandon
 additionalAuthors: 
-ISBN: 
-ISBN13: null
+ISBN: ""
+ISBN13: "undefined"
 myRating: 4
 averageRating: 4.42
 publisher: Tor
 binding: Kindle Edition
 numberOfPages: 448
-yearPublished: 2016
-originalPublicationYear: 2016
-dateRead: 20200624
-dateAdded: 20200613
+yearPublished: "2016"
+originalPublicationYear: "2016"
+dateRead: "2020-06-24"
+dateAdded: "2020-06-13"
 bookshelves: 
 bookshelvesWithPositions: 
 exclusiveShelf: read

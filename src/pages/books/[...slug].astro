@@ -1,31 +1,26 @@
 ---
 import { getCollection, type CollectionEntry } from "astro:content";
 import Prose from "../../components/Prose.astro";
-import TableOfContents from "../../components/TableOfContents.astro";
-import MarkdownPostLayout from "../../layouts/MarkdownPostLayout.astro";
+import BookPageLayout from "../../layouts/BookPageLayout.astro";
 
 export async function getStaticPaths() {
-  const thoughts = await getCollection("thoughts");
-  return thoughts
-    .filter((thought) => thought.data.published)
-    .map((thought) => ({
-      params: { slug: thought.slug },
-      props: { thought },
-    }));
+  const books = await getCollection("books");
+  return books.map((book) => ({
+    params: { slug: book.slug },
+    props: { book },
+  }));
 }
 
 export interface Props {
-  thought: CollectionEntry<"thoughts">;
+  book: CollectionEntry<"books">;
 }
 
-const { thought } = Astro.props;
-const { Content } = await thought.render();
+const { book } = Astro.props;
+const { Content } = await book?.render();
 ---
 
-<MarkdownPostLayout thought={thought}>
-  <TableOfContents thought={thought} />
-  <hr class="my-4 border-[hsl(var(--muted))]" />
+<BookPageLayout book={book}>
   <Prose>
     <Content class="content" />
   </Prose>
-</MarkdownPostLayout>
+</BookPageLayout>

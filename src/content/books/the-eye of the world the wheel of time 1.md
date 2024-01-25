@@ -1,19 +1,20 @@
 ---
-title: The Eye of the World The Wheel of Time 1
+id: 228665
+title: "The Eye of the World The Wheel of Time 1"
 author: Robert Jordan
 authorLF: Jordan Robert
 additionalAuthors: 
-ISBN: 0812511816
-ISBN13: 9780812511819
+ISBN: "0812511816"
+ISBN13: "9780812511819"
 myRating: 3
 averageRating: 4.19
 publisher: Tor Books
 binding: Mass Market Paperback
 numberOfPages: 800
-yearPublished: 1990
-originalPublicationYear: 1990
-dateRead: 20210601
-dateAdded: 20200525
+yearPublished: "1990"
+originalPublicationYear: "1990"
+dateRead: "2021-06-01"
+dateAdded: "2020-05-25"
 bookshelves: 
 bookshelvesWithPositions: 
 exclusiveShelf: read

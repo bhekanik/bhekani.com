@@ -1,19 +1,20 @@
 ---
-title: Talking to Strangers What We Should Know About the People We Don’t Know
+id: 43848929
+title: "Talking to Strangers What We Should Know About the People We Don’t Know"
 author: Malcolm Gladwell
 authorLF: Gladwell Malcolm
 additionalAuthors: 
-ISBN: 0316478520
-ISBN13: 9780316478526
+ISBN: "0316478520"
+ISBN13: "9780316478526"
 myRating: 4
 averageRating: 4.02
 publisher: Little Brown and Company
 binding: Hardcover
 numberOfPages: 388
-yearPublished: 2019
-originalPublicationYear: 2019
-dateRead: 20210228
-dateAdded: 20201231
+yearPublished: "2019"
+originalPublicationYear: "2019"
+dateRead: "2021-02-28"
+dateAdded: "2020-12-31"
 bookshelves: 
 bookshelvesWithPositions: 
 exclusiveShelf: read

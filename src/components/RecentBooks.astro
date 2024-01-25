@@ -1,0 +1,42 @@
+---
+import { getCollection } from "astro:content";
+import BookListItem from "./BookListItem.astro";
+
+const allBooks = await getCollection("books");
+
+interface Props {
+  limit?: number;
+  slug: string;
+}
+
+const { slug, limit = 3 } = Astro.props;
+
+const books = allBooks.filter((book) => {
+  if (slug === book.slug) return false;
+
+  return true;
+});
+---
+
+<div class="my-8">
+  <h2 class="text-2xl mb-4 mt-2">Recent Books</h2>
+
+  <ul class="flex flex-col gap-8">
+    {
+      books
+        .sort(
+          (a, b) =>
+            new Date(b.data.dateAdded).valueOf() -
+            new Date(a.data.dateAdded).valueOf()
+        )
+        .slice(0, limit)
+        .map((book) => <BookListItem book={book} />)
+    }
+  </ul>
+  <a
+    class="mt-4 flex h-6 rounded-lg leading-7 text-gray-600 transition-all dark:text-gray-400 dark:hover:text-gray-600"
+    href="/books/"
+  >
+    See all books →
+  </a>
+</div>

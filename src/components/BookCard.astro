@@ -1,0 +1,64 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { format } from "date-fns";
+import TagsList from "./TagsList.astro";
+
+type Props = {
+  book: CollectionEntry<"books">;
+};
+
+const {
+  book: {
+    slug,
+    data: { tags, title, dateAdded: date },
+  },
+} = Astro.props;
+---
+
+<div transition:name={`card-${slug}`} class="card grid gap-2 items-center">
+  <div class="content p-4">
+    <a href={`/thoughts/${slug}/`} class="h-fit">
+      <h1 transition:name={`title-${slug}`} class="text-xl mb-2">{title}</h1>
+    </a>
+    <time
+      transition:name={`date-${slug}`}
+      class="text-sm text-[hsl(var(--muted-foreground))]"
+      datetime={new Date(date).toISOString()}
+    >
+      {format(new Date(date), "MMMM dd, yyyy")}
+    </time>
+    <TagsList tags={tags} />
+  </div>
+</div>
+
+<style>
+  .card {
+    display: grid;
+    grid-template: "content image" / 3fr 1fr;
+    color: hsl(var(--card-foreground));
+    background-color: hsl(var(--card));
+  }
+
+  .card:hover {
+    background-color: hsl(var(--muted));
+  }
+
+  .content {
+    grid-area: content;
+    display: grid;
+    grid-template:
+      "title" auto-fit
+      "description" 1fr
+      "date" auto-fit
+      "tags" auto-fit;
+  }
+  .image {
+    grid-area: image;
+  }
+  a {
+    color: hsl(var(--card-foreground));
+  }
+  a:hover {
+    background-color: transparent;
+  }
+</style>

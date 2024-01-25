@@ -1,19 +1,20 @@
 ---
-title: Elantris Elantris 1
+id: 68427
+title: "Elantris Elantris 1"
 author: Brandon Sanderson
 authorLF: Sanderson Brandon
 additionalAuthors: 
-ISBN: 0765350378
-ISBN13: 9780765350374
+ISBN: "0765350378"
+ISBN13: "9780765350374"
 myRating: 4
 averageRating: 4.19
 publisher: Tor Fantasy
 binding: Mass Market Paperback
 numberOfPages: 638
-yearPublished: 2006
-originalPublicationYear: 2005
-dateRead: 20200131
-dateAdded: 20200521
+yearPublished: "2006"
+originalPublicationYear: "2005"
+dateRead: "2020-01-31"
+dateAdded: "2020-05-21"
 bookshelves: 
 bookshelvesWithPositions: 
 exclusiveShelf: read

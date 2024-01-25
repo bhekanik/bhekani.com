@@ -1,19 +1,20 @@
 ---
-title: The Hero of Ages Mistborn 3
+id: 2767793
+title: "The Hero of Ages Mistborn 3"
 author: Brandon Sanderson
 authorLF: Sanderson Brandon
 additionalAuthors: 
-ISBN: 0765316897
-ISBN13: 9780765316899
+ISBN: "0765316897"
+ISBN13: "9780765316899"
 myRating: 4
 averageRating: 4.53
 publisher: Tor Books
 binding: Hardcover
 numberOfPages: 572
-yearPublished: 2008
-originalPublicationYear: 2008
-dateRead: 20200529
-dateAdded: 20200525
+yearPublished: "2008"
+originalPublicationYear: "2008"
+dateRead: "2020-05-29"
+dateAdded: "2020-05-25"
 bookshelves: 
 bookshelvesWithPositions: 
 exclusiveShelf: read

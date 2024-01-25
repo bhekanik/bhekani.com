@@ -1,10 +1,8 @@
 ---
+import { navItems } from "../utils/config";
 import NavLink from "./NavLink.astro";
 ---
 
 <nav class="flex gap-2 pr-4">
-  <NavLink href="/" title="Home" />
-  <NavLink href="/about/" title="About" />
-  <NavLink href="/thoughts/" title="Thoughts" />
-  <NavLink href="/projects/" title="Projects" />
+  {navItems.map((item) => <NavLink href={item.href} title={item.title} />)}
 </nav>

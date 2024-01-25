@@ -1,19 +1,20 @@
 ---
-title: The Blinding Knife Lightbringer 2
+id: 12499290
+title: "The Blinding Knife Lightbringer 2"
 author: Brent Weeks
 authorLF: Weeks Brent
 additionalAuthors: 
-ISBN: 031607991X
-ISBN13: 9780316079914
+ISBN: "031607991X"
+ISBN13: "9780316079914"
 myRating: 5
 averageRating: 4.41
 publisher: Orbit
 binding: Hardcover
 numberOfPages: 671
-yearPublished: 2012
-originalPublicationYear: 2012
-dateRead: 20210712
-dateAdded: 20210627
+yearPublished: "2012"
+originalPublicationYear: "2012"
+dateRead: "2021-07-12"
+dateAdded: "2021-06-27"
 bookshelves: 
 bookshelvesWithPositions: 
 exclusiveShelf: read

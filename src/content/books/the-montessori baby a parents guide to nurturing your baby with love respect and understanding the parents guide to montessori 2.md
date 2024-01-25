@@ -1,19 +1,20 @@
 ---
-title: The Montessori Baby A Parents Guide to Nurturing Your Baby with Love Respect and Understanding The Parents Guide to Montessori 2
+id: 54110546
+title: "The Montessori Baby A Parents Guide to Nurturing Your Baby with Love Respect and Understanding The Parents Guide to Montessori 2"
 author: Simone Davies
 authorLF: Davies Simone
 additionalAuthors: Junnifa Uzodike Sanny Van Loon
-ISBN: 1523512407
-ISBN13: 9781523512409
+ISBN: "1523512407"
+ISBN13: "9781523512409"
 myRating: 0
 averageRating: 3.97
 publisher: Workman Publishing Company
 binding: Paperback
 numberOfPages: 288
-yearPublished: 2021
-originalPublicationYear: null
-dateRead: 
-dateAdded: 20231128
+yearPublished: "2021"
+originalPublicationYear: "undefined"
+dateRead: "2024-01-25"
+dateAdded: "2023-11-28"
 bookshelves: currentlyreading
 bookshelvesWithPositions: currentlyreading 14
 exclusiveShelf: currentlyreading

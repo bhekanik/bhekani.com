@@ -6,11 +6,11 @@ import TagsList from "./TagsList.astro";
 import ThoughtDescription from "./ThoughtDescription.astro";
 
 type Props = {
-  post: CollectionEntry<"thoughts">;
+  thought: CollectionEntry<"thoughts">;
 };
 
 const {
-  post: {
+  thought: {
     slug,
     data: { tags, title, image, pubDate: date },
   },

@@ -1,0 +1,39 @@
+---
+import { getCollection } from "astro:content";
+import Link from "./Link.astro";
+import TagsList from "./TagsList.astro";
+
+export interface Props {
+  selectedTag?: string;
+  title?: string;
+}
+
+const allBooks = await getCollection("books");
+
+const tags = [...new Set(allBooks.map((book) => book.data.tags).flat())];
+
+const { selectedTag, title } = Astro.props;
+
+const { tag } = Astro.params;
+---
+
+<div class="my-8">
+  <div class="flex items-center gap-2">
+    <h2 class="text-2xl mb-4 mt-2">{title ?? "View posts by tag"}</h2>
+
+    {
+      tag && (
+        <p class="my-4">
+          <Link
+            class="text-sm hover:text-[hsl(var(--muted-foreground))]"
+            href="/thoughts/"
+          >
+            All tags
+          </Link>
+        </p>
+      )
+    }
+  </div>
+
+  <TagsList tags={tags} selectedTag={selectedTag} />
+</div>

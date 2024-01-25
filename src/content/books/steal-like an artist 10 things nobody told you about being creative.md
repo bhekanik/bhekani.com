@@ -1,19 +1,20 @@
 ---
-title: Steal Like an Artist 10 Things Nobody Told You About Being Creative
+id: 13099738
+title: "Steal Like an Artist 10 Things Nobody Told You About Being Creative"
 author: Austin Kleon
 authorLF: Kleon Austin
 additionalAuthors: 
-ISBN: 0761169253
-ISBN13: 9780761169253
+ISBN: "0761169253"
+ISBN13: "9780761169253"
 myRating: 5
 averageRating: 3.96
 publisher: Workman Publishing Company
 binding: Paperback
 numberOfPages: 160
-yearPublished: 2012
-originalPublicationYear: 2012
-dateRead: 20210222
-dateAdded: 20210222
+yearPublished: "2012"
+originalPublicationYear: "2012"
+dateRead: "2021-02-22"
+dateAdded: "2021-02-22"
 bookshelves: 
 bookshelvesWithPositions: 
 exclusiveShelf: read

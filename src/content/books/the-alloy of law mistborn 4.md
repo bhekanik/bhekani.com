@@ -1,19 +1,20 @@
 ---
-title: The Alloy of Law Mistborn 4
+id: 10803121
+title: "The Alloy of Law Mistborn 4"
 author: Brandon Sanderson
 authorLF: Sanderson Brandon
 additionalAuthors: 
-ISBN: 0765330423
-ISBN13: 9780765330420
+ISBN: "0765330423"
+ISBN13: "9780765330420"
 myRating: 3
 averageRating: 4.21
 publisher: Tor Books
 binding: Hardcover
 numberOfPages: 332
-yearPublished: 2011
-originalPublicationYear: 2011
-dateRead: 20200607
-dateAdded: 20200601
+yearPublished: "2011"
+originalPublicationYear: "2011"
+dateRead: "2020-06-07"
+dateAdded: "2020-06-01"
 bookshelves: 
 bookshelvesWithPositions: 
 exclusiveShelf: read

@@ -1,19 +1,20 @@
 ---
-title: No More Mr Nice Guy
+id: 97642
+title: "No More Mr Nice Guy"
 author: Robert A Glover
 authorLF: Glover Robert A
 additionalAuthors: 
-ISBN: 0762415339
-ISBN13: 9780762415335
+ISBN: "0762415339"
+ISBN13: "9780762415335"
 myRating: 4
 averageRating: 4.04
 publisher: Running Press Adult
 binding: Hardcover
 numberOfPages: 208
-yearPublished: 2003
-originalPublicationYear: 2000
-dateRead: 20240104
-dateAdded: 20240102
+yearPublished: "2003"
+originalPublicationYear: "2000"
+dateRead: "2024-01-04"
+dateAdded: "2024-01-02"
 bookshelves: 
 bookshelvesWithPositions: 
 exclusiveShelf: read

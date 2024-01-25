@@ -1,7 +1,7 @@
 import { OGImageRoute } from "astro-og-canvas";
 import { getCollection } from "astro:content";
 
-const collectionEntries = await getCollection("thoughts");
+const collectionEntries = await getCollection("books");
 
 // Map the array of content collection entries to create an object.
 // Converts [{ id: 'post.md', data: { title: 'Example', description: '' } }]

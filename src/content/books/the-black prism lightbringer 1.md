@@ -1,19 +1,20 @@
 ---
-title: The Black Prism Lightbringer 1
+id: 7165300
+title: "The Black Prism Lightbringer 1"
 author: Brent Weeks
 authorLF: Weeks Brent
 additionalAuthors: 
-ISBN: 0316075558
-ISBN13: 9780316075558
+ISBN: "0316075558"
+ISBN13: "9780316075558"
 myRating: 3
 averageRating: 4.23
 publisher: Orbit
 binding: Hardcover
 numberOfPages: 629
-yearPublished: 2010
-originalPublicationYear: 2010
-dateRead: 20210627
-dateAdded: 20210613
+yearPublished: "2010"
+originalPublicationYear: "2010"
+dateRead: "2021-06-27"
+dateAdded: "2021-06-13"
 bookshelves: 
 bookshelvesWithPositions: 
 exclusiveShelf: read

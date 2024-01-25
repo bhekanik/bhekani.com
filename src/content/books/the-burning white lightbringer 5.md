@@ -1,19 +1,20 @@
 ---
-title: The Burning White Lightbringer 5
+id: 30169100
+title: "The Burning White Lightbringer 5"
 author: Brent Weeks
 authorLF: Weeks Brent
 additionalAuthors: 
-ISBN: 0316251305
-ISBN13: 9780316251303
+ISBN: "0316251305"
+ISBN13: "9780316251303"
 myRating: 4
 averageRating: 4.26
 publisher: Orbit
 binding: Hardcover
 numberOfPages: 960
-yearPublished: 2019
-originalPublicationYear: 2019
-dateRead: 20211005
-dateAdded: 20210831
+yearPublished: "2019"
+originalPublicationYear: "2019"
+dateRead: "2021-10-05"
+dateAdded: "2021-08-31"
 bookshelves: 
 bookshelvesWithPositions: 
 exclusiveShelf: read
