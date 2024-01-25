@@ -1,0 +1,34 @@
+---
+import { getCollection } from "astro:content";
+import AllTags from "../../components/AllTags.astro";
+import FirstPostCard from "../../components/LatestThoughtCard.astro";
+import MainContainer from "../../components/MainContainer.astro";
+import ThoughtCard from "../../components/ThoughtCard.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const allThoughts = await getCollection("thoughts");
+const sortedThoughts = allThoughts.sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+const firstThought = sortedThoughts.shift();
+const pageTitle = "Thoughts";
+---
+
+<BaseLayout pageTitle={pageTitle}>
+  <MainContainer>
+    <div class="w-full flex justify-center mb-8 font-bold">
+      <a
+        class="px-3 p-2 text-[hsl(var(--foreground))] border-b-[1px] border-l-[1px] border-r-[1px] border-[hsl(var(--muted))]"
+        href="/rss.xml"
+      >
+        Subscribe to RSS
+      </a>
+    </div>
+
+    <AllTags title="Filter by tag" />
+    {firstThought && <FirstPostCard thought={firstThought} />}
+    <div class="grid gap-4">
+      {sortedThoughts.map((post) => <ThoughtCard post={post} />)}
+    </div>
+  </MainContainer>
+</BaseLayout>

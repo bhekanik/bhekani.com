@@ -1,0 +1,36 @@
+---
+import { getCollection } from "astro:content";
+import MainContainer from "../../../components/MainContainer.astro";
+import Tag from "../../../components/Tag.astro";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+
+const allThoughts = await getCollection("thoughts");
+
+const tags = [
+  ...new Set(allThoughts.map((thought) => thought.data.tags).flat()),
+];
+
+const pageTitle = "Tags";
+---
+
+<BaseLayout pageTitle={pageTitle}>
+  <MainContainer>
+    <div class="w-full flex justify-center mb-8 font-bold">
+      <a
+        class="px-3 p-2 text-[hsl(var(--foreground))] border-b-[1px] border-l-[1px] border-r-[1px] border-[hsl(var(--muted))]"
+        href="/rss.xml"
+      >
+        Subscribe to RSS
+      </a>
+    </div>
+    <ul class="mt-8">
+      {
+        tags.map((tag) => (
+          <li>
+            <Tag tag={tag} />
+          </li>
+        ))
+      }
+    </ul>
+  </MainContainer>
+</BaseLayout>
