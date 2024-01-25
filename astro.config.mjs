@@ -6,6 +6,8 @@ import sentry from "@sentry/astro";
 import robotsTxt from "astro-robots-txt";
 import { defineConfig } from "astro/config";
 
+const isProduction = process.env.NODE_ENV === "production";
+
 // https://astro.build/config
 export default defineConfig({
   site: "https://bhekani.com",
@@ -17,11 +19,12 @@ export default defineConfig({
     mdx(),
     sentry({
       dsn: "https://c8fc23d45a17004cddf52ecfee998bf2@o1115887.ingest.sentry.io/4506532148936704",
+      enabled: process.env.NODE_ENV === "production",
+      environment: isProduction ? "production" : "development",
       sourceMapsUploadOptions: {
         project: "website",
         authToken: process.env.SENTRY_AUTH_TOKEN,
-        environment:
-          process.env.NODE_ENV === "production" ? "production" : "development",
+        environment: isProduction ? "production" : "development",
       },
     }),
     tailwind(),
