@@ -1,5 +1,4 @@
 ---
-import { getCollection } from "astro:content";
 import AboutCard from "../components/AboutCard.astro";
 import AllTags from "../components/AllTags.astro";
 import Link from "../components/Link.astro";
@@ -8,12 +7,6 @@ import RecentThoughts from "../components/RecentThoughts.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 
 const pageTitle = "Bhekani Khumalo";
-
-const allThoughts = await getCollection("thoughts");
-
-const tags = [
-  ...new Set(allThoughts.map((thought) => thought.data.tags).flat()),
-];
 ---
 
 <BaseLayout pageTitle={pageTitle}>
