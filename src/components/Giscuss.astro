@@ -4,6 +4,12 @@
   const script = document.createElement("script");
   const container = document.querySelector("#giscuss-container");
 
+  let theme = "dark";
+
+  if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
+    theme = localStorage.getItem("theme") ?? "dark";
+  }
+
   Object.entries({
     src: "https://giscus.app/client.js",
     "data-repo": "bhekanik/bhekani.com",
@@ -15,7 +21,7 @@
     "data-reactions-enabled": "1",
     "data-emit-metadata": "1",
     "data-input-position": "top",
-    "data-theme": "dark",
+    "data-theme": theme,
     "data-lang": "en",
     "data-loading": "lazy",
     crossorigin: "anonymous",

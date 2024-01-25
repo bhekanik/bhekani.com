@@ -66,6 +66,36 @@
 
       const isDark = element.classList.contains("dark");
       localStorage.setItem("theme", isDark ? "dark" : "light");
+
+      const container = document.querySelector("#giscuss-container");
+      if (container) {
+        const script = document.createElement("script");
+
+        Object.entries({
+          src: "https://giscus.app/client.js",
+          "data-repo": "bhekanik/bhekani.com",
+          "data-repo-id": "R_kgDOLA66VA",
+          "data-category": "Announcements",
+          "data-category-id": "DIC_kwDOLA66VM4CcV11",
+          "data-mapping": "title",
+          "data-strict": "0",
+          "data-reactions-enabled": "1",
+          "data-emit-metadata": "1",
+          "data-input-position": "top",
+          "data-theme": window.localStorage.getItem("theme"),
+          "data-lang": "en",
+          "data-loading": "lazy",
+          crossorigin: "anonymous",
+        }).forEach(([key, value]) => {
+          if (value) script.setAttribute(key, value);
+        });
+        script.setAttribute("async", "true");
+
+        container?.appendChild(script);
+
+        const content = container.innerHTML;
+        container.innerHTML = content;
+      }
     };
 
     document
