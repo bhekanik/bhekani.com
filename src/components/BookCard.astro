@@ -1,6 +1,8 @@
 ---
 import type { CollectionEntry } from "astro:content";
+import Case from "case";
 import { format } from "date-fns";
+import BookRating from "./BookRating.astro";
 import TagsList from "./TagsList.astro";
 
 type Props = {
@@ -10,16 +12,21 @@ type Props = {
 const {
   book: {
     slug,
-    data: { tags, title, dateAdded: date },
+    data: { ISBN, tags, title, dateAdded: date, myRating, author },
   },
 } = Astro.props;
 ---
 
 <div transition:name={`card-${slug}`} class="card grid gap-2 items-center">
   <div class="content p-4">
-    <a href={`/thoughts/${slug}/`} class="h-fit">
+    <a href={`/books/${slug}/`} class="h-fit">
       <h1 transition:name={`title-${slug}`} class="text-xl mb-2">{title}</h1>
     </a>
+
+    <p class="">Author: {Case.upper(author)}</p>
+
+    <BookRating rating={myRating} />
+
     <time
       transition:name={`date-${slug}`}
       class="text-sm text-[hsl(var(--muted-foreground))]"

@@ -1,8 +1,10 @@
 ---
+import { Image } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
 import Case from "case";
 import { format } from "date-fns";
 import Link from "../components/Link.astro";
+import BookRating from "./BookRating.astro";
 import TagsList from "./TagsList.astro";
 
 type Props = {
@@ -12,6 +14,26 @@ type Props = {
 const {
   book: { data: frontmatter, slug },
 } = Astro.props;
+
+const url = encodeURI(
+  `https://openlibrary.org/api/books?bibkeys=ISBN:${frontmatter.ISBN}&callback=mycallback`
+);
+
+const res = await fetch(url);
+
+if (!res.ok) {
+  throw new Error("Failed to fetch book metadata");
+}
+
+const bookMetaText = await res.text();
+const bookMeta = JSON.parse(
+  bookMetaText.replace("mycallback(", "").slice(0, -2).replace(" ", "").trim()
+);
+
+const previewUrl = bookMeta[`ISBN:${frontmatter.ISBN}`]?.preview_url ?? "";
+const thumbnailUrl =
+  bookMeta[`ISBN:${frontmatter.ISBN}`]?.thumbnail_url?.replace("-S", "-L") ??
+  "";
 ---
 
 <div transition:name={`card-${slug}`}>
@@ -25,16 +47,36 @@ const {
     </Link>
   </p>
 
-  <TagsList tags={frontmatter.tags} />
+  <div class="flex gap-4">
+    {
+      thumbnailUrl && (
+        <div class="mb-8 w-[180px] h-[265.48px] overflow-hidden">
+          <Image
+            transition:name={`image-${slug}`}
+            class="w-full object-cover h-full"
+            src={thumbnailUrl}
+            width="180"
+            height="265.48"
+            alt={`Cover of {frontmatter.title}`}
+          />
+        </div>
+      )
+    }
 
-  <div class="mt-4 mb-8">
-    <p class="text-xs">{Case.upper(frontmatter.author)}</p>
-    <time
-      transition:name={`date-${slug}`}
-      class="text-sm text-[hsl(var(--muted-foreground))]"
-      datetime={new Date(frontmatter.dateAdded).toDateString()}
-    >
-      {format(new Date(frontmatter.dateAdded), "MMMM dd, yyyy")}
-    </time>
+    <div class="">
+      <TagsList tags={frontmatter.tags} />
+      <p class="m-0">Author: {Case.upper(frontmatter.author)}</p>
+      <p class="m-0">ISBN: {frontmatter.ISBN}</p>
+      <Link href={previewUrl} target="_blank">View in OpenLibrary</Link>
+
+      <time
+        transition:name={`date-${slug}`}
+        class="text-sm mb-2 mt-2 block text-[hsl(var(--muted-foreground))]"
+        datetime={new Date(frontmatter.dateAdded).toDateString()}
+      >
+        Read Date: {format(new Date(frontmatter.dateAdded), "MMMM dd, yyyy")}
+      </time>
+      <BookRating rating={frontmatter.myRating} />
+    </div>
   </div>
 </div>

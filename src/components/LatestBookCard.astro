@@ -1,6 +1,9 @@
 ---
+import { Image } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
+import Case from "case";
 import { format } from "date-fns";
+import BookRating from "./BookRating.astro";
 import TagsList from "./TagsList.astro";
 
 type Props = {
@@ -9,10 +12,29 @@ type Props = {
 
 const {
   book: {
-    data: { tags, title, dateAdded: date },
+    data: { ISBN, tags, title, dateAdded: date, myRating, author },
     slug,
   },
 } = Astro.props;
+
+const url = encodeURI(
+  `https://openlibrary.org/api/books?bibkeys=ISBN:${ISBN}&callback=mycallback`
+);
+
+const res = await fetch(url);
+
+if (!res.ok) {
+  throw new Error("Failed to fetch book metadata");
+}
+
+const bookMetaText = await res.text();
+const bookMeta = JSON.parse(
+  bookMetaText.replace("mycallback(", "").slice(0, -2).replace(" ", "").trim()
+);
+
+const previewUrl = bookMeta[`ISBN:${ISBN}`]?.preview_url ?? "";
+const thumbnailUrl =
+  bookMeta[`ISBN:${ISBN}`]?.thumbnail_url?.replace("-S", "-L") ?? "";
 ---
 
 <div class="card mb-8 items-center">
@@ -23,7 +45,12 @@ const {
       </h1>
     </a>
 
+    <p class="">Author: {Case.upper(author)}</p>
+
+    <BookRating rating={myRating} />
+
     <TagsList tags={tags} />
+
     <p
       transition:name={`date-${slug}`}
       class="text-sm text-[hsl(var(--muted-foreground))]"
@@ -31,6 +58,21 @@ const {
       {format(new Date(date), "MMMM dd, yyyy")}
     </p>
   </div>
+
+  {
+    thumbnailUrl && (
+      <div class="image h-full overflow-hidden">
+        <Image
+          transition:name={`image-${slug}`}
+          class="object-cover h-full"
+          src={thumbnailUrl}
+          width="180"
+          height="265.48"
+          alt={`Cover of ${title}`}
+        />
+      </div>
+    )
+  }
 </div>
 
 <style>
