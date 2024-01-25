@@ -1,6 +1,6 @@
 import { z, type SchemaContext } from "astro:content";
 
-export const thoughtsSchema = ({ image }: SchemaContext) =>
+export const thoughtSchema = ({ image }: SchemaContext) =>
   z.object({
     title: z.string(),
     pubDate: z.date(),

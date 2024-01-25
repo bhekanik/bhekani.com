@@ -1,6 +1,6 @@
 import { z, type SchemaContext } from "astro:content";
 
-export const projectsSchema = ({ image }: SchemaContext) =>
+export const projectSchema = ({ image }: SchemaContext) =>
   z.object({
     title: z.string(),
     description: z.string().optional(),

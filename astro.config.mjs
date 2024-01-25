@@ -19,7 +19,7 @@ export default defineConfig({
     mdx(),
     sentry({
       dsn: "https://c8fc23d45a17004cddf52ecfee998bf2@o1115887.ingest.sentry.io/4506532148936704",
-      enabled: process.env.NODE_ENV === "production",
+      enabled: isProduction,
       environment: isProduction ? "production" : "development",
       sourceMapsUploadOptions: {
         project: "website",
