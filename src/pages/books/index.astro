@@ -18,7 +18,7 @@ const pageTitle = "Books";
   <MainContainer>
     <AllBookTags title="Filter by tag" />
     <!-- {firstBook && <LatestBookCard book={firstBook} />} -->
-    <div class="grid gap-4">
+    <div class="mt-8 grid gap-4">
       {sortedBooks.map((book) => <BookCard book={book} />)}
     </div>
   </MainContainer>

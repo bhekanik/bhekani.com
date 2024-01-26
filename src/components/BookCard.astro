@@ -17,25 +17,21 @@ const {
 } = Astro.props;
 ---
 
-<div transition:name={`card-${slug}`} class="card grid gap-2 items-center">
+<div class="card">
   <div class="content p-4">
     <div class="title">
       <a href={`/books/${slug}/`} class="h-fit">
-        <h1 transition:name={`title-${slug}`} class="text-xl">{title}</h1>
+        <h1 class="text-xl">{title}</h1>
       </a>
 
       <p class="">by: {Case.upper(author)}</p>
       <TagsList tags={tags} />
     </div>
 
-    <div class="rating text-right">
+    <div class="rating">
       <BookRating rating={myRating} />
 
-      <time
-        transition:name={`date-${slug}`}
-        class="text-lg"
-        datetime={new Date(date).toISOString()}
-      >
+      <time class="text-lg" datetime={new Date(date).toISOString()}>
         Added: {format(new Date(date), "MMMM dd, yyyy")}
       </time>
     </div>
@@ -44,24 +40,12 @@ const {
 
 <style>
   .card {
-    display: grid;
-    grid-template: "content image" / 3fr 1fr;
     color: hsl(var(--card-foreground));
     background-color: hsl(var(--card));
   }
 
   .card:hover {
     background-color: hsl(var(--muted));
-  }
-
-  .content {
-    grid-area: content;
-    display: grid;
-    grid-template:
-      "title" auto-fit
-      "description" 1fr
-      "date" auto-fit
-      "tags" auto-fit;
   }
 
   @media screen and (min-width: 768px) {
@@ -76,11 +60,8 @@ const {
     .title {
       flex: 1;
     }
-  }
-  a {
-    color: hsl(var(--card-foreground));
-  }
-  a:hover {
-    background-color: transparent;
+    .rating {
+      text-align: left;
+    }
   }
 </style>

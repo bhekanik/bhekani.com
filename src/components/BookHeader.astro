@@ -19,10 +19,9 @@ const {
 } = Astro.props;
 ---
 
-<div transition:name={`card-${slug}`}>
+<div>
   <p class="my-4">
     <Link
-      transition:name={`back-${slug}`}
       class="text-sm hover:text-[hsl(var(--muted-foreground))]"
       href="/books/"
     >
@@ -35,7 +34,6 @@ const {
       class="cover mb-8 w-[180px] h-[265.48px] overflow-hidden bg-[hsl(var(--muted))]"
     >
       <Image
-        transition:name={`image-${slug}`}
         class="w-full object-cover h-full"
         src={`https://covers.openlibrary.org/b/isbn/${ISBN}-M.jpg`}
         width="180"
@@ -50,7 +48,6 @@ const {
       <p class="m-0">ISBN: {ISBN}</p>
 
       <time
-        transition:name={`date-${slug}`}
         class="text-lg mb-2 mt-2 block"
         datetime={new Date(dateAdded).toDateString()}
       >

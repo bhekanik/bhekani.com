@@ -17,23 +17,25 @@ const { selectedTag, title } = Astro.props;
 const { tag } = Astro.params;
 ---
 
-<div class="my-8">
-  <div class="flex items-center gap-2">
-    <h2 class="text-2xl mb-4 mt-2">{title ?? "View posts by tag"}</h2>
+{
+  tags.length > 0 && (
+    <div class="my-8">
+      <div class="flex items-center gap-2">
+        <h2 class="text-2xl mb-4 mt-2">{title ?? "View posts by tag"}</h2>
 
-    {
-      tag && (
-        <p class="my-4">
-          <Link
-            class="text-sm hover:text-[hsl(var(--muted-foreground))]"
-            href="/thoughts/"
-          >
-            All tags
-          </Link>
-        </p>
-      )
-    }
-  </div>
+        {tag && (
+          <p class="my-4">
+            <Link
+              class="text-sm hover:text-[hsl(var(--muted-foreground))]"
+              href="/thoughts/"
+            >
+              All tags
+            </Link>
+          </p>
+        )}
+      </div>
 
-  <TagsList tags={tags} selectedTag={selectedTag} />
-</div>
+      <TagsList tags={tags} selectedTag={selectedTag} />
+    </div>
+  )
+}
