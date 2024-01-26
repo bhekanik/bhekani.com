@@ -1,7 +1,6 @@
 ---
 import { Image } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
-import Case from "case";
 import { format } from "date-fns";
 import Link from "../components/Link.astro";
 import BookRating from "./BookRating.astro";
@@ -21,10 +20,7 @@ const {
 
 <div>
   <p class="my-4">
-    <Link
-      class="text-sm hover:text-[hsl(var(--muted-foreground))]"
-      href="/books/"
-    >
+    <Link class="hover:text-[hsl(var(--muted-foreground))]" href="/books/">
       ← All books
     </Link>
   </p>
@@ -44,14 +40,14 @@ const {
 
     <div class="">
       <TagsList tags={tags} />
-      <p class="m-0">Author: {Case.upper(author)}</p>
-      <p class="m-0">ISBN: {ISBN}</p>
+      <p class="m-0">Author: <strong>{author}</strong></p>
+      <p class="m-0">ISBN: <strong>{ISBN}</strong></p>
 
       <time
         class="text-lg mb-2 mt-2 block"
         datetime={new Date(dateAdded).toDateString()}
       >
-        Added: {format(new Date(dateAdded), "MMMM dd, yyyy")}
+        Added: <strong>{format(new Date(dateAdded), "MMMM dd, yyyy")}</strong>
       </time>
       <BookRating rating={myRating} />
 

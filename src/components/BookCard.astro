@@ -1,6 +1,5 @@
 ---
 import type { CollectionEntry } from "astro:content";
-import Case from "case";
 import { format } from "date-fns";
 import BookRating from "./BookRating.astro";
 import TagsList from "./TagsList.astro";
@@ -24,7 +23,7 @@ const {
         <h1 class="text-xl">{title}</h1>
       </a>
 
-      <p class="">by: {Case.upper(author)}</p>
+      <p class="mb-0 italic">by: {author}</p>
       <TagsList tags={tags} />
     </div>
 
@@ -49,11 +48,9 @@ const {
   }
 
   @media screen and (min-width: 768px) {
-    .card {
-      display: block;
-    }
     .content {
       display: flex;
+      gap: 1rem;
       justify-content: space-between;
       width: 100%;
     }
