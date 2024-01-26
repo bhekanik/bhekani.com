@@ -16,25 +16,6 @@ const {
     slug,
   },
 } = Astro.props;
-
-const url = encodeURI(
-  `https://openlibrary.org/api/books?bibkeys=ISBN:${ISBN}&callback=mycallback`
-);
-
-const res = await fetch(url);
-
-if (!res.ok) {
-  throw new Error("Failed to fetch book metadata");
-}
-
-const bookMetaText = await res.text();
-const bookMeta = JSON.parse(
-  bookMetaText.replace("mycallback(", "").slice(0, -2).replace(" ", "").trim()
-);
-
-const previewUrl = bookMeta[`ISBN:${ISBN}`]?.preview_url ?? "";
-const thumbnailUrl =
-  bookMeta[`ISBN:${ISBN}`]?.thumbnail_url?.replace("-S", "-L") ?? "";
 ---
 
 <div class="card mb-8 items-center">
@@ -59,40 +40,37 @@ const thumbnailUrl =
     </p>
   </div>
 
-  {
-    thumbnailUrl && (
-      <div class="image h-full overflow-hidden">
-        <Image
-          transition:name={`image-${slug}`}
-          class="object-cover h-full"
-          src={thumbnailUrl}
-          width="180"
-          height="265.48"
-          alt={`Cover of ${title}`}
-        />
-      </div>
-    )
-  }
+  <div class="cover image h-full overflow-hidden">
+    <Image
+      transition:name={`image-${slug}`}
+      class="object-cover h-full"
+      src={`https://covers.openlibrary.org/b/isbn/${ISBN}-M.jpg`}
+      width="180"
+      height="265.48"
+      alt={`Cover of ${title}`}
+    />
+  </div>
 </div>
 
 <style>
   .card {
     display: grid;
-    grid-template: "content image" / 3fr 1fr;
+    /* grid-template: "content image" / 3fr 1fr; */
     color: hsl(var(--card-foreground));
     background-color: hsl(var(--muted));
+    height: 265.48px;
   }
 
-  .card:has(.image) {
+  /* .card:has(.image) {
     grid-template:
       "image" 1fr
       "content" 4fr;
-  }
+  } */
   .card:has(.image) {
-    grid-template: "image content" / 1fr 1fr;
+    grid-template: "image content" / 180px 1fr;
   }
   .card:not(:has(.image)) {
-    grid-template: "content" / 1fr;
+    grid-template: "content";
   }
   .content {
     grid-area: content;
@@ -106,7 +84,7 @@ const thumbnailUrl =
   }
   @media screen and (min-width: 768px) {
     .card:has(.image) {
-      grid-template: "image content" / 1fr 1fr;
+      grid-template: "image content" / 180px 1fr;
     }
   }
   .image {
@@ -117,5 +95,18 @@ const thumbnailUrl =
   }
   a:hover {
     background-color: transparent;
+  }
+
+  .cover {
+    position: relative;
+  }
+  .cover::before {
+    content: "No Cover";
+    /* display: block; */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    color: hsl(var(--muted-foreground));
   }
 </style>

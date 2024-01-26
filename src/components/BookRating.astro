@@ -8,7 +8,7 @@ type Props = {
 const { rating } = Astro.props;
 ---
 
-<p class="text-lg">
+<p class="text-lg m-0">
   Rating: {
     Array.from({ length: rating ?? 0 }).map((_, i) => (
       <span>

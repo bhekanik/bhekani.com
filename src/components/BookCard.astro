@@ -12,29 +12,33 @@ type Props = {
 const {
   book: {
     slug,
-    data: { ISBN, tags, title, dateAdded: date, myRating, author },
+    data: { tags, title, dateAdded: date, myRating, author },
   },
 } = Astro.props;
 ---
 
 <div transition:name={`card-${slug}`} class="card grid gap-2 items-center">
   <div class="content p-4">
-    <a href={`/books/${slug}/`} class="h-fit">
-      <h1 transition:name={`title-${slug}`} class="text-xl mb-2">{title}</h1>
-    </a>
+    <div class="title">
+      <a href={`/books/${slug}/`} class="h-fit">
+        <h1 transition:name={`title-${slug}`} class="text-xl">{title}</h1>
+      </a>
 
-    <p class="">Author: {Case.upper(author)}</p>
+      <p class="">by: {Case.upper(author)}</p>
+      <TagsList tags={tags} />
+    </div>
 
-    <BookRating rating={myRating} />
+    <div class="rating text-right">
+      <BookRating rating={myRating} />
 
-    <time
-      transition:name={`date-${slug}`}
-      class="text-sm text-[hsl(var(--muted-foreground))]"
-      datetime={new Date(date).toISOString()}
-    >
-      {format(new Date(date), "MMMM dd, yyyy")}
-    </time>
-    <TagsList tags={tags} />
+      <time
+        transition:name={`date-${slug}`}
+        class="text-lg"
+        datetime={new Date(date).toISOString()}
+      >
+        Added: {format(new Date(date), "MMMM dd, yyyy")}
+      </time>
+    </div>
   </div>
 </div>
 
@@ -59,8 +63,19 @@ const {
       "date" auto-fit
       "tags" auto-fit;
   }
-  .image {
-    grid-area: image;
+
+  @media screen and (min-width: 768px) {
+    .card {
+      display: block;
+    }
+    .content {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+    }
+    .title {
+      flex: 1;
+    }
   }
   a {
     color: hsl(var(--card-foreground));

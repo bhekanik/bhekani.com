@@ -2,7 +2,6 @@
 import { getCollection } from "astro:content";
 import AllBookTags from "../../components/AllBookTags.astro";
 import BookCard from "../../components/BookCard.astro";
-import LatestBookCard from "../../components/LatestBookCard.astro";
 import MainContainer from "../../components/MainContainer.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
@@ -11,14 +10,14 @@ const sortedBooks = allBooks.sort(
   (a, b) =>
     new Date(b.data.dateAdded).valueOf() - new Date(a.data.dateAdded).valueOf()
 );
-const firstBook = sortedBooks.shift();
+// const firstBook = sortedBooks.shift();
 const pageTitle = "Books";
 ---
 
 <BaseLayout pageTitle={pageTitle}>
   <MainContainer>
     <AllBookTags title="Filter by tag" />
-    {firstBook && <LatestBookCard book={firstBook} />}
+    <!-- {firstBook && <LatestBookCard book={firstBook} />} -->
     <div class="grid gap-4">
       {sortedBooks.map((book) => <BookCard book={book} />)}
     </div>

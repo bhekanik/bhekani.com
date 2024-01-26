@@ -12,28 +12,11 @@ type Props = {
 };
 
 const {
-  book: { data: frontmatter, slug },
+  book: {
+    data: { ISBN, tags, dateAdded, myRating, author },
+    slug,
+  },
 } = Astro.props;
-
-const url = encodeURI(
-  `https://openlibrary.org/api/books?bibkeys=ISBN:${frontmatter.ISBN}&callback=mycallback`
-);
-
-const res = await fetch(url);
-
-if (!res.ok) {
-  throw new Error("Failed to fetch book metadata");
-}
-
-const bookMetaText = await res.text();
-const bookMeta = JSON.parse(
-  bookMetaText.replace("mycallback(", "").slice(0, -2).replace(" ", "").trim()
-);
-
-const previewUrl = bookMeta[`ISBN:${frontmatter.ISBN}`]?.preview_url ?? "";
-const thumbnailUrl =
-  bookMeta[`ISBN:${frontmatter.ISBN}`]?.thumbnail_url?.replace("-S", "-L") ??
-  "";
 ---
 
 <div transition:name={`card-${slug}`}>
@@ -48,35 +31,52 @@ const thumbnailUrl =
   </p>
 
   <div class="flex gap-4">
-    {
-      thumbnailUrl && (
-        <div class="mb-8 w-[180px] h-[265.48px] overflow-hidden">
-          <Image
-            transition:name={`image-${slug}`}
-            class="w-full object-cover h-full"
-            src={thumbnailUrl}
-            width="180"
-            height="265.48"
-            alt={`Cover of {frontmatter.title}`}
-          />
-        </div>
-      )
-    }
+    <div
+      class="cover mb-8 w-[180px] h-[265.48px] overflow-hidden bg-[hsl(var(--muted))]"
+    >
+      <Image
+        transition:name={`image-${slug}`}
+        class="w-full object-cover h-full"
+        src={`https://covers.openlibrary.org/b/isbn/${ISBN}-M.jpg`}
+        width="180"
+        height="265.48"
+        alt={`Cover of {frontmatter.title}`}
+      />
+    </div>
 
     <div class="">
-      <TagsList tags={frontmatter.tags} />
-      <p class="m-0">Author: {Case.upper(frontmatter.author)}</p>
-      <p class="m-0">ISBN: {frontmatter.ISBN}</p>
-      <Link href={previewUrl} target="_blank">View in OpenLibrary</Link>
+      <TagsList tags={tags} />
+      <p class="m-0">Author: {Case.upper(author)}</p>
+      <p class="m-0">ISBN: {ISBN}</p>
 
       <time
         transition:name={`date-${slug}`}
-        class="text-sm mb-2 mt-2 block text-[hsl(var(--muted-foreground))]"
-        datetime={new Date(frontmatter.dateAdded).toDateString()}
+        class="text-lg mb-2 mt-2 block"
+        datetime={new Date(dateAdded).toDateString()}
       >
-        Read Date: {format(new Date(frontmatter.dateAdded), "MMMM dd, yyyy")}
+        Added: {format(new Date(dateAdded), "MMMM dd, yyyy")}
       </time>
-      <BookRating rating={frontmatter.myRating} />
+      <BookRating rating={myRating} />
+
+      <br />
+      <Link href={`https://openlibrary.org/isbn/${ISBN}`} target="_blank">
+        View in OpenLibrary
+      </Link>
     </div>
   </div>
 </div>
+
+<style>
+  .cover {
+    position: relative;
+  }
+  .cover::before {
+    content: "No Cover";
+    /* display: block; */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    color: hsl(var(--muted-foreground));
+  }
+</style>
