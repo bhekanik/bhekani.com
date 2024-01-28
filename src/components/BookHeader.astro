@@ -30,8 +30,12 @@ const {
       class="cover mb-8 w-[180px] h-[265.48px] overflow-hidden bg-[hsl(var(--muted))]"
     >
       <Image
-        class="w-full object-cover h-full"
+        class="w-full object-cover h-full z-10"
         src={`https://covers.openlibrary.org/b/isbn/${ISBN}-M.jpg`}
+        srcset={`
+          https://covers.openlibrary.org/b/isbn/${ISBN}-S.jpg 180w,
+          https://covers.openlibrary.org/b/isbn/${ISBN}-M.jpg 360w,
+        `}
         width="180"
         height="265.48"
         alt={`Cover of {frontmatter.title}`}
@@ -62,14 +66,6 @@ const {
 <style>
   .cover {
     position: relative;
-  }
-  .cover::before {
-    content: "No Cover";
-    /* display: block; */
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translateX(-50%) translateY(-50%);
-    color: hsl(var(--muted-foreground));
+    background-image: url("https://source.unsplash.com/random/?landscape");
   }
 </style>
