@@ -1,5 +1,6 @@
 import { defineCollection } from "astro:content";
 import { bookSchema } from "./_schemas/book";
+import { microSchema } from "./_schemas/micro";
 import { projectSchema } from "./_schemas/projects";
 import { thoughtSchema } from "./_schemas/thoughts";
 import { webmentionSchema } from "./_schemas/webmentions";
@@ -7,6 +8,11 @@ import { webmentionSchema } from "./_schemas/webmentions";
 const thoughts = defineCollection({
   type: "content",
   schema: thoughtSchema,
+});
+
+const micro = defineCollection({
+  type: "content",
+  schema: microSchema,
 });
 
 const projects = defineCollection({
@@ -29,4 +35,5 @@ export const collections = {
   projects,
   webmentions,
   books,
+  micro,
 };

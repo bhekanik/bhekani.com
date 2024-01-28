@@ -9,4 +9,14 @@ export const thoughtSchema = ({ image }: SchemaContext) =>
     author: z.string(),
     image: image().optional(),
     tags: z.array(z.string()),
+    // tags: z.enum([
+    //   "advice",
+    //   "events",
+    //   "technical",
+    //   "learning",
+    //   "musings",
+    //   "personal",
+    //   "work",
+    //   "meta",
+    // ]),
   });

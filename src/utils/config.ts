@@ -12,11 +12,15 @@ export const navItems = [
     href: "/thoughts",
   },
   {
-    title: "Books",
-    href: "/books",
+    title: "Reading",
+    href: "/reading",
   },
   {
     title: "Projects",
     href: "/projects",
+  },
+  {
+    title: "Micro",
+    href: "/micro",
   },
 ];

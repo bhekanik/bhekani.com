@@ -1,0 +1,20 @@
+---
+import { getCollection } from "astro:content";
+import MainContainer from "../../components/MainContainer.astro";
+import Micro from "../../components/Micro.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const allMicro = await getCollection("micro");
+const sortedMicro = allMicro.sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+const pageTitle = "Micro Notes";
+---
+
+<BaseLayout pageTitle={pageTitle}>
+  <MainContainer>
+    <div class="grid gap-4 mt-8">
+      {sortedMicro.map((micro) => <Micro micro={micro} />)}
+    </div>
+  </MainContainer>
+</BaseLayout>
