@@ -13,7 +13,7 @@ export const navItems = [
   },
   {
     title: "Reading",
-    href: "/reading",
+    href: "/books",
   },
   {
     title: "Projects",
