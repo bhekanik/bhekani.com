@@ -10,7 +10,7 @@ const { rating } = Astro.props;
 
 <p class="text-lg m-0">
   Rating: {
-    Array.from({ length: rating ?? 0 }).map((_, i) => (
+    Array.from({ length: rating ?? 0 }).map(() => (
       <span>
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -29,7 +29,7 @@ const { rating } = Astro.props;
       </span>
     ))
   }{
-    Array.from({ length: 5 - (rating ?? 0) }).map((_, i) => (
+    Array.from({ length: 5 - (rating ?? 0) }).map(() => (
       <span class="opacity-50">
         <svg
           xmlns="http://www.w3.org/2000/svg"
