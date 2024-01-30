@@ -21,8 +21,8 @@ dependencies:
     specifier: ^5.1.0
     version: 5.1.0(astro@4.2.7)(tailwindcss@3.4.1)
   '@astrojs/vercel':
-    specifier: ^6.1.2
-    version: 6.1.3(astro@4.2.7)
+    specifier: ^7.0.2
+    version: 7.0.2(astro@4.2.7)
   '@astrolib/seo':
     specifier: 1.0.0-beta.5
     version: 1.0.0-beta.5(astro@4.2.7)
@@ -329,10 +329,10 @@ packages:
       - supports-color
     dev: false
 
-  /@astrojs/vercel@6.1.3(astro@4.2.7):
-    resolution: {integrity: sha512-UKv7sHm0AakyYkG4yRuppawX/oOonc4SbqCbksunaYQct2mRbbsqUc/AZQEy7CAYYPfGJT2X9B0e8EzBMlNVlA==}
+  /@astrojs/vercel@7.0.2(astro@4.2.7):
+    resolution: {integrity: sha512-XlUNqstoGVDDk5txGF2JadSt+jK79peMeFHlH6D5u9d9yeql1Kyw2o9nPvu9nr1PMdnDrBkF82DQE06iIzXZ1Q==}
     peerDependencies:
-      astro: ^4.0.2
+      astro: ^4.2.0
     dependencies:
       '@astrojs/internal-helpers': 0.2.1
       '@vercel/analytics': 1.1.1
