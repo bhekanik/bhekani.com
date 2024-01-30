@@ -1,0 +1,71 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Jobs
+
+on:
+  push:
+    branches: [main, dev, qa]
+  pull_request:
+    branches: [main, dev, qa]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Lint, Test & Build
+    steps:
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: latest
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "pnpm"
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "pnpm_cache_dir=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install deps (with cache)
+        run: pnpm install --prod
+
+      - name: build
+        run: pnpm build
+
+  auto-merge-dependabot:
+    name: Auto merge dependabot PR
+    timeout-minutes: 10
+    needs: [build]
+    runs-on: ubuntu-latest
+    if: ${{ github.actor == 'dependabot[bot]' }}
+    permissions:
+      pull-requests: write
+      contents: write
+    steps:
+      - name: Dependabot metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@v1
+        with:
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+      - name: Merge PR from dependabot
+        uses: fastify/github-action-merge-dependabot@v3.9.1
+        with:
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+          target: minor
+          merge-method: rebase
