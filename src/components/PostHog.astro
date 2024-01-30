@@ -1,7 +1,3 @@
----
-// src/components/posthog.astro
----
-
 <script async>
   !(function (t, e) {
     var o, n, p, r;
@@ -52,4 +48,7 @@
   posthog.init("phc_d7oRaSuwk3z7T1lItVIfITPoshbmNsf2z2oyE51XOmM", {
     api_host: "https://app.posthog.com",
   });
+  if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
+    posthog.opt_out_capturing()
+  }
 </script>
