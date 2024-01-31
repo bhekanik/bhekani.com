@@ -10,7 +10,7 @@ dependencies:
     version: 0.4.1(typescript@5.3.3)
   '@astrojs/mdx':
     specifier: ^2.1.1
-    version: 2.1.1(astro@4.2.7)
+    version: 2.1.1(astro@4.2.8)
   '@astrojs/rss':
     specifier: ^4.0.4
     version: 4.0.4
@@ -19,13 +19,13 @@ dependencies:
     version: 3.0.5
   '@astrojs/tailwind':
     specifier: ^5.1.0
-    version: 5.1.0(astro@4.2.7)(tailwindcss@3.4.1)
+    version: 5.1.0(astro@4.2.8)(tailwindcss@3.4.1)
   '@astrojs/vercel':
     specifier: ^7.0.2
-    version: 7.0.2(astro@4.2.7)
+    version: 7.0.2(astro@4.2.8)
   '@astrolib/seo':
     specifier: 1.0.0-beta.5
-    version: 1.0.0-beta.5(astro@4.2.7)
+    version: 1.0.0-beta.5(astro@4.2.8)
   '@fontsource-variable/jetbrains-mono':
     specifier: ^5.0.19
     version: 5.0.19
@@ -40,16 +40,16 @@ dependencies:
     version: 5.0.8
   '@sentry/astro':
     specifier: ^7.99.0
-    version: 7.99.0(astro@4.2.7)
+    version: 7.99.0(astro@4.2.8)
   astro:
-    specifier: ^4.2.7
-    version: 4.2.7(typescript@5.3.3)
+    specifier: ^4.2.8
+    version: 4.2.8(typescript@5.3.3)
   astro-embed:
     specifier: ^0.6.1
-    version: 0.6.1(astro@4.2.7)
+    version: 0.6.1(astro@4.2.8)
   astro-og-canvas:
     specifier: ^0.4.2
-    version: 0.4.2(astro@4.2.7)
+    version: 0.4.2(astro@4.2.8)
   astro-robots-txt:
     specifier: ^1.0.0
     version: 1.0.0
@@ -103,47 +103,47 @@ packages:
       '@jridgewell/trace-mapping': 0.3.20
     dev: false
 
-  /@astro-community/astro-embed-integration@0.6.1(astro@4.2.7):
+  /@astro-community/astro-embed-integration@0.6.1(astro@4.2.8):
     resolution: {integrity: sha512-+dujQeYa6fAdF2Obiep0HZrmkGNd2JcKmZAv9C9gZHqnPr3pGnxm0YZPC30jyCZsmpIMMyMsfgTOuP4Cwpj4QQ==}
     peerDependencies:
       astro: ^2.0.0 || ^3.0.0-beta || ^4.0.0-beta
     dependencies:
-      '@astro-community/astro-embed-twitter': 0.5.3(astro@4.2.7)
-      '@astro-community/astro-embed-vimeo': 0.3.2(astro@4.2.7)
-      '@astro-community/astro-embed-youtube': 0.4.3(astro@4.2.7)
+      '@astro-community/astro-embed-twitter': 0.5.3(astro@4.2.8)
+      '@astro-community/astro-embed-vimeo': 0.3.2(astro@4.2.8)
+      '@astro-community/astro-embed-youtube': 0.4.3(astro@4.2.8)
       '@types/unist': 2.0.10
-      astro: 4.2.7(typescript@5.3.3)
-      astro-auto-import: 0.3.2(astro@4.2.7)
+      astro: 4.2.8(typescript@5.3.3)
+      astro-auto-import: 0.3.2(astro@4.2.8)
       unist-util-select: 4.0.3
     dev: false
 
-  /@astro-community/astro-embed-twitter@0.5.3(astro@4.2.7):
+  /@astro-community/astro-embed-twitter@0.5.3(astro@4.2.8):
     resolution: {integrity: sha512-oxu+KOmNXu3k2RjVVoEJxi5ZaLeEIKS0+clMnNUVFD8PI8Yzsil8faO4/mmRyLHKKZNG38XFyBbAgZsoyOa6wg==}
     peerDependencies:
       astro: ^2.0.0 || ^3.0.0-beta || ^4.0.0-beta
     dependencies:
       '@astro-community/astro-embed-utils': 0.1.0
-      astro: 4.2.7(typescript@5.3.3)
+      astro: 4.2.8(typescript@5.3.3)
     dev: false
 
   /@astro-community/astro-embed-utils@0.1.0:
     resolution: {integrity: sha512-whbRs9JpUApKwdzfkakBPVQT73LFxgj/RrfUu0IXTDf5SqxniZaXG4WcdG5MKj0nQyc82O21f1RnY3ddOo/yng==}
     dev: false
 
-  /@astro-community/astro-embed-vimeo@0.3.2(astro@4.2.7):
+  /@astro-community/astro-embed-vimeo@0.3.2(astro@4.2.8):
     resolution: {integrity: sha512-6Uitc8CBQaJqhI56RPNcIAegNeKGTPKqPQEjyCIAvKX+qhS+DdGh9DTvrBybrlkSSH74tprURwO3VHp8zjjiwA==}
     peerDependencies:
       astro: ^2.0.0 || ^3.0.0-beta || ^4.0.0-beta
     dependencies:
-      astro: 4.2.7(typescript@5.3.3)
+      astro: 4.2.8(typescript@5.3.3)
     dev: false
 
-  /@astro-community/astro-embed-youtube@0.4.3(astro@4.2.7):
+  /@astro-community/astro-embed-youtube@0.4.3(astro@4.2.8):
     resolution: {integrity: sha512-zXtPmR9yxrTo6cuLhH8v+r62bsXbsLJgsU2FiZalPr4bXJxAUQEIlG46S/qK0AEXi9uNShKqy4+zBaJ98xTVEg==}
     peerDependencies:
       astro: ^2.0.0 || ^3.0.0-beta || ^4.0.0-beta
     dependencies:
-      astro: 4.2.7(typescript@5.3.3)
+      astro: 4.2.8(typescript@5.3.3)
       lite-youtube-embed: 0.2.0
     dev: false
 
@@ -227,7 +227,7 @@ packages:
       - supports-color
     dev: false
 
-  /@astrojs/mdx@2.1.1(astro@4.2.7):
+  /@astrojs/mdx@2.1.1(astro@4.2.8):
     resolution: {integrity: sha512-AgGFdE7HOGmoFooGvMSatkA9FiSKwyVW7ImHot/bXJ6uAbFfu6iG2ht18Cf1pT22Hda/6iSCGWusFvBv0/EnKQ==}
     engines: {node: '>=18.14.1'}
     peerDependencies:
@@ -236,7 +236,7 @@ packages:
       '@astrojs/markdown-remark': 4.2.1
       '@mdx-js/mdx': 3.0.0
       acorn: 8.11.3
-      astro: 4.2.7(typescript@5.3.3)
+      astro: 4.2.8(typescript@5.3.3)
       es-module-lexer: 1.4.1
       estree-util-visit: 2.0.0
       github-slugger: 2.0.0
@@ -274,13 +274,13 @@ packages:
       zod: 3.22.4
     dev: false
 
-  /@astrojs/tailwind@5.1.0(astro@4.2.7)(tailwindcss@3.4.1):
+  /@astrojs/tailwind@5.1.0(astro@4.2.8)(tailwindcss@3.4.1):
     resolution: {integrity: sha512-BJoCDKuWhU9FT2qYg+fr6Nfb3qP4ShtyjXGHKA/4mHN94z7BGcmauQK23iy+YH5qWvTnhqkd6mQPQ1yTZTe9Ig==}
     peerDependencies:
       astro: ^3.0.0 || ^4.0.0
       tailwindcss: ^3.0.24
     dependencies:
-      astro: 4.2.7(typescript@5.3.3)
+      astro: 4.2.8(typescript@5.3.3)
       autoprefixer: 10.4.16(postcss@8.4.33)
       postcss: 8.4.33
       postcss-load-config: 4.0.2(postcss@8.4.33)
@@ -304,7 +304,7 @@ packages:
       - supports-color
     dev: false
 
-  /@astrojs/vercel@7.0.2(astro@4.2.7):
+  /@astrojs/vercel@7.0.2(astro@4.2.8):
     resolution: {integrity: sha512-XlUNqstoGVDDk5txGF2JadSt+jK79peMeFHlH6D5u9d9yeql1Kyw2o9nPvu9nr1PMdnDrBkF82DQE06iIzXZ1Q==}
     peerDependencies:
       astro: ^4.2.0
@@ -312,7 +312,7 @@ packages:
       '@astrojs/internal-helpers': 0.2.1
       '@vercel/analytics': 1.1.1
       '@vercel/nft': 0.24.4
-      astro: 4.2.7(typescript@5.3.3)
+      astro: 4.2.8(typescript@5.3.3)
       esbuild: 0.19.11
       fast-glob: 3.3.2
       set-cookie-parser: 2.6.0
@@ -322,12 +322,12 @@ packages:
       - supports-color
     dev: false
 
-  /@astrolib/seo@1.0.0-beta.5(astro@4.2.7):
+  /@astrolib/seo@1.0.0-beta.5(astro@4.2.8):
     resolution: {integrity: sha512-poBnSB9TzkmOyf+PoMR642zVLSoVVZbUIKnYDHXHrKi/upkaegNiaBdVRsyqaQC93SIxxyagQrIbLRtnSJT4Xg==}
     peerDependencies:
       astro: ^1.2.1 || ^2.0.0 || ^3.0.0-beta.0 || ^3.0.0 || ^4.0.0
     dependencies:
-      astro: 4.2.7(typescript@5.3.3)
+      astro: 4.2.8(typescript@5.3.3)
     dev: false
 
   /@babel/code-frame@7.23.5:
@@ -1247,7 +1247,7 @@ packages:
       '@sentry/utils': 7.99.0
     dev: false
 
-  /@sentry/astro@7.99.0(astro@4.2.7):
+  /@sentry/astro@7.99.0(astro@4.2.8):
     resolution: {integrity: sha512-b+ZY5AZnlUnvS3nDeCdP/DHCGlvcxBe+NK43T4qdbtONHPcVpv1PytW6qGGOpMoDYdt7Iv+uYjrIZfNo3tTyiA==}
     engines: {node: '>=18.14.1'}
     peerDependencies:
@@ -1259,7 +1259,7 @@ packages:
       '@sentry/types': 7.99.0
       '@sentry/utils': 7.99.0
       '@sentry/vite-plugin': 2.10.2
-      astro: 4.2.7(typescript@5.3.3)
+      astro: 4.2.8(typescript@5.3.3)
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -1765,7 +1765,7 @@ packages:
     hasBin: true
     dev: false
 
-  /astro-auto-import@0.3.2(astro@4.2.7):
+  /astro-auto-import@0.3.2(astro@4.2.8):
     resolution: {integrity: sha512-xnr56geVyqJTu5qicJzvxqSnkhktq7SulWIzme1Vs5mrrcMkH/N1s7TEYkgJCN2b5qSeltqqZ7UUSD3xXrXamA==}
     engines: {node: '>=16.0.0'}
     peerDependencies:
@@ -1773,28 +1773,28 @@ packages:
     dependencies:
       '@types/node': 18.19.5
       acorn: 8.11.3
-      astro: 4.2.7(typescript@5.3.3)
+      astro: 4.2.8(typescript@5.3.3)
     dev: false
 
-  /astro-embed@0.6.1(astro@4.2.7):
+  /astro-embed@0.6.1(astro@4.2.8):
     resolution: {integrity: sha512-lHO8ZJJ3AjXpdBD3irGQdD+jnFBE6nPNzT6Edfr6/8dj6Z8lWoB1lmAgd6Yp4YSu0RSU5bZIJ9U2kJqE622BDA==}
     peerDependencies:
       astro: ^2.0.0 || ^3.0.0-beta || ^4.0.0-beta
     dependencies:
-      '@astro-community/astro-embed-integration': 0.6.1(astro@4.2.7)
-      '@astro-community/astro-embed-twitter': 0.5.3(astro@4.2.7)
-      '@astro-community/astro-embed-vimeo': 0.3.2(astro@4.2.7)
-      '@astro-community/astro-embed-youtube': 0.4.3(astro@4.2.7)
-      astro: 4.2.7(typescript@5.3.3)
+      '@astro-community/astro-embed-integration': 0.6.1(astro@4.2.8)
+      '@astro-community/astro-embed-twitter': 0.5.3(astro@4.2.8)
+      '@astro-community/astro-embed-vimeo': 0.3.2(astro@4.2.8)
+      '@astro-community/astro-embed-youtube': 0.4.3(astro@4.2.8)
+      astro: 4.2.8(typescript@5.3.3)
     dev: false
 
-  /astro-og-canvas@0.4.2(astro@4.2.7):
+  /astro-og-canvas@0.4.2(astro@4.2.8):
     resolution: {integrity: sha512-OQsH6Gr2HX9ZRHdVy2OcXVBIPI65WvEtLG/60krnphh8d3ldhuAFunymYaNGcrdSZcYgXkHWejbPt//3qaRidA==}
     engines: {node: '>=18.14.1'}
     peerDependencies:
       astro: ^3.0.0 || ^4.0.0
     dependencies:
-      astro: 4.2.7(typescript@5.3.3)
+      astro: 4.2.8(typescript@5.3.3)
       canvaskit-wasm: 0.37.2
       deterministic-object-hash: 2.0.2
       entities: 4.5.0
@@ -1807,8 +1807,8 @@ packages:
       zod: 3.22.4
     dev: false
 
-  /astro@4.2.7(typescript@5.3.3):
-    resolution: {integrity: sha512-m2zGL6JVwcxAV9IwwAXMHAchd8sJukW/hmskYSkIO5D4gVE9oh1SG7HA71BBxl1lJfI1j+RPAgjXQsSuGjLUjA==}
+  /astro@4.2.8(typescript@5.3.3):
+    resolution: {integrity: sha512-h78IAdSEPMo1bvR40HECQYpnMPfDnk9WxRNJ1+Hw5szk4k5IMUw3nG153nErJABRnaxb6WLv7dtS4tukzJz0mw==}
     engines: {node: '>=18.14.1', npm: '>=6.14.0'}
     hasBin: true
     dependencies:
@@ -2184,9 +2184,11 @@ packages:
 
   /color-name@1.1.4:
     resolution: {integrity: sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==}
+    requiresBuild: true
 
   /color-string@1.9.1:
     resolution: {integrity: sha512-shrVawQFojnZv6xM40anx4CkoDP+fZsw/ZerEMsW/pyzsRbElpsL/DBVW7q3ExxwusdNXI3lXpuhEZkzs8p5Eg==}
+    requiresBuild: true
     dependencies:
       color-name: 1.1.4
       simple-swizzle: 0.2.2
@@ -2995,6 +2997,7 @@ packages:
 
   /is-arrayish@0.3.2:
     resolution: {integrity: sha512-eVRqCvVlZbuw3GrM63ovNSNAeA1K16kaR/LRY/92w0zxQ5/1YzwblUX652i4Xs9RwAGjW9d9y6X88t8OaAJfWQ==}
+    requiresBuild: true
     dev: false
 
   /is-binary-path@2.1.0:
@@ -4810,6 +4813,7 @@ packages:
 
   /simple-swizzle@0.2.2:
     resolution: {integrity: sha512-JA//kQgZtbuY83m+xT+tXJkmJncGMTFT+C+g2h2R9uxkYIrE2yy9sgmcLhCnw57/WSD+Eh3J97FPEDFnbXnDUg==}
+    requiresBuild: true
     dependencies:
       is-arrayish: 0.3.2
     dev: false
