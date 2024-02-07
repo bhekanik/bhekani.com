@@ -11,3 +11,4 @@ I came across [MDX Editor](https://mdxeditor.dev/) the today and it looks like s
 
 - [MDX Editor](https://mdxeditor.dev/): React component for writing/editing markdown as if it was rich text so that what you see is what you get. I guess this would be useful if you have none technical people who have to contribute to a markdown blog for example.
 - https://github.com/korfuri/awesome-monorepo: A curated list of awesome Monorepo tools, software and architectures. For general knowledge learning about all things to do with monorepos check out [Understanding monorepos](https://monorepo.tools/#understanding-monorepos)
+- Ollama now has a [JavaScript library](https://ollama.ai/blog/python-javascript-libraries?ck_subscriber_id=582592156): Get up and running with large language models, locally.
