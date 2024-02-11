@@ -2,6 +2,7 @@
 title: "How to sign Git commits with SSH keys"
 pubDate: 2024-02-10
 published: true
+description: "Git version 2.34.0+ supports SSH for signing commits for a simpler, smoother process. In this article, I've put together a quick and easy guide on how to use SSH to sign your Git commits—easy setup, secure commits, no fuss."
 author: "Bhekani Khumalo"
 tags: ["blog", "git", "til"]
 ---
