@@ -1,17 +1,17 @@
 ---
-import "@fontsource-variable/jetbrains-mono";
-import "@fontsource/ibm-plex-sans";
-import "@fontsource/oswald";
-import "@fontsource/permanent-marker";
+import "@fontsource-variable/jetbrains-mono"
+import "@fontsource/ibm-plex-sans"
+import "@fontsource/oswald"
+import "@fontsource/permanent-marker"
 
-import { AstroSeo } from "@astrolib/seo";
-import { ViewTransitions } from "astro:transitions";
-import Footer from "../components/Footer.astro";
-import Header from "../components/Header.astro";
-import PostHog from "../components/PostHog.astro";
+import { AstroSeo } from "@astrolib/seo"
+import { ViewTransitions } from "astro:transitions"
+import Footer from "../components/Footer.astro"
+import Header from "../components/Header.astro"
+import PostHog from "../components/PostHog.astro"
 // import "../styles/global.css";
 
-const { pageTitle, description, title, imageUrl } = Astro.props;
+const { pageTitle, description, title, imageUrl } = Astro.props
 ---
 
 <html lang="en">
@@ -148,7 +148,6 @@ const { pageTitle, description, title, imageUrl } = Astro.props;
       }
 
       body {
-        position: relative;
         display: grid;
         grid-template:
           "header" auto
@@ -173,7 +172,8 @@ const { pageTitle, description, title, imageUrl } = Astro.props;
         line-height: 1.1;
       }
     </style>
-  </head><body>
+  </head>
+  <body>
     <Header />
     <h1
       class="page-header text-center text-5xl p-8 border-b-[1px] border-[hsl(var(--muted))] uppercase"

@@ -1,14 +1,14 @@
 ---
-import { type CollectionEntry } from "astro:content";
-import { cn } from "../utils/cn";
-import Link from "./Link.astro";
+import { type CollectionEntry } from "astro:content"
+import { cn } from "../utils/cn"
+import Link from "./Link.astro"
 
 export interface Props {
-  thought: CollectionEntry<"thoughts">;
+  thought: CollectionEntry<"thoughts">
 }
 
-const { thought } = Astro.props;
-const { headings } = await thought.render();
+const { thought } = Astro.props
+const { headings } = await thought.render()
 ---
 
 {
@@ -25,7 +25,7 @@ const { headings } = await thought.render();
                 ? "ml-4 border-l border-[hsl(var(--links))] pl-4"
                 : heading.depth === 4
                   ? "ml-8 border-l border-[hsl(var(--links))] pl-4"
-                  : ""
+                  : "",
             )}
           >
             <Link href={`#${heading.slug}`}>{heading.text}</Link>
