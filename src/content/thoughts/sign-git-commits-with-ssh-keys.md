@@ -101,3 +101,47 @@ This will amend the last commit and then verify that it is signed. And for signi
 ```bash
 git rebase --exec 'git commit --amend --no-edit -n -S' -i <BRANCH>
 ```
+
+## Updates
+
+### error: Couldn't find key in agent?
+
+If you encounter the error, "error: Couldn't find key in agent? fatal: failed to write commit object," it typically indicates that Git cannot access your SSH key through the SSH agent. This might be because the SSH agent is not running or because your SSH key has not been added to the agent. To resolve this issue and avoid having to manually start the SSH agent and add your key every time, you can automate these steps. Here's how you can do it for different operating systems:
+
+#### For Linux and macOS
+
+1. Automatically Start SSH Agent and Add SSH Key on Session Start:
+  - You can add commands to your shell's startup file (e.g., .bashrc, .bash_profile, .zshrc, etc.) to automatically start the SSH agent and add your SSH key when you open a terminal.
+2. Edit Your Shell's Startup File:
+  - Open your terminal and edit your shell's startup file, for example, if you're using bash, you edit ~/.bashrc or ~/.bash_profile. If you're using zsh, you edit ~/.zshrc.
+3. Add the Following Script:
+```bash
+# Start the SSH agent and add your key
+if [ -z "$SSH_AUTH_SOCK" ] ; then
+  eval `ssh-agent -s`
+  ssh-add ~/.ssh/id_ed25519
+fi
+```
+  - This script checks if the SSH agent is running (by checking if $SSH_AUTH_SOCK is set). If it's not running, it starts the SSH agent and adds your SSH key.
+4. Reload Your Shell Configuration:
+  - Apply the changes by running source ~/.bashrc (or the appropriate file for your shell).
+
+#### For Windows
+
+1. Using SSH-Agent Service:
+  - On Windows, you can use the SSH-Agent service, which is available in Windows 10 and later. This service can be set to start automatically.
+2. Enable and Start SSH-Agent Automatically:
+  - Open a PowerShell window as Administrator.
+  - Run the following commands to set the SSH Agent service to start automatically and then start it:
+
+```powershell
+Set-Service ssh-agent -StartupType Automatic
+Start-Service ssh-agent
+```
+
+  - After enabling the service, you need to add your SSH key to the agent once using:
+```powershell
+ssh-add ~\.ssh\id_rsa
+```
+
+By setting up your system as described, your SSH agent will automatically start and load your SSH key when you start a new session, which should prevent the error from occurring when you commit changes using Git.
