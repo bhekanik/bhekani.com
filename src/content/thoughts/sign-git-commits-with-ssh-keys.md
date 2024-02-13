@@ -87,6 +87,18 @@ And you can verify that the signed commit was signed by an allowed signer with t
 git verify-commit <commit-hash>
 ```
 
+## Add your public key to Github
+
+You now need to add your signing key to Github so that it will have it in its "known signers" file for verification. 
+
+Head over to User Profile > Settings > SSH and GPG keys. Click the "New SSH key" button. Give your new key a title, then under Key type select Signing Key. Then run: 
+
+```bash
+cat ~/.ssh/id_ed25519.pub | pbcopy
+```
+
+This will copy your publish ssh key into your clipboard. Paste it into the Key section. Click Add SSH Key and you should be ready to go. 
+
 ## Bonus
 
 If you already have an unsigned commit that you want to sign, you can use:
