@@ -1,10 +1,10 @@
 import type { APIRoute } from "astro"
 import { prisma } from "../../../../utils/db"
 
-const hashIp = async (ip: string) => {
+const hashIp = async (ip?: string) => {
   const buf = await crypto.subtle.digest(
     "SHA-256",
-    new TextEncoder().encode(ip),
+    new TextEncoder().encode(ip ?? new Date().toString()),
   )
   const hash = Array.from(new Uint8Array(buf))
     .map((b) => b.toString(16).padStart(2, "0"))
@@ -33,7 +33,7 @@ export const POST: APIRoute = async ({ request }) => {
   try {
     const { ip, slug } = await request.json()
 
-    if (!ip || ip === "::1") {
+    if (ip === "::1") {
       const data = await prisma.views.findFirst({
         where: {
           slug,
@@ -44,6 +44,7 @@ export const POST: APIRoute = async ({ request }) => {
         JSON.stringify({ views: data?.count ? data.count : 0 }),
       )
     }
+
     const ipHash = await hashIp(ip)
 
     const existingView = await prisma.iPHashes.findUnique({

@@ -16,14 +16,11 @@ const {
   },
 } = Astro.props
 
-const ip = Astro.clientAddress
-
 const { views } = await fetch(
   `http://localhost:4321/api/thoughts/views/inc?slug=${slug}`,
   {
     headers: {
       "Content-Type": "application/json",
-      "X-Forwarded-For": ip,
     },
   },
 ).then((res) => res.json())

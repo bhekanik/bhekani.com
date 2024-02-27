@@ -18,15 +18,14 @@ const {
 const imageSrc =
   frontmatter.image ?? "https://source.unsplash.com/random/?landscape"
 
-const ip = Astro.clientAddress
+const body = { ip: Astro.clientAddress ?? null, slug: Astro.params.slug }
 
 const { views } = await fetch(`http://localhost:4321/api/thoughts/views/inc`, {
   method: "POST",
   headers: {
     "Content-Type": "application/json",
-    "X-Forwarded-For": ip,
   },
-  body: JSON.stringify({ ip, slug: Astro.params.slug }),
+  body: JSON.stringify(body),
 }).then((res) => res.json())
 ---
 
