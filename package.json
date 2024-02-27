@@ -24,7 +24,7 @@
     "@fontsource/oswald": "^5.0.18",
     "@fontsource/permanent-marker": "^5.0.8",
     "@prisma/client": "5.10.2",
-    "@sentry/astro": "^7.102.1",
+    "@sentry/astro": "^7.103.0",
     "astro": "^4.4.5",
     "astro-embed": "^0.6.1",
     "astro-og-canvas": "^0.4.2",
