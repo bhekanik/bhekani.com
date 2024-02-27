@@ -1,9 +1,9 @@
 ---
 id: 25744928
-title: "Deep Work Rules for Focused Success in a Distracted World"
+title: "Deep Work: Rules for Focused Success in a Distracted World"
 author: Cal Newport
 authorLF: Newport Cal
-additionalAuthors: 
+additionalAuthors:
 ISBN: "1455586692"
 ISBN13: "9781455586691"
 myRating: 5
@@ -15,13 +15,12 @@ yearPublished: "2016"
 originalPublicationYear: "2016"
 dateRead: "2023-07-06"
 dateAdded: "2023-07-06"
-bookshelves: 
-bookshelvesWithPositions: 
+bookshelves:
+bookshelvesWithPositions:
 exclusiveShelf: read
-myReview: 
+myReview:
 spoiler: null
 readCount: 1
 ownedCopies: 0
 tags: []
 ---
-

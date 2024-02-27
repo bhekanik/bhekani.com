@@ -1,28 +1,30 @@
 ---
-import { getCollection } from "astro:content";
-import BookListItem from "./BookListItem.astro";
-import RecentBooks from "./RecentBooks.astro";
+import { getCollection } from "astro:content"
+import BookListItem from "./BookListItem.astro"
+import RecentBooks from "./RecentBooks.astro"
 
 type Props = {
-  tags: string[];
-  slug: string;
-};
+  tags: string[]
+  slug: string
+}
 
-const { tags, slug } = Astro.props;
+const { tags, slug } = Astro.props
 
-const allBooks = await getCollection("books");
-const books = allBooks.filter((book) => {
-  if (slug === book.slug) return false;
+const allBooks = await getCollection("books")
+const books = allBooks
+  .filter((book) => book.data.exclusiveShelf === "read")
+  .filter((book) => {
+    if (slug === book.slug) return false
 
-  let keep = false;
-  tags.forEach((tag: string) => {
-    if (book.data.tags.includes(tag)) {
-      keep = true;
-    }
-  });
+    let keep = false
+    tags.forEach((tag: string) => {
+      if (book.data.tags.includes(tag)) {
+        keep = true
+      }
+    })
 
-  return keep;
-});
+    return keep
+  })
 ---
 
 {

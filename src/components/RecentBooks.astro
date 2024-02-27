@@ -1,21 +1,23 @@
 ---
-import { getCollection } from "astro:content";
-import BookListItem from "./BookListItem.astro";
+import { getCollection } from "astro:content"
+import BookListItem from "./BookListItem.astro"
 
-const allBooks = await getCollection("books");
+const allBooks = await getCollection("books")
 
 interface Props {
-  limit?: number;
-  slug: string;
+  limit?: number
+  slug: string
 }
 
-const { slug, limit = 3 } = Astro.props;
+const { slug, limit = 3 } = Astro.props
 
-const books = allBooks.filter((book) => {
-  if (slug === book.slug) return false;
+const books = allBooks
+  .filter((book) => book.data.exclusiveShelf === "read")
+  .filter((book) => {
+    if (slug === book.slug) return false
 
-  return true;
-});
+    return true
+  })
 ---
 
 <div class="my-8">
@@ -27,7 +29,7 @@ const books = allBooks.filter((book) => {
         .sort(
           (a, b) =>
             new Date(b.data.dateAdded).valueOf() -
-            new Date(a.data.dateAdded).valueOf()
+            new Date(a.data.dateAdded).valueOf(),
         )
         .slice(0, limit)
         .map((book) => <BookListItem book={book} />)

@@ -3,7 +3,7 @@ id: 12543
 title: "Bird by Bird"
 author: Anne Lamott
 authorLF: Lamott Anne
-additionalAuthors: 
+additionalAuthors:
 ISBN: ""
 ISBN13: "undefined"
 myRating: 0
@@ -13,15 +13,14 @@ binding: Paperback
 numberOfPages: 237
 yearPublished: "1995"
 originalPublicationYear: "1994"
-dateRead: "2024-01-25"
+dateRead: null
 dateAdded: "2023-01-06"
 bookshelves: toread
 bookshelvesWithPositions: toread 29
 exclusiveShelf: toread
-myReview: 
+myReview:
 spoiler: null
 readCount: 0
 ownedCopies: 0
 tags: []
 ---
-

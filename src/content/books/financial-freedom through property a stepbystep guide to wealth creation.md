@@ -3,7 +3,7 @@ id: 52288982
 title: "Financial Freedom through Property A stepbystep guide to wealth creation"
 author: Laurens Boel
 authorLF: Boel Laurens
-additionalAuthors: 
+additionalAuthors:
 ISBN: "1776095057"
 ISBN13: "9781776095056"
 myRating: 0
@@ -13,15 +13,14 @@ binding: Paperback
 numberOfPages: 152
 yearPublished: "2020"
 originalPublicationYear: "2020"
-dateRead: "2024-01-25"
+dateRead: null
 dateAdded: "2020-10-30"
 bookshelves: currentlyreading
 bookshelvesWithPositions: currentlyreading 3
 exclusiveShelf: currentlyreading
-myReview: 
+myReview:
 spoiler: null
 readCount: 1
 ownedCopies: 0
 tags: []
 ---
-

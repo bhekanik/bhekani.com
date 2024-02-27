@@ -13,15 +13,14 @@ binding: Paperback
 numberOfPages: 344
 yearPublished: "2022"
 originalPublicationYear: "undefined"
-dateRead: "2024-01-25"
+dateRead: null
 dateAdded: "2022-12-13"
 bookshelves: toread
 bookshelvesWithPositions: toread 25
 exclusiveShelf: toread
-myReview: 
+myReview:
 spoiler: null
 readCount: 0
 ownedCopies: 0
 tags: []
 ---
-

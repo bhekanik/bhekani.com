@@ -3,7 +3,7 @@ id: 1713426
 title: "Predictably Irrational The Hidden Forces That Shape Our Decisions"
 author: Dan Ariely
 authorLF: Ariely Dan
-additionalAuthors: 
+additionalAuthors:
 ISBN: ""
 ISBN13: "undefined"
 myRating: 0
@@ -13,15 +13,14 @@ binding: Hardcover
 numberOfPages: 247
 yearPublished: "2008"
 originalPublicationYear: "2008"
-dateRead: "2024-01-25"
+dateRead: null
 dateAdded: "2022-03-07"
 bookshelves: toread
 bookshelvesWithPositions: toread 22
 exclusiveShelf: toread
-myReview: 
+myReview:
 spoiler: null
 readCount: 0
 ownedCopies: 0
 tags: []
 ---
-

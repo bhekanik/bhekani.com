@@ -1,20 +1,27 @@
 ---
-import { getCollection } from "astro:content";
-import Link from "./Link.astro";
-import TagsList from "./TagsList.astro";
+import { getCollection } from "astro:content"
+import Link from "./Link.astro"
+import TagsList from "./TagsList.astro"
 
 export interface Props {
-  selectedTag?: string;
-  title?: string;
+  selectedTag?: string
+  title?: string
 }
 
-const allBooks = await getCollection("books");
+const allBooks = await getCollection("books")
 
-const tags = [...new Set(allBooks.map((book) => book.data.tags).flat())];
+const tags = [
+  ...new Set(
+    allBooks
+      .filter((book) => book.data.exclusiveShelf === "read")
+      .map((book) => book.data.tags)
+      .flat(),
+  ),
+]
 
-const { selectedTag, title } = Astro.props;
+const { selectedTag, title } = Astro.props
 
-const { tag } = Astro.params;
+const { tag } = Astro.params
 ---
 
 {

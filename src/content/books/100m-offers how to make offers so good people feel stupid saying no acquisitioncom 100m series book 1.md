@@ -3,25 +3,24 @@ id: 58612786
 title: "100M Offers How To Make Offers So Good People Feel Stupid Saying No Acquisitioncom 100M Series Book 1"
 author: Alex Hormozi
 authorLF: Hormozi Alex
-additionalAuthors: 
+additionalAuthors:
 ISBN: "1737475707"
 ISBN13: "9781737475705"
 myRating: 0
 averageRating: 4.62
-publisher: 
+publisher:
 binding: Kindle Edition
 numberOfPages: 210
 yearPublished: "2021"
 originalPublicationYear: "undefined"
-dateRead: "2024-01-25"
+dateRead: null
 dateAdded: "2022-12-13"
 bookshelves: toread
 bookshelvesWithPositions: toread 23
 exclusiveShelf: toread
-myReview: 
+myReview:
 spoiler: null
 readCount: 0
 ownedCopies: 0
 tags: []
 ---
-

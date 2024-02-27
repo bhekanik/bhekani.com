@@ -3,7 +3,7 @@ id: 18521
 title: "A Room of One’s Own"
 author: Virginia Woolf
 authorLF: Woolf Virginia
-additionalAuthors: 
+additionalAuthors:
 ISBN: ""
 ISBN13: "undefined"
 myRating: 0
@@ -13,15 +13,14 @@ binding: Paperback
 numberOfPages: 112
 yearPublished: "2000"
 originalPublicationYear: "1929"
-dateRead: "2024-01-25"
+dateRead: null
 dateAdded: "2021-06-28"
 bookshelves: toread
 bookshelvesWithPositions: toread 30
 exclusiveShelf: toread
-myReview: 
+myReview:
 spoiler: null
 readCount: 0
 ownedCopies: 0
 tags: []
 ---
-

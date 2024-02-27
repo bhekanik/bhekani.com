@@ -13,15 +13,14 @@ binding: Paperback
 numberOfPages: 220
 yearPublished: "2003"
 originalPublicationYear: "1999"
-dateRead: "2024-01-25"
+dateRead: null
 dateAdded: "2020-12-31"
 bookshelves: toread
 bookshelvesWithPositions: toread 7
 exclusiveShelf: toread
-myReview: 
+myReview:
 spoiler: null
 readCount: 0
 ownedCopies: 0
 tags: []
 ---
-
