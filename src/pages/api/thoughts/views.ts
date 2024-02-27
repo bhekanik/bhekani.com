@@ -1,5 +1,5 @@
 import type { APIRoute } from "astro"
-import { prisma } from "../../../../utils/db"
+import { prisma } from "../../../utils/db"
 
 const hashIp = async (ip?: string) => {
   const buf = await crypto.subtle.digest(
