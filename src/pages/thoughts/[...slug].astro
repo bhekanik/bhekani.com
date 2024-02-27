@@ -1,25 +1,25 @@
 ---
-import { getCollection, type CollectionEntry } from "astro:content";
-import Prose from "../../components/Prose.astro";
-import TableOfContents from "../../components/TableOfContents.astro";
-import MarkdownPostLayout from "../../layouts/MarkdownPostLayout.astro";
+import { getCollection, type CollectionEntry } from "astro:content"
+import Prose from "../../components/Prose.astro"
+import TableOfContents from "../../components/TableOfContents.astro"
+import MarkdownPostLayout from "../../layouts/MarkdownPostLayout.astro"
 
 export async function getStaticPaths() {
-  const thoughts = await getCollection("thoughts");
+  const thoughts = await getCollection("thoughts")
   return thoughts
     .filter((thought) => thought.data.published)
     .map((thought) => ({
       params: { slug: thought.slug },
       props: { thought },
-    }));
+    }))
 }
 
 export interface Props {
-  thought: CollectionEntry<"thoughts">;
+  thought: CollectionEntry<"thoughts">
 }
 
-const { thought } = Astro.props;
-const { Content } = await thought.render();
+const { thought } = Astro.props
+const { Content } = await thought.render()
 ---
 
 <MarkdownPostLayout thought={thought}>

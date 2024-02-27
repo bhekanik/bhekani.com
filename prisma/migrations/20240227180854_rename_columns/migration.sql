@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Views" ALTER COLUMN "slug" DROP DEFAULT;

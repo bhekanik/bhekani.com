@@ -1,22 +1,33 @@
 ---
-import { Image } from "astro:assets";
-import type { CollectionEntry } from "astro:content";
-import Case from "case";
-import { format } from "date-fns";
-import Link from "../components/Link.astro";
-import TagsList from "./TagsList.astro";
-import ThoughtDescription from "./ThoughtDescription.astro";
+import { Image } from "astro:assets"
+import type { CollectionEntry } from "astro:content"
+import Case from "case"
+import { format } from "date-fns"
+import Link from "../components/Link.astro"
+import TagsList from "./TagsList.astro"
+import ThoughtDescription from "./ThoughtDescription.astro"
 
 type Props = {
-  thought: CollectionEntry<"thoughts">;
-};
+  thought: CollectionEntry<"thoughts">
+}
 
 const {
   thought: { data: frontmatter, slug },
-} = Astro.props;
+} = Astro.props
 
 const imageSrc =
-  frontmatter.image ?? "https://source.unsplash.com/random/?landscape";
+  frontmatter.image ?? "https://source.unsplash.com/random/?landscape"
+
+const ip = Astro.clientAddress
+
+const { views } = await fetch(`http://localhost:4321/api/thoughts/views/inc`, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    "X-Forwarded-For": ip,
+  },
+  body: JSON.stringify({ ip, slug: Astro.params.slug }),
+}).then((res) => res.json())
 ---
 
 <div transition:name={`card-${slug}`}>
@@ -53,5 +64,8 @@ const imageSrc =
     >
       {format(frontmatter.pubDate, "MMMM dd, yyyy")}
     </time>
+    <p class="text-sm text-[hsl(var(--muted-foreground))]">
+      {`${views} view${views === 1 ? "" : "s"}`}
+    </p>
   </div>
 </div>

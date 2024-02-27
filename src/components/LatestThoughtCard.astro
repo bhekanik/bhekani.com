@@ -1,20 +1,32 @@
 ---
-import { Image } from "astro:assets";
-import type { CollectionEntry } from "astro:content";
-import { format } from "date-fns";
-import TagsList from "./TagsList.astro";
-import ThoughtDescription from "./ThoughtDescription.astro";
+import { Image } from "astro:assets"
+import type { CollectionEntry } from "astro:content"
+import { format } from "date-fns"
+import TagsList from "./TagsList.astro"
+import ThoughtDescription from "./ThoughtDescription.astro"
 
 type Props = {
-  thought: CollectionEntry<"thoughts">;
-};
+  thought: CollectionEntry<"thoughts">
+}
 
 const {
   thought: {
     data: { image, tags, title, description, pubDate: date },
     slug,
   },
-} = Astro.props;
+} = Astro.props
+
+const ip = Astro.clientAddress
+
+const { views } = await fetch(
+  `http://localhost:4321/api/thoughts/views/inc?slug=${slug}`,
+  {
+    headers: {
+      "Content-Type": "application/json",
+      "X-Forwarded-For": ip,
+    },
+  },
+).then((res) => res.json())
 ---
 
 <div class="card mb-8 items-center">
@@ -32,6 +44,9 @@ const {
       class="text-sm text-[hsl(var(--muted-foreground))]"
     >
       {format(date, "MMMM dd, yyyy")}
+    </p>
+    <p class="text-sm text-[hsl(var(--muted-foreground))]">
+      {`${views} view${views === 1 ? "" : "s"}`}
     </p>
   </div>
 
