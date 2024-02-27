@@ -4,6 +4,7 @@ import type { CollectionEntry } from "astro:content"
 import Case from "case"
 import { format } from "date-fns"
 import Link from "../components/Link.astro"
+import IncrementAndShowViews from "./IncrementAndShowViews.astro"
 import TagsList from "./TagsList.astro"
 import ThoughtDescription from "./ThoughtDescription.astro"
 
@@ -17,23 +18,6 @@ const {
 
 const imageSrc =
   frontmatter.image ?? "https://source.unsplash.com/random/?landscape"
-
-// const body = { ip: Astro.clientAddress ?? null, slug: Astro.params.slug }
-
-const res = await fetch(`${Astro.url.origin}/api/thoughts/views`, {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify({ slug: Astro.params.slug }),
-})
-
-let views = 0
-if (res.ok) {
-  ;({ views } = await res.json())
-} else {
-  console.error("Error:", await res.text())
-}
 ---
 
 <div transition:name={`card-${slug}`}>
@@ -70,8 +54,6 @@ if (res.ok) {
     >
       {format(frontmatter.pubDate, "MMMM dd, yyyy")}
     </time>
-    <p class="text-sm text-[hsl(var(--muted-foreground))]">
-      {`${views} view${views === 1 ? "" : "s"}`}
-    </p>
+    <IncrementAndShowViews />
   </div>
 </div>

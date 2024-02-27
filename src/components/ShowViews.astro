@@ -1,0 +1,27 @@
+---
+import type { CollectionEntry } from "astro:content"
+
+type Props = {
+  slug: CollectionEntry<"thoughts">["slug"]
+}
+
+const { slug } = Astro.props
+
+// const res = await fetch(`${Astro.url.origin}/api/thoughts/views?slug=${slug}`, {
+//   headers: {
+//     "Content-Type": "application/json",
+//     "X-slug": slug,
+//   },
+// })
+
+let views = 0
+// if (res.ok) {
+//   ;({ views } = await res.json())
+// } else {
+//   console.error("Error:", await res.text())
+// }
+---
+
+<p class="text-sm text-[hsl(var(--muted-foreground))]">
+  {views ? `${views} view${views === 1 ? "" : "s"}` : ""}
+</p>

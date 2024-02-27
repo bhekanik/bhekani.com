@@ -2,6 +2,7 @@
 import { Image } from "astro:assets"
 import type { CollectionEntry } from "astro:content"
 import { format } from "date-fns"
+import ShowViews from "./ShowViews.astro"
 import TagsList from "./TagsList.astro"
 import ThoughtDescription from "./ThoughtDescription.astro"
 
@@ -15,19 +16,6 @@ const {
     data: { tags, title, image, pubDate: date },
   },
 } = Astro.props
-
-const res = await fetch(`${Astro.url.origin}/api/thoughts/views?slug=${slug}`, {
-  headers: {
-    "Content-Type": "application/json",
-  },
-})
-
-let views = 0
-if (res.ok) {
-  ;({ views } = await res.json())
-} else {
-  console.error("Error:", await res.text())
-}
 ---
 
 <div transition:name={`card-${slug}`} class="card grid gap-2 items-center">
@@ -44,9 +32,7 @@ if (res.ok) {
         {format(date, "MMMM dd, yyyy")}
       </time>
       &middot;
-      <p class="text-sm text-[hsl(var(--muted-foreground))]">
-        {`${views} view${views === 1 ? "" : "s"}`}
-      </p>
+      <ShowViews slug={slug} />
     </div>
     <ThoughtDescription description={title} slug={slug} />
     <TagsList tags={tags} />
