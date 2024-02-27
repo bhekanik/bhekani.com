@@ -25,6 +25,8 @@ const res = await fetch(`${Astro.url.origin}/api/thoughts/views?slug=${slug}`, {
 let views = 0
 if (res.ok) {
   ;({ views } = await res.json())
+} else {
+  console.error("Error:", await res.text())
 }
 ---
 
