@@ -20,7 +20,7 @@ const imageSrc =
 
 const body = { ip: Astro.clientAddress ?? null, slug: Astro.params.slug }
 
-const { views } = await fetch(`http://localhost:4321/api/thoughts/views/inc`, {
+const { views } = await fetch(`${Astro.url}/api/thoughts/views/inc`, {
   method: "POST",
   headers: {
     "Content-Type": "application/json",

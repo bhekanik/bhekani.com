@@ -17,7 +17,7 @@ const {
 } = Astro.props
 
 const { views } = await fetch(
-  `http://localhost:4321/api/thoughts/views/inc?slug=${slug}`,
+  `${Astro.url}/api/thoughts/views/inc?slug=${slug}`,
   {
     headers: {
       "Content-Type": "application/json",
