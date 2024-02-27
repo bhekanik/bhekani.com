@@ -13,9 +13,13 @@ const hashIp = async (ip?: string) => {
   return hash
 }
 
-export const GET: APIRoute = async ({ params }) => {
+export const GET: APIRoute = async ({ request }) => {
   try {
-    const { slug } = params
+    const slug = request.headers.get("x-slug")
+
+    if (!slug) {
+      return new Response(JSON.stringify({ error: "Missing slug", views: 0 }))
+    }
 
     const data = await prisma.views.findFirst({
       where: {
@@ -32,7 +36,10 @@ export const GET: APIRoute = async ({ params }) => {
 
 export const POST: APIRoute = async ({ request }) => {
   try {
+    // if (!request.userActivation) {}
+
     const { ip, slug } = await request.json()
+    console.log("{ ip, slug }:", { ip, slug })
 
     if (!process.env.COUNT_LOCAL_VIEWS && ip === "::1") {
       const data = await prisma.views.findFirst({
@@ -41,15 +48,12 @@ export const POST: APIRoute = async ({ request }) => {
         },
       })
 
-      console.log("data:", data)
-
       return new Response(
         JSON.stringify({ views: data?.count ? data.count : 0 }),
       )
     }
 
     const ipHash = await hashIp(ip)
-    console.log("ipHash:", ipHash)
 
     const existingView = await prisma.iPHashes.findUnique({
       where: {
@@ -81,7 +85,7 @@ export const POST: APIRoute = async ({ request }) => {
           increment: 1,
         },
         IPHashes: {
-          update: {
+          upsert: {
             where: {
               ipHash_slug: {
                 ipHash,
@@ -89,7 +93,11 @@ export const POST: APIRoute = async ({ request }) => {
               },
               slug,
             },
-            data: {
+            update: {
+              updatedAt: new Date(),
+            },
+            create: {
+              ipHash,
               updatedAt: new Date(),
             },
           },
