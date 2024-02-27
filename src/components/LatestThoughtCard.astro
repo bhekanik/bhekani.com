@@ -16,14 +16,16 @@ const {
   },
 } = Astro.props
 
-const { views } = await fetch(
-  `${Astro.url.origin}/api/thoughts/views?slug=${slug}`,
-  {
-    headers: {
-      "Content-Type": "application/json",
-    },
+const res = await fetch(`${Astro.url.origin}/api/thoughts/views?slug=${slug}`, {
+  headers: {
+    "Content-Type": "application/json",
   },
-).then((res) => res.json())
+})
+
+let views = 0
+if (res.ok) {
+  ;({ views } = await res.json())
+}
 ---
 
 <div class="card mb-8 items-center">

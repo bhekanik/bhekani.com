@@ -20,13 +20,18 @@ const imageSrc =
 
 const body = { ip: Astro.clientAddress ?? null, slug: Astro.params.slug }
 
-const { views } = await fetch(`${Astro.url.origin}/api/thoughts/views`, {
+const res = await fetch(`${Astro.url.origin}/api/thoughts/views`, {
   method: "POST",
   headers: {
     "Content-Type": "application/json",
   },
   body: JSON.stringify(body),
-}).then((res) => res.json())
+})
+
+let views = 0
+if (res.ok) {
+  ;({ views } = await res.json())
+}
 ---
 
 <div transition:name={`card-${slug}`}>
