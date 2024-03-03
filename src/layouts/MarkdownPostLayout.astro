@@ -1,20 +1,23 @@
 ---
-import type { CollectionEntry } from "astro:content";
-import Giscuss from "../components/Giscuss.astro";
-import MainContainer from "../components/MainContainer.astro";
-import RelatedThoughts from "../components/RelatedThoughts.astro";
-import ThoughtHeader from "../components/ThoughtHeader.astro";
-import WebMentions from "../components/WebMentions.astro";
-import BaseLayout from "./BaseLayout.astro";
+import type { CollectionEntry } from "astro:content"
+import Giscuss from "../components/Giscuss.astro"
+import RelatedThoughts from "../components/RelatedThoughts.astro"
+import TableOfContents from "../components/TableOfContents.astro"
+import ThoughtHeader from "../components/ThoughtHeader.astro"
+import ThoughtMainContainer from "../components/ThoughtMainContainer.astro"
+import WebMentions from "../components/WebMentions.astro"
+import BaseLayout from "./BaseLayout.astro"
 
 type Props = {
-  thought: CollectionEntry<"thoughts">;
-};
+  thought: CollectionEntry<"thoughts">
+}
 
 const {
   thought: { data: frontmatter },
   thought,
-} = Astro.props;
+} = Astro.props
+
+const { headings } = await thought.render()
 ---
 
 <BaseLayout
@@ -23,7 +26,7 @@ const {
   imageUrl={frontmatter.image?.src}
   pageTitle={frontmatter.title}
 >
-  <MainContainer>
+  <ThoughtMainContainer>
     <div class="w-full flex justify-center mb-8 font-bold">
       <a
         class="px-3 p-2 text-[hsl(var(--foreground))] border-b-[1px] border-l-[1px] border-r-[1px] border-[hsl(var(--muted))]"
@@ -35,7 +38,14 @@ const {
 
     <ThoughtHeader thought={thought} />
 
-    <slot />
+    <div class="article-area gap-8">
+      <TableOfContents headings={headings} />
+      <div
+        class="article max-w-[80ch] border-r pr-8 border-[hsl(var(--muted))]"
+      >
+        <slot />
+      </div>
+    </div>
 
     <WebMentions />
 
@@ -44,5 +54,28 @@ const {
     <hr class="my-8" />
 
     <RelatedThoughts slug={thought.slug} frontmatter={frontmatter} />
-  </MainContainer>
+  </ThoughtMainContainer>
 </BaseLayout>
+
+<style>
+  .article-area {
+    display: grid;
+    grid-template: "article toc" / 80ch 1fr;
+  }
+
+  .article {
+    grid-area: article;
+  }
+
+  .toc {
+    grid-area: toc;
+  }
+
+  @media screen and (max-width: 768px) {
+    .article-area {
+      grid-template:
+        "toc"
+        "article";
+    }
+  }
+</style>

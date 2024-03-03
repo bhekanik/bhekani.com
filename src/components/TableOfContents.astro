@@ -1,37 +1,42 @@
 ---
-import { type CollectionEntry } from "astro:content"
-import { cn } from "../utils/cn"
-import Link from "./Link.astro"
+import type { MarkdownHeading } from "astro"
+import TableOfContentsHeading from "./TableOfContentsHeading.astro"
 
 export interface Props {
-  thought: CollectionEntry<"thoughts">
+  headings: MarkdownHeading[]
 }
 
-const { thought } = Astro.props
-const { headings } = await thought.render()
+const { headings } = Astro.props
+
+function buildToc(h: MarkdownHeading[]) {
+  const toc: MarkdownHeading[] = []
+  const parentHeadings = new Map()
+  h.forEach((h) => {
+    const heading = { ...h, subheadings: [] }
+    parentHeadings.set(heading.depth, heading)
+    // Change 2 to 1 if your markdown includes your <h1>
+    if (heading.depth === 2) {
+      toc.push(heading)
+    } else {
+      parentHeadings.get(heading.depth - 1)?.subheadings.push(heading)
+    }
+  })
+  return toc
+}
+
+const toc = buildToc(headings)
 ---
 
 {
   headings.length > 0 && (
-    <section class="mb-4">
+    <nav class="toc mb-4">
       <h2 class="text-2xl mb-4 mt-2">Table of Contents</h2>
 
-      <ul class="ml-2 border-l border-[hsl(var(--links))] pl-4">
-        {headings.map((heading) => (
-          <li
-            class={cn(
-              "pb-2",
-              heading.depth === 3
-                ? "ml-4 border-l border-[hsl(var(--links))] pl-4"
-                : heading.depth === 4
-                  ? "ml-8 border-l border-[hsl(var(--links))] pl-4"
-                  : "",
-            )}
-          >
-            <Link href={`#${heading.slug}`}>{heading.text}</Link>
-          </li>
+      <ul>
+        {toc.map((heading) => (
+          <TableOfContentsHeading heading={heading} />
         ))}
       </ul>
-    </section>
+    </nav>
   )
 }
