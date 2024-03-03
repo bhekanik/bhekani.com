@@ -1,11 +1,11 @@
 ---
-import type { CollectionEntry } from "astro:content";
-import { format } from "date-fns";
-import Prose from "./Prose.astro";
+import type { CollectionEntry } from "astro:content"
+import { format } from "date-fns"
+import Prose from "./Prose.astro"
 
 type Props = {
-  micro: CollectionEntry<"micro">;
-};
+  micro: CollectionEntry<"micro">
+}
 
 const {
   micro: {
@@ -13,13 +13,13 @@ const {
     data: { title, date },
   },
   micro,
-} = Astro.props;
+} = Astro.props
 
-const { Content } = await micro.render();
+const { Content } = await micro.render()
 ---
 
 <div
-  class="card border border-[hsl(var(--muted-foreground))] p-4 flex flex-col gap-2"
+  class="card border border-[hsl(var(--muted-foreground))] p-4 flex flex-col gap-2 max-w-[80ch]"
 >
   <div class="content border-b border-[hsl(var(--muted-foreground))]">
     <h1 transition:name={`title-${slug}`} class="text-xl mb-2">{title}</h1>
