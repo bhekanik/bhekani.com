@@ -4,7 +4,7 @@ pubDate: 2024-01-11
 description: "A guide to how I added commenting to this blog with Giscus."
 author: "Bhekani Khumalo"
 published: true
-tags: ["astro", "blog", "tech"]
+tags: ["astro", "technical"]
 ---
 
 I initially added commenting to this blog using [Utteranc.es](https://utteranc.es) which uses GitHub issues for comments, then I later discovered [Giscus](https://giscus.app/) on [this](https://pierolescano.com/blog/adding_comments_to_my_blog/) blog post. Basically, giscuss does the same thing as utterances but it uses GitHub discussions instead of issues. The advantage with this is that they have a threading feature and it's easier to see what's going on in the thread. It also frees up issues to be used for actual issues.

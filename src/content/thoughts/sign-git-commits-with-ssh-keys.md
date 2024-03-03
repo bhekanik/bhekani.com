@@ -4,7 +4,7 @@ pubDate: 2024-02-10
 published: true
 description: "Git version 2.34.0+ supports SSH for signing commits for a simpler, smoother process. In this article, I've put together a quick and easy guide on how to use SSH to sign your Git commits—easy setup, secure commits, no fuss."
 author: "Bhekani Khumalo"
-tags: ["blog", "git", "til"]
+tags: ["technical", "til"]
 ---
 
 ## Why?
@@ -89,15 +89,15 @@ git verify-commit <commit-hash>
 
 ## Add your public key to Github
 
-You now need to add your signing key to Github so that it will have it in its "known signers" file for verification. 
+You now need to add your signing key to Github so that it will have it in its "known signers" file for verification.
 
-Head over to User Profile > Settings > SSH and GPG keys. Click the "New SSH key" button. Give your new key a title, then under Key type select Signing Key. Then run: 
+Head over to User Profile > Settings > SSH and GPG keys. Click the "New SSH key" button. Give your new key a title, then under Key type select Signing Key. Then run:
 
 ```bash
 cat ~/.ssh/id_ed25519.pub | pbcopy
 ```
 
-This will copy your publish ssh key into your clipboard. Paste it into the Key section. Click Add SSH Key and you should be ready to go. 
+This will copy your publish ssh key into your clipboard. Paste it into the Key section. Click Add SSH Key and you should be ready to go.
 
 ## Bonus
 
@@ -123,10 +123,15 @@ If you encounter the error, "error: Couldn't find key in agent? fatal: failed to
 #### For Linux and macOS
 
 1. Automatically Start SSH Agent and Add SSH Key on Session Start:
-  - You can add commands to your shell's startup file (e.g., .bashrc, .bash_profile, .zshrc, etc.) to automatically start the SSH agent and add your SSH key when you open a terminal.
+
+- You can add commands to your shell's startup file (e.g., .bashrc, .bash_profile, .zshrc, etc.) to automatically start the SSH agent and add your SSH key when you open a terminal.
+
 2. Edit Your Shell's Startup File:
-  - Open your terminal and edit your shell's startup file, for example, if you're using bash, you edit ~/.bashrc or ~/.bash_profile. If you're using zsh, you edit ~/.zshrc.
+
+- Open your terminal and edit your shell's startup file, for example, if you're using bash, you edit ~/.bashrc or ~/.bash_profile. If you're using zsh, you edit ~/.zshrc.
+
 3. Add the Following Script:
+
 ```bash
 # Start the SSH agent and add your key
 if [ -z "$SSH_AUTH_SOCK" ] ; then
@@ -134,24 +139,31 @@ if [ -z "$SSH_AUTH_SOCK" ] ; then
   ssh-add ~/.ssh/id_ed25519
 fi
 ```
-  - This script checks if the SSH agent is running (by checking if $SSH_AUTH_SOCK is set). If it's not running, it starts the SSH agent and adds your SSH key.
+
+- This script checks if the SSH agent is running (by checking if $SSH_AUTH_SOCK is set). If it's not running, it starts the SSH agent and adds your SSH key.
+
 4. Reload Your Shell Configuration:
-  - Apply the changes by running source ~/.bashrc (or the appropriate file for your shell).
+
+- Apply the changes by running source ~/.bashrc (or the appropriate file for your shell).
 
 #### For Windows
 
 1. Using SSH-Agent Service:
-  - On Windows, you can use the SSH-Agent service, which is available in Windows 10 and later. This service can be set to start automatically.
+
+- On Windows, you can use the SSH-Agent service, which is available in Windows 10 and later. This service can be set to start automatically.
+
 2. Enable and Start SSH-Agent Automatically:
-  - Open a PowerShell window as Administrator.
-  - Run the following commands to set the SSH Agent service to start automatically and then start it:
+
+- Open a PowerShell window as Administrator.
+- Run the following commands to set the SSH Agent service to start automatically and then start it:
 
 ```powershell
 Set-Service ssh-agent -StartupType Automatic
 Start-Service ssh-agent
 ```
 
-  - After enabling the service, you need to add your SSH key to the agent once using:
+- After enabling the service, you need to add your SSH key to the agent once using:
+
 ```powershell
 ssh-add ~\.ssh\id_rsa
 ```

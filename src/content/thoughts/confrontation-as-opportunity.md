@@ -5,7 +5,7 @@ description: "Discover the power of confrontation and how to turn it into an opp
 author: "Bhekani Khumalo"
 published: true
 image: "../_images/confrontation-as-opportunity.jpg"
-tags: ["confrontation", "just-reflections"]
+tags: ["advice", "career", "just-reflections"]
 ---
 
 In the past, I've often avoided confrontational situations because of my introverted nature. The thought of confrontation makes me anxious, and I just want the conflict to be over as soon as possible. This often leads me to make concessions I shouldn't make and ultimately not stand up for what I believe in. I realize that avoiding discomfort at the moment only sets me up for even greater discomfort later on. So I have five resolutions this year. Here’s the first one:

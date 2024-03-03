@@ -5,7 +5,7 @@ published: true
 description: " Looking to maintain your blissful state of unemployment or simply seeking a fresh perspective on job hunting? You're in luck. Here are nine unconventional strategies for not getting a job."
 author: "Bhekani Khumalo"
 image: "../_images/how-to-never-get-a-job.jpg"
-tags: ["career", "just-reflections"]
+tags: ["career", "advice", "just-reflections"]
 ---
 
 Today’s piece was inspired by (and borrows from) [Erik Davtyan’s insightful medium post](https://medium.com/@erdavtyan/how-to-never-get-a-job-a1509fd333d8). His is specifically for Software Engineers so I figured I’d expand it for a more general audience. Without further ado, let’s go.
