@@ -33,8 +33,8 @@ dependencies:
     specifier: ^5.0.18
     version: 5.0.18
   '@fontsource/oswald':
-    specifier: ^5.0.18
-    version: 5.0.18
+    specifier: ^5.0.19
+    version: 5.0.19
   '@fontsource/permanent-marker':
     specifier: ^5.0.8
     version: 5.0.8
@@ -847,8 +847,8 @@ packages:
     resolution: {integrity: sha512-xdtDTt5Ifdjdx//R8aAskULQuNR34D81pYTaZtk3q3fE7Fh2UDGHKCvlAoChG9NajThoLN+8PCrT0/cy/Dt5jg==}
     dev: false
 
-  /@fontsource/oswald@5.0.18:
-    resolution: {integrity: sha512-aOOszKjb1GZGlAgCk4BsOx/r/235jTtKvkd85PypHJCFWf/a0Hf4bWMq17XhjFghICrK30wV2TNAAAFaoPggMQ==}
+  /@fontsource/oswald@5.0.19:
+    resolution: {integrity: sha512-cpNK9lSleeu0P4RmNrqe6Va+mFwV81HCqH6vu0mYMhNiKTJj/13fNWhGbSy/R1gDNhEOPI+9NtK/bq0pesAeXw==}
     dev: false
 
   /@fontsource/permanent-marker@5.0.8:

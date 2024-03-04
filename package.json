@@ -21,7 +21,7 @@
     "@astrolib/seo": "1.0.0-beta.5",
     "@fontsource-variable/jetbrains-mono": "^5.0.19",
     "@fontsource/ibm-plex-sans": "^5.0.18",
-    "@fontsource/oswald": "^5.0.18",
+    "@fontsource/oswald": "^5.0.19",
     "@fontsource/permanent-marker": "^5.0.8",
     "@prisma/client": "5.10.2",
     "@sentry/astro": "^7.104.0",
