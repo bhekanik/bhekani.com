@@ -30,8 +30,8 @@ dependencies:
     specifier: ^5.0.20
     version: 5.0.20
   '@fontsource/ibm-plex-sans':
-    specifier: ^5.0.18
-    version: 5.0.18
+    specifier: ^5.0.19
+    version: 5.0.19
   '@fontsource/oswald':
     specifier: ^5.0.19
     version: 5.0.19
@@ -843,8 +843,8 @@ packages:
     resolution: {integrity: sha512-IWJnmY9vT5Olcac1vzA7FMdnojCrZWMq+g7SqC2jsFpY0LQTjIgp9gBjjw9kUOkNbLw37/evZO4w6rdPeMA68A==}
     dev: false
 
-  /@fontsource/ibm-plex-sans@5.0.18:
-    resolution: {integrity: sha512-xdtDTt5Ifdjdx//R8aAskULQuNR34D81pYTaZtk3q3fE7Fh2UDGHKCvlAoChG9NajThoLN+8PCrT0/cy/Dt5jg==}
+  /@fontsource/ibm-plex-sans@5.0.19:
+    resolution: {integrity: sha512-ski0jMCzMG/xLTa5w+qj/Dx6NGQMvZtl0/tzCHnf4HMjbMRsDHkzYRsfo0bi6VmKWdmYF623rQhSI/KVSYlbFw==}
     dev: false
 
   /@fontsource/oswald@5.0.19:
