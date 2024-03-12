@@ -23,7 +23,7 @@
     "@fontsource/ibm-plex-sans": "^5.0.19",
     "@fontsource/oswald": "^5.0.19",
     "@fontsource/permanent-marker": "^5.0.8",
-    "@prisma/client": "5.10.2",
+    "@prisma/client": "5.11.0",
     "@sentry/astro": "^7.106.1",
     "astro": "^4.5.1",
     "astro-embed": "^0.6.1",
