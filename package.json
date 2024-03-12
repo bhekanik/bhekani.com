@@ -12,7 +12,7 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "@astrojs/check": "^0.5.7",
+    "@astrojs/check": "^0.5.8",
     "@astrojs/mdx": "^2.2.0",
     "@astrojs/rss": "^4.0.5",
     "@astrojs/sitemap": "^3.1.1",
