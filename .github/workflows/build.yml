@@ -11,6 +11,7 @@ on:
 
 env:
   SENTRY_AUTH_TOKEN: ${{secrets.SENTRY_AUTH_TOKEN }}
+  ASTRO_STUDIO_APP_TOKEN: ${{secrets.ASTRO_STUDIO_APP_TOKEN }}
 
 permissions:
   contents: write
