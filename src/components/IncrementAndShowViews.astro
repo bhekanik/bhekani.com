@@ -1,4 +1,7 @@
 ---
+import { IPHash, View, and, db, eq } from "astro:db"
+import { hashIp } from "../utils/hashIp"
+
 // const body = { ip: Astro.clientAddress ?? null, slug: Astro.params.slug }
 
 // const res = await fetch(`${Astro.url.origin}/api/thoughts/views`, {
@@ -9,12 +12,94 @@
 //   body: JSON.stringify({ slug: Astro.params.slug }),
 // })
 
-let views = 0
+// let views = 0
 // if (res.ok) {
 //   ;({ views } = await res.json())
 // } else {
 //   console.error("Error:", await res.text())
 // }
+
+// const ip = Astro.clientAddress
+const ip = "::1"
+const slug = Astro.params.slug as string
+let views = 0
+
+if (!process.env.COUNT_LOCAL_VIEWS && ip === "::1") {
+  console.log("Not counting local views")
+  const [data] = await db
+    .select()
+    .from(View)
+    .where(eq(View.slug, slug))
+    .limit(1)
+
+  views = data?.count ?? 0
+} else {
+  const ipHash = await hashIp(ip)
+
+  const [existingView] = await db
+    .select({ count: View.count })
+    .from(IPHash)
+    .where(
+      and(
+        eq(IPHash.slug, slug),
+        eq(IPHash.ipHash, ipHash),
+        eq(IPHash.updatedAt, new Date(Date.now() - 1000 * 60 * 60 * 24)),
+      ),
+    )
+    .innerJoin(View, eq(View.slug, IPHash.slug))
+    .limit(1)
+
+  if (existingView) {
+    views = existingView.count
+  }
+
+  const [data] = await db
+    .select({ count: View.count })
+    .from(View)
+    .where(eq(View.slug, slug))
+    .limit(1)
+
+  let view
+  if (data?.count) {
+    ;[view] = await db
+      .update(View)
+      .set({
+        slug,
+        count: data.count + 1,
+        updatedAt: new Date(),
+      })
+      .where(eq(View.slug, slug))
+      .returning({ count: View.count, slug: View.slug })
+  } else {
+    ;[view] = await db
+      .insert(View)
+      .values({
+        slug,
+        count: 1,
+        updatedAt: new Date(),
+      })
+      .returning({ count: View.count, slug: View.slug })
+  }
+
+  await db
+    .insert(IPHash)
+    .values({
+      ipHash,
+      slug: view?.slug as string,
+      updatedAt: new Date(),
+    })
+    .onConflictDoUpdate({
+      target: IPHash.ipHash,
+      set: {
+        updatedAt: new Date(),
+      },
+      where: and(eq(IPHash.ipHash, ipHash), eq(IPHash.slug, view?.slug)),
+    })
+
+  if (view) {
+    views = view?.count as number
+  }
+}
 ---
 
 <p class="text-sm text-[hsl(var(--muted-foreground))]">
