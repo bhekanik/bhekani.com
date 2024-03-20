@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from "astro:content"
+import { View, db, eq } from "astro:db"
 
 type Props = {
   slug: CollectionEntry<"thoughts">["slug"]
@@ -14,7 +15,18 @@ const { slug } = Astro.props
 //   },
 // })
 
-let views = 0
+const [data] = await db
+  .select({ views: View.count })
+  .from(View)
+  .where(eq(View.slug, slug))
+  .limit(1)
+
+console.log("data?:", data)
+const views = data?.views ?? 0
+
+console.log("views:", views)
+
+// let views = 0
 // if (res.ok) {
 //   ;({ views } = await res.json())
 // } else {

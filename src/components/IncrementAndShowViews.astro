@@ -1,4 +1,8 @@
 ---
+import { IPHash, View, and, db, eq } from "astro:db"
+import { hashIp } from "../utils/hashIp"
+import { increment } from "../utils/increment"
+
 // const body = { ip: Astro.clientAddress ?? null, slug: Astro.params.slug }
 
 // const res = await fetch(`${Astro.url.origin}/api/thoughts/views`, {
@@ -9,12 +13,87 @@
 //   body: JSON.stringify({ slug: Astro.params.slug }),
 // })
 
-let views = 0
+// let views = 0
 // if (res.ok) {
 //   ;({ views } = await res.json())
 // } else {
 //   console.error("Error:", await res.text())
 // }
+
+// const ip = Astro.clientAddress
+const ip = "::1"
+const slug = Astro.params.slug as string
+let views = 0
+
+if (!process.env.COUNT_LOCAL_VIEWS && ip === "::1") {
+  console.log("Not counting local views")
+  const [data] = await db
+    .select()
+    .from(View)
+    .where(eq(View.slug, slug))
+    .limit(1)
+  console.log("data:", data)
+
+  views = data?.count ?? 0
+}
+
+const ipHash = await hashIp(ip)
+
+const [existingView] = await db
+  .select({ count: View.count })
+  .from(IPHash)
+  .where(
+    and(
+      eq(IPHash.slug, slug),
+      eq(IPHash.ipHash, ipHash),
+      eq(IPHash.updatedAt, new Date(Date.now() - 1000 * 60 * 60 * 24)),
+    ),
+  )
+  .innerJoin(View, eq(View.slug, IPHash.slug))
+  .limit(1)
+
+if (existingView) {
+  views = existingView.count
+}
+
+console.log("existingView:", existingView)
+const da = await db
+  .insert(View)
+  .values({
+    slug,
+    count: increment(View.count),
+    // count: 1,
+    updatedAt: new Date(),
+  })
+  .onConflictDoUpdate({
+    target: View.slug,
+    set: {
+      count: increment(View.count),
+      // count: 1,
+      updatedAt: new Date(),
+    },
+  })
+  .returning({ count: View.count, slug: View.slug })
+console.log("da:", da)
+
+await db
+  .insert(IPHash)
+  .values({
+    ipHash,
+    slug: da[0].slug as string,
+    updatedAt: new Date(),
+  })
+  .onConflictDoUpdate({
+    target: IPHash.ipHash,
+    set: {
+      updatedAt: new Date(),
+    },
+    where: and(eq(IPHash.ipHash, ipHash), eq(IPHash.slug, da[0].slug)),
+  })
+
+if (da[0]) {
+  views = da[0].count as number
+}
 ---
 
 <p class="text-sm text-[hsl(var(--muted-foreground))]">
