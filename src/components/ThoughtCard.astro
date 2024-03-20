@@ -32,7 +32,7 @@ const {
         {format(date, "MMMM dd, yyyy")}
       </time>
       <!-- &middot; -->
-      <ShowViews slug={slug} />
+      <ShowViews client:visible slug={slug} />
     </div>
     <ThoughtDescription description={title} slug={slug} />
     <TagsList tags={tags} />
