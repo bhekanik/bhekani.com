@@ -1,4 +1,6 @@
 ---
+export const prerender = false
+
 import type { CollectionEntry } from "astro:content"
 import { View, db, eq } from "astro:db"
 
@@ -8,30 +10,13 @@ type Props = {
 
 const { slug } = Astro.props
 
-// const res = await fetch(`${Astro.url.origin}/api/thoughts/views?slug=${slug}`, {
-//   headers: {
-//     "Content-Type": "application/json",
-//     "X-slug": slug,
-//   },
-// })
-
 const [data] = await db
   .select({ views: View.count })
   .from(View)
   .where(eq(View.slug, slug))
   .limit(1)
 
-console.log("data?:", data)
 const views = data?.views ?? 0
-
-console.log("views:", views)
-
-// let views = 0
-// if (res.ok) {
-//   ;({ views } = await res.json())
-// } else {
-//   console.error("Error:", await res.text())
-// }
 ---
 
 <p class="text-sm text-[hsl(var(--muted-foreground))]">
