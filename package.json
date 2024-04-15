@@ -24,7 +24,7 @@
     "@fontsource/ibm-plex-sans": "^5.0.19",
     "@fontsource/oswald": "^5.0.19",
     "@fontsource/permanent-marker": "^5.0.8",
-    "@sentry/astro": "^7.107.0",
+    "@sentry/astro": "^7.110.1",
     "astro": "^4.5.6",
     "astro-embed": "^0.6.1",
     "astro-expressive-code": "^0.33.5",
