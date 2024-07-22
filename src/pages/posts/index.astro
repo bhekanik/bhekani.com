@@ -9,7 +9,7 @@ const allPosts = await getCollection("posts")
 const sortedPosts = allPosts.sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 )
-// const firstThought = sortedThoughts.shift()
+// const firstPost = sortedPosts.shift()
 
 const yearToPosts = sortedPosts.reduce<
   Record<number, CollectionEntry<"posts">[]>
@@ -36,7 +36,7 @@ const pageTitle = "Posts"
     </div>
 
     <AllTags title="Filter by tag" />
-    <!-- {firstThought && <LatestThoughtCard thought={firstThought} />} -->
+    <!-- {firstPost && <LatestPostCard post={firstPost} />} -->
 
     {
       Object.entries(yearToPosts)

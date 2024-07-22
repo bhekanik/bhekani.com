@@ -1,9 +1,7 @@
 ---
 export const prerender = false
 
-// const body = { ip: Astro.clientAddress ?? null, slug: Astro.params.slug }
-
-const res = await fetch(`${Astro.url.origin}/api/thoughts/views`, {
+const res = await fetch(`${Astro.url.origin}/api/posts/views`, {
   method: "POST",
   headers: {
     "Content-Type": "application/json",

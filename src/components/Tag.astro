@@ -1,20 +1,20 @@
 ---
-import { cn } from "../utils/cn";
+import { cn } from "../utils/cn"
 
 type Props = {
-  tag: string;
-  selected?: boolean;
-};
+  tag: string
+  selected?: boolean
+}
 
-const { tag, selected } = Astro.props;
+const { tag, selected } = Astro.props
 ---
 
 <a
   class={cn(
     "text-sm text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--muted-foreground))] whitespace-nowrap",
-    selected ? "font-bold text-[hsl(var(--links-hovered))]" : ""
+    selected ? "font-bold text-[hsl(var(--links-hovered))]" : "",
   )}
-  href={`/thoughts/tags/${tag}`}
+  href={`/posts/tags/${tag}`}
 >
   #{tag}
 </a>

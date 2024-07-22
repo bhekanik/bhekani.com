@@ -17,7 +17,8 @@ const {
 } = Astro.props
 
 const imageSrc =
-  frontmatter.image ?? "https://source.unsplash.com/random/?landscape"
+  frontmatter.image ?? "https://loremflickr.com/1200/240/landmark"
+console.log("imageSrc:", imageSrc)
 ---
 
 <div transition:name={`card-${slug}`}>
@@ -25,7 +26,7 @@ const imageSrc =
     <Link
       transition:name={`back-${slug}`}
       class="hover:text-[hsl(var(--muted-foreground))]"
-      href="/thoughts/"
+      href="/posts/"
     >
       ← All posts
     </Link>
@@ -37,7 +38,7 @@ const imageSrc =
       src={imageSrc as any}
       width="1200"
       height="112"
-      alt="Thought header"
+      alt="Post header"
     />
   </div>
 

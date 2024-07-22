@@ -5,7 +5,6 @@ import { hashIp } from "../../../utils/hashIp"
 export const GET: APIRoute = async ({ request }) => {
   try {
     const slug = request.headers.get("x-slug")
-    console.log("slug:", slug)
 
     if (!slug) {
       return new Response(JSON.stringify({ error: "Missing slug", views: 0 }))
@@ -17,12 +16,11 @@ export const GET: APIRoute = async ({ request }) => {
       .where(eq(View.slug, slug))
       .limit(1)
 
-    console.log("data:", data)
     const views = data?.views ?? 0
 
     return new Response(JSON.stringify({ views }))
   } catch (error) {
-    console.log("error>>>>>>>>:", error)
+    console.error("error +++++++>>>>>>>>:", error)
     return new Response(
       JSON.stringify({ error: (error as Error).message ?? "" }),
     )
@@ -33,10 +31,8 @@ export const POST: APIRoute = async ({ request }) => {
   try {
     // if (!request.userActivation) {}
 
-    console.log("request:", request)
     const body = await request.json()
     const { ip, slug } = body as any
-    console.log("{ ip, slug }:", { ip, slug })
     let views = 0
 
     if (!process.env.COUNT_LOCAL_VIEWS && ip === "::1") {
@@ -116,9 +112,10 @@ export const POST: APIRoute = async ({ request }) => {
       }
     }
 
+    console.log("views:", views)
     return new Response(JSON.stringify({ views }))
   } catch (error) {
-    console.log("error>>>>>>>>:", error)
+    console.error("error---->>>>>>>>:", error)
     return new Response(JSON.stringify({ error: (error as Error).message }))
   }
 }
