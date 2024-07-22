@@ -6,12 +6,14 @@ import PostListItem from "../../../components/PostListItem.astro"
 import BaseLayout from "../../../layouts/BaseLayout.astro"
 
 export async function getStaticPaths() {
-  const posts = await getCollection("posts")
+  const allPosts = await getCollection("posts")
 
-  const uniqueTags = [...new Set(posts.map((post) => post.data.tags).flat())]
+  const uniqueTags = [...new Set(allPosts.map((post) => post.data.tags).flat())]
 
   return uniqueTags.map((tag) => {
-    const filteredPosts = posts.filter((post) => post.data.tags.includes(tag))
+    const filteredPosts = allPosts.filter((blogPost) =>
+      blogPost.data.tags.includes(tag),
+    )
     return {
       params: { tag },
       props: { posts: filteredPosts },

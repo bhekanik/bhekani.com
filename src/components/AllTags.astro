@@ -1,22 +1,20 @@
 ---
-import { getCollection } from "astro:content";
-import Link from "./Link.astro";
-import TagsList from "./TagsList.astro";
+import { getCollection } from "astro:content"
+import Link from "./Link.astro"
+import TagsList from "./TagsList.astro"
 
 export interface Props {
-  selectedTag?: string;
-  title?: string;
+  selectedTag?: string
+  title?: string
 }
 
-const allThoughts = await getCollection("thoughts");
+const allPosts = await getCollection("posts")
 
-const tags = [
-  ...new Set(allThoughts.map((thought) => thought.data.tags).flat()),
-];
+const tags = [...new Set(allPosts.map((post) => post.data.tags).flat())]
 
-const { selectedTag, title } = Astro.props;
+const { selectedTag, title } = Astro.props
 
-const { tag } = Astro.params;
+const { tag } = Astro.params
 ---
 
 <div class="my-8">

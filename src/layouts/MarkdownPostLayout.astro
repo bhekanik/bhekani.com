@@ -1,23 +1,23 @@
 ---
 import type { CollectionEntry } from "astro:content"
 import Giscuss from "../components/Giscuss.astro"
-import RelatedThoughts from "../components/RelatedThoughts.astro"
+import PostHeader from "../components/PostHeader.astro"
+import PostMainContainer from "../components/PostMainContainer.astro"
+import RelatedPosts from "../components/RelatedPosts.astro"
 import TableOfContents from "../components/TableOfContents.astro"
-import ThoughtHeader from "../components/ThoughtHeader.astro"
-import ThoughtMainContainer from "../components/ThoughtMainContainer.astro"
 import WebMentions from "../components/WebMentions.astro"
 import BaseLayout from "./BaseLayout.astro"
 
 type Props = {
-  thought: CollectionEntry<"thoughts">
+  post: CollectionEntry<"posts">
 }
 
 const {
-  thought: { data: frontmatter },
-  thought,
+  post: { data: frontmatter },
+  post,
 } = Astro.props
 
-const { headings } = await thought.render()
+const { headings } = await post.render()
 ---
 
 <BaseLayout
@@ -26,7 +26,7 @@ const { headings } = await thought.render()
   imageUrl={frontmatter.image?.src}
   pageTitle={frontmatter.title}
 >
-  <ThoughtMainContainer>
+  <PostMainContainer>
     <div class="w-full flex justify-center mb-8 font-bold">
       <a
         class="px-3 p-2 text-[hsl(var(--foreground))] border-b-[1px] border-l-[1px] border-r-[1px] border-[hsl(var(--muted))]"
@@ -36,7 +36,7 @@ const { headings } = await thought.render()
       </a>
     </div>
 
-    <ThoughtHeader thought={thought} />
+    <PostHeader post={post} />
 
     <div class="article-area gap-8">
       <TableOfContents headings={headings} />
@@ -53,8 +53,8 @@ const { headings } = await thought.render()
 
     <hr class="my-8" />
 
-    <RelatedThoughts slug={thought.slug} frontmatter={frontmatter} />
-  </ThoughtMainContainer>
+    <RelatedPosts slug={post.slug} frontmatter={frontmatter} />
+  </PostMainContainer>
 </BaseLayout>
 
 <style>

@@ -1,16 +1,14 @@
 ---
-import { getCollection } from "astro:content";
-import MainContainer from "../../../components/MainContainer.astro";
-import Tag from "../../../components/Tag.astro";
-import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content"
+import MainContainer from "../../../components/MainContainer.astro"
+import Tag from "../../../components/Tag.astro"
+import BaseLayout from "../../../layouts/BaseLayout.astro"
 
-const allThoughts = await getCollection("thoughts");
+const allPosts = await getCollection("posts")
 
-const tags = [
-  ...new Set(allThoughts.map((thought) => thought.data.tags).flat()),
-];
+const tags = [...new Set(allPosts.map((post) => post.data.tags).flat())]
 
-const pageTitle = "Tags";
+const pageTitle = "Tags"
 ---
 
 <BaseLayout pageTitle={pageTitle}>

@@ -3,17 +3,17 @@ import { Image } from "astro:assets"
 import type { CollectionEntry } from "astro:content"
 import Case from "case"
 import { format } from "date-fns"
-import Link from "../components/Link.astro"
 import IncrementAndShowViews from "./IncrementAndShowViews.astro"
+import Link from "./Link.astro"
+import PostDescription from "./PostDescription.astro"
 import TagsList from "./TagsList.astro"
-import ThoughtDescription from "./ThoughtDescription.astro"
 
 type Props = {
-  thought: CollectionEntry<"thoughts">
+  post: CollectionEntry<"posts">
 }
 
 const {
-  thought: { data: frontmatter, slug },
+  post: { data: frontmatter, slug },
 } = Astro.props
 
 const imageSrc =
@@ -27,7 +27,7 @@ const imageSrc =
       class="hover:text-[hsl(var(--muted-foreground))]"
       href="/thoughts/"
     >
-      ← All thoughts
+      ← All posts
     </Link>
   </p>
   <div class="w-full mb-4 h-28 overflow-hidden">
@@ -41,7 +41,7 @@ const imageSrc =
     />
   </div>
 
-  <ThoughtDescription description={frontmatter.description} slug={slug} />
+  <PostDescription description={frontmatter.description} slug={slug} />
 
   <TagsList tags={frontmatter.tags} />
 
@@ -54,6 +54,6 @@ const imageSrc =
     >
       {format(frontmatter.pubDate, "MMMM dd, yyyy")}
     </time>
-    <IncrementAndShowViews client:load />
+    <IncrementAndShowViews />
   </div>
 </div>

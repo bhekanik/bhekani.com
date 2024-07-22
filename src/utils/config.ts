@@ -8,8 +8,8 @@ export const navItems = [
     href: "/about",
   },
   {
-    title: "Thoughts",
-    href: "/thoughts",
+    title: "Blog",
+    href: "/blog",
   },
   {
     title: "Books",

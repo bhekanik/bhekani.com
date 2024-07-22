@@ -2,26 +2,26 @@
 import { getCollection, type CollectionEntry } from "astro:content"
 import AllTags from "../../components/AllTags.astro"
 import MainContainer from "../../components/MainContainer.astro"
-import ThoughtCard from "../../components/ThoughtCard.astro"
+import PostCard from "../../components/PostCard.astro"
 import BaseLayout from "../../layouts/BaseLayout.astro"
 
-const allThoughts = await getCollection("thoughts")
-const sortedThoughts = allThoughts.sort(
+const allPosts = await getCollection("posts")
+const sortedPosts = allPosts.sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 )
 // const firstThought = sortedThoughts.shift()
 
-const yearToThoughts = sortedThoughts.reduce<
-  Record<number, CollectionEntry<"thoughts">[]>
->((acc, thought) => {
-  const year = new Date(thought.data.pubDate).getFullYear()
+const yearToPosts = sortedPosts.reduce<
+  Record<number, CollectionEntry<"posts">[]>
+>((acc, post) => {
+  const year = new Date(post.data.pubDate).getFullYear()
   if (!acc[year]) {
     acc[year] = []
   }
-  acc[year].push(thought)
+  acc[year].push(post)
   return acc
 }, {})
-const pageTitle = "Thoughts"
+const pageTitle = "Posts"
 ---
 
 <BaseLayout pageTitle={pageTitle}>
@@ -39,16 +39,16 @@ const pageTitle = "Thoughts"
     <!-- {firstThought && <LatestThoughtCard thought={firstThought} />} -->
 
     {
-      Object.entries(yearToThoughts)
+      Object.entries(yearToPosts)
         .sort((a, b) => Number(b[0]) - Number(a[0]))
-        .map(([year, thoughts]) => (
+        .map(([year, posts]) => (
           <>
             <h2 class="text-2xl mb-4 border-b-2 mt-8 pb-2">
-              {year} ({thoughts.length})
+              {year} ({posts.length})
             </h2>
             <div class="grid gap-4">
-              {thoughts.map((thought) => (
-                <ThoughtCard thought={thought} />
+              {posts.map((post) => (
+                <PostCard post={post} />
               ))}
             </div>
           </>

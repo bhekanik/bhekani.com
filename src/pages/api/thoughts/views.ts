@@ -1,33 +1,31 @@
 import type { APIRoute } from "astro"
 import { IPHash, View, and, db, eq } from "astro:db"
 import { hashIp } from "../../../utils/hashIp"
-import { increment } from "../../../utils/increment"
 
 export const GET: APIRoute = async ({ request }) => {
   try {
     const slug = request.headers.get("x-slug")
+    console.log("slug:", slug)
 
     if (!slug) {
       return new Response(JSON.stringify({ error: "Missing slug", views: 0 }))
     }
 
-    // const data = await prisma.views.findFirst({
-    //   where: {
-    //     slug,
-    //   },
-    // })
-
     const [data] = await db
-      .select()
+      .select({ views: View.count })
       .from(View)
       .where(eq(View.slug, slug))
       .limit(1)
-    console.log("data:", data)
 
-    return new Response(JSON.stringify({ views: data?.count ? data.count : 0 }))
+    console.log("data:", data)
+    const views = data?.views ?? 0
+
+    return new Response(JSON.stringify({ views }))
   } catch (error) {
     console.log("error>>>>>>>>:", error)
-    return new Response(JSON.stringify({ error: (error as Error).message }))
+    return new Response(
+      JSON.stringify({ error: (error as Error).message ?? "" }),
+    )
   }
 }
 
@@ -35,132 +33,90 @@ export const POST: APIRoute = async ({ request }) => {
   try {
     // if (!request.userActivation) {}
 
-    const { ip, slug } = await request.json()
+    console.log("request:", request)
+    const body = await request.json()
+    const { ip, slug } = body as any
     console.log("{ ip, slug }:", { ip, slug })
+    let views = 0
 
     if (!process.env.COUNT_LOCAL_VIEWS && ip === "::1") {
-      // const data = await prisma.views.findFirst({
-      //   where: {
-      //     slug,
-      //   },
-      // })
-
+      console.log("Not counting local views")
       const [data] = await db
         .select()
         .from(View)
         .where(eq(View.slug, slug))
         .limit(1)
-      console.log("data:", data)
 
-      return new Response(
-        JSON.stringify({ views: data?.count ? data.count : 0 }),
-      )
+      views = data?.count ?? 0
+    } else {
+      const ipHash = await hashIp(ip)
+
+      const [existingView] = await db
+        .select({ count: View.count })
+        .from(IPHash)
+        .where(
+          and(
+            eq(IPHash.slug, slug),
+            eq(IPHash.ipHash, ipHash),
+            eq(IPHash.updatedAt, new Date(Date.now() - 1000 * 60 * 60 * 24)),
+          ),
+        )
+        .innerJoin(View, eq(View.slug, IPHash.slug))
+        .limit(1)
+
+      if (existingView) {
+        views = existingView.count
+      }
+
+      const [data] = await db
+        .select({ count: View.count })
+        .from(View)
+        .where(eq(View.slug, slug))
+        .limit(1)
+
+      let view
+      if (data?.count) {
+        ;[view] = await db
+          .update(View)
+          .set({
+            slug,
+            count: data.count + 1,
+            updatedAt: new Date(),
+          })
+          .where(eq(View.slug, slug))
+          .returning({ count: View.count, slug: View.slug })
+      } else {
+        ;[view] = await db
+          .insert(View)
+          .values({
+            slug,
+            count: 1,
+            updatedAt: new Date(),
+          })
+          .returning({ count: View.count, slug: View.slug })
+      }
+
+      await db
+        .insert(IPHash)
+        .values({
+          ipHash,
+          slug: view?.slug as string,
+          updatedAt: new Date(),
+        })
+        .onConflictDoUpdate({
+          target: IPHash.ipHash,
+          set: {
+            updatedAt: new Date(),
+          },
+          where: and(eq(IPHash.ipHash, ipHash), eq(IPHash.slug, view?.slug)),
+        })
+
+      if (view) {
+        views = view?.count as number
+      }
     }
 
-    const ipHash = await hashIp(ip)
-
-    // const existingView = await prisma.iPHashes.findUnique({
-    //   where: {
-    //     ipHash_slug: {
-    //       ipHash,
-    //       slug,
-    //     },
-    //     updatedAt: { gte: new Date(Date.now() - 1000 * 60 * 60 * 24) },
-    //   },
-    //   select: {
-    //     view: {
-    //       select: {
-    //         count: true,
-    //       },
-    //     },
-    //   },
-    // })
-
-    const [existingView] = await db
-      .select({ count: View.count })
-      .from(IPHash)
-      .where(
-        and(
-          eq(IPHash.slug, slug),
-          eq(IPHash.ipHash, ipHash),
-          eq(IPHash.updatedAt, new Date(Date.now() - 1000 * 60 * 60 * 24)),
-        ),
-      )
-      .limit(1)
-
-    if (existingView) {
-      return new Response(JSON.stringify({ views: existingView.count }))
-    }
-
-    const da = await db
-      .insert(View)
-      .values({
-        slug,
-        count: increment(View.count),
-        updatedAt: new Date(),
-      })
-      .onConflictDoUpdate({
-        target: [View.slug],
-        set: {
-          count: increment(View.count),
-          updatedAt: new Date(),
-        },
-      })
-
-    await db
-      .insert(IPHash)
-      .values({
-        ipHash,
-        slug,
-        updatedAt: new Date(),
-      })
-      .onConflictDoUpdate({
-        target: [IPHash.ipHash, IPHash.slug],
-        set: {
-          updatedAt: new Date(),
-        },
-      })
-
-    // const data = await prisma.views.upsert({
-    //   where: {
-    //     slug,
-    //   },
-    //   update: {
-    //     count: {
-    //       increment: 1,
-    //     },
-    //     IPHashes: {
-    //       upsert: {
-    //         where: {
-    //           ipHash_slug: {
-    //             ipHash,
-    //             slug,
-    //           },
-    //           slug,
-    //         },
-    //         update: {
-    //           updatedAt: new Date(),
-    //         },
-    //         create: {
-    //           ipHash,
-    //           updatedAt: new Date(),
-    //         },
-    //       },
-    //     },
-    //   },
-    //   create: {
-    //     slug,
-    //     count: 1,
-    //     IPHashes: {
-    //       create: {
-    //         ipHash,
-    //         updatedAt: new Date(),
-    //       },
-    //     },
-    //   },
-    // })
-
-    return new Response(JSON.stringify({ views: da.rows[0]?.count ?? 0 }))
+    return new Response(JSON.stringify({ views }))
   } catch (error) {
     console.log("error>>>>>>>>:", error)
     return new Response(JSON.stringify({ error: (error as Error).message }))

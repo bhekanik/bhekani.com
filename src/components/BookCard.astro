@@ -1,19 +1,19 @@
 ---
-import type { CollectionEntry } from "astro:content";
-import { format } from "date-fns";
-import BookRating from "./BookRating.astro";
-import TagsList from "./TagsList.astro";
+import type { CollectionEntry } from "astro:content"
+import { format } from "date-fns"
+import BookRating from "./BookRating.astro"
+import TagsList from "./TagsList.astro"
 
 type Props = {
-  book: CollectionEntry<"books">;
-};
+  book: CollectionEntry<"books">
+}
 
 const {
   book: {
     slug,
     data: { tags, title, dateAdded: date, myRating, author },
   },
-} = Astro.props;
+} = Astro.props
 ---
 
 <div class="card">

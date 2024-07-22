@@ -1,8 +1,8 @@
-import rss from "@astrojs/rss";
-import { getCollection } from "astro:content";
+import rss from "@astrojs/rss"
+import { getCollection } from "astro:content"
 
 export async function GET(context: any) {
-  const posts = await getCollection("thoughts");
+  const posts = await getCollection("posts")
 
   return rss({
     title: "Bhekani.com | Blog",
@@ -15,5 +15,5 @@ export async function GET(context: any) {
       link: `/posts/${post.slug}/`,
     })),
     customData: `<language>en-us</language>`,
-  });
+  })
 }

@@ -4,24 +4,24 @@ import Prose from "../../components/Prose.astro"
 import MarkdownPostLayout from "../../layouts/MarkdownPostLayout.astro"
 
 export async function getStaticPaths() {
-  const thoughts = await getCollection("thoughts")
-  return thoughts
-    .filter((thought) => thought.data.published)
-    .map((thought) => ({
-      params: { slug: thought.slug },
-      props: { thought },
+  const posts = await getCollection("posts")
+  return posts
+    .filter((post) => post.data.published)
+    .map((post) => ({
+      params: { slug: post.slug },
+      props: { post },
     }))
 }
 
 export interface Props {
-  thought: CollectionEntry<"thoughts">
+  post: CollectionEntry<"posts">
 }
 
-const { thought } = Astro.props
-const { Content } = await thought.render()
+const { post } = Astro.props
+const { Content } = await post.render()
 ---
 
-<MarkdownPostLayout thought={thought}>
+<MarkdownPostLayout post={post}>
   <!-- <hr class="my-4 border-[hsl(var(--muted))]" /> -->
   <Prose>
     <Content class="content" />

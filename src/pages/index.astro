@@ -1,19 +1,19 @@
 ---
-import AboutCard from "../components/AboutCard.astro";
-import AllTags from "../components/AllTags.astro";
-import Link from "../components/Link.astro";
-import MainContainer from "../components/MainContainer.astro";
-import RecentThoughts from "../components/RecentThoughts.astro";
-import BaseLayout from "../layouts/BaseLayout.astro";
+import AboutCard from "../components/AboutCard.astro"
+import AllTags from "../components/AllTags.astro"
+import Link from "../components/Link.astro"
+import MainContainer from "../components/MainContainer.astro"
+import RecentPosts from "../components/RecentPosts.astro"
+import BaseLayout from "../layouts/BaseLayout.astro"
 
-const pageTitle = "Bhekani Khumalo";
+const pageTitle = "Bhekani Khumalo"
 ---
 
 <BaseLayout pageTitle={pageTitle}>
   <MainContainer>
     <AboutCard />
 
-    <RecentThoughts />
+    <RecentPosts />
 
     <p class="w-full mb-8 font-bold">
       You can also <Link href="/rss.xml">subscribe with RSS</Link>
@@ -24,7 +24,6 @@ const pageTitle = "Bhekani Khumalo";
       class="w-full bg-[hsl(var(--muted))] mt-8"
       src="https://justreflections.bhekani.com/embed"
       width="480"
-      height="320"
-      ></iframe>
+      height="320"></iframe>
   </MainContainer>
 </BaseLayout>

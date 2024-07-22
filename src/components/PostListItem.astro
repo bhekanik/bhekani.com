@@ -1,0 +1,35 @@
+---
+import type { CollectionEntry } from "astro:content"
+import { format } from "date-fns"
+import Link from "./Link.astro"
+import PostDescription from "./PostDescription.astro"
+import TagsList from "./TagsList.astro"
+
+type Props = {
+  post: CollectionEntry<"posts">
+}
+
+const { post: post } = Astro.props
+
+const url = `/posts/${post.slug}/`
+const title = post.data.title
+const date = post.data.pubDate
+const tags = post.data.tags
+---
+
+<li>
+  <div>
+    <Link href={url} transition:name={`title-${post.slug}`}>
+      {title}
+    </Link>
+
+    <time
+      class="ml-2 text-sm whitespace-nowrap text-[hsl(var(--muted-foreground))]"
+      >{format(date, "MMMM dd, yyyy")}
+    </time>
+  </div>
+
+  <PostDescription description={title} slug={post.slug} />
+
+  <TagsList tags={tags} />
+</li>

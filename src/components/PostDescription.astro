@@ -1,12 +1,12 @@
 ---
-import type { CollectionEntry } from "astro:content";
+import type { CollectionEntry } from "astro:content"
 
 type Props = {
-  description: CollectionEntry<"thoughts">["data"]["description"];
-  slug?: CollectionEntry<"thoughts">["slug"];
-};
+  description: CollectionEntry<"posts">["data"]["description"]
+  slug?: CollectionEntry<"posts">["slug"]
+}
 
-const { description, slug } = Astro.props;
+const { description, slug } = Astro.props
 ---
 
 {
