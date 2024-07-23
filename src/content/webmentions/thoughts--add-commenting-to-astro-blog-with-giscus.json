@@ -12,9 +12,9 @@
     "wm-received": "2024-01-16T23:36:09Z",
     "wm-id": 1768056,
     "wm-source": "https://brid.gy/like/bluesky/did:plc:cp7jvjofnhcqpqg3pde2zqtc/at%253A%252F%252Fdid%253Aplc%253Acp7jvjofnhcqpqg3pde2zqtc%252Fapp.bsky.feed.post%252F3kj542uy2wi2y/did%253Aplc%253A32ejvo3lggl47tlvhzn35td7",
-    "wm-target": "https://www.bhekani.com/posts/add-commenting-to-astro-blog-with-giscus/",
+    "wm-target": "https://www.bhekani.com/thoughts/add-commenting-to-astro-blog-with-giscus/",
     "wm-protocol": "webmention",
-    "like-of": "https://www.bhekani.com/posts/add-commenting-to-astro-blog-with-giscus/",
+    "like-of": "https://www.bhekani.com/thoughts/add-commenting-to-astro-blog-with-giscus/",
     "wm-property": "like-of",
     "wm-private": false
   },
@@ -31,9 +31,9 @@
     "wm-received": "2024-01-16T23:36:09Z",
     "wm-id": 1768057,
     "wm-source": "https://brid.gy/like/bluesky/did:plc:cp7jvjofnhcqpqg3pde2zqtc/at%253A%252F%252Fdid%253Aplc%253Acp7jvjofnhcqpqg3pde2zqtc%252Fapp.bsky.feed.post%252F3kj542uy2wi2y/did%253Aplc%253Aq3kyxtvsoezp3kogdhhwv4nm",
-    "wm-target": "https://www.bhekani.com/posts/add-commenting-to-astro-blog-with-giscus/",
+    "wm-target": "https://www.bhekani.com/thoughts/add-commenting-to-astro-blog-with-giscus/",
     "wm-protocol": "webmention",
-    "like-of": "https://www.bhekani.com/posts/add-commenting-to-astro-blog-with-giscus/",
+    "like-of": "https://www.bhekani.com/thoughts/add-commenting-to-astro-blog-with-giscus/",
     "wm-property": "like-of",
     "wm-private": false
   }
