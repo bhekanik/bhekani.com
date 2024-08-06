@@ -32,7 +32,6 @@ export default defineConfig({
       sourceMapsUploadOptions: {
         project: "website",
         authToken: process.env.SENTRY_AUTH_TOKEN,
-        environment: isProduction ? "production" : "development",
       },
     }),
     tailwind(),
