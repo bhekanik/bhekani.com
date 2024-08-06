@@ -1,14 +1,14 @@
 ---
-import { Image } from "astro:assets";
-import { getCollection, type CollectionEntry } from "astro:content";
-import { format } from "date-fns";
+import { Image } from "astro:assets"
+import { getCollection, type CollectionEntry } from "astro:content"
+import { format } from "date-fns"
 
-type WebMentionData = CollectionEntry<"webmentions">["data"][0][];
+type WebMentionData = CollectionEntry<"webmentions">["data"][0][]
 
-const webmentions = await getCollection("webmentions");
+const webmentions = await getCollection("webmentions")
 const webmentionsByTarget = webmentions
   .map((webmention) => {
-    return webmention.data;
+    return webmention.data
   })
   .flat()
   .filter((webmention) => webmention["wm-target"])
@@ -16,31 +16,31 @@ const webmentionsByTarget = webmentions
     Record<
       string,
       {
-        likes: WebMentionData;
-        mentions: WebMentionData;
+        likes: WebMentionData
+        mentions: WebMentionData
       }
     >
   >((acc, webmention) => {
     const target = webmention["wm-target"].replace(
       "https://www.bhekani.com",
-      ""
-    );
+      "",
+    )
     if (!acc[target]) {
       acc[target] = {
         likes: [],
         mentions: [],
-      };
+      }
     }
     if (webmention["wm-property"] === "like-of") {
-      acc[target].likes.push(webmention);
+      acc[target].likes.push(webmention)
     } else if (webmention["wm-property"] === "mention-of") {
-      acc[target].mentions.push(webmention);
+      acc[target].mentions.push(webmention)
     }
 
-    return acc;
-  }, {});
+    return acc
+  }, {})
 
-const { pathname } = Astro.url;
+const { pathname } = Astro.url
 ---
 
 <div class="my-8">
@@ -58,19 +58,19 @@ const { pathname } = Astro.url;
         <p>
           Liked by:
           {webmentionsByTarget[pathname]?.likes?.map((webmention, index) => {
-            const { author } = webmention;
+            const { author } = webmention
 
             return (
               <a href={webmention.url} target="_blank">
-                {webmentionsByTarget[pathname].likes.length === index + 1 &&
+                {webmentionsByTarget[pathname]?.likes.length === index + 1 &&
                   " and "}
                 {Boolean(author?.name) && !author?.name.includes("\u200E")
                   ? author?.name
-                  : author?.url?.split("/").at(-1) ?? ""}
-                {webmentionsByTarget[pathname].likes.length !== index + 1 &&
+                  : (author?.url?.split("/").at(-1) ?? "")}
+                {webmentionsByTarget[pathname]?.likes.length !== index + 1 &&
                   ", "}
               </a>
-            );
+            )
           })}
         </p>
       </div>
@@ -80,7 +80,7 @@ const { pathname } = Astro.url;
   <ul class="flex flex-col gap-4">
     {
       webmentionsByTarget[pathname]?.mentions?.map((webmention) => {
-        const { author } = webmention;
+        const { author } = webmention
 
         return author?.photo ? (
           <li class="flex item-center gap-2">
@@ -96,14 +96,14 @@ const { pathname } = Astro.url;
             <a href={webmention.url} target="_blank">
               {Boolean(author?.name) && !author?.name.includes("\u200E")
                 ? author?.name
-                : author?.url?.split("/").at(-1) ?? ""}
+                : (author?.url?.split("/").at(-1) ?? "")}
             </a>
             <a href={webmention.url} target="_blank">
               mentioned this
             </a>{" "}
             on {format(new Date(webmention["wm-received"]), "yyyy-MM-dd")}
           </li>
-        ) : null;
+        ) : null
       })
     }
   </ul>

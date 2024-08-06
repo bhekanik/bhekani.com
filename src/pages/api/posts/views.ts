@@ -104,7 +104,10 @@ export const POST: APIRoute = async ({ request }) => {
           set: {
             updatedAt: new Date(),
           },
-          where: and(eq(IPHash.ipHash, ipHash), eq(IPHash.slug, view?.slug)),
+          where: and(
+            eq(IPHash.ipHash, ipHash),
+            eq(IPHash.slug, view?.slug ?? ""),
+          ),
         })
 
       if (view) {
