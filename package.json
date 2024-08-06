@@ -6,7 +6,7 @@
     "dev": "astro dev",
     "start": "astro dev",
     "lint": "astro check",
-    "build": "pnpm lint && astro build --remote",
+    "build": "pnpm lint && astro sync && astro build --remote",
     "preview": "astro preview",
     "astro": "astro",
     "prepare": "husky"
