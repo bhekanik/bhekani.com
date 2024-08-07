@@ -20,6 +20,9 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      SENTRY_AUTH_TOKEN: ${{secrets.SENTRY_AUTH_TOKEN }}
+      ASTRO_STUDIO_APP_TOKEN: ${{secrets.ASTRO_STUDIO_APP_TOKEN }}
     name: Lint, Test & Build
     steps:
       - uses: actions/checkout@v4
