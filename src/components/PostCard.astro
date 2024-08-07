@@ -3,8 +3,8 @@ import { Image } from "astro:assets"
 import type { CollectionEntry } from "astro:content"
 import { format } from "date-fns"
 import PostDescription from "./PostDescription.astro"
-import ShowViews from "./ShowViews.astro"
 import TagsList from "./TagsList.astro"
+import Views from "./Views.svelte"
 
 type Props = {
   post: CollectionEntry<"posts">
@@ -32,7 +32,7 @@ const {
         {format(date, "MMMM dd, yyyy")}
       </time>
       <!-- &middot; -->
-      <ShowViews slug={slug} />
+      <Views client:load="svelte" slug={slug} />
     </div>
     <PostDescription description={title} slug={slug} />
     <TagsList tags={tags} />
