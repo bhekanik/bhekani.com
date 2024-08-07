@@ -3,7 +3,7 @@ import { db, eq, sql, Views } from "astro:db"
 
 export const prerender = false
 
-export const GET: APIRoute = async ({ url, params }) => {
+export const GET: APIRoute = async ({ url }) => {
   const slug = url.searchParams.get("slug")
 
   if (!slug) {
@@ -15,7 +15,7 @@ export const GET: APIRoute = async ({ url, params }) => {
 
   let item
   try {
-    const views = await db
+    await db
       .select({
         count: Views.count,
       })
