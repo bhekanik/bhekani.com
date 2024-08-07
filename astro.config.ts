@@ -7,6 +7,7 @@ import sentry from "@sentry/astro"
 import expressiveCode from "astro-expressive-code"
 import robotsTxt from "astro-robots-txt"
 import { defineConfig } from "astro/config"
+
 const isProduction = process.env.NODE_ENV === "production"
 
 // https://astro.build/config

@@ -1,4 +1,5 @@
 import type { APIRoute } from "astro"
+// @ts-expect-error Not sure why this is happening TODO:
 import { IPHash, View, and, db, eq } from "astro:db"
 import { hashIp } from "../../../utils/hashIp"
 

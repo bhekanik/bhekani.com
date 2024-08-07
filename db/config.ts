@@ -1,6 +1,6 @@
 import { column, defineDb, defineTable } from "astro:db"
 
-export const View = defineTable({
+const View = defineTable({
   columns: {
     slug: column.text({ primaryKey: true }),
     count: column.number({ default: 0, notNull: true }),
@@ -11,7 +11,7 @@ export const View = defineTable({
   },
 })
 
-export const IPHash = defineTable({
+const IPHash = defineTable({
   columns: {
     ipHash: column.text({}),
     slug: column.text({
