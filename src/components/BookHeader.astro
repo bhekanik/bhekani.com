@@ -1,20 +1,22 @@
 ---
-import { Image } from "astro:assets";
-import type { CollectionEntry } from "astro:content";
-import { format } from "date-fns";
-import Link from "../components/Link.astro";
-import BookRating from "./BookRating.astro";
-import TagsList from "./TagsList.astro";
+import { Image } from "astro:assets"
+import type { CollectionEntry } from "astro:content"
+import { format } from "date-fns"
+import Link from "../components/Link.astro"
+import BookRating from "./BookRating.astro"
+import TagsList from "./TagsList.astro"
 
 type Props = {
-  book: CollectionEntry<"books">;
-};
+  book: CollectionEntry<"books">
+  slug?: string
+}
 
 const {
   book: {
-    data: { ISBN, tags, dateAdded, myRating, author },
+    data: { ISBN, tags, dateAdded, myRating, author, myReview },
+    slug,
   },
-} = Astro.props;
+} = Astro.props
 ---
 
 <div>
@@ -58,6 +60,19 @@ const {
       <Link href={`https://openlibrary.org/isbn/${ISBN}`} target="_blank">
         View in OpenLibrary
       </Link>
+
+      <br />
+
+      {
+        myReview && (
+          <p
+            transition:name={slug ? `review-${slug}` : ""}
+            class="mb-1 font-thin text-[hsl(var(--muted-foreground))]"
+          >
+            <em>{myReview}</em>
+          </p>
+        )
+      }
     </div>
   </div>
 </div>

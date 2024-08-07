@@ -18,9 +18,22 @@ dateAdded: "2023-07-06"
 bookshelves:
 bookshelvesWithPositions:
 exclusiveShelf: read
-myReview:
+myReview: "I like Carl Newport and his ideas are generally quite interesting although I find them hard to follow in their entirety. This is definitely something I aspire to and everytime I give it a shot, even part of it, it genuinely makes a real difference."
 spoiler: null
 readCount: 1
 ownedCopies: 0
 tags: []
 ---
+
+## What I Liked
+
+- It's promoting putting your phone away and focussing, multi-tasking is a myth. I like that idea.
+
+## What I Disliked
+
+- It's a little impractical sometimes.
+
+## Key Takeaways
+
+- Think about evaluating your work on a longer horizon
+- Work at a natural pace

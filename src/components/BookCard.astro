@@ -11,7 +11,7 @@ type Props = {
 const {
   book: {
     slug,
-    data: { tags, title, dateAdded: date, myRating, author },
+    data: { tags, title, dateAdded: date, myRating, author, myReview },
   },
 } = Astro.props
 ---
@@ -34,6 +34,19 @@ const {
         Added: {format(new Date(date), "MMMM dd, yyyy")}
       </time>
     </div>
+
+
+    {
+      myReview && (
+        <br />
+        <p
+          transition:name={slug ? `review-${slug}` : ""}
+          class="mb-1 font-thin text-[hsl(var(--muted-foreground))]"
+        >
+          <em>{myReview}</em>
+        </p>
+      )
+    }
   </div>
 </div>
 
