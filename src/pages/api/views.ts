@@ -48,7 +48,6 @@ export const POST: APIRoute = async ({ url }) => {
     status: 200,
     headers: {
       "content-type": "application/json",
-      "cache-control": "public, s-maxage=60, stale-while-revalidate=25",
     },
   })
 }
@@ -81,7 +80,6 @@ export const GET: APIRoute = async ({ url }) => {
     status: 200,
     headers: {
       "content-type": "application/json",
-      "cache-control": "public, s-maxage=60, stale-while-revalidate=25",
     },
   })
 }
