@@ -1,0 +1,15 @@
+{
+	"title": "Journaler",
+	"description": "A platform for people to share journal prompts",
+	"url": "https://journaler.me",
+	"image": "../_images/journaler.png",
+	"startDate": "2024-05-01",
+	"published": true,
+	"tech": [
+		"Next.js",
+		"Postgresql",
+		"DrizzleORM",
+		"Tailwind",
+		"Vercel"
+	]
+}
