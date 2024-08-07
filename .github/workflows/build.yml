@@ -51,6 +51,8 @@ jobs:
 
       - name: build
         run: pnpm build
+        env:
+          ASTRO_STUDIO_APP_TOKEN: ${{ secrets.ASTRO_STUDIO_APP_TOKEN }}
 
   auto-merge-dependabot:
     name: Auto merge dependabot PR
