@@ -16,9 +16,7 @@ const {
   post: { data: frontmatter, slug },
 } = Astro.props
 
-const imageSrc =
-  frontmatter.image ?? "https://loremflickr.com/1200/240/landmark"
-console.log("imageSrc:", imageSrc)
+const imageSrc = frontmatter.image ?? ""
 ---
 
 <div transition:name={`card-${slug}`}>
@@ -32,14 +30,18 @@ console.log("imageSrc:", imageSrc)
     </Link>
   </p>
   <div class="w-full mb-4 h-28 overflow-hidden">
-    <Image
-      transition:name={`image-${slug}`}
-      class="w-full object-cover h-full"
-      src={imageSrc as any}
-      width="1200"
-      height="112"
-      alt="Post header"
-    />
+    {
+      imageSrc && (
+        <Image
+          transition:name={`image-${slug}`}
+          class="w-full object-cover h-full"
+          src={imageSrc as any}
+          width="1200"
+          height="112"
+          alt="Post header"
+        />
+      )
+    }
   </div>
 
   <PostDescription description={frontmatter.description} slug={slug} />
