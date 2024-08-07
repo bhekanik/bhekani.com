@@ -3,10 +3,10 @@ import { Image } from "astro:assets"
 import type { CollectionEntry } from "astro:content"
 import Case from "case"
 import { format } from "date-fns"
-import IncrementAndShowViews from "./IncrementAndShowViews.astro"
 import Link from "./Link.astro"
 import PostDescription from "./PostDescription.astro"
 import TagsList from "./TagsList.astro"
+import ViewCounter from "./ViewCounter.svelte"
 
 type Props = {
   post: CollectionEntry<"posts">
@@ -57,6 +57,7 @@ const imageSrc = frontmatter.image ?? ""
     >
       {format(frontmatter.pubDate, "MMMM dd, yyyy")}
     </time>
-    <IncrementAndShowViews />
+    <!-- <IncrementAndShowViews /> -->
+    <ViewCounter client:load="svelte" slug={slug} />
   </div>
 </div>
