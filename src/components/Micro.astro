@@ -22,7 +22,9 @@ const { Content } = await micro.render()
   class="card border border-[hsl(var(--muted-foreground))] p-4 flex flex-col gap-2 max-w-[80ch]"
 >
   <div class="content border-b border-[hsl(var(--muted-foreground))]">
-    <h1 transition:name={`title-${slug}`} class="text-xl mb-2">{title}</h1>
+    <a href={`/micro/${slug}/`} class="h-fit">
+      <h1 transition:name={`title-${slug}`} class="text-xl mb-2">{title}</h1>
+    </a>
     <time
       transition:name={`date-${slug}`}
       class="text-sm text-[hsl(var(--muted-foreground))]"
