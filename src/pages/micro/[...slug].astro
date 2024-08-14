@@ -1,0 +1,32 @@
+---
+import { getCollection, type CollectionEntry } from "astro:content"
+import Prose from "../../components/Prose.astro"
+import MainContainer from "../../components/MainContainer.astro"
+import Micro from "../../components/Micro.astro"
+import BaseLayout from "../../layouts/BaseLayout.astro"
+
+export async function getStaticPaths() {
+  const micros = await getCollection("micro")
+  return micros
+    .filter((micro) => micro.data.published)
+    .map((micro) => ({
+      params: { slug: micro.slug },
+      props: { micro },
+    }))
+}
+
+export interface Props {
+  micro: CollectionEntry<"micro">
+}
+
+const { micro } = Astro.props
+const { Content } = await micro.render()
+---
+
+<BaseLayout pageTitle={micro.data.title}>
+  <MainContainer>
+    <div class="grid gap-4 mt-8">
+      <Micro micro={micro} />
+    </div>
+  </MainContainer>
+</BaseLayout>
