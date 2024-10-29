@@ -1,0 +1,16 @@
+{
+	"title": "CV Optimiser",
+	"description": "A tool to optimise your CV for specific job descriptions using AI.",
+	"url": "https://www.cvoptimiser.com",
+	"image": "../_images/cvoptimiser.jpeg",
+	"startDate": "2024-10-01",
+	"published": true,
+	"tech": [
+		"Next.js",
+		"Postgresql",
+		"Drizzle ORM",
+		"AWS",
+		"Tailwind",
+		"Vercel"
+	]
+}

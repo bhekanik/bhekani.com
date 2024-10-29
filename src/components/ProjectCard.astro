@@ -1,16 +1,16 @@
 ---
-import { Image } from "astro:assets";
-import type { CollectionEntry } from "astro:content";
+import { Image } from "astro:assets"
+import type { CollectionEntry } from "astro:content"
 
 type Props = {
-  projects: CollectionEntry<"projects">;
-};
+  projects: CollectionEntry<"projects">
+}
 
 const {
   projects: {
-    data: { title, image, url, tech },
+    data: { title, image, url, tech, description },
   },
-} = Astro.props;
+} = Astro.props
 ---
 
 <div class="card grid p-4">
@@ -18,7 +18,7 @@ const {
     image && (
       <div class="image overflow-hidden w-full">
         <Image
-          class="object-cover w-full h-full"
+          class="object-cover w-full h-full aspect-video"
           src={image}
           width="600"
           height="300"
@@ -35,8 +35,9 @@ const {
     <a
       href={url}
       target="_blank"
-      class="text-sm hover:text-[hsl(var(--muted-foreground))]">{url}</a
+      class="text-sm mb-4 hover:text-[hsl(var(--muted-foreground))]">{url}</a
     >
+    <p class="text-sm mb-2 text-gray-900 dark:text-gray-400">{description}</p>
     <!-- <div class="text-sm flex gap-2">
       <time
         class="text-[hsl(var(--muted-foreground))]"
@@ -52,10 +53,10 @@ const {
         {endDate ? format(new Date(endDate), "MMMM dd, yyyy") : "Present"}
       </time>
     </div> -->
-    <div class="flex flex-wrap gap-4">
+    <div class="flex flex-wrap">
       {
         tech.map((tag: string) => (
-          <span class="text-sm hover:text-[hsl(var(--muted-foreground))]">
+          <span class="text-sm hover:text-[hsl(var(--muted-foreground))] mb-0 mr-2 text-gray-500 dark:text-gray-400">
             {tag}
           </span>
         ))

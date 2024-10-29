@@ -176,9 +176,10 @@ const { pageTitle, description, title, imageUrl } = Astro.props
   <body>
     <Header />
     <h1
-      class="page-header text-center text-5xl p-8 border-b-[1px] border-[hsl(var(--muted))] uppercase"
+      class="flex flex-col gap-2 page-header text-center text-5xl p-8 border-b-[1px] border-[hsl(var(--muted))] uppercase"
     >
       {title ?? pageTitle}
+      <span class="text-sm lowercase">{description}</span>
     </h1>
     <slot />
     <Footer />

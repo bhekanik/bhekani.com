@@ -1,0 +1,35 @@
+---
+import type { CollectionEntry } from "astro:content"
+import { format } from "date-fns"
+import Link from "./Link.astro"
+import ProjectDescription from "./ProjectDescription.astro"
+import TagsList from "./TagsList.astro"
+
+type Props = {
+  project: CollectionEntry<"projects">
+}
+
+const { project: project } = Astro.props
+
+const url = project.data.url
+const title = project.data.title
+const date = project.data.startDate
+const tech = project.data.tech
+---
+
+<li>
+  <div>
+    <Link href={url}>
+      {title}
+    </Link>
+
+    <time
+      class="ml-2 text-sm whitespace-nowrap text-[hsl(var(--muted-foreground))]"
+      >{format(date, "MMMM dd, yyyy")}
+    </time>
+  </div>
+
+  <ProjectDescription description={project.data.description} />
+
+  <TagsList tags={tech} />
+</li>

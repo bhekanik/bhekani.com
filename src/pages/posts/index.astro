@@ -7,24 +7,32 @@ import BaseLayout from "../../layouts/BaseLayout.astro"
 
 const allPosts = await getCollection("posts")
 const sortedPosts = allPosts.sort(
-  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+  (a: CollectionEntry<"posts">, b: CollectionEntry<"posts">) =>
+    b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 )
 // const firstPost = sortedPosts.shift()
 
-const yearToPosts = sortedPosts.reduce<
-  Record<number, CollectionEntry<"posts">[]>
->((acc, post) => {
-  const year = new Date(post.data.pubDate).getFullYear()
-  if (!acc[year]) {
-    acc[year] = []
-  }
-  acc[year].push(post)
-  return acc
-}, {})
+const yearToPosts = sortedPosts.reduce(
+  (
+    acc: Record<number, CollectionEntry<"posts">[]>,
+    post: CollectionEntry<"posts">,
+  ) => {
+    const year = new Date(post.data.pubDate).getFullYear()
+    if (!acc[year]) {
+      acc[year] = []
+    }
+    acc[year].push(post)
+    return acc
+  },
+  {},
+) as Record<number, CollectionEntry<"posts">[]>
 const pageTitle = "Posts"
 ---
 
-<BaseLayout pageTitle={pageTitle}>
+<BaseLayout
+  pageTitle={pageTitle}
+  description="Longer form articles that aim to explore topics in more depth, but which are published less frequently."
+>
   <MainContainer>
     <div class="w-full flex justify-center mb-8 font-bold">
       <a
