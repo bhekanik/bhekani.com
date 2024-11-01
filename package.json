@@ -28,7 +28,7 @@
     "@sentry/astro": "^8.24.0",
     "astro": "^4.16.7",
     "astro-embed": "^0.6.2",
-    "astro-expressive-code": "^0.33.5",
+    "astro-expressive-code": "^0.38.0",
     "astro-og-canvas": "^0.4.2",
     "astro-robots-txt": "^1.0.0",
     "canvaskit-wasm": "^0.39.1",
