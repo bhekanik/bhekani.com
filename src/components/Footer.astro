@@ -1,25 +1,138 @@
 ---
-import FooterNavigation from "./FooterNavigation.astro";
-import Link from "./Link.astro";
-import Social from "./Social.astro";
+import Link from "./Link.astro"
 ---
 
-<footer class="w-full mt-8 p-4 bg-[hsl(var(--muted))]">
-  <div class="flex w-full items-start justify-between">
-    <FooterNavigation />
+<footer class="w-full mt-16 border-t border-[hsl(var(--muted))]">
+  <div class="max-w-7xl mx-auto px-4 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+      {/* Brand Section */}
+      <div class="space-y-4">
+        <div class="flex items-center space-x-2">
+          <div
+            class="bg-[hsl(var(--foreground))] text-[hsl(var(--background))] px-3 py-1"
+          >
+            <span class="text-xl font-bold">BK</span>
+          </div>
+        </div>
+        <p class="text-sm text-[hsl(var(--muted-foreground))] max-w-xs">
+          Software engineer, writer, and speaker. Building things on the web and
+          sharing what I learn along the way.
+        </p>
+      </div>
 
-    <nav class="flex flex-col">
-      <Social href="https://twitter.com/bhekanik" title="Twitter" />
-      <Social href="https://github.com/bhekanik" title="Github" />
-      <Social href="https://youtube.com/bhekanik" title="YouTube" />
-    </nav>
+      {/* Quick Links */}
+      <div class="space-y-4">
+        <h3 class="text-sm font-semibold">Quick Links</h3>
+        <ul class="space-y-3 text-sm">
+          <li>
+            <Link href="/about">About</Link>
+          </li>
+          <li>
+            <Link href="/posts">Blog</Link>
+          </li>
+          <li>
+            <Link href="/projects">Projects</Link>
+          </li>
+          <li>
+            <Link href="/books">Books</Link>
+          </li>
+        </ul>
+      </div>
 
-    <div></div>
+      {/* Projects */}
+      <div class="space-y-4">
+        <h3 class="text-sm font-semibold">Projects</h3>
+        <ul class="space-y-3 text-sm">
+          <li>
+            <Link href="https://dealbase.africa">Dealbase.Africa</Link>
+          </li>
+          <li>
+            <Link href="https://www.cvoptimiser.com">CV Optimiser</Link>
+          </li>
+          <li>
+            <Link href="https://www.interviewoptimiser.com"
+              >Interview Optimiser</Link
+            >
+          </li>
+          <li>
+            <Link href="https://pro-search.io">Pro-search</Link>
+          </li>
+        </ul>
+      </div>
+
+      {/* Connect */}
+      <div class="space-y-4">
+        <h3 class="text-sm font-semibold">Connect</h3>
+        <ul class="space-y-3 text-sm">
+          <li>
+            <Link
+              href="https://twitter.com/bhekanik"
+              class="inline-flex items-center gap-2"
+            >
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
+                ></path>
+              </svg>
+              Twitter
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="https://github.com/bhekanik"
+              class="inline-flex items-center gap-2"
+            >
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.137 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"
+                ></path>
+              </svg>
+              GitHub
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="https://linkedin.com/in/bhekanik"
+              class="inline-flex items-center gap-2"
+            >
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19a.66.66 0 000 .14V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z"
+                ></path>
+              </svg>
+              LinkedIn
+            </Link>
+          </li>
+          <li>
+            <Link href="/rss.xml" class="inline-flex items-center gap-2">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M6.18 15.64a2.18 2.18 0 012.18 2.18C8.36 19 7.38 20 6.18 20C5 20 4 19 4 17.82a2.18 2.18 0 012.18-2.18M4 4.44A15.56 15.56 0 0119.56 20h-2.83A12.73 12.73 0 004 7.27zm0 5.66a9.9 9.9 0 019.9 9.9h-2.83A7.07 7.07 0 004 12.93z"
+                ></path>
+              </svg>
+              RSS
+            </Link>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    {/* Bottom Section */}
+    <div class="mt-12 pt-8 border-t border-[hsl(var(--muted))]">
+      <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+        <p class="text-sm text-[hsl(var(--muted-foreground))]">
+          © {new Date().getFullYear()} Bhekani Khumalo. All rights reserved.
+        </p>
+        <div class="flex items-center gap-4 text-sm">
+          <Link href="/colophon">Colophon</Link>
+          <span class="text-[hsl(var(--muted-foreground))]">•</span>
+          <Link href="https://justreflections.bhekani.com">Newsletter</Link>
+          <span class="text-[hsl(var(--muted-foreground))]">•</span>
+          <Link href="https://digitalgarden.bhekani.com">Digital Garden</Link>
+        </div>
+      </div>
+    </div>
   </div>
-  <p class="text-sm text-center w-full">
-    &copy; {new Date().getFullYear()} Bhekani Khumalo. All rights reserved. |
-    <Link href="/colophon">Colophon</Link>
-  </p>
 </footer>
 
 <style>
