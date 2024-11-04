@@ -1,6 +1,6 @@
 {
 	"title": "CV Optimiser",
-	"description": "A tool to optimise your CV for specific job descriptions using AI.",
+	"description": "An AI-powered tool that analyzes your CV against specific job descriptions, providing actionable recommendations to improve your match rate. Get personalized feedback on missing keywords, skills alignment, and formatting to increase your chances of getting past ATS systems and landing interviews.",
 	"url": "https://www.cvoptimiser.com",
 	"image": "../_images/cvoptimiser.jpeg",
 	"startDate": "2024-10-01",

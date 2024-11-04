@@ -4,81 +4,65 @@ import BK from "../images/BK.webp"
 import Link from "./Link.astro"
 ---
 
-<div class="card grid gap-4 mt-8">
-  <div class="content">
-    <h1 class="text-3xl md:text-4xl mb-0 leading-none">
-      <span class="text-lg font-code text-[hsl(var(--muted-foreground))]">
-        (<code>/be̞ɣäɳi kxumälo/</code>)
-      </span>
-    </h1>
-    <h1 class="text-3xl md:text-4xl mb-0 leading-none font-logo">
-      <span class="text-lg font-code text-[hsl(var(--muted-foreground))]"
-        >(@bhekanik)</span
-      >
-    </h1>
-    <p class="mb-4">
-      Hi, I’m Bhekani Khumalo (BK), a software engineer in London with a passion
-      for exploring and sharing knowledge on technology and beyond.
-    </p>
-    <p class="mb-4">
-      Curious about my thoughts on life, productivity, and more? Subscribe to <Link
-        href="https://justreflections.bhekani.com/"
-        target="_blank"
-      >
-        my newsletter
-      </Link> for insights beyond tech, or explore my <Link
-        href="https://digitalgarden.bhekani.com"
-        target="_blank"
-      >
-        digital garden
-      </Link> where I cultivate and share my growing knowledge. You can also check
-      out my work on <Link href="https://dealbase.africa/" target="_blank">
-        dealbase.africa
-      </Link>, where I spotlight emerging tech startups across the African
-      continent.
-    </p>
+<div class="relative overflow-hidden rounded-lg bg-[hsl(var(--card))] p-8 mt-8">
+  <div class="flex flex-col md:flex-row gap-8 items-start">
+    <div class="flex-1 space-y-4">
+      <div class="space-y-2">
+        <div class="inline-flex items-center space-x-2">
+          <h1 class="text-3xl md:text-4xl font-logo">Bhekani Khumalo</h1>
+          <span class="text-sm font-code text-[hsl(var(--muted-foreground))]"
+            >(@bhekanik)</span
+          >
+        </div>
+        <p class="text-sm font-code text-[hsl(var(--muted-foreground))]">
+          /be̞ɣäɳi kxumälo/
+        </p>
+      </div>
 
-    <p>
+      <p class="text-lg leading-relaxed">
+        Hi, I'm Bhekani Khumalo (BK), a software engineer in London with a
+        passion for exploring and sharing knowledge on technology and beyond.
+      </p>
+
+      <p class="text-base/relaxed text-[hsl(var(--muted-foreground))]">
+        Curious about my thoughts on life, productivity, and more? Subscribe to <Link
+          href="https://justreflections.bhekani.com/"
+          target="_blank"
+        >
+          my newsletter
+        </Link> for insights beyond tech, or explore my <Link
+          href="https://digitalgarden.bhekani.com"
+          target="_blank"
+        >
+          digital garden
+        </Link> where I cultivate and share my growing knowledge. You can also check
+        out my work on <Link href="https://dealbase.africa/" target="_blank">
+          dealbase.africa
+        </Link>, where I spotlight emerging tech startups across the African
+        continent.
+      </p>
+
       <a
-        class="text-gray-600 dark:text-gray-400 hover:dark:text-gray-600 italic"
         href="/about"
+        class="inline-flex items-center text-sm text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))] transition-colors"
       >
-        More on About page →
+        More about me →
       </a>
-    </p>
+    </div>
+
+    <div class="relative w-32 h-32 md:w-48 md:h-48 flex-shrink-0">
+      <Image
+        src={BK}
+        alt="Bhekani Khumalo"
+        class="rounded-lg object-cover w-full h-full"
+        width={250}
+        height={250}
+      />
+    </div>
   </div>
-  <div class="image h-15 w-15">
-    <Image
-      class="rounded-lg"
-      src={BK}
-      alt="Bhekani Khumalo"
-      width="250"
-      height="250"
-    />
+
+  <div
+    class="absolute top-0 right-0 -z-10 h-full w-1/2 bg-gradient-to-l from-[hsl(var(--muted))] to-transparent opacity-50"
+  >
   </div>
-
-  <style>
-    .card {
-      width: 100%;
-      grid-template:
-        "image ."
-        "content content";
-    }
-
-    .content {
-      grid-area: content;
-    }
-
-    .image {
-      grid-area: image;
-    }
-
-    @media screen and (min-width: 768px) {
-      .card {
-        grid-template:
-          "content image"
-          "content image";
-      }
-    }
-  </style>
 </div>

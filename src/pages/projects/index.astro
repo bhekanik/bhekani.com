@@ -1,24 +1,34 @@
 ---
 import { getCollection } from "astro:content"
+import FeaturedProject from "../../components/FeaturedProject.astro"
 import MainContainer from "../../components/MainContainer.astro"
-import ProjectCard from "../../components/ProjectCard.astro"
+import ProjectGrid from "../../components/ProjectGrid.astro"
 import BaseLayout from "../../layouts/BaseLayout.astro"
 
 const allProjects = await getCollection("projects")
-const sortedProjects = allProjects.sort(
-  (a, b) =>
-    new Date(b.data.startDate).valueOf() - new Date(a.data.startDate).valueOf(),
-)
-// const firstProject = sortedProjects.shift();
+const sortedProjects = allProjects
+  .filter((project) => project.data.published)
+  .sort(
+    (a, b) =>
+      new Date(b.data.startDate).valueOf() -
+      new Date(a.data.startDate).valueOf(),
+  )
+
+const featuredProjects = sortedProjects.slice(0, 2)
+const otherProjects = sortedProjects.slice(2)
+
 const pageTitle = "Projects"
 ---
 
 <BaseLayout pageTitle={pageTitle}>
   <MainContainer>
-    <div class="w-full flex justify-center mb-8 font-bold"></div>
-    <!-- {firstProject && <FirstProjectCard thought={firstWork} />} -->
-    <div class="projects gap-4">
-      {sortedProjects.map((project) => <ProjectCard projects={project} />)}
+    <div class="space-y-16 mt-8">
+      {featuredProjects.map((project) => <FeaturedProject project={project} />)}
+
+      <div class="space-y-8">
+        <h2 class="text-2xl font-bold">More Projects</h2>
+        <ProjectGrid projects={otherProjects} />
+      </div>
     </div>
   </MainContainer>
 </BaseLayout>

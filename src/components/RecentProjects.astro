@@ -1,7 +1,7 @@
 ---
+import { Image } from "astro:assets"
 import type { CollectionEntry } from "astro:content"
 import { getCollection } from "astro:content"
-import ProjectListItem from "./ProjectListItem.astro"
 
 const allProjects = (await getCollection(
   "projects",
@@ -15,9 +15,28 @@ const { limit = 3 } = Astro.props
 ---
 
 <div class="my-12">
-  <h2 class="text-2xl mb-4 mt-2">Currently Building</h2>
+  <h2 class="text-2xl mb-6 font-bold flex items-center gap-2">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      class="text-[hsl(var(--primary))]"
+    >
+      <path d="M3 9h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9Z"></path>
+      <path d="M3 9a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2"></path>
+      <path d="M12 11v6"></path>
+      <path d="M8 9V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v4"></path>
+    </svg>
+    Currently Building
+  </h2>
 
-  <ul class="flex flex-col gap-2">
+  <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
     {
       allProjects
         .filter((project) => project.data.published)
@@ -27,14 +46,59 @@ const { limit = 3 } = Astro.props
             new Date(a.data.startDate).getTime(),
         )
         .slice(0, limit)
-        .map((project) => <ProjectListItem project={project} />)
+        .map((project) => (
+          <a
+            href={project.data.url}
+            target="_blank"
+            class="group relative overflow-hidden rounded-lg bg-[hsl(var(--card))] hover:bg-[hsl(var(--muted))] transition-colors"
+          >
+            <div class="aspect-video w-full overflow-hidden">
+              {project.data.image && (
+                <Image
+                  src={project.data.image}
+                  alt={project.data.title}
+                  width={600}
+                  height={300}
+                  class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+              )}
+            </div>
+            <div class="p-4">
+              <h3 class="text-xl font-semibold mb-2">{project.data.title}</h3>
+              <p class="text-sm text-[hsl(var(--muted-foreground))] mb-4">
+                {project.data.description}
+              </p>
+              <div class="flex flex-wrap gap-2">
+                {project.data.tech.map((tech) => (
+                  <span class="text-xs px-2 py-1 rounded-full bg-[hsl(var(--muted))] text-[hsl(var(--muted-foreground))]">
+                    {tech}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </a>
+        ))
     }
-  </ul>
+  </div>
 
   <a
-    class="mt-2 flex h-6 rounded-lg leading-7 text-gray-600 transition-all dark:text-gray-400 dark:hover:text-gray-600"
     href="/projects/"
+    class="inline-flex items-center gap-2 mt-6 text-sm font-medium text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))] transition-colors"
   >
-    See all projects →
+    View all projects
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="M5 12h14"></path>
+      <path d="m12 5 7 7-7 7"></path>
+    </svg>
   </a>
 </div>

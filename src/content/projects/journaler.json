@@ -1,6 +1,6 @@
 {
 	"title": "Journaler",
-	"description": "A platform for people to share journal prompts",
+	"description": "A community-driven platform where users can discover, share, and engage with thought-provoking journal prompts. Features daily writing inspirations, themed collections, and the ability to save favorite prompts for later. Perfect for writers, self-reflection enthusiasts, and anyone looking to develop a consistent journaling practice.",
 	"url": "https://journaler.me",
 	"image": "../_images/journaler.png",
 	"startDate": "2024-05-01",

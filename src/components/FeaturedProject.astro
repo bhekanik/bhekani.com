@@ -1,0 +1,74 @@
+---
+import { Image } from "astro:assets"
+import type { CollectionEntry } from "astro:content"
+import { format } from "date-fns"
+
+type Props = {
+  project: CollectionEntry<"projects">
+}
+
+const { project } = Astro.props
+const { title, description, url, image, tech, startDate } = project.data
+---
+
+<div class="group relative">
+  <!-- Image Container -->
+  <div class="relative overflow-hidden rounded-t-lg aspect-[16/9]">
+    {
+      image && (
+        <Image
+          src={image}
+          alt={title}
+          width={1200}
+          height={675}
+          class="object-cover w-full h-full object-top transition-transform duration-500 group-hover:scale-105"
+        />
+      )
+    }
+    <div
+      class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[hsl(var(--background))]"
+    >
+    </div>
+  </div>
+
+  <!-- Content Container -->
+  <div
+    class="relative -mt-20 rounded-b-lg bg-gradient-to-b from-[hsl(var(--background))] to-[hsl(var(--background))] p-8"
+  >
+    <div class="space-y-3">
+      <div class="flex items-center gap-2">
+        <time
+          class="text-sm text-[hsl(var(--muted-foreground))]"
+          datetime={startDate}
+        >
+          {format(new Date(startDate), "MMMM yyyy")}
+        </time>
+        <span class="text-[hsl(var(--muted-foreground))]">•</span>
+        <a
+          href={url}
+          target="_blank"
+          class="text-sm text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))] transition-colors"
+        >
+          Visit Project →
+        </a>
+      </div>
+
+      <h3 class="text-3xl font-bold text-[hsl(var(--foreground))]">{title}</h3>
+      <p
+        class="text-[hsl(var(--foreground))] max-w-2xl text-lg leading-relaxed"
+      >
+        {description}
+      </p>
+
+      <div class="flex flex-wrap gap-2 pt-2">
+        {
+          tech.map((item) => (
+            <span class="px-3 py-1.5 text-sm rounded-full bg-[hsl(var(--muted))] text-[hsl(var(--muted-foreground))]">
+              {item}
+            </span>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</div>

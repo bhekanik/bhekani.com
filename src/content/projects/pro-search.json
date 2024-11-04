@@ -1,6 +1,6 @@
 {
 	"title": "Pro-search",
-	"description": "An advanced search engine query builder",
+	"description": "A sophisticated search query builder that helps power users construct complex search strings for Google, GitHub, and other platforms. Features include syntax highlighting, query validation, and templates for common search patterns. Perfect for developers, researchers, and digital investigators who need precise search capabilities.",
 	"url": "https://pro-search.io",
 	"image": "../_images/pro-search.png",
 	"startDate": "2021-01-01",
