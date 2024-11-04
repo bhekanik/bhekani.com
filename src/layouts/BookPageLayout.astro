@@ -19,16 +19,20 @@ const {
 
 <BaseLayout title={frontmatter.title} pageTitle={frontmatter.title}>
   <MainContainer>
-    <BookHeader book={book} slug={book.slug} />
+    <article class="mx-auto max-w-4xl">
+      <BookHeader book={book} slug={book.slug} />
 
-    <slot />
+      <div class="prose prose-lg dark:prose-invert mx-auto max-w-none">
+        <slot />
+      </div>
 
-    <WebMentions />
+      <hr class="my-12 border-t border-[hsl(var(--border))]" />
 
-    <Giscuss />
-
-    <hr class="my-8" />
-
-    <RelatedBooks slug={book.slug} tags={frontmatter.tags} />
+      <div class="space-y-12">
+        <WebMentions />
+        <Giscuss />
+        <RelatedBooks slug={book.slug} tags={frontmatter.tags} />
+      </div>
+    </article>
   </MainContainer>
 </BaseLayout>
