@@ -1,20 +1,106 @@
 ---
 import { getCollection } from "astro:content"
+import { format } from "date-fns"
 import MainContainer from "../../components/MainContainer.astro"
-import Micro from "../../components/Micro.astro"
 import BaseLayout from "../../layouts/BaseLayout.astro"
 
 const allMicro = await getCollection("micro")
-const sortedMicro = allMicro.sort(
-  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
-)
-const pageTitle = "Micro Notes"
+const sortedMicro = allMicro
+  .filter((micro) => micro.data.published !== false)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+
+const pageTitle = "Micro"
 ---
 
 <BaseLayout pageTitle={pageTitle}>
   <MainContainer>
-    <div class="grid gap-4 mt-8">
-      {sortedMicro.map((micro) => <Micro micro={micro} />)}
+    <div class="max-w-2xl mx-auto mt-12 space-y-16">
+      {/* Header Section */}
+      <div class="space-y-6">
+        <h1 class="text-4xl font-bold">Micro</h1>
+        <p class="text-lg text-[hsl(var(--muted-foreground))]">
+          Quick thoughts, updates, and shorter musings. Like tweets, but on my
+          own site.
+        </p>
+
+        <div class="flex items-center gap-4">
+          <a
+            href="/rss.xml"
+            class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md bg-[hsl(var(--muted))] hover:bg-[hsl(var(--accent))] transition-colors"
+          >
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M6.18 15.64a2.18 2.18 0 012.18 2.18C8.36 19 7.38 20 6.18 20C5 20 4 19 4 17.82a2.18 2.18 0 012.18-2.18M4 4.44A15.56 15.56 0 0119.56 20h-2.83A12.73 12.73 0 004 7.27zm0 5.66a9.9 9.9 0 019.9 9.9h-2.83A7.07 7.07 0 004 12.93z"
+              ></path>
+            </svg>
+            Subscribe via RSS
+          </a>
+        </div>
+      </div>
+
+      {/* Micro Posts */}
+      <div class="space-y-12">
+        {
+          sortedMicro.map(async (micro) => {
+            const { Content } = await micro.render()
+            return (
+              <article class="group relative">
+                <div class="flex flex-col space-y-4 rounded-xl border border-[hsl(var(--muted))] bg-[hsl(var(--card))] p-6 transition-colors hover:bg-[hsl(var(--accent))]">
+                  <div class="flex items-center justify-between">
+                    <time
+                      datetime={micro.data.date.toISOString()}
+                      class="text-sm text-[hsl(var(--muted-foreground))]"
+                    >
+                      {format(micro.data.date, "MMMM d, yyyy")}
+                    </time>
+                    <a
+                      href={`/micro/${micro.slug}`}
+                      class="text-sm text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))] transition-colors"
+                      title="Permalink"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        class="w-4 h-4"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
+                        />
+                      </svg>
+                    </a>
+                  </div>
+
+                  {micro.data.title && (
+                    <h2 class="text-xl font-semibold group-hover:text-[hsl(var(--primary))] transition-colors">
+                      {micro.data.title}
+                    </h2>
+                  )}
+
+                  <div class="prose prose-sm dark:prose-invert max-w-none">
+                    <Content />
+                  </div>
+                </div>
+              </article>
+            )
+          })
+        }
+      </div>
     </div>
   </MainContainer>
 </BaseLayout>
+
+<style>
+  /* Optional: Add smooth transitions */
+  article {
+    transition: transform 0.2s ease-in-out;
+  }
+
+  article:hover {
+    transform: translateY(-2px);
+  }
+</style>
