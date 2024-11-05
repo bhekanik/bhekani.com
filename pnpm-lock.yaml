@@ -33,8 +33,8 @@ importers:
         specifier: ^7.8.2
         version: 7.8.2(astro@4.16.7(@types/node@22.1.0)(rollup@4.20.0)(typescript@5.5.4))
       '@astrolib/seo':
-        specifier: 1.0.0-beta.5
-        version: 1.0.0-beta.5(astro@4.16.7(@types/node@22.1.0)(rollup@4.20.0)(typescript@5.5.4))
+        specifier: 1.0.0-beta.8
+        version: 1.0.0-beta.8(astro@4.16.7(@types/node@22.1.0)(rollup@4.20.0)(typescript@5.5.4))
       '@fontsource-variable/jetbrains-mono':
         specifier: ^5.0.21
         version: 5.0.21
@@ -211,10 +211,10 @@ packages:
   '@astrojs/yaml2ts@0.2.2':
     resolution: {integrity: sha512-GOfvSr5Nqy2z5XiwqTouBBpy5FyI6DEe+/g/Mk5am9SjILN1S5fOEvYK0GuWHg98yS/dobP4m8qyqw/URW35fQ==}
 
-  '@astrolib/seo@1.0.0-beta.5':
-    resolution: {integrity: sha512-poBnSB9TzkmOyf+PoMR642zVLSoVVZbUIKnYDHXHrKi/upkaegNiaBdVRsyqaQC93SIxxyagQrIbLRtnSJT4Xg==}
+  '@astrolib/seo@1.0.0-beta.8':
+    resolution: {integrity: sha512-SpNycspjcjnz6um4Vph0k+SAKgUib7/8qJRCaaahJD1UfLuXKK7E+bmKbnv8QPBTRPZkQW6zFVaZRl5VvnyDfg==}
     peerDependencies:
-      astro: ^1.2.1 || ^2.0.0 || ^3.0.0-beta.0 || ^3.0.0 || ^4.0.0
+      astro: ^1.2.1 || ^2.0.0 || ^3.0.0-beta.0 || ^3.0.0 || ^4.0.0 || ^5.0.0-beta.0 || ^5.0.0
 
   '@babel/code-frame@7.24.7':
     resolution: {integrity: sha512-BcYH1CVJBO9tvyIZ2jVeXgSIMvGZ2FDRvDdOIVQyuklNKSsx+eppDEBq/g47Ayw+RqNFE+URvOShmf+f/qwAlA==}
@@ -4043,7 +4043,7 @@ snapshots:
     dependencies:
       yaml: 2.5.0
 
-  '@astrolib/seo@1.0.0-beta.5(astro@4.16.7(@types/node@22.1.0)(rollup@4.20.0)(typescript@5.5.4))':
+  '@astrolib/seo@1.0.0-beta.8(astro@4.16.7(@types/node@22.1.0)(rollup@4.20.0)(typescript@5.5.4))':
     dependencies:
       astro: 4.16.7(@types/node@22.1.0)(rollup@4.20.0)(typescript@5.5.4)
 
