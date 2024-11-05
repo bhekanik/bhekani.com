@@ -60,8 +60,8 @@ importers:
         specifier: ^0.33.5
         version: 0.33.5(astro@4.16.7(@types/node@22.1.0)(rollup@4.20.0)(typescript@5.5.4))
       astro-og-canvas:
-        specifier: ^0.4.2
-        version: 0.4.2(astro@4.16.7(@types/node@22.1.0)(rollup@4.20.0)(typescript@5.5.4))
+        specifier: ^0.5.4
+        version: 0.5.4(astro@4.16.7(@types/node@22.1.0)(rollup@4.20.0)(typescript@5.5.4))
       astro-robots-txt:
         specifier: ^1.0.0
         version: 1.0.0
@@ -1424,8 +1424,8 @@ packages:
     peerDependencies:
       astro: ^4.0.0-beta || ^3.3.0
 
-  astro-og-canvas@0.4.2:
-    resolution: {integrity: sha512-OQsH6Gr2HX9ZRHdVy2OcXVBIPI65WvEtLG/60krnphh8d3ldhuAFunymYaNGcrdSZcYgXkHWejbPt//3qaRidA==}
+  astro-og-canvas@0.5.4:
+    resolution: {integrity: sha512-bKopjX5DZ0WZH3kmUl82EVBhGzoCQwH5Ja4YdB5MO1EtWFZpWzvKWWptsOKGhjz+Kn85+gD/kgw25ebrvYufSg==}
     engines: {node: '>=18.14.1'}
     peerDependencies:
       astro: ^3.0.0 || ^4.0.0
@@ -1516,9 +1516,6 @@ packages:
 
   caniuse-lite@1.0.30001673:
     resolution: {integrity: sha512-WTrjUCSMp3LYX0nE12ECkV0a+e6LC85E0Auz75555/qr78Oc8YWhEPNfDd6SHdtlCMSzqtuXY0uyEMNRcsKpKw==}
-
-  canvaskit-wasm@0.37.2:
-    resolution: {integrity: sha512-212imazRF98gLOTiU4JAXM7xDvaknI7jaPtAg4ETXGW5rLQs6pomgIvVPUSfoKnQVTdGgzj+B4e+/u0Da20aGg==}
 
   canvaskit-wasm@0.39.1:
     resolution: {integrity: sha512-Gy3lCmhUdKq+8bvDrs9t8+qf7RvcjuQn+we7vTVVyqgOVO1UVfHpsnBxkTZw+R4ApEJ3D5fKySl9TU11hmjl/A==}
@@ -5419,10 +5416,10 @@ snapshots:
       hast-util-to-html: 8.0.4
       remark-expressive-code: 0.33.5
 
-  astro-og-canvas@0.4.2(astro@4.16.7(@types/node@22.1.0)(rollup@4.20.0)(typescript@5.5.4)):
+  astro-og-canvas@0.5.4(astro@4.16.7(@types/node@22.1.0)(rollup@4.20.0)(typescript@5.5.4)):
     dependencies:
       astro: 4.16.7(@types/node@22.1.0)(rollup@4.20.0)(typescript@5.5.4)
-      canvaskit-wasm: 0.37.2
+      canvaskit-wasm: 0.39.1
       deterministic-object-hash: 2.0.2
       entities: 4.5.0
 
@@ -5589,8 +5586,6 @@ snapshots:
   caniuse-lite@1.0.30001649: {}
 
   caniuse-lite@1.0.30001673: {}
-
-  canvaskit-wasm@0.37.2: {}
 
   canvaskit-wasm@0.39.1:
     dependencies:
