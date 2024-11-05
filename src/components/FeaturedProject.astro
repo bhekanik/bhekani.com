@@ -3,17 +3,22 @@ import { Image } from "astro:assets"
 import type { CollectionEntry } from "astro:content"
 import { format } from "date-fns"
 
-type Props = {
+interface Props {
   project: CollectionEntry<"projects">
 }
 
-const { project } = Astro.props
-const { title, description, url, image, tech, startDate } = project.data
+const {
+  project: {
+    data: { title, description, url, image, startDate },
+  },
+} = Astro.props
 ---
 
-<div class="group relative">
-  <!-- Image Container -->
-  <div class="relative overflow-hidden rounded-t-lg aspect-[16/9]">
+<div
+  class="group relative overflow-hidden rounded-xl bg-[hsl(var(--card))] shadow-lg border border-[hsl(var(--muted))] transition-all duration-300 hover:border-[hsl(var(--primary))]"
+>
+  {/* Image Container */}
+  <div class="relative w-full h-[300px] overflow-hidden">
     {
       image && (
         <Image
@@ -21,20 +26,18 @@ const { title, description, url, image, tech, startDate } = project.data
           alt={title}
           width={1200}
           height={675}
-          class="object-cover w-full h-full object-top transition-transform duration-500 group-hover:scale-105"
+          class="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
         />
       )
     }
     <div
-      class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[hsl(var(--background))]"
+      class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent pointer-events-none"
     >
     </div>
   </div>
 
-  <!-- Content Container -->
-  <div
-    class="relative -mt-20 rounded-b-lg bg-gradient-to-b from-[hsl(var(--background))] to-[hsl(var(--background))] p-8"
-  >
+  {/* Content Container */}
+  <div class="relative p-8 z-10">
     <div class="space-y-3">
       <div class="flex items-center gap-2">
         <time
@@ -53,22 +56,17 @@ const { title, description, url, image, tech, startDate } = project.data
         </a>
       </div>
 
-      <h3 class="text-3xl font-bold text-[hsl(var(--foreground))]">{title}</h3>
+      <h3
+        class="text-3xl font-bold text-[hsl(var(--foreground))] group-hover:text-[hsl(var(--primary))] transition-colors"
+      >
+        {title}
+      </h3>
+
       <p
-        class="text-[hsl(var(--foreground))] max-w-2xl text-lg leading-relaxed"
+        class="text-[hsl(var(--muted-foreground))] max-w-2xl text-lg leading-relaxed"
       >
         {description}
       </p>
-
-      <div class="flex flex-wrap gap-2 pt-2">
-        {
-          tech.map((item) => (
-            <span class="px-3 py-1.5 text-sm rounded-full bg-[hsl(var(--muted))] text-[hsl(var(--muted-foreground))]">
-              {item}
-            </span>
-          ))
-        }
-      </div>
     </div>
   </div>
 </div>
