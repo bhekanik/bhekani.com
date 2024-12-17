@@ -4,5 +4,6 @@
     // make indexing stricter
     "noUncheckedIndexedAccess": true,
     "allowJs": true
-  }
+  },
+  "exclude": ["src/components/PostHog.astro"]
 }
