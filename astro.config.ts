@@ -2,7 +2,7 @@ import db from "@astrojs/db";
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
 import tailwind from "@astrojs/tailwind";
-import vercel from "@astrojs/vercel/serverless";
+import vercel from "@astrojs/vercel";
 import sentry from "@sentry/astro";
 import expressiveCode from "astro-expressive-code";
 import robotsTxt from "astro-robots-txt";
@@ -14,7 +14,7 @@ const isProduction = process.env.NODE_ENV === "production";
 // https://astro.build/config
 export default defineConfig({
   site: "https://bhekani.com",
-  output: "hybrid",
+  output: "static",
   adapter: vercel(),
   integrations: [sitemap(), robotsTxt(), expressiveCode({
     themes: ["one-dark-pro"],
