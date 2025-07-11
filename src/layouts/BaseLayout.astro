@@ -5,7 +5,7 @@ import "@fontsource/oswald"
 import "@fontsource/permanent-marker"
 
 import { AstroSeo } from "@astrolib/seo"
-import { ViewTransitions } from "astro:transitions"
+import { ClientRouter } from "astro:transitions"
 import Footer from "../components/Footer.astro"
 import Header from "../components/Header.astro"
 import PostHog from "../components/PostHog.astro"
@@ -28,7 +28,7 @@ const { pageTitle, description, title, imageUrl } = Astro.props
     <link rel="pingback" href="https://webmention.io/www.bhekani.com/xmlrpc" />
 
     <title>{pageTitle} | Bhekani.com</title>
-    <ViewTransitions />
+    <ClientRouter />
     <PostHog />
     <AstroSeo
       title={pageTitle}
