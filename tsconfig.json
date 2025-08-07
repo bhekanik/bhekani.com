@@ -5,5 +5,5 @@
     "noUncheckedIndexedAccess": true,
     "allowJs": true
   },
-  "exclude": ["src/components/PostHog.astro"]
+  "exclude": ["src/components/PostHog.astro", "dist", "node_modules"]
 }
