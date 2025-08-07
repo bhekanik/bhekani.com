@@ -1,9 +1,32 @@
 import type { APIRoute } from "astro"
 import { db, eq, sql, Views } from "astro:db"
+import { viewsRateLimiter } from "../../utils/rateLimiter"
 
 export const prerender = false
 
-export const POST: APIRoute = async ({ url }) => {
+export const POST: APIRoute = async ({ url, clientAddress }) => {
+  const ip = clientAddress ?? "unknown"
+  
+  const rateLimitResult = await viewsRateLimiter.checkLimit(ip)
+  
+  if (!rateLimitResult.allowed) {
+    return new Response(
+      JSON.stringify({ 
+        error: "Too many requests. Please try again later." 
+      }),
+      {
+        status: 429,
+        headers: {
+          "Content-Type": "application/json",
+          "X-RateLimit-Limit": "10",
+          "X-RateLimit-Remaining": "0",
+          "X-RateLimit-Reset": new Date(rateLimitResult.resetTime).toISOString(),
+          "Retry-After": Math.ceil((rateLimitResult.resetTime - Date.now()) / 1000).toString(),
+        },
+      }
+    )
+  }
+  
   const slug = url.searchParams.get("slug")
 
   if (!slug) {
@@ -48,11 +71,36 @@ export const POST: APIRoute = async ({ url }) => {
     status: 200,
     headers: {
       "content-type": "application/json",
+      "X-RateLimit-Limit": "10",
+      "X-RateLimit-Remaining": rateLimitResult.remaining.toString(),
+      "X-RateLimit-Reset": new Date(rateLimitResult.resetTime).toISOString(),
     },
   })
 }
 
-export const GET: APIRoute = async ({ url }) => {
+export const GET: APIRoute = async ({ url, clientAddress }) => {
+  const ip = clientAddress ?? "unknown"
+  
+  const rateLimitResult = await viewsRateLimiter.checkLimit(ip)
+  
+  if (!rateLimitResult.allowed) {
+    return new Response(
+      JSON.stringify({ 
+        error: "Too many requests. Please try again later." 
+      }),
+      {
+        status: 429,
+        headers: {
+          "Content-Type": "application/json",
+          "X-RateLimit-Limit": "10",
+          "X-RateLimit-Remaining": "0",
+          "X-RateLimit-Reset": new Date(rateLimitResult.resetTime).toISOString(),
+          "Retry-After": Math.ceil((rateLimitResult.resetTime - Date.now()) / 1000).toString(),
+        },
+      }
+    )
+  }
+  
   const slug = url.searchParams.get("slug")
 
   if (!slug) {
@@ -80,6 +128,9 @@ export const GET: APIRoute = async ({ url }) => {
     status: 200,
     headers: {
       "content-type": "application/json",
+      "X-RateLimit-Limit": "10",
+      "X-RateLimit-Remaining": rateLimitResult.remaining.toString(),
+      "X-RateLimit-Reset": new Date(rateLimitResult.resetTime).toISOString(),
     },
   })
 }
