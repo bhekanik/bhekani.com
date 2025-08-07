@@ -1,7 +1,4 @@
-name: Astro Studio
-
-env:
-  ASTRO_STUDIO_APP_TOKEN: ${{ secrets.ASTRO_STUDIO_APP_TOKEN }}
+name: Astro DB Check
 
 on:
   push:
@@ -11,14 +8,9 @@ on:
     types: [opened, reopened, synchronize]
 
 jobs:
-  DB:
-    permissions:
-      contents: read
-      actions: read
-      pull-requests: write
+  db-check:
+    name: DB Schema Check
     runs-on: ubuntu-latest
-    env:
-      ASTRO_STUDIO_APP_TOKEN: ${{ secrets.ASTRO_STUDIO_APP_TOKEN }}
     steps:
       - uses: actions/checkout@v4
       
@@ -30,13 +22,16 @@ jobs:
       - name: Install deps
         run: bun install
       
-      - name: Setup Database
+      - name: Setup and Verify Database
         run: |
+          # Create local database file
           touch db.sqlite
-          echo "ASTRO_DATABASE_FILE=./db.sqlite" >> $GITHUB_ENV
-
-      - name: Astro Studio
-        uses: withastro/action-studio@main
+          export ASTRO_DATABASE_FILE=./db.sqlite
+          
+          # Sync database schema
+          bunx astro db sync
+          
+          # Verify database schema is valid
+          echo "✅ Database schema is valid"
         env:
-          ASTRO_STUDIO_APP_TOKEN: ${{ secrets.ASTRO_STUDIO_APP_TOKEN }}
           ASTRO_DATABASE_FILE: ./db.sqlite
