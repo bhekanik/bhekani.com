@@ -5,9 +5,18 @@ import { viewsRateLimiter } from "../../utils/rateLimiter"
 export const prerender = false
 
 export const POST: APIRoute = async ({ url, clientAddress }) => {
-  const ip = clientAddress ?? "unknown"
+  const ip = clientAddress ?? `unknown-${Math.random()}`
   
-  const rateLimitResult = await viewsRateLimiter.checkLimit(ip)
+  let rateLimitResult
+  try {
+    rateLimitResult = await viewsRateLimiter.checkLimit(ip)
+  } catch (error) {
+    rateLimitResult = { 
+      allowed: true, 
+      remaining: viewsRateLimiter.maxRequestsLimit, 
+      resetTime: Date.now() + 60000 
+    }
+  }
   
   if (!rateLimitResult.allowed) {
     return new Response(
@@ -18,10 +27,10 @@ export const POST: APIRoute = async ({ url, clientAddress }) => {
         status: 429,
         headers: {
           "Content-Type": "application/json",
-          "X-RateLimit-Limit": "10",
+          "X-RateLimit-Limit": viewsRateLimiter.maxRequestsLimit.toString(),
           "X-RateLimit-Remaining": "0",
           "X-RateLimit-Reset": new Date(rateLimitResult.resetTime).toISOString(),
-          "Retry-After": Math.ceil((rateLimitResult.resetTime - Date.now()) / 1000).toString(),
+          "Retry-After": Math.max(1, Math.ceil((rateLimitResult.resetTime - Date.now()) / 1000)).toString(),
         },
       }
     )
@@ -71,7 +80,7 @@ export const POST: APIRoute = async ({ url, clientAddress }) => {
     status: 200,
     headers: {
       "content-type": "application/json",
-      "X-RateLimit-Limit": "10",
+      "X-RateLimit-Limit": viewsRateLimiter.maxRequestsLimit.toString(),
       "X-RateLimit-Remaining": rateLimitResult.remaining.toString(),
       "X-RateLimit-Reset": new Date(rateLimitResult.resetTime).toISOString(),
     },
@@ -79,9 +88,18 @@ export const POST: APIRoute = async ({ url, clientAddress }) => {
 }
 
 export const GET: APIRoute = async ({ url, clientAddress }) => {
-  const ip = clientAddress ?? "unknown"
+  const ip = clientAddress ?? `unknown-${Math.random()}`
   
-  const rateLimitResult = await viewsRateLimiter.checkLimit(ip)
+  let rateLimitResult
+  try {
+    rateLimitResult = await viewsRateLimiter.checkLimit(ip)
+  } catch (error) {
+    rateLimitResult = { 
+      allowed: true, 
+      remaining: viewsRateLimiter.maxRequestsLimit, 
+      resetTime: Date.now() + 60000 
+    }
+  }
   
   if (!rateLimitResult.allowed) {
     return new Response(
@@ -92,10 +110,10 @@ export const GET: APIRoute = async ({ url, clientAddress }) => {
         status: 429,
         headers: {
           "Content-Type": "application/json",
-          "X-RateLimit-Limit": "10",
+          "X-RateLimit-Limit": viewsRateLimiter.maxRequestsLimit.toString(),
           "X-RateLimit-Remaining": "0",
           "X-RateLimit-Reset": new Date(rateLimitResult.resetTime).toISOString(),
-          "Retry-After": Math.ceil((rateLimitResult.resetTime - Date.now()) / 1000).toString(),
+          "Retry-After": Math.max(1, Math.ceil((rateLimitResult.resetTime - Date.now()) / 1000)).toString(),
         },
       }
     )
@@ -128,7 +146,7 @@ export const GET: APIRoute = async ({ url, clientAddress }) => {
     status: 200,
     headers: {
       "content-type": "application/json",
-      "X-RateLimit-Limit": "10",
+      "X-RateLimit-Limit": viewsRateLimiter.maxRequestsLimit.toString(),
       "X-RateLimit-Remaining": rateLimitResult.remaining.toString(),
       "X-RateLimit-Reset": new Date(rateLimitResult.resetTime).toISOString(),
     },
