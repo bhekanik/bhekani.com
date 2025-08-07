@@ -87,11 +87,11 @@ import Link from "./Link.astro"
     {/* Mobile Menu Panel */}
     <div class="mobile-menu hidden fixed inset-0 z-50">
       <div
-        class="fixed inset-0 bg-black/20 backdrop-blur-sm dark:bg-slate-900/80"
+        class="mobile-menu-backdrop fixed inset-0 bg-black/20 backdrop-blur-sm dark:bg-slate-900/80 opacity-0 transition-opacity duration-[var(--transition-base)]"
       >
       </div>
       <div
-        class="fixed inset-y-0 right-0 w-full overflow-y-auto bg-[hsl(var(--background))] px-6 py-6 sm:max-w-sm"
+        class="mobile-menu-panel fixed inset-y-0 right-0 w-full overflow-y-auto bg-[hsl(var(--background))] px-6 py-6 sm:max-w-sm transform translate-x-full transition-transform duration-[var(--transition-base)] ease-out"
       >
         <div class="flex items-center justify-between">
           <a href="/" class="-m-1.5 p-1.5">
@@ -163,21 +163,52 @@ import Link from "./Link.astro"
 </header>
 
 <script>
-  // Mobile menu functionality
   const mobileMenuButton = document.querySelector(".mobile-menu-button")
   const mobileMenuClose = document.querySelector(".mobile-menu-close")
   const mobileMenu = document.querySelector(".mobile-menu")
+  const mobileMenuBackdrop = document.querySelector(".mobile-menu-backdrop")
+  const mobileMenuPanel = document.querySelector(".mobile-menu-panel")
   const mobileMenuLinks = document.querySelectorAll(".mobile-menu a")
 
-  function toggleMenu() {
-    mobileMenu?.classList.toggle("hidden")
-    document.body.classList.toggle("overflow-hidden")
+  function openMenu() {
+    if (!mobileMenu || !mobileMenuPanel || !mobileMenuBackdrop) return
+    
+    mobileMenu.classList.remove("hidden")
+    document.body.style.overflow = "hidden"
+    
+    requestAnimationFrame(() => {
+      mobileMenuBackdrop.classList.remove("opacity-0")
+      mobileMenuBackdrop.classList.add("opacity-100")
+      mobileMenuPanel.classList.remove("translate-x-full")
+      mobileMenuPanel.classList.add("translate-x-0")
+    })
   }
 
-  mobileMenuButton?.addEventListener("click", toggleMenu)
-  mobileMenuClose?.addEventListener("click", toggleMenu)
+  function closeMenu() {
+    if (!mobileMenu || !mobileMenuPanel || !mobileMenuBackdrop) return
+    
+    mobileMenuBackdrop.classList.remove("opacity-100")
+    mobileMenuBackdrop.classList.add("opacity-0")
+    mobileMenuPanel.classList.remove("translate-x-0")
+    mobileMenuPanel.classList.add("translate-x-full")
+    
+    setTimeout(() => {
+      mobileMenu.classList.add("hidden")
+      document.body.style.overflow = ""
+    }, 250)
+  }
+
+  mobileMenuButton?.addEventListener("click", openMenu)
+  mobileMenuClose?.addEventListener("click", closeMenu)
+  mobileMenuBackdrop?.addEventListener("click", closeMenu)
   mobileMenuLinks.forEach((link) => {
-    link.addEventListener("click", toggleMenu)
+    link.addEventListener("click", closeMenu)
+  })
+  
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && !mobileMenu?.classList.contains("hidden")) {
+      closeMenu()
+    }
   })
 </script>
 
