@@ -5,6 +5,7 @@ import { format } from "date-fns"
 import PostDescription from "./PostDescription.astro"
 import TagsList from "./TagsList.astro"
 import Views from "./Views.svelte"
+import Card from "./Card.astro"
 
 type Props = {
   post: CollectionEntry<"posts">
@@ -18,70 +19,40 @@ const {
 } = Astro.props
 ---
 
-<div transition:name={`card-${slug}`} class="card grid gap-2 items-center">
-  <div class="content p-4">
-    <a href={`/posts/${slug}/`} class="h-fit">
-      <h1 transition:name={`title-${slug}`} class="text-xl mb-2">{title}</h1>
-    </a>
-    <div class="flex gap-2">
-      <time
-        transition:name={`date-${slug}`}
-        class="text-sm text-[hsl(var(--muted-foreground))]"
-        datetime={date.toISOString()}
-      >
-        {format(date, "MMMM dd, yyyy")}
-      </time>
-      <!-- &middot; -->
-      <Views client:load="svelte" slug={slug} />
-    </div>
-    <PostDescription description={title} slug={slug} />
-    <TagsList tags={tags} />
-  </div>
-
-  {
-    image && (
-      <div class="image h-full overflow-hidden">
-        <Image
-          transition:name={`image-${slug}`}
-          class="object-cover h-full"
-          src={image}
-          width="300"
-          height="300"
-          alt=""
-        />
+<Card hover class="group" transition:name={`card-${slug}`}>
+  <div class="grid grid-cols-[1fr_auto] gap-4 p-[var(--space-6)]">
+    <div class="flex flex-col gap-[var(--space-2)]">
+      <a href={`/posts/${slug}/`} class="block hover:bg-transparent">
+        <h2 transition:name={`title-${slug}`} class="text-xl font-semibold group-hover:text-[hsl(var(--primary))] transition-colors duration-[var(--transition-fast)]">{title}</h2>
+      </a>
+      <div class="flex items-center gap-[var(--space-3)] text-sm text-[hsl(var(--muted-foreground))]">
+        <time
+          transition:name={`date-${slug}`}
+          datetime={date.toISOString()}
+        >
+          {format(date, "MMMM dd, yyyy")}
+        </time>
+        <span>·</span>
+        <Views client:load="svelte" slug={slug} />
       </div>
-    )
-  }
-</div>
+      <PostDescription description={title} slug={slug} />
+      <TagsList tags={tags} />
+    </div>
 
-<style>
-  .card {
-    display: grid;
-    grid-template: "content image" / 3fr 1fr;
-    color: hsl(var(--card-foreground));
-    background-color: hsl(var(--card));
-  }
+    {
+      image && (
+        <div class="relative w-32 h-32 overflow-hidden rounded-[var(--radius-md)] flex-shrink-0">
+          <Image
+            transition:name={`image-${slug}`}
+            class="object-cover w-full h-full group-hover:scale-105 transition-transform duration-[var(--transition-slow)]"
+            src={image}
+            width="128"
+            height="128"
+            alt={`Cover image for ${title}`}
+          />
+        </div>
+      )
+    }
+  </div>
+</Card>
 
-  .card:hover {
-    background-color: hsl(var(--muted));
-  }
-
-  .content {
-    grid-area: content;
-    display: grid;
-    grid-template:
-      "title" auto-fit
-      "description" 1fr
-      "date" auto-fit
-      "tags" auto-fit;
-  }
-  .image {
-    grid-area: image;
-  }
-  a {
-    color: hsl(var(--card-foreground));
-  }
-  a:hover {
-    background-color: transparent;
-  }
-</style>

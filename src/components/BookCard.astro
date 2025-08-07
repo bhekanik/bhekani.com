@@ -5,6 +5,7 @@ import { format } from "date-fns"
 import BookRating from "./BookRating.astro"
 import Link from "./Link.astro"
 import TagsList from "./TagsList.astro"
+import Card from "./Card.astro"
 
 type Props = {
   book: CollectionEntry<"books">
@@ -18,12 +19,10 @@ const {
 } = Astro.props
 ---
 
-<div
-  class="group relative overflow-hidden rounded-lg bg-[hsl(var(--card))] transition-all hover:bg-[hsl(var(--muted))]"
->
-  <div class="grid grid-cols-[140px_1fr] gap-6 p-6">
+<Card hover class="group">
+  <div class="grid grid-cols-[140px_1fr] gap-[var(--space-6)] p-[var(--space-6)]">
     <div
-      class="book-cover relative aspect-[2/3] w-[140px] overflow-hidden rounded-md bg-[hsl(var(--muted))] shadow-md transition-transform duration-300 group-hover:scale-105"
+      class="book-cover relative aspect-[2/3] w-[140px] overflow-hidden rounded-[var(--radius-md)] bg-[hsl(var(--muted))] shadow-[var(--shadow-md)] transition-transform duration-[var(--transition-slow)] group-hover:scale-105"
     >
       {
         ISBN ? (
@@ -51,20 +50,20 @@ const {
     </div>
 
     <div class="flex flex-col justify-between">
-      <div class="space-y-2">
-        <Link href={`/books/${slug}/`} class="inline-block">
+      <div class="space-y-[var(--space-2)]">
+        <a href={`/books/${slug}/`} class="block hover:bg-transparent">
           <h2
-            class="text-xl font-medium leading-tight text-[hsl(var(--foreground))]"
+            class="text-xl font-semibold leading-tight text-[hsl(var(--foreground))] group-hover:text-[hsl(var(--primary))] transition-colors duration-[var(--transition-fast)]"
           >
             {title}
           </h2>
-        </Link>
+        </a>
 
         <p class="text-sm italic text-[hsl(var(--muted-foreground))]">
           by {author}
         </p>
 
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-[var(--space-3)]">
           <BookRating rating={myRating} />
           <span class="text-sm text-[hsl(var(--muted-foreground))]">
             {format(new Date(date), "MMMM dd, yyyy")}
@@ -82,13 +81,13 @@ const {
         }
       </div>
 
-      <Link
+      <a
         href={`/books/${slug}/`}
-        class="mt-4 inline-flex items-center text-sm font-medium text-[hsl(var(--foreground))] hover:text-[hsl(var(--muted-foreground))]"
+        class="mt-[var(--space-4)] inline-flex items-center gap-[var(--space-1)] text-sm font-medium text-[hsl(var(--primary))] hover:gap-[var(--space-2)] transition-all duration-[var(--transition-fast)] hover:bg-transparent"
       >
         Read more
         <svg
-          class="ml-1 h-4 w-4"
+          class="h-4 w-4 transition-transform duration-[var(--transition-fast)]"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -96,7 +95,7 @@ const {
         >
           <path d="M5 12h14M12 5l7 7-7 7"></path>
         </svg>
-      </Link>
+      </a>
     </div>
   </div>
-</div>
+</Card>

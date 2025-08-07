@@ -2,6 +2,7 @@
 import type { CollectionEntry } from "astro:content"
 import { format } from "date-fns"
 import Prose from "./Prose.astro"
+import Card from "./Card.astro"
 
 type Props = {
   micro: CollectionEntry<"micro">
@@ -18,12 +19,10 @@ const {
 const { Content } = await micro.render()
 ---
 
-<div
-  class="card border border-[hsl(var(--muted-foreground))] p-4 flex flex-col gap-2 max-w-[80ch]"
->
-  <div class="content border-b border-[hsl(var(--muted-foreground))]">
-    <a href={`/micro/${slug}/`} class="h-fit">
-      <h1 transition:name={`title-${slug}`} class="text-xl mb-2">{title}</h1>
+<Card variant="bordered" hover class="max-w-[80ch] p-[var(--space-6)]">
+  <div class="pb-[var(--space-4)] mb-[var(--space-4)] border-b border-[hsl(var(--border))]">
+    <a href={`/micro/${slug}/`} class="block hover:bg-transparent">
+      <h2 transition:name={`title-${slug}`} class="text-xl font-semibold mb-[var(--space-2)] hover:text-[hsl(var(--primary))] transition-colors duration-[var(--transition-fast)]">{title}</h2>
     </a>
     <time
       transition:name={`date-${slug}`}
@@ -37,4 +36,4 @@ const { Content } = await micro.render()
   <Prose>
     <Content class="content" />
   </Prose>
-</div>
+</Card>
