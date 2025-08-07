@@ -36,11 +36,14 @@
 </script>
 
 {#if data}
-  <p class="text-sm text-[hsl(var(--muted-foreground))]">
-    Views: {data.count}
-  </p>
+  <span class="text-sm text-[hsl(var(--muted-foreground))] transition-opacity duration-300">
+    {data.count.toLocaleString()} views
+  </span>
 {:else if error}
-  <p class="text-sm text-[hsl(var(--muted-foreground))]">Views: 1</p>
+  <span class="text-sm text-[hsl(var(--muted-foreground))]">-</span>
 {:else}
-  <p>Loading...</p>
+  <span class="inline-flex items-center gap-1 text-sm text-[hsl(var(--muted-foreground))]">
+    <span class="inline-block w-12 h-3 bg-[hsl(var(--muted))] rounded animate-pulse"></span>
+    views
+  </span>
 {/if}
