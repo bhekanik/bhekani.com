@@ -23,7 +23,9 @@ try {
       count: Views.count,
     })
 } catch (error) {
-  console.error(error)
+  if (import.meta.env.DEV) {
+    console.error(error)
+  }
   item = { slug, count: 1 }
 }
 ---

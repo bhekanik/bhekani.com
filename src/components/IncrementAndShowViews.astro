@@ -13,7 +13,9 @@ let views = 0
 if (res.ok) {
   ;({ views } = await res.json())
 } else {
-  console.error("Error:", await res.text())
+  if (import.meta.env.DEV) {
+    console.error("Error:", await res.text())
+  }
 }
 ---
 
