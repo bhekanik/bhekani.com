@@ -29,8 +29,14 @@ jobs:
 
       - name: Install deps
         run: bun install
+      
+      - name: Setup Database
+        run: |
+          touch db.sqlite
+          echo "ASTRO_DATABASE_FILE=./db.sqlite" >> $GITHUB_ENV
 
       - name: Astro Studio
         uses: withastro/action-studio@main
         env:
           ASTRO_STUDIO_APP_TOKEN: ${{ secrets.ASTRO_STUDIO_APP_TOKEN }}
+          ASTRO_DATABASE_FILE: ./db.sqlite
