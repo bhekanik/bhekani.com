@@ -1,8 +1,8 @@
 /// <reference types="vitest" />
 import { getViteConfig } from 'astro/config'
 
+// @ts-ignore - Vitest extends Vite config
 export default getViteConfig({
-  // @ts-expect-error - Vitest config is valid but types aren't fully compatible
   test: {
     globals: true,
     environment: 'happy-dom',
