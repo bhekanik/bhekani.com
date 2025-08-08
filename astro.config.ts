@@ -23,9 +23,7 @@ export default defineConfig({
       wrap: true
     }
   }), mdx(), sentry({
-    dsn: "https://c8fc23d45a17004cddf52ecfee998bf2@o1115887.ingest.sentry.io/4506532148936704",
     enabled: isProduction,
-    environment: isProduction ? "production" : "development",
     sourceMapsUploadOptions: {
       project: "website",
       authToken: process.env.SENTRY_AUTH_TOKEN
