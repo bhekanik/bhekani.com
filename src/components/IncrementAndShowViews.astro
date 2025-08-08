@@ -12,10 +12,6 @@ const res = await fetch(`${Astro.url.origin}/api/posts/views`, {
 let views = 0
 if (res.ok) {
   ;({ views } = await res.json())
-} else {
-  if (import.meta.env.DEV) {
-    console.error("Error:", await res.text())
-  }
 }
 ---
 

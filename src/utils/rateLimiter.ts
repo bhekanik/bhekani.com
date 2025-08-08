@@ -8,7 +8,7 @@ interface RateLimitEntry {
 const RATE_LIMIT_MAX_REQUESTS = 10
 const RATE_LIMIT_WINDOW_MS = 60000
 
-class RateLimiter {
+export class RateLimiter {
   private limits = new Map<string, RateLimitEntry>()
   private readonly maxRequests: number
   private readonly windowMs: number

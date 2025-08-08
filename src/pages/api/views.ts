@@ -1,6 +1,7 @@
 import type { APIRoute } from "astro"
 import { db, eq, sql, Views } from "astro:db"
 import { viewsRateLimiter } from "../../utils/rateLimiter"
+import * as Sentry from "@sentry/astro"
 
 export const prerender = false
 
@@ -72,7 +73,10 @@ export const POST: APIRoute = async ({ url, clientAddress }) => {
       })
       .then((res) => res[0])
   } catch (error) {
-    console.log("error:", error)
+    Sentry.captureException(error, {
+      tags: { api: "views", method: "POST" },
+      extra: { slug }
+    })
     item = { slug, count: 1 }
   }
 
@@ -138,7 +142,10 @@ export const GET: APIRoute = async ({ url, clientAddress }) => {
       .where(eq(Views.slug, slug))
       .then((res) => res[0])
   } catch (error) {
-    console.log("error:", error)
+    Sentry.captureException(error, {
+      tags: { api: "views", method: "GET" },
+      extra: { slug }
+    })
     item = { slug, count: 1 }
   }
 

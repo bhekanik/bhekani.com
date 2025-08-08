@@ -9,7 +9,10 @@
     "build": "bun run lint && astro sync && ASTRO_DATABASE_FILE=./db.sqlite astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "prepare": "husky"
+    "prepare": "husky",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
@@ -43,8 +46,13 @@
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.13",
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/jest-dom": "^6.6.4",
+    "@vitest/ui": "^3.2.4",
+    "happy-dom": "^18.0.1",
     "husky": "^9.1.4",
-    "lint-staged": "^15.2.8"
+    "lint-staged": "^15.2.8",
+    "vitest": "^3.2.4"
   },
   "trustedDependencies": [
     "@sentry/cli"

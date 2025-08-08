@@ -20,9 +20,6 @@
       }
       return await response.json()
     } catch (e) {
-      if (import.meta.env.DEV) {
-        console.error("Error fetching view count:", e)
-      }
       throw e
     }
   }
