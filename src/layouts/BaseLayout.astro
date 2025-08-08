@@ -7,6 +7,7 @@ import { ClientRouter } from "astro:transitions"
 import Footer from "../components/Footer.astro"
 import Header from "../components/Header.astro"
 import PostHog from "../components/PostHog.astro"
+import { SEO_DEFAULTS } from "../constants/seo"
 import "../styles/global.css";
 
 const { pageTitle, description, title, imageUrl } = Astro.props
@@ -25,38 +26,33 @@ const { pageTitle, description, title, imageUrl } = Astro.props
     />
     <link rel="pingback" href="https://webmention.io/www.bhekani.com/xmlrpc" />
 
-    <title>{pageTitle} | Bhekani.com</title>
+    <title>{pageTitle} | {SEO_DEFAULTS.SITE_NAME}</title>
     <ClientRouter />
     <PostHog />
     <AstroSeo
       title={pageTitle}
-      description={description ??
-        "Personal website of Bhekani Khumalo. I write about tech, productivity, life, and more."}
+      description={description ?? SEO_DEFAULTS.DEFAULT_DESCRIPTION}
       canonical={`https://www.bhekani.com${Astro.url.pathname}`}
       openGraph={{
         url: `https://www.bhekani.com${Astro.url.pathname}`,
         title: title ?? pageTitle,
-        description:
-          description ??
-          "Personal website of Bhekani Khumalo. I write about tech, productivity, life, and more.",
+        description: description ?? SEO_DEFAULTS.DEFAULT_DESCRIPTION,
         images: [
           {
-            url:
-              imageUrl ??
-              "https://res.cloudinary.com/dhuzf0isy/image/upload/c_fill,w_1200,h_630,f_auto,q_auto/bvqpcovhndjb88mj3mtc",
-            width: 1200,
-            height: 630,
-            alt: `${title ?? pageTitle} - Bhekani.com`,
+            url: imageUrl ?? SEO_DEFAULTS.DEFAULT_OG_IMAGE_URL,
+            width: SEO_DEFAULTS.OG_IMAGE_WIDTH,
+            height: SEO_DEFAULTS.OG_IMAGE_HEIGHT,
+            alt: `${title ?? pageTitle} - ${SEO_DEFAULTS.SITE_NAME}`,
             type: "image/jpeg",
           },
         ],
-        site_name: "Bhekani.com",
+        site_name: SEO_DEFAULTS.SITE_NAME,
         type: "website",
         locale: "en_US",
       }}
       twitter={{
-        handle: "@bhekanik",
-        site: "@bhekanik",
+        handle: SEO_DEFAULTS.TWITTER_HANDLE,
+        site: SEO_DEFAULTS.TWITTER_HANDLE,
         cardType: "summary_large_image",
       }}
     />
