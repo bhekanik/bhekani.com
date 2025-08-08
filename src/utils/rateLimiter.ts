@@ -74,6 +74,23 @@ export class RateLimiter {
 
 const isProduction = process.env.NODE_ENV === 'production'
 
+/**
+ * Rate limiter for view tracking endpoints.
+ * 
+ * PRODUCTION BEHAVIOR:
+ * Rate limiting is intentionally disabled in production to ensure accurate
+ * view counts are captured from all legitimate users. This decision prioritizes
+ * data accuracy over protection against potential abuse.
+ * 
+ * TODO: Consider implementing a more sophisticated rate limiting strategy that:
+ * - Uses a distributed cache (Redis) for multi-instance deployments
+ * - Implements sliding window rate limiting
+ * - Allows higher limits for authenticated users
+ * - Detects and blocks only clearly abusive patterns
+ * 
+ * DEVELOPMENT BEHAVIOR:
+ * Full rate limiting is enabled with 10 requests per minute per IP
+ */
 export const viewsRateLimiter = isProduction 
   ? {
       async checkLimit(_ip: string): Promise<{

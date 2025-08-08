@@ -1,7 +1,7 @@
 /// <reference types="vitest" />
 import { getViteConfig } from 'astro/config'
+import type { UserConfig } from 'vite'
 
-// @ts-ignore - Vitest extends Vite config
 export default getViteConfig({
   test: {
     globals: true,
@@ -22,4 +22,4 @@ export default getViteConfig({
       ],
     },
   },
-})
+} as UserConfig)

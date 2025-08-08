@@ -33,8 +33,15 @@
 </script>
 
 {#if hasError}
-  <div class="text-sm text-[hsl(var(--muted-foreground))]">
-    {fallback}
+  <div class="p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md">
+    <p class="text-sm font-medium text-red-800 dark:text-red-200">
+      {fallback}
+    </p>
+    {#if errorMessage && import.meta.env.DEV}
+      <p class="mt-2 text-xs text-red-600 dark:text-red-300 font-mono">
+        {errorMessage}
+      </p>
+    {/if}
   </div>
 {:else}
   <slot />

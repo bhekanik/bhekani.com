@@ -5,33 +5,42 @@
 <script>
   import type {} from '../types/posthog'
   
-  ;(function (t: Document, e: any) {
+  interface PostHogStub {
+    _i: unknown[]
+    __SV?: number
+    init: (token: string, config: Record<string, unknown>, namespace?: string) => void
+    people?: Record<string, unknown> | unknown[]
+    toString?: (t?: boolean) => string
+    [key: string]: unknown
+  }
+  
+  ;(function (t: Document, e: PostHogStub) {
     var n: number, p: HTMLScriptElement, r: Element | null
     e.__SV ||
-      ((window.posthog = e),
+      ((window.posthog = e as typeof window.posthog),
       (e._i = []),
-      (e.init = function (i: string, s: any, a?: string) {
-        function g(t: any, e: string) {
+      (e.init = function (i: string, s: Record<string, unknown>, a?: string) {
+        function g(t: Record<string, unknown>, e: string) {
           var o = e.split(".")
           if (o.length == 2) {
-            t = t[o[0]!]
+            t = t[o[0]!] as Record<string, unknown>
             e = o[1]!
           }
-          t[e] = function () {
-            t.push([e].concat(Array.prototype.slice.call(arguments, 0)))
+          (t as Record<string, Function>)[e] = function () {
+            (t as unknown as unknown[]).push([e].concat(Array.prototype.slice.call(arguments, 0)))
           }
         }
         p = t.createElement("script") as HTMLScriptElement
         p.type = "text/javascript"
         p.crossOrigin = "anonymous"
         p.async = true
-        p.src = s.api_host.replace(".i.posthog.com", "-assets.i.posthog.com") + "/static/array.js"
+        p.src = (s.api_host as string).replace(".i.posthog.com", "-assets.i.posthog.com") + "/static/array.js"
         r = t.getElementsByTagName("script")[0] ?? null
         r?.parentNode?.insertBefore(p, r)
         
-        var u = e
+        var u = e as PostHogStub
         if (a !== undefined) {
-          u = e[a] = []
+          u = (e as Record<string, PostHogStub>)[a] = [] as unknown as PostHogStub
         } else {
           a = "posthog"
         }
@@ -42,18 +51,18 @@
           if (!t) e += " (stub)"
           return e
         }
-        u.people.toString = function () {
-          return u.toString(1) + ".people (stub)"
+        ;(u.people as Record<string, unknown>).toString = function () {
+          return (u.toString as Function)(1) + ".people (stub)"
         }
         const methods = "init capture register register_once register_for_session unregister unregister_for_session getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey getNextSurveyStep identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty createPersonProfile opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing debug".split(" ")
         
         for (n = 0; n < methods.length; n++) {
-          g(u, methods[n]!)
+          g(u as unknown as Record<string, unknown>, methods[n]!)
         }
         e._i.push([i, s, a])
       }),
       (e.__SV = 1))
-  })(document, (window as any).posthog || [])
+  })(document, ((window as unknown as Record<string, unknown>).posthog || []) as PostHogStub)
   
   if (window.posthog) {
     window.posthog.init("phc_nTzkYYISn6Nh0laiaVGKxa269g9uF6k1fOA4nri746S", {
