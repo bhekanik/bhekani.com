@@ -44,14 +44,14 @@ tags: []
 ---
 
 ${book.privateNotes}`;
-  fs.writeFileSync(
-    path.join(__dirname, `${book.title.toLowerCase().replace(" ", "-")}.md`),
-    body,
-    { encoding: "utf8", flag: "w" },
-    (err) => {
-      if (err) {
-        console.error(err);
-      }
-    }
-  );
+  try {
+    fs.writeFileSync(
+      path.join(__dirname, `${book.title.toLowerCase().replace(" ", "-")}.md`),
+      body,
+      { encoding: "utf8", flag: "w" }
+    );
+  } catch (err) {
+    process.stderr.write(`Error writing book file for "${book.title}": ${err.message}\n`);
+    process.exit(1);
+  }
 });

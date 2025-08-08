@@ -1,0 +1,22 @@
+---
+import Link from "../components/Link.astro"
+import MainContainer from "../components/MainContainer.astro"
+import BaseLayout from "../layouts/BaseLayout.astro"
+
+const pageTitle = "500: Server Error"
+---
+
+<BaseLayout pageTitle={pageTitle}>
+  <MainContainer>
+    <div class="mt-8 text-center">
+      <h1 class="text-4xl font-bold mb-4">500</h1>
+      <h2 class="text-2xl mb-4">Something went wrong</h2>
+      <p class="text-[hsl(var(--muted-foreground))] mb-8">
+        An unexpected error occurred. We've been notified and are working on fixing it.
+      </p>
+      <p>
+        <Link href="/">Return to homepage</Link>
+      </p>
+    </div>
+  </MainContainer>
+</BaseLayout>
