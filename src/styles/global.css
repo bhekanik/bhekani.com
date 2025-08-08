@@ -151,3 +151,93 @@ h5,
 h6 {
   line-height: 1.1;
 }
+
+/* Micro-interactions and animations */
+@media (prefers-reduced-motion: no-preference) {
+  /* Button hover effects */
+  button,
+  .btn,
+  [role="button"] {
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  }
+  
+  button:hover,
+  .btn:hover,
+  [role="button"]:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+  
+  button:active,
+  .btn:active,
+  [role="button"]:active {
+    transform: translateY(0);
+    box-shadow: var(--shadow-sm);
+  }
+  
+  /* Card hover effects */
+  .card-hover {
+    transition: transform var(--transition-base), box-shadow var(--transition-base);
+  }
+  
+  .card-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+  }
+  
+  /* Link underline animation */
+  a {
+    position: relative;
+    text-decoration: none;
+  }
+  
+  a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background-color: currentColor;
+    transition: width var(--transition-fast);
+  }
+  
+  a:hover::after {
+    width: 100%;
+  }
+  
+  /* Focus visible styles */
+  :focus-visible {
+    outline: 2px solid hsl(var(--primary));
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+  
+  /* Image loading animation */
+  img {
+    opacity: 0;
+    transition: opacity var(--transition-slow);
+  }
+  
+  img.loaded,
+  img[data-loaded="true"] {
+    opacity: 1;
+  }
+  
+  /* Smooth scroll behavior */
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
