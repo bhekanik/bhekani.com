@@ -7,7 +7,8 @@ import { ClientRouter } from "astro:transitions"
 import Footer from "../components/Footer.astro"
 import Header from "../components/Header.astro"
 import PostHog from "../components/PostHog.astro"
-// import "../styles/global.css";
+import { SEO_DEFAULTS } from "../constants/seo"
+import "../styles/global.css";
 
 const { pageTitle, description, title, imageUrl } = Astro.props
 ---
@@ -25,45 +26,33 @@ const { pageTitle, description, title, imageUrl } = Astro.props
     />
     <link rel="pingback" href="https://webmention.io/www.bhekani.com/xmlrpc" />
 
-    <title>{pageTitle} | Bhekani.com</title>
+    <title>{pageTitle} | {SEO_DEFAULTS.SITE_NAME}</title>
     <ClientRouter />
     <PostHog />
     <AstroSeo
       title={pageTitle}
-      description={description ??
-        "Personal website of Bhekani Khumalo. I write about tech, productivity, life, and more."}
-      canonical="https://www.bhekani.com"
+      description={description ?? SEO_DEFAULTS.DEFAULT_DESCRIPTION}
+      canonical={`https://www.bhekani.com${Astro.url.pathname}`}
       openGraph={{
-        url: "https://www.url.ie/a",
+        url: `https://www.bhekani.com${Astro.url.pathname}`,
         title: title ?? pageTitle,
-        description:
-          description ??
-          "Personal website of Bhekani Khumalo. I write about tech, productivity, life, and more.",
+        description: description ?? SEO_DEFAULTS.DEFAULT_DESCRIPTION,
         images: [
           {
-            url:
-              imageUrl ??
-              "https://res.cloudinary.com/dhuzf0isy/image/upload/f_auto,q_auto/bvqpcovhndjb88mj3mtc",
-            width: 800,
-            height: 600,
-            alt: title ?? pageTitle,
-            type: "image/jpeg",
-          },
-          {
-            url:
-              imageUrl ??
-              "https://res.cloudinary.com/dhuzf0isy/image/upload/f_auto,q_auto/bvqpcovhndjb88mj3mtc",
-            width: 900,
-            height: 800,
-            alt: title ?? pageTitle,
+            url: imageUrl ?? SEO_DEFAULTS.DEFAULT_OG_IMAGE_URL,
+            width: SEO_DEFAULTS.OG_IMAGE_WIDTH,
+            height: SEO_DEFAULTS.OG_IMAGE_HEIGHT,
+            alt: `${title ?? pageTitle} - ${SEO_DEFAULTS.SITE_NAME}`,
             type: "image/jpeg",
           },
         ],
-        site_name: "Bhekani.com",
+        site_name: SEO_DEFAULTS.SITE_NAME,
+        type: "website",
+        locale: "en_US",
       }}
       twitter={{
-        handle: "@bhekanik",
-        site: "@bhekani.com",
+        handle: SEO_DEFAULTS.TWITTER_HANDLE,
+        site: SEO_DEFAULTS.TWITTER_HANDLE,
         cardType: "summary_large_image",
       }}
     />
@@ -172,8 +161,26 @@ const { pageTitle, description, title, imageUrl } = Astro.props
         line-height: 1.1;
       }
     </style>
+    <style>
+      .skip-link {
+        position: absolute;
+        top: -40px;
+        left: 0;
+        background: hsl(var(--primary));
+        color: hsl(var(--primary-foreground));
+        padding: 8px;
+        text-decoration: none;
+        z-index: 100;
+        border-radius: 0 0 4px 0;
+      }
+      
+      .skip-link:focus {
+        top: 0;
+      }
+    </style>
   </head>
   <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
     <Header />
     <h1
       class="flex flex-col gap-2 page-header text-center text-5xl p-8 border-b-[1px] border-[hsl(var(--muted))] uppercase"
@@ -181,7 +188,9 @@ const { pageTitle, description, title, imageUrl } = Astro.props
       {title ?? pageTitle}
       <span class="text-sm lowercase">{description}</span>
     </h1>
-    <slot />
+    <main id="main-content">
+      <slot />
+    </main>
     <Footer />
   </body>
 </html>

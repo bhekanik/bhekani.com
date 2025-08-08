@@ -30,7 +30,9 @@ const {
             src={`https://covers.openlibrary.org/b/isbn/${ISBN}-M.jpg`}
             width={140}
             height={210}
-            alt={`Cover of ${title}`}
+            alt={`Cover of ${title} by ${author}`}
+            loading="lazy"
+            decoding="async"
           />
         ) : (
           <div class="flex h-full w-full items-center justify-center">
