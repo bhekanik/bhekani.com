@@ -1,0 +1,16 @@
+{
+	"title": "Interview Optimiser",
+	"description": "Practice interviews with an AI interviewer that adapts to your responses in real-time. Get detailed feedback on your communication style, answer structure, and technical accuracy. The platform provides comprehensive performance analytics and targeted improvement suggestions to help you ace your next interview.",
+	"url": "https://www.interviewoptimiser.com",
+	"image": "../_images/interview-optimiser.png",
+	"startDate": "2024-10-18",
+	"published": true,
+	"tech": [
+		"Next.js",
+		"Postgresql",
+		"Drizzle ORM",
+		"AWS",
+		"Tailwind",
+		"Vercel"
+	]
+}

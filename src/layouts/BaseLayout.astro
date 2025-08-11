@@ -1,15 +1,14 @@
 ---
 import "@fontsource-variable/jetbrains-mono"
 import "@fontsource/ibm-plex-sans"
-import "@fontsource/oswald"
-import "@fontsource/permanent-marker"
 
 import { AstroSeo } from "@astrolib/seo"
-import { ViewTransitions } from "astro:transitions"
+import { ClientRouter } from "astro:transitions"
 import Footer from "../components/Footer.astro"
 import Header from "../components/Header.astro"
 import PostHog from "../components/PostHog.astro"
-// import "../styles/global.css";
+import { SEO_DEFAULTS } from "../constants/seo"
+import "../styles/global.css";
 
 const { pageTitle, description, title, imageUrl } = Astro.props
 ---
@@ -27,98 +26,88 @@ const { pageTitle, description, title, imageUrl } = Astro.props
     />
     <link rel="pingback" href="https://webmention.io/www.bhekani.com/xmlrpc" />
 
-    <title>{pageTitle} | Bhekani.com</title>
-    <ViewTransitions />
+    <title>{pageTitle} | {SEO_DEFAULTS.SITE_NAME}</title>
+    <ClientRouter />
     <PostHog />
     <AstroSeo
       title={pageTitle}
-      description={description ??
-        "Personal website of Bhekani Khumalo. I write about tech, productivity, life, and more."}
-      canonical="https://www.bhekani.com"
+      description={description ?? SEO_DEFAULTS.DEFAULT_DESCRIPTION}
+      canonical={`https://www.bhekani.com${Astro.url.pathname}`}
       openGraph={{
-        url: "https://www.url.ie/a",
+        url: `https://www.bhekani.com${Astro.url.pathname}`,
         title: title ?? pageTitle,
-        description:
-          description ??
-          "Personal website of Bhekani Khumalo. I write about tech, productivity, life, and more.",
+        description: description ?? SEO_DEFAULTS.DEFAULT_DESCRIPTION,
         images: [
           {
-            url:
-              imageUrl ??
-              "https://res.cloudinary.com/dhuzf0isy/image/upload/f_auto,q_auto/bvqpcovhndjb88mj3mtc",
-            width: 800,
-            height: 600,
-            alt: title ?? pageTitle,
-            type: "image/jpeg",
-          },
-          {
-            url:
-              imageUrl ??
-              "https://res.cloudinary.com/dhuzf0isy/image/upload/f_auto,q_auto/bvqpcovhndjb88mj3mtc",
-            width: 900,
-            height: 800,
-            alt: title ?? pageTitle,
+            url: imageUrl ?? SEO_DEFAULTS.DEFAULT_OG_IMAGE_URL,
+            width: SEO_DEFAULTS.OG_IMAGE_WIDTH,
+            height: SEO_DEFAULTS.OG_IMAGE_HEIGHT,
+            alt: `${title ?? pageTitle} - ${SEO_DEFAULTS.SITE_NAME}`,
             type: "image/jpeg",
           },
         ],
-        site_name: "Bhekani.com",
+        site_name: SEO_DEFAULTS.SITE_NAME,
+        type: "website",
+        locale: "en_US",
       }}
       twitter={{
-        handle: "@bhekanik",
-        site: "@bhekani.com",
+        handle: SEO_DEFAULTS.TWITTER_HANDLE,
+        site: SEO_DEFAULTS.TWITTER_HANDLE,
         cardType: "summary_large_image",
       }}
     />
     <style is:global>
       :root {
-        --background: 0 0% 100%;
-        --foreground: 224 71.4% 4.1%;
-        --card: 0 0% 100%;
-        --card-foreground: 224 71.4% 4.1%;
-        --popover: 0 0% 100%;
-        --popover-foreground: 224 71.4% 4.1%;
-        --primary: 262.1 83.3% 57.8%;
-        --primary-foreground: 210 20% 98%;
-        --secondary: 220 14.3% 95.9%;
-        --secondary-foreground: 220.9 39.3% 11%;
-        --muted: 220 14.3% 95.9%;
-        --muted-foreground: 220 8.9% 46.1%;
-        --accent: 220 14.3% 95.9%;
-        --accent-foreground: 220.9 39.3% 11%;
-        --destructive: 0 84.2% 60.2%;
-        --destructive-foreground: 210 20% 98%;
-        --border: 220 13% 91%;
-        --input: 220 13% 91%;
-        --ring: 262.1 83.3% 57.8%;
+        /* Light theme - warm, peaceful colors */
+        --background: 35 30% 95.7%;
+        --foreground: 240 10% 3.9%;
+        --card: 35 25% 97%;
+        --card-foreground: 240 10% 3.9%;
+        --popover: 35 25% 97%;
+        --popover-foreground: 240 10% 3.9%;
+        --primary: 220 65% 45%;
+        --primary-foreground: 35 25% 97%;
+        --secondary: 35 15% 90%;
+        --secondary-foreground: 240 10% 3.9%;
+        --muted: 35 15% 90%;
+        --muted-foreground: 240 8% 45%;
+        --accent: 35 15% 90%;
+        --accent-foreground: 240 10% 3.9%;
+        --destructive: 0 75% 60%;
+        --destructive-foreground: 35 25% 97%;
+        --border: 35 15% 85%;
+        --input: 35 15% 85%;
+        --ring: 220 65% 45%;
         --radius: rem;
 
-        --links: 357.6 90% 40.4%;
-        --links-hovered: 220 90% 50.4%;
+        --links: 220 65% 45%;
+        --links-hovered: 220 65% 35%;
       }
 
       :root.dark {
-        --background: 210 30% 8%;
-        --foreground: 210 20% 98%;
-        --card: 224 71.4% 4.1%;
-        --card-foreground: 210 20% 98%;
-        --popover: 224 71.4% 4.1%;
-        --popover-foreground: 210 20% 98%;
-        --primary: 263.4 70% 50.4%;
-        --primary-foreground: 210 20% 98%;
-        --secondary: 215 27.9% 16.9%;
-        --secondary-foreground: 210 20% 98%;
-        --muted: 215 27.9% 16.9%;
-        --muted-foreground: 217.9 10.6% 64.9%;
-        --accent: 215 27.9% 16.9%;
-        --accent-foreground: 210 20% 98%;
-        --destructive: 0 62.8% 30.6%;
-        --destructive-foreground: 210 20% 98%;
-        --border: 215 27.9% 16.9%;
-        --input: 215 27.9% 16.9%;
-        --ring: 263.4 70% 50.4%;
+        /* Dark theme - softer, calming dark colors */
+        --background: 225 25% 15%;
+        --foreground: 35 15% 95%;
+        --card: 225 25% 17%;
+        --card-foreground: 35 15% 95%;
+        --popover: 225 25% 17%;
+        --popover-foreground: 35 15% 95%;
+        --primary: 220 65% 65%;
+        --primary-foreground: 225 25% 15%;
+        --secondary: 225 25% 20%;
+        --secondary-foreground: 35 15% 95%;
+        --muted: 225 25% 20%;
+        --muted-foreground: 35 15% 75%;
+        --accent: 225 25% 20%;
+        --accent-foreground: 35 15% 95%;
+        --destructive: 0 75% 45%;
+        --destructive-foreground: 35 15% 95%;
+        --border: 225 25% 25%;
+        --input: 225 25% 25%;
+        --ring: 220 65% 65%;
 
-        --links: 183.4 90% 60.4%;
-        --links-hovered: 215 90% 70.4%;
+        --links: 199 75% 75%;
+        --links-hovered: 199 75% 85%;
       }
 
       html {
@@ -172,15 +161,36 @@ const { pageTitle, description, title, imageUrl } = Astro.props
         line-height: 1.1;
       }
     </style>
+    <style>
+      .skip-link {
+        position: absolute;
+        top: -40px;
+        left: 0;
+        background: hsl(var(--primary));
+        color: hsl(var(--primary-foreground));
+        padding: 8px;
+        text-decoration: none;
+        z-index: 100;
+        border-radius: 0 0 4px 0;
+      }
+      
+      .skip-link:focus {
+        top: 0;
+      }
+    </style>
   </head>
   <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
     <Header />
     <h1
-      class="page-header text-center text-5xl p-8 border-b-[1px] border-[hsl(var(--muted))] uppercase"
+      class="flex flex-col gap-2 page-header text-center text-5xl p-8 border-b-[1px] border-[hsl(var(--muted))] uppercase"
     >
       {title ?? pageTitle}
+      <span class="text-sm lowercase">{description}</span>
     </h1>
-    <slot />
+    <main id="main-content">
+      <slot />
+    </main>
     <Footer />
   </body>
 </html>

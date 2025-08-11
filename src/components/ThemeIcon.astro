@@ -21,19 +21,43 @@
   #themeToggle {
     border: 0;
     background: none;
+    padding: var(--space-2);
+    border-radius: var(--radius-md);
+    transition: background-color var(--transition-fast);
   }
+  
+  #themeToggle:hover {
+    background-color: hsl(var(--muted));
+  }
+  
+  #themeToggle svg {
+    transition: transform var(--transition-base);
+  }
+  
+  #themeToggle:active svg {
+    transform: scale(0.9);
+  }
+  
   .sun {
     fill: transparent;
+    transition: fill var(--transition-base), opacity var(--transition-base);
+    opacity: 0;
   }
 
   :global(.dark) .sun {
     fill: hsl(var(--foreground));
+    opacity: 1;
   }
+  
   .moon {
     fill: hsl(var(--foreground));
+    transition: fill var(--transition-base), opacity var(--transition-base);
+    opacity: 1;
   }
+  
   :global(.dark) .moon {
     fill: transparent;
+    opacity: 0;
   }
 </style>
 

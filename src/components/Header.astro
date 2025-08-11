@@ -1,28 +1,218 @@
 ---
-import Navigation from "./Navigation.astro"
 import ThemeIcon from "./ThemeIcon.astro"
+import Link from "./Link.astro"
 ---
 
 <header
-  class="flex gap-4 w-full items-center justify-between bg-[hsl(var(--muted))]"
+  class="sticky top-0 z-50 w-full border-b border-[hsl(var(--muted))] bg-[hsl(var(--background))]/80 backdrop-blur-sm"
 >
-  <a
-    class="logo p-2 text-[hsl(var(--background))] bg-[hsl(var(--foreground))]"
-    href="/"
-  >
-    <h1 class="text-xl font-logo">BK</h1>
-  </a>
-  <div class="flex pr-4">
-    <Navigation />
-    <ThemeIcon />
+  <div class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4">
+    {/* Logo */}
+    <div class="flex items-center">
+      <a
+        href="/"
+        class="group flex items-center gap-2 transition-colors hover:text-[hsl(var(--foreground))]"
+      >
+        <div
+          class="bg-[hsl(var(--foreground))] text-[hsl(var(--background))] px-3 py-1"
+        >
+          <span class="text-xl font-bold">BK</span>
+        </div>
+      </a>
+    </div>
+
+    {/* Navigation - Desktop */}
+    <nav class="hidden md:flex items-center gap-1">
+      <a
+        href="/about"
+        class="px-4 py-2 text-sm font-medium text-[hsl(var(--muted-foreground))] rounded-md hover:text-[hsl(var(--foreground))] hover:bg-[hsl(var(--muted))] transition-colors"
+      >
+        About
+      </a>
+      <a
+        href="/posts"
+        class="px-4 py-2 text-sm font-medium text-[hsl(var(--muted-foreground))] rounded-md hover:text-[hsl(var(--foreground))] hover:bg-[hsl(var(--muted))] transition-colors"
+      >
+        Blog
+      </a>
+      <a
+        href="/micro"
+        class="px-4 py-2 text-sm font-medium text-[hsl(var(--muted-foreground))] rounded-md hover:text-[hsl(var(--foreground))] hover:bg-[hsl(var(--muted))] transition-colors"
+      >
+        Micro
+      </a>
+      <a
+        href="/projects"
+        class="px-4 py-2 text-sm font-medium text-[hsl(var(--muted-foreground))] rounded-md hover:text-[hsl(var(--foreground))] hover:bg-[hsl(var(--muted))] transition-colors"
+      >
+        Projects
+      </a>
+      <a
+        href="/books"
+        class="px-4 py-2 text-sm font-medium text-[hsl(var(--muted-foreground))] rounded-md hover:text-[hsl(var(--foreground))] hover:bg-[hsl(var(--muted))] transition-colors"
+      >
+        Books
+      </a>
+      <div class="pl-2">
+        <ThemeIcon />
+      </div>
+    </nav>
+
+    {/* Mobile Menu Button */}
+    <div class="flex items-center gap-4 md:hidden">
+      <ThemeIcon />
+      <button
+        type="button"
+        class="mobile-menu-button -m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-[hsl(var(--foreground))]"
+        aria-expanded="false"
+      >
+        <span class="sr-only">Open main menu</span>
+        <svg
+          class="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          aria-hidden="true"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path>
+        </svg>
+      </button>
+    </div>
+
+    {/* Mobile Menu Panel */}
+    <div class="mobile-menu hidden fixed inset-0 z-50">
+      <div
+        class="mobile-menu-backdrop fixed inset-0 bg-black/20 backdrop-blur-sm dark:bg-slate-900/80 opacity-0 transition-opacity duration-[var(--transition-base)]"
+      >
+      </div>
+      <div
+        class="mobile-menu-panel fixed inset-y-0 right-0 w-full overflow-y-auto bg-[hsl(var(--background))] px-6 py-6 sm:max-w-sm transform translate-x-full transition-transform duration-[var(--transition-base)] ease-out"
+      >
+        <div class="flex items-center justify-between">
+          <a href="/" class="-m-1.5 p-1.5">
+            <div
+              class="bg-[hsl(var(--foreground))] text-[hsl(var(--background))] px-3 py-1"
+            >
+              <span class="text-xl font-bold">BK</span>
+            </div>
+          </a>
+          <button
+            type="button"
+            class="mobile-menu-close -m-2.5 rounded-md p-2.5 text-[hsl(var(--foreground))]"
+          >
+            <span class="sr-only">Close menu</span>
+            <svg
+              class="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+        <div class="mt-6 flow-root">
+          <div class="-my-6 divide-y divide-[hsl(var(--muted))]">
+            <div class="space-y-2 py-6">
+              <Link
+                href="/about"
+                class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 hover:bg-[hsl(var(--muted))]"
+              >
+                About
+              </Link>
+              <Link
+                href="/posts"
+                class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 hover:bg-[hsl(var(--muted))]"
+              >
+                Blog
+              </Link>
+              <Link
+                href="/micro"
+                class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 hover:bg-[hsl(var(--muted))]"
+              >
+                Micro
+              </Link>
+              <Link
+                href="/projects"
+                class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 hover:bg-[hsl(var(--muted))]"
+              >
+                Projects
+              </Link>
+              <Link
+                href="/books"
+                class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 hover:bg-[hsl(var(--muted))]"
+              >
+                Books
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </header>
+
+<script>
+  const mobileMenuButton = document.querySelector(".mobile-menu-button")
+  const mobileMenuClose = document.querySelector(".mobile-menu-close")
+  const mobileMenu = document.querySelector(".mobile-menu")
+  const mobileMenuBackdrop = document.querySelector(".mobile-menu-backdrop")
+  const mobileMenuPanel = document.querySelector(".mobile-menu-panel")
+  const mobileMenuLinks = document.querySelectorAll(".mobile-menu a")
+
+  function openMenu() {
+    if (!mobileMenu || !mobileMenuPanel || !mobileMenuBackdrop) return
+    
+    mobileMenu.classList.remove("hidden")
+    document.body.style.overflow = "hidden"
+    
+    requestAnimationFrame(() => {
+      mobileMenuBackdrop.classList.remove("opacity-0")
+      mobileMenuBackdrop.classList.add("opacity-100")
+      mobileMenuPanel.classList.remove("translate-x-full")
+      mobileMenuPanel.classList.add("translate-x-0")
+    })
+  }
+
+  function closeMenu() {
+    if (!mobileMenu || !mobileMenuPanel || !mobileMenuBackdrop) return
+    
+    mobileMenuBackdrop.classList.remove("opacity-100")
+    mobileMenuBackdrop.classList.add("opacity-0")
+    mobileMenuPanel.classList.remove("translate-x-0")
+    mobileMenuPanel.classList.add("translate-x-full")
+    
+    setTimeout(() => {
+      mobileMenu.classList.add("hidden")
+      document.body.style.overflow = ""
+    }, 250)
+  }
+
+  mobileMenuButton?.addEventListener("click", openMenu)
+  mobileMenuClose?.addEventListener("click", closeMenu)
+  mobileMenuBackdrop?.addEventListener("click", closeMenu)
+  mobileMenuLinks.forEach((link) => {
+    link.addEventListener("click", closeMenu)
+  })
+  
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && !mobileMenu?.classList.contains("hidden")) {
+      closeMenu()
+    }
+  })
+</script>
 
 <style>
   header {
     grid-area: header;
-    /* position: sticky; */
-    /* top: 0; */
-    z-index: 100;
   }
 </style>

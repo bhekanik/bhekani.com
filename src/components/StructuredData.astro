@@ -1,0 +1,101 @@
+---
+export interface Props {
+  type: "website" | "article" | "person" | "book"
+  data: any
+}
+
+const { type, data } = Astro.props
+
+function getStructuredData() {
+  switch (type) {
+    case "website":
+      return {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        name: data.name,
+        description: data.description,
+        url: data.url,
+        author: {
+          "@type": "Person",
+          name: "Bhekani Khumalo",
+          url: "https://bhekani.com",
+        },
+      }
+    case "article":
+      return {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        headline: data.title,
+        description: data.description,
+        datePublished: data.pubDate,
+        dateModified: data.updatedDate || data.pubDate,
+        author: {
+          "@type": "Person",
+          name: "Bhekani Khumalo",
+          url: "https://bhekani.com",
+        },
+        publisher: {
+          "@type": "Person",
+          name: "Bhekani Khumalo",
+        },
+        mainEntityOfPage: {
+          "@type": "WebPage",
+          "@id": data.url,
+        },
+        image: data.image || "https://bhekani.com/og-image.png",
+      }
+    case "person":
+      return {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        name: "Bhekani Khumalo",
+        url: "https://bhekani.com",
+        jobTitle: "Software Engineer",
+        description: data.description,
+        sameAs: [
+          "https://twitter.com/bhekanik",
+          "https://github.com/bhekanik",
+          "https://linkedin.com/in/bhekanik",
+        ],
+      }
+    case "book":
+      return {
+        "@context": "https://schema.org",
+        "@type": "Book",
+        name: data.title,
+        author: {
+          "@type": "Person",
+          name: data.author,
+        },
+        isbn: data.ISBN,
+        review: {
+          "@type": "Review",
+          reviewRating: {
+            "@type": "Rating",
+            ratingValue: data.myRating,
+            bestRating: "5",
+          },
+          author: {
+            "@type": "Person",
+            name: "Bhekani Khumalo",
+          },
+          reviewBody: data.myReview,
+        },
+      }
+    default:
+      return null
+  }
+}
+
+const structuredData = getStructuredData()
+---
+
+{
+  structuredData && (
+    <script
+      type="application/ld+json"
+      is:inline
+      set:html={JSON.stringify(structuredData)}
+    />
+  )
+}

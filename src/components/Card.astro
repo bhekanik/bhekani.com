@@ -1,0 +1,32 @@
+---
+import { cn } from "../utils/cn"
+
+type Props = {
+  variant?: "default" | "bordered" | "ghost"
+  hover?: boolean
+  class?: string
+}
+
+const { variant = "default", hover = true, class: className } = Astro.props
+
+const variants = {
+  default: "bg-[hsl(var(--card))] border border-[hsl(var(--border))]",
+  bordered: "bg-transparent border-2 border-[hsl(var(--border))]",
+  ghost: "bg-transparent",
+}
+
+const hoverClass = hover
+  ? "transition-all duration-[var(--transition-base)] hover:bg-[hsl(var(--muted))] hover:shadow-[var(--shadow-md)] hover:translate-y-[-2px]"
+  : ""
+---
+
+<div
+  class={cn(
+    "rounded-[var(--radius-md)] overflow-hidden",
+    variants[variant],
+    hoverClass,
+    className,
+  )}
+>
+  <slot />
+</div>

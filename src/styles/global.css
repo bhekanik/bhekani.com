@@ -1,31 +1,92 @@
 :root {
-  --background: 224 71.4% 4.1%;
-  --foreground: 210 20% 98%;
-  --card: 224 71.4% 4.1%;
-  --card-foreground: 210 20% 98%;
-  --popover: 224 71.4% 4.1%;
-  --popover-foreground: 210 20% 98%;
-  --primary: 263.4 70% 50.4%;
-  --primary-foreground: 210 20% 98%;
-  --secondary: 215 27.9% 16.9%;
-  --secondary-foreground: 210 20% 98%;
-  --muted: 215 27.9% 16.9%;
-  --muted-foreground: 217.9 10.6% 64.9%;
-  --accent: 215 27.9% 16.9%;
-  --accent-foreground: 210 20% 98%;
-  --destructive: 0 62.8% 30.6%;
-  --destructive-foreground: 210 20% 98%;
-  --border: 215 27.9% 16.9%;
-  --input: 215 27.9% 16.9%;
-  --ring: 263.4 70% 50.4%;
+  --background: 35 30% 95.7%;
+  --foreground: 240 10% 3.9%;
+  --card: 0 0% 100%;
+  --card-foreground: 240 10% 3.9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 240 10% 3.9%;
+  --primary: 240 5.9% 10%;
+  --primary-foreground: 0 0% 98%;
+  --secondary: 240 4.8% 95.9%;
+  --secondary-foreground: 240 5.9% 10%;
+  --muted: 240 4.8% 95.9%;
+  --muted-foreground: 240 3.8% 46.1%;
+  --accent: 240 4.8% 95.9%;
+  --accent-foreground: 240 5.9% 10%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 240 5.9% 90%;
+  --input: 240 5.9% 90%;
+  --ring: 240 5.9% 10%;
 
-  --links: 183.4 90% 80.4%;
+  --links: 200 98% 39%;
+  
+  /* Spacing Scale */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  
+  /* Border Radius */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+}
+
+.dark {
+  --background: 225 25% 15%;
+  --foreground: 210 40% 98%;
+  --card: 225 25% 16%;
+  --card-foreground: 210 40% 98%;
+  --popover: 225 25% 16%;
+  --popover-foreground: 210 40% 98%;
+  --primary: 217.2 91.2% 59.8%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 225 25% 24%;
+  --secondary-foreground: 210 40% 98%;
+  --muted: 225 25% 24%;
+  --muted-foreground: 217.9 32.6% 82%;
+  --accent: 225 25% 24%;
+  --accent-foreground: 210 40% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 225 25% 24%;
+  --input: 225 25% 24%;
+  --ring: 224.3 76.3% 48%;
+  --links: 199 95% 74%;
+  
+  /* Dark mode shadows */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.2);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.3);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4);
 }
 
 html {
   background-color: hsl(var(--background));
   font-family: "IBM Plex Sans", sans-serif;
   color: hsl(var(--foreground));
+  transition: background-color var(--transition-base), color var(--transition-base);
+}
+
+* {
+  transition: background-color var(--transition-base), border-color var(--transition-base);
 }
 
 code,
@@ -39,7 +100,9 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Oswald", cursive;
+  font-family: "IBM Plex Sans", sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 body {
@@ -69,13 +132,15 @@ main {
 
 a {
   color: hsl(var(--links));
-  transition: all 0.2s ease-in-out;
+  transition: color var(--transition-fast), background-color var(--transition-fast);
+  border-radius: var(--radius-sm);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
 }
 
 a:hover {
-  background-color: hsl(var(--muted));
+  background-color: hsl(var(--links) / 0.1);
   color: hsl(var(--links));
-  transition: all 0.2s ease-in-out;
 }
 
 h1,
@@ -85,4 +150,103 @@ h4,
 h5,
 h6 {
   line-height: 1.1;
+}
+
+/* Micro-interactions and animations */
+@media (prefers-reduced-motion: no-preference) {
+  /* Button hover effects */
+  button,
+  .btn,
+  [role="button"] {
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  }
+  
+  button:hover,
+  .btn:hover,
+  [role="button"]:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+  
+  button:active,
+  .btn:active,
+  [role="button"]:active {
+    transform: translateY(0);
+    box-shadow: var(--shadow-sm);
+  }
+  
+  /* Card hover effects */
+  .card-hover {
+    transition: transform var(--transition-base), box-shadow var(--transition-base);
+  }
+  
+  .card-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+  }
+  
+  /* Link underline animation - only for navigation and interactive links */
+  nav a,
+  .card-hover a,
+  .btn-link {
+    position: relative;
+    text-decoration: none;
+  }
+  
+  nav a::after,
+  .card-hover a::after,
+  .btn-link::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background-color: currentColor;
+    transition: width var(--transition-fast);
+  }
+  
+  nav a:hover::after,
+  .card-hover a:hover::after,
+  .btn-link:hover::after {
+    width: 100%;
+  }
+  
+  /* Focus visible styles */
+  :focus-visible {
+    outline: 2px solid hsl(var(--primary));
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+  
+  /* Image loading animation - only for images with loading state */
+  img.lazy-loading,
+  img[data-loading="true"] {
+    opacity: 0;
+    transition: opacity var(--transition-slow);
+  }
+  
+  img.lazy-loading.loaded,
+  img.lazy-loading[data-loaded="true"],
+  img[data-loading="true"].loaded,
+  img[data-loading="true"][data-loaded="true"] {
+    opacity: 1;
+  }
+  
+  /* Smooth scroll behavior */
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

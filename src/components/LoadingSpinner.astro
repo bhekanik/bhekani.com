@@ -1,0 +1,38 @@
+---
+import { cn } from "../utils/cn"
+
+type Props = {
+  size?: "sm" | "md" | "lg"
+  class?: string
+}
+
+const { size = "md", class: className } = Astro.props
+
+const sizes = {
+  sm: "w-4 h-4",
+  md: "w-6 h-6",
+  lg: "w-8 h-8",
+}
+---
+
+<div
+  class={cn(
+    "inline-block animate-spin rounded-full border-2 border-solid border-current border-r-transparent align-middle motion-reduce:animate-[spin_1.5s_linear_infinite]",
+    sizes[size],
+    className,
+  )}
+  role="status"
+>
+  <span class="sr-only">Loading...</span>
+</div>
+
+<style>
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+</style>

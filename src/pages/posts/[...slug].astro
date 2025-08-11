@@ -1,29 +1,182 @@
 ---
 import { getCollection, type CollectionEntry } from "astro:content"
+import Giscuss from "../../components/Giscuss.astro"
+import Link from "../../components/Link.astro"
+import MainContainer from "../../components/MainContainer.astro"
 import Prose from "../../components/Prose.astro"
-import MarkdownPostLayout from "../../layouts/MarkdownPostLayout.astro"
+import TableOfContents from "../../components/TableOfContents.astro"
+import ViewCounter from "../../components/ViewCounter.svelte"
+import WebMentions from "../../components/WebMentions.astro"
+import BaseLayout from "../../layouts/BaseLayout.astro"
 
 export async function getStaticPaths() {
   const posts = await getCollection("posts")
-  return posts
-    .filter((post) => post.data.published)
-    .map((post) => ({
-      params: { slug: post.slug },
-      props: { post },
-    }))
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }))
 }
 
-export interface Props {
+type Props = {
   post: CollectionEntry<"posts">
 }
 
 const { post } = Astro.props
-const { Content } = await post.render()
+const { Content, headings } = await post.render()
 ---
 
-<MarkdownPostLayout post={post}>
-  <!-- <hr class="my-4 border-[hsl(var(--muted))]" /> -->
-  <Prose>
-    <Content class="content" />
-  </Prose>
-</MarkdownPostLayout>
+<BaseLayout
+  pageTitle={post.data.title}
+  description={post.data.description}
+  imageUrl={post.data.image?.src}
+>
+  <MainContainer>
+    <article class="max-w-4xl mx-auto mt-12">
+      {/* Article Header */}
+      <header class="space-y-8 mb-16">
+        <div class="space-y-4">
+          <div
+            class="flex items-center gap-2 text-sm text-[hsl(var(--muted-foreground))]"
+          >
+            <Link href="/posts" class="hover:text-[hsl(var(--foreground))]">
+              ← Back to posts
+            </Link>
+            <span class="text-[hsl(var(--muted-foreground))]">•</span>
+            <time datetime={post.data.pubDate.toISOString()}>
+              {
+                new Date(post.data.pubDate).toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })
+              }
+            </time>
+            <span class="text-[hsl(var(--muted-foreground))]">•</span>
+            <ViewCounter client:load slug={post.slug} />
+          </div>
+
+          <h1 class="text-4xl font-bold">{post.data.title}</h1>
+
+          {
+            post.data.description && (
+              <p class="text-xl text-[hsl(var(--muted-foreground))] max-w-prose">
+                {post.data.description}
+              </p>
+            )
+          }
+
+          {
+            post.data.tags && (
+              <div class="flex flex-wrap gap-2">
+                {post.data.tags.map((tag: string) => (
+                  <a
+                    href={`/posts/tags/${tag}`}
+                    class="text-sm px-3 py-1 rounded-md bg-[hsl(var(--muted))] text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))] transition-colors"
+                  >
+                    #{tag}
+                  </a>
+                ))}
+              </div>
+            )
+          }
+        </div>
+
+        {
+          post.data.image && (
+            <div class="aspect-video w-full overflow-hidden rounded-xl">
+              <img
+                src={post.data.image.src}
+                alt={post.data.image.src || ""}
+                class="w-full h-full object-cover"
+              />
+            </div>
+          )
+        }
+      </header>
+
+      {/* Table of Contents - Desktop */}
+      {
+        headings.length > 0 && (
+          <aside class="hidden lg:block fixed right-8 top-32 w-64 overflow-auto max-h-[calc(100vh-8rem)]">
+            <div class="space-y-4 p-6 rounded-xl bg-[hsl(var(--card))] border border-[hsl(var(--muted))]">
+              <h2 class="text-sm font-semibold">Table of Contents</h2>
+              <TableOfContents headings={headings} />
+            </div>
+          </aside>
+        )
+      }
+
+      {/* Main Content */}
+      <div class="relative">
+        <Prose>
+          <Content />
+        </Prose>
+      </div>
+
+      {/* Article Footer */}
+      <footer class="mt-16 pt-8">
+        {/* Share Section */}
+        <div class="mb-16 space-y-4">
+          <h2 class="text-lg font-semibold">Share this post</h2>
+          <div class="flex gap-4">
+            <a
+              href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.data.title)}&url=${encodeURIComponent(`https://bhekani.com/posts/${post.slug}`)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md bg-[hsl(var(--muted))] hover:bg-[hsl(var(--accent))] transition-colors"
+            >
+              Share on Twitter
+            </a>
+            <a
+              href={`https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(`https://bhekani.com/posts/${post.slug}`)}&title=${encodeURIComponent(post.data.title)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md bg-[hsl(var(--muted))] hover:bg-[hsl(var(--accent))] transition-colors"
+            >
+              Share on LinkedIn
+            </a>
+          </div>
+        </div>
+
+        <div class="border-t border-[hsl(var(--muted))]">
+          {/* Webmentions */}
+          <div class="my-16">
+            <WebMentions />
+          </div>
+
+          {/* Comments */}
+          <div class="my-16">
+            <h2 class="text-lg font-semibold mb-8">Comments</h2>
+            <div class="giscus-wrapper">
+              <Giscuss />
+            </div>
+          </div>
+        </div>
+      </footer>
+    </article>
+  </MainContainer>
+</BaseLayout>
+
+<style>
+  /* Smooth scroll for table of contents */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Style for active ToC link */
+  :global(.toc-active) {
+    color: hsl(var(--primary));
+    font-weight: 500;
+  }
+
+  /* Add specific styling for giscus wrapper */
+  .giscus-wrapper {
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  /* Ensure giscus iframe has proper spacing */
+  :global(.giscus-frame) {
+    margin-top: 1rem;
+  }
+</style>

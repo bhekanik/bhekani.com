@@ -20,7 +20,6 @@
       }
       return await response.json()
     } catch (e) {
-      console.error("Error fetching view count:", e)
       throw e
     }
   }

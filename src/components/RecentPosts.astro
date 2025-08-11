@@ -1,8 +1,9 @@
 ---
+import type { CollectionEntry } from "astro:content"
 import { getCollection } from "astro:content"
 import PostListItem from "./PostListItem.astro"
 
-const allPosts = await getCollection("posts")
+const allPosts = (await getCollection("posts")) as CollectionEntry<"posts">[]
 
 interface Props {
   limit?: number

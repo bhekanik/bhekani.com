@@ -1,9 +1,42 @@
 import type { APIRoute } from "astro"
 import { db, eq, sql, Views } from "astro:db"
+import { viewsRateLimiter } from "../../utils/rateLimiter"
+import * as Sentry from "@sentry/astro"
 
 export const prerender = false
 
-export const POST: APIRoute = async ({ url }) => {
+export const POST: APIRoute = async ({ url, clientAddress }) => {
+  const ip = clientAddress ?? `unknown-${Math.random()}`
+  
+  let rateLimitResult
+  try {
+    rateLimitResult = await viewsRateLimiter.checkLimit(ip)
+  } catch (error) {
+    rateLimitResult = { 
+      allowed: true, 
+      remaining: viewsRateLimiter.maxRequestsLimit, 
+      resetTime: Date.now() + 60000 
+    }
+  }
+  
+  if (!rateLimitResult.allowed) {
+    return new Response(
+      JSON.stringify({ 
+        error: "Too many requests. Please try again later." 
+      }),
+      {
+        status: 429,
+        headers: {
+          "Content-Type": "application/json",
+          "X-RateLimit-Limit": viewsRateLimiter.maxRequestsLimit.toString(),
+          "X-RateLimit-Remaining": "0",
+          "X-RateLimit-Reset": new Date(rateLimitResult.resetTime).toISOString(),
+          "Retry-After": Math.max(1, Math.ceil((rateLimitResult.resetTime - Date.now()) / 1000)).toString(),
+        },
+      }
+    )
+  }
+  
   const slug = url.searchParams.get("slug")
 
   if (!slug) {
@@ -40,7 +73,10 @@ export const POST: APIRoute = async ({ url }) => {
       })
       .then((res) => res[0])
   } catch (error) {
-    console.log("error:", error)
+    Sentry.captureException(error, {
+      tags: { api: "views", method: "POST" },
+      extra: { slug }
+    })
     item = { slug, count: 1 }
   }
 
@@ -48,11 +84,45 @@ export const POST: APIRoute = async ({ url }) => {
     status: 200,
     headers: {
       "content-type": "application/json",
+      "X-RateLimit-Limit": viewsRateLimiter.maxRequestsLimit.toString(),
+      "X-RateLimit-Remaining": rateLimitResult.remaining.toString(),
+      "X-RateLimit-Reset": new Date(rateLimitResult.resetTime).toISOString(),
     },
   })
 }
 
-export const GET: APIRoute = async ({ url }) => {
+export const GET: APIRoute = async ({ url, clientAddress }) => {
+  const ip = clientAddress ?? `unknown-${Math.random()}`
+  
+  let rateLimitResult
+  try {
+    rateLimitResult = await viewsRateLimiter.checkLimit(ip)
+  } catch (error) {
+    rateLimitResult = { 
+      allowed: true, 
+      remaining: viewsRateLimiter.maxRequestsLimit, 
+      resetTime: Date.now() + 60000 
+    }
+  }
+  
+  if (!rateLimitResult.allowed) {
+    return new Response(
+      JSON.stringify({ 
+        error: "Too many requests. Please try again later." 
+      }),
+      {
+        status: 429,
+        headers: {
+          "Content-Type": "application/json",
+          "X-RateLimit-Limit": viewsRateLimiter.maxRequestsLimit.toString(),
+          "X-RateLimit-Remaining": "0",
+          "X-RateLimit-Reset": new Date(rateLimitResult.resetTime).toISOString(),
+          "Retry-After": Math.max(1, Math.ceil((rateLimitResult.resetTime - Date.now()) / 1000)).toString(),
+        },
+      }
+    )
+  }
+  
   const slug = url.searchParams.get("slug")
 
   if (!slug) {
@@ -72,7 +142,10 @@ export const GET: APIRoute = async ({ url }) => {
       .where(eq(Views.slug, slug))
       .then((res) => res[0])
   } catch (error) {
-    console.log("error:", error)
+    Sentry.captureException(error, {
+      tags: { api: "views", method: "GET" },
+      extra: { slug }
+    })
     item = { slug, count: 1 }
   }
 
@@ -80,6 +153,9 @@ export const GET: APIRoute = async ({ url }) => {
     status: 200,
     headers: {
       "content-type": "application/json",
+      "X-RateLimit-Limit": viewsRateLimiter.maxRequestsLimit.toString(),
+      "X-RateLimit-Remaining": rateLimitResult.remaining.toString(),
+      "X-RateLimit-Reset": new Date(rateLimitResult.resetTime).toISOString(),
     },
   })
 }

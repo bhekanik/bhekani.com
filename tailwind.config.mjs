@@ -6,8 +6,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        logo: ["Permanent Marker", ...defaultTheme.fontFamily.sans],
-        headings: ["Oswald", ...defaultTheme.fontFamily.sans],
+        logo: ["IBM Plex Sans", ...defaultTheme.fontFamily.sans],
+        headings: ["IBM Plex Sans", ...defaultTheme.fontFamily.sans],
         body: ["IBM Plex Sans", ...defaultTheme.fontFamily.sans],
         code: ["JetBrains Mono", ...defaultTheme.fontFamily.sans],
       },

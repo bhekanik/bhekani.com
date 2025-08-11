@@ -4,8 +4,11 @@
     "astrojs",
     "astrolib",
     "canvaskit",
+    "cvoptimiser",
     "Dealbase",
     "dealflow",
+    "optimise",
+    "optimiser",
     "webmention",
     "webmentions"
   ]

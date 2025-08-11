@@ -1,0 +1,16 @@
+{
+	"title": "CV Optimiser",
+	"description": "An AI-powered tool that analyzes your CV against specific job descriptions, providing actionable recommendations to improve your match rate. Get personalized feedback on missing keywords, skills alignment, and formatting to increase your chances of getting past ATS systems and landing interviews.",
+	"url": "https://www.cvoptimiser.com",
+	"image": "../_images/cvoptimiser.jpeg",
+	"startDate": "2024-10-01",
+	"published": true,
+	"tech": [
+		"Next.js",
+		"Postgresql",
+		"Drizzle ORM",
+		"AWS",
+		"Tailwind",
+		"Vercel"
+	]
+}

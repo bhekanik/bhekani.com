@@ -1,114 +1,162 @@
 ---
-import { Image } from "astro:assets";
-import Link from "../components/Link.astro";
-import MainContainer from "../components/MainContainer.astro";
-import BK from "../images/BK.webp";
-import BaseLayout from "../layouts/BaseLayout.astro";
+import { Image } from "astro:assets"
+import Link from "../components/Link.astro"
+import MainContainer from "../components/MainContainer.astro"
+import BK from "../images/BK.webp"
+import BaseLayout from "../layouts/BaseLayout.astro"
 
-const pageTitle = "About Me";
+const pageTitle = "About Me"
 ---
 
 <BaseLayout pageTitle={pageTitle}>
   <MainContainer>
-    <div class="image h-15 w-15 mt-8">
-      <Image
-        class="rounded-lg"
-        src={BK}
-        alt="Bhekani Khumalo"
-        width="200"
-        height="200"
-      />
+    <div class="max-w-4xl mx-auto mt-12 space-y-16">
+      {/* Hero Section */}
+      <div
+        class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[hsl(var(--muted))] to-[hsl(var(--background))] p-8 md:p-12"
+      >
+        <div class="flex flex-col md:flex-row items-center gap-8 md:gap-12">
+          <div class="flex-1 space-y-6">
+            <div>
+              <h1 class="text-4xl md:text-5xl font-bold mb-2">
+                Bhekani Khumalo
+              </h1>
+              <p class="text-[hsl(var(--muted-foreground))] font-code">
+                /be̞ɣäɳi kxumälo/
+              </p>
+            </div>
+            <p class="text-xl leading-relaxed">
+              Most people call me <span class="font-bold">BK</span> (my initials).
+              I'm a software engineer living in London, currently working as a Senior
+              Software Engineer at <Link href="https://contentful.com/"
+                >Contentful</Link
+              >.
+            </p>
+          </div>
+          <div class="relative w-48 h-48 md:w-64 md:h-64 flex-shrink-0">
+            <Image
+              src={BK}
+              alt="Bhekani Khumalo"
+              class="rounded-2xl object-cover w-full h-full shadow-lg"
+              width={300}
+              height={300}
+            />
+            <div
+              class="absolute inset-0 rounded-2xl ring-1 ring-inset ring-[hsl(var(--muted))]"
+            >
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Background Section */}
+      <section class="space-y-6">
+        <h2 class="text-3xl font-bold">Background</h2>
+        <div class="prose prose-lg dark:prose-invert">
+          <p>
+            My professional journey started in Civil Engineering - I hold a
+            Bachelor's degree in Civil and Water Engineering and worked as a
+            Civil Engineer for 6 years. My path then led me through Geographic
+            Information Science before finding my true passion in Software
+            Engineering.
+          </p>
+          <p>
+            I'm also building <Link href="https://dealbase.africa/"
+              >Dealbase.Africa</Link
+            >, where we collect and share data on deal activity in the African
+            early stage tech ecosystem. Before Contentful, I worked at <Link
+              href="https://anaplan.com/">Anaplan</Link
+            >,
+            <Link href="">Sigma Digital</Link>,
+            <Link href="https://esri-southafrica.com/">ESRI South Africa</Link> and
+            <Link href="https://www.ramm.co.za/">RAMM Technologies</Link>.
+          </p>
+        </div>
+      </section>
+
+      {/* Current Work Section */}
+      <section class="space-y-6">
+        <h2 class="text-3xl font-bold">What I'm Doing Now</h2>
+        <div class="grid gap-6 md:grid-cols-2">
+          <div class="p-6 rounded-xl bg-[hsl(var(--card))] space-y-4">
+            <h3 class="text-xl font-semibold">Writing & Sharing</h3>
+            <p class="text-[hsl(var(--muted-foreground))]">
+              I write the <Link href="https://justreflections.bhekani.com/"
+                >Just Reflections newsletter</Link
+              > and maintain a <Link href="https://digitalgarden.bhekani.com"
+                >digital garden</Link
+              > documenting my learning journey.
+            </p>
+          </div>
+          <div class="p-6 rounded-xl bg-[hsl(var(--card))] space-y-4">
+            <h3 class="text-xl font-semibold">Speaking & Community</h3>
+            <p class="text-[hsl(var(--muted-foreground))]">
+              I love speaking at events and have <Link
+                href="https://github.com/bhekanik/talks/blob/main/speaker-rider.md"
+                >a speaker rider</Link
+              > if you'd like to invite me to yours.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Connect Section */}
+      <section class="space-y-6">
+        <h2 class="text-3xl font-bold">Connect</h2>
+        <div class="flex flex-wrap gap-4">
+          <Link
+            href="https://twitter.com/bhekanik"
+            class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[hsl(var(--muted))] hover:bg-[hsl(var(--accent))] transition-colors"
+          >
+            <span>Twitter</span>
+            <svg
+              class="w-4 h-4"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"
+              ></path>
+            </svg>
+          </Link>
+          <Link
+            href="https://github.com/bhekanik"
+            class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[hsl(var(--muted))] hover:bg-[hsl(var(--accent))] transition-colors"
+          >
+            <span>GitHub</span>
+            <svg
+              class="w-4 h-4"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"
+              ></path>
+            </svg>
+          </Link>
+          <Link
+            href="https://linkedin.com/in/bhekanik"
+            class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[hsl(var(--muted))] hover:bg-[hsl(var(--accent))] transition-colors"
+          >
+            <span>LinkedIn</span>
+            <svg
+              class="w-4 h-4"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"
+              ></path>
+            </svg>
+          </Link>
+        </div>
+      </section>
     </div>
-    <h2 class="mt-4 mb-2 text-2xl">TL;DR</h2>
-    <p>
-      I'm Bhekani Khumalo (IPA: <code>/be̞ɣäɳi kxumälo/</code>). A software
-      engineer living in London. I am currently a Senior Software Engineer at <Link
-        href="https://contentful.com/"
-        target="_blank"
-      >
-        Contentful
-      </Link>. I am also building
-      <Link href="https://dealbase.africa/" target="_blank">
-        Dealbase.Africa
-      </Link>, where we collect and share data on deal activity in the African
-      early stage tech ecosystem. Before now, I worked at
-      <Link href="https://anaplan.com/" target="_blank">Anaplan</Link>, <Link
-        href=""
-        target="_blank"
-      >
-        Sigma Digital
-      </Link>, <Link href="https://esri-southafrica.com/" target="_blank">
-        ESRI South Africa
-      </Link> and <Link href="https://www.ramm.co.za/" target="_blank">
-        RAMM Technologies
-      </Link>. But I haven't always been a software engineer. My professinoal
-      background is in Civil Engineering. I have a Bachelor's degree in Civil
-      and Water Engineering and was a Civil Engineer for the first 6 years of my
-      career. Then I switched to Geographic Information Science and then
-      Software Engineering.
-    </p>
-
-    <p>
-      I write the <Link href="https://justreflections.bhekani.com/">
-        Just Reflections newsletter
-      </Link> and love teaching and helping people become better humans. In my spare
-      time, I love reading, watching Sci-fi and Fantasy films, listening to podcasts
-      and gaming. I love speaking at events, and I have <Link
-        href="https://github.com/bhekanik/talks/blob/main/speaker-rider.md"
-      >
-        a speaker rider
-      </Link>, if you'd like to talk to me about one you're running. I also
-      enjoy speaking on podcasts! Feel free to email me at <Link
-        href="mailto:hello@bhekani.com?subject=Hello There!&body=Hi BK, I was looking at your blog and..."
-        aria-label="Email"
-      >
-        hello at bhekani dot com
-      </Link> with details.
-    </p>
-
-    <p>
-      PS: Most people call me <strong>BK</strong> (my initials)
-    </p>
-
-    <p>
-      You can find me on <Link
-        href="https://twitter.com/bhekanik"
-        target="_blank"
-      >
-        X (Twitter)
-      </Link>, <Link href="https://github.com/bhekanik" target="_blank">
-        GitHub
-      </Link> and <Link href="https://linkedin.com/in/bhekanik" target="_blank">
-        LinkedIn
-      </Link>
-    </p>
-
-    <h2 class="mt-4 mb-2 text-2xl">What I'm doing now</h2>
-    <ul class="list-disc list-inside">
-      <li>
-        I am a Senior Software Engineer at <Link
-          href="https://contentful.com/"
-          target="_blank"
-        >
-          Contentful
-        </Link>
-      </li>
-      <li>
-        I am also working on <Link
-          href="https://dealbase.africa/"
-          target="_blank"
-        >
-          Dealbase.Africa
-        </Link>
-      </li>
-      <li>
-        I am also writing about things that catch my interesting at <Link
-          href="https://justreflections.bhekani.com/"
-          target="_blank"
-        >
-          Just Reflections
-        </Link>
-      </li>
-    </ul>
   </MainContainer>
 </BaseLayout>
