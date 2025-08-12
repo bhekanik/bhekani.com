@@ -9,13 +9,13 @@ const { ...props } = Astro.props;
 <style>
   a {
     color: hsl(var(--links));
-    transition: all 0.2s ease-in-out;
-    border-bottom: 1px solid hsl(var(--links-hovered));
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    transition: color 0.2s ease-in-out;
   }
 
   a:hover {
-    background-color: hsl(var(--muted));
     color: hsl(var(--links-hovered));
-    transition: all 0.2s ease-in-out;
   }
 </style>
