@@ -6,9 +6,9 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        logo: ["IBM Plex Sans", ...defaultTheme.fontFamily.sans],
-        headings: ["IBM Plex Sans", ...defaultTheme.fontFamily.sans],
-        body: ["IBM Plex Sans", ...defaultTheme.fontFamily.sans],
+        logo: ["Inter Variable", ...defaultTheme.fontFamily.sans],
+        headings: ["Inter Variable", ...defaultTheme.fontFamily.sans],
+        body: ["Inter Variable", ...defaultTheme.fontFamily.sans],
         code: ["JetBrains Mono", ...defaultTheme.fontFamily.sans],
       },
     },
