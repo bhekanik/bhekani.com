@@ -15,6 +15,7 @@
         "@astrolib/seo": "1.0.0-beta.8",
         "@fontsource-variable/inter": "^5.2.6",
         "@fontsource-variable/jetbrains-mono": "^5.0.21",
+        "@fontsource-variable/playfair-display": "^5.2.6",
         "@fontsource/ibm-plex-sans": "^5.0.20",
         "@sentry/astro": "^10.2.0",
         "astro": "^5.12.8",
@@ -229,6 +230,8 @@
     "@fontsource-variable/inter": ["@fontsource-variable/inter@5.2.6", "", {}, "sha512-jks/bficUPQ9nn7GvXvHtlQIPudW7Wx8CrlZoY8bhxgeobNxlQan8DclUJuYF2loYRrGpfrhCIZZspXYysiVGg=="],
 
     "@fontsource-variable/jetbrains-mono": ["@fontsource-variable/jetbrains-mono@5.2.6", "", {}, "sha512-1pvtyK6H1paBOixbtZ9xfQgArVQ4SJMW3WSGZPOd5PiW3yg0t8umwKnjDMzW2ofb7qSdiXnsnIaHPT36vEOdlg=="],
+
+    "@fontsource-variable/playfair-display": ["@fontsource-variable/playfair-display@5.2.6", "", {}, "sha512-Uedpo4WwsWtobi1KMYGm9tlKcZJcD18EiBtPWhbbccT2u58qM7vwkOZGdrmdWVDhcEhjwNrqRUyZijwIFtsCcQ=="],
 
     "@fontsource/ibm-plex-sans": ["@fontsource/ibm-plex-sans@5.2.6", "", {}, "sha512-yclktpagJncROwdWHHEfPsrIfoo3uiIeDFchvmjNmTW/YMBfLYWJnUv19EAqPNhGizdtmcH9FjzOR2094Z2uPg=="],
 
