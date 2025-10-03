@@ -51,7 +51,7 @@ jobs:
         with:
           github-token: "${{ secrets.GITHUB_TOKEN }}"
       - name: Merge PR from dependabot
-        uses: fastify/github-action-merge-dependabot@v3.11.0
+        uses: fastify/github-action-merge-dependabot@v3.11.2
         with:
           github-token: "${{ secrets.GITHUB_TOKEN }}"
           target: minor
