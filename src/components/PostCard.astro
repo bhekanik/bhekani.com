@@ -33,7 +33,7 @@ const {
           {format(date, "MMMM dd, yyyy")}
         </time>
         <span>·</span>
-        <Views client:load="svelte" slug={slug} />
+        <Views client:load slug={slug} />
       </div>
       <PostDescription description={title} slug={slug} />
       <TagsList tags={tags} />

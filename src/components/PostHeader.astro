@@ -58,6 +58,6 @@ const imageSrc = frontmatter.image ?? ""
       {format(frontmatter.pubDate, "MMMM dd, yyyy")}
     </time>
     <!-- <IncrementAndShowViews /> -->
-    <ViewCounter client:load="svelte" slug={slug} />
+    <ViewCounter client:load slug={slug} />
   </div>
 </div>
