@@ -42,14 +42,34 @@ jobs:
 
           # Direct prompt for automated review (no @claude mention needed)
           direct_prompt: |
-            Please review this pull request and provide feedback on:
-            - Code quality and best practices
-            - Potential bugs or issues
-            - Performance considerations
-            - Security concerns
-            - Test coverage
-
-            Be constructive and helpful in your feedback.
+            You are reviewing code for an INDIE DEVELOPER building SaaS products for rapid market validation.
+            
+            CONTEXT: Solo developer, shipping fast, targeting tens of thousands (not millions) of users.
+            
+            FOCUS ON:
+            ✅ Security issues that actually matter (SQL injection, XSS, exposed secrets)
+            ✅ Bugs that will break the app or lose data
+            ✅ Performance issues users will notice (>1s delays)
+            ✅ Code that will slow down future development
+            
+            SKIP/IGNORE:
+            ❌ Perfect code structure suggestions
+            ❌ Minor optimizations (<100ms improvements)
+            ❌ Test coverage complaints
+            ❌ Enterprise patterns (microservices, complex abstractions)
+            ❌ Theoretical scalability issues
+            ❌ Style preferences that don't affect functionality
+            
+            REVIEW APPROACH:
+            1. Will this code work for the next 1000 users? If yes, it's probably fine.
+            2. Are there security holes that a script kiddie could exploit? Fix those.
+            3. Will this make adding features harder? Only mention if significantly harder.
+            4. Is there a 5-minute fix that provides 80% of the value? Suggest that.
+            
+            Be direct and brief. Only comment on things that ACTUALLY matter.
+            If it works and isn't dangerous, maybe just approve it.
+            
+            Rate the PR: 🚢 SHIP IT (works fine) | ⚠️ FIX FIRST (real issues) | 🔴 BLOCKING (breaks prod)
 
           # Optional: Use sticky comments to make Claude reuse the same comment on subsequent pushes to the same PR
           # use_sticky_comment: true
