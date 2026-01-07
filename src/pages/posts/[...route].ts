@@ -10,7 +10,7 @@ const pages = Object.fromEntries(
   collectionEntries.map(({ slug, data }) => [slug, data]),
 )
 
-export const { getStaticPaths, GET } = OGImageRoute({
+export const { getStaticPaths, GET } = await OGImageRoute({
   pages: pages,
   param: "route",
 
