@@ -38,6 +38,7 @@
     "case": "^1.6.3",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
+    "estree-walker": "^3.0.3",
     "sharp": "^0.34.5",
     "string-width": "^8.1.0",
     "svelte": "^5.46.1",
