@@ -74,3 +74,40 @@ Single `Views` table tracking page view counts:
 - Sentry is configured for production error tracking
 - All content uses frontmatter schemas defined in `src/content/_schemas/`
 - Static site generation with Vercel adapter configured
+
+## Visual Development
+
+### Indie Design Philosophy
+REMEMBER: shipping to validate not win design awards
+- Good enough UX not frustrating users
+- Clean professional look without obsessing over pixels
+- Focus on money feature working beautifully
+- Everything else just needs to not be broken
+
+### Quick Visual Check
+After implementing any front-end change:
+1. Does it work - test actual functionality
+2. Does it look broken - quick visual scan for obvious issues
+3. Is it usable - can users figure it out without instructions
+4. Take screenshot - document what shipped
+5. Check console - no errors breaking experience
+
+### When to Care More About Design
+- Money feature (what users pay for)
+- First-time user experience/onboarding
+- Payment/checkout flows
+- Error states losing user trust
+
+### Design Principles
+- /context/design-principles.md - pragmatic design checklist
+- /context/style-guide.md - basic brand consistency
+- Use as guidelines not gospel
+
+### Design Review (When Needed)
+Use design-review agent when:
+- Shipping major user-facing feature
+- UI feels "off" and need help
+- Before Product Hunt launch
+- Customer reported UI/UX issues
+
+Remember: ship first, polish based on user feedback
