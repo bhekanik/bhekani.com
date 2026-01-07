@@ -7,7 +7,7 @@ export default {
     extend: {
       fontFamily: {
         logo: ["Inter Variable", ...defaultTheme.fontFamily.sans],
-        headings: ["Inter Variable", ...defaultTheme.fontFamily.sans],
+        headings: ["Playfair Display Variable", ...defaultTheme.fontFamily.serif],
         body: ["Inter Variable", ...defaultTheme.fontFamily.sans],
         code: ["JetBrains Mono", ...defaultTheme.fontFamily.sans],
       },
