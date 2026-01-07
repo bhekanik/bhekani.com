@@ -38,6 +38,7 @@
     "case": "^1.6.3",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
+    "magic-string": "^0.30.21",
     "sharp": "^0.34.5",
     "svelte": "^5.46.1",
     "tailwind-merge": "^3.4.0",
