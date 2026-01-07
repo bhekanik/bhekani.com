@@ -1,9 +1,9 @@
 import db from "@astrojs/db";
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
-import tailwind from "@astrojs/tailwind";
 import vercel from "@astrojs/vercel";
 import sentry from "@sentry/astro";
+import tailwindcss from "@tailwindcss/vite";
 import expressiveCode from "astro-expressive-code";
 import robotsTxt from "astro-robots-txt";
 import { defineConfig } from "astro/config";
@@ -16,6 +16,9 @@ export default defineConfig({
   site: "https://bhekani.com",
   output: "static",
   adapter: vercel(),
+  vite: {
+    plugins: [tailwindcss() as any]
+  },
   integrations: [sitemap(), robotsTxt(), expressiveCode({
     themes: ["one-dark-pro"],
     defaultProps: {
@@ -28,5 +31,5 @@ export default defineConfig({
       project: "website",
       authToken: process.env.SENTRY_AUTH_TOKEN
     }
-  }), tailwind(), db(), svelte()]
+  }), db(), svelte()]
 });

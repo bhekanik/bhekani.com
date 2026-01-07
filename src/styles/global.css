@@ -1,3 +1,13 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@theme {
+  --font-logo: "Inter Variable", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  --font-headings: "Playfair Display Variable", ui-serif, Georgia, serif;
+  --font-body: "Inter Variable", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  --font-code: "JetBrains Mono", monospace;
+}
+
 :root {
   --background: 35 30% 95.7%;
   --foreground: 240 10% 3.9%;
@@ -20,6 +30,7 @@
   --ring: 240 5.9% 10%;
 
   --links: 200 98% 39%;
+  --links-hovered: 200 98% 30%;
   
   /* Spacing Scale */
   --space-1: 0.25rem;
@@ -71,6 +82,7 @@
   --input: 225 25% 24%;
   --ring: 224.3 76.3% 48%;
   --links: 199 95% 74%;
+  --links-hovered: 199 95% 85%;
   
   /* Dark mode shadows */
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.2);
