@@ -38,7 +38,7 @@ const imageSrc = frontmatter.image ?? ""
           src={imageSrc as any}
           width="1200"
           height="112"
-          alt="Post header"
+          alt={`Header image for ${frontmatter.title}`}
         />
       )
     }
