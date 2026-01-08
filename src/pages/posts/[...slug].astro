@@ -36,7 +36,7 @@ const { Content, headings } = await post.render()
   <MainContainer>
     <article class="max-w-4xl mx-auto mt-12">
       {/* Article Header */}
-      <header class="space-y-8 mb-16 post-animate-header">
+      <header class="space-y-8 mb-16">
         <div class="space-y-4">
           <div
             class="flex items-center gap-2 text-sm text-[hsl(var(--muted-foreground))]"
@@ -112,14 +112,14 @@ const { Content, headings } = await post.render()
       }
 
       {/* Main Content */}
-      <div class="relative post-animate-content">
+      <div class="relative">
         <Prose>
           <Content />
         </Prose>
       </div>
 
       {/* Article Footer */}
-      <footer class="mt-16 pt-8 post-animate-footer">
+      <footer class="mt-16 pt-8">
         {/* Share Section */}
         <div class="mb-16 space-y-4">
           <h2 class="text-lg font-semibold">Share this post</h2>
@@ -166,6 +166,12 @@ const { Content, headings } = await post.render()
   /* Smooth scroll for table of contents */
   html {
     scroll-behavior: smooth;
+  }
+
+  /* Style for active ToC link */
+  :global(.toc-active) {
+    color: hsl(var(--primary));
+    font-weight: 500;
   }
 
   /* Add specific styling for giscus wrapper */
