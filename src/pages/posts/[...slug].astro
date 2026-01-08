@@ -30,6 +30,9 @@ const { Content, headings } = await post.render()
   description={post.data.description}
   imageUrl={post.data.image?.src}
 >
+  {/* Reading Progress Bar */}
+  <div id="reading-progress" class="fixed top-0 left-0 h-0.5 z-50" style="width: 0%"></div>
+
   <MainContainer>
     <article class="max-w-4xl mx-auto mt-12">
       {/* Article Header */}
@@ -97,11 +100,13 @@ const { Content, headings } = await post.render()
       {/* Table of Contents - Desktop */}
       {
         headings.length > 0 && (
-          <aside class="hidden lg:block fixed right-8 top-32 w-64 overflow-auto max-h-[calc(100vh-8rem)]">
-            <div class="space-y-4 p-6 rounded-xl bg-[hsl(var(--card))] border border-[hsl(var(--muted))]">
-              <h2 class="text-sm font-semibold">Table of Contents</h2>
+          <aside class="hidden xl:block fixed right-8 top-28 w-56 overflow-auto max-h-[calc(100vh-8rem)]">
+            <nav class="border-l border-[hsl(var(--muted))]">
+              <p class="text-xs font-medium uppercase tracking-wider text-[hsl(var(--muted-foreground))] mb-3 pl-4">
+                Contents
+              </p>
               <TableOfContents headings={headings} />
-            </div>
+            </nav>
           </aside>
         )
       }
@@ -123,7 +128,7 @@ const { Content, headings } = await post.render()
               href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.data.title)}&url=${encodeURIComponent(`https://bhekani.com/posts/${post.slug}`)}`}
               target="_blank"
               rel="noopener noreferrer"
-              class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md bg-[hsl(var(--muted))] hover:bg-[hsl(var(--accent))] transition-colors"
+              class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md bg-[hsl(var(--muted))] hover:bg-[hsl(var(--muted-foreground)/0.15)] transition-colors"
             >
               Share on Twitter
             </a>
@@ -131,7 +136,7 @@ const { Content, headings } = await post.render()
               href={`https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(`https://bhekani.com/posts/${post.slug}`)}&title=${encodeURIComponent(post.data.title)}`}
               target="_blank"
               rel="noopener noreferrer"
-              class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md bg-[hsl(var(--muted))] hover:bg-[hsl(var(--accent))] transition-colors"
+              class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md bg-[hsl(var(--muted))] hover:bg-[hsl(var(--muted-foreground)/0.15)] transition-colors"
             >
               Share on LinkedIn
             </a>
@@ -180,3 +185,39 @@ const { Content, headings } = await post.render()
     margin-top: 1rem;
   }
 </style>
+
+<script>
+  // Reading progress bar
+  const progress = document.getElementById('reading-progress');
+  const article = document.querySelector('article');
+
+  if (progress && article) {
+    window.addEventListener('scroll', () => {
+      const articleRect = article.getBoundingClientRect();
+      const articleTop = articleRect.top + window.scrollY;
+      const articleHeight = articleRect.height;
+      const scrolled = window.scrollY - articleTop;
+      const viewportHeight = window.innerHeight;
+      const percent = Math.min(100, Math.max(0, (scrolled / (articleHeight - viewportHeight)) * 100));
+      progress.style.width = `${percent}%`;
+    });
+  }
+
+  // Scroll spy for Table of Contents
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        const id = entry.target.getAttribute('id');
+        if (!id) return;
+        const tocLink = document.querySelector(`.toc-link[href="#${id}"]`);
+        if (entry.isIntersecting) {
+          document.querySelectorAll('.toc-link').forEach(a => a.classList.remove('toc-active'));
+          tocLink?.classList.add('toc-active');
+        }
+      });
+    },
+    { rootMargin: '-20% 0% -60% 0%' }
+  );
+
+  document.querySelectorAll('article h2[id], article h3[id]').forEach((h) => observer.observe(h));
+</script>
