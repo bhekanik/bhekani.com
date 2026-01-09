@@ -127,11 +127,13 @@
   })
 
   onDestroy(() => {
-    document.removeEventListener("keydown", handleGlobalKeydown)
-    const triggers = document.querySelectorAll(".search-trigger")
-    triggers.forEach((trigger) => {
-      trigger.removeEventListener("click", handleSearchTriggerClick)
-    })
+    if (typeof document !== "undefined") {
+      document.removeEventListener("keydown", handleGlobalKeydown)
+      const triggers = document.querySelectorAll(".search-trigger")
+      triggers.forEach((trigger) => {
+        trigger.removeEventListener("click", handleSearchTriggerClick)
+      })
+    }
     if (debounceTimeout) clearTimeout(debounceTimeout)
   })
 
