@@ -1,0 +1,14 @@
+{
+	"title": "Linganisa",
+	"description": "Virtual try-on that shows how clothes look on your actual body before you buy. Upload a photo, paste a product link, and see the fit instantly. No more sizing guesswork or returns.",
+	"url": "https://linganisa.vercel.app",
+	"image": "../_images/linganisa.png",
+	"startDate": "2024-11-01",
+	"published": true,
+	"tech": [
+		"Next.js",
+		"AI/ML",
+		"Image Generation",
+		"Vercel"
+	]
+}
