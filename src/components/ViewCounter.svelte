@@ -5,7 +5,7 @@
   let data: { count: number } | null = null
   let error: string | null = null
 
-  const fetchImage = async () => {
+  const fetchViews = async () => {
     try {
       const url = `/api/views?${new URLSearchParams({ slug })}`
 
@@ -27,7 +27,7 @@
 
   onMount(async () => {
     try {
-      data = await fetchImage()
+      data = await fetchViews()
     } catch (e) {
       error = (e as Error).message
     }

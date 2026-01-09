@@ -26,7 +26,7 @@ const pageTitle = "Micro"
         <div class="flex items-center gap-4">
           <a
             href="/rss.xml"
-            class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md bg-[hsl(var(--muted))] hover:bg-[hsl(var(--accent))] transition-colors"
+            class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md bg-[hsl(var(--muted))] hover:bg-[hsl(var(--muted-foreground)/0.15)] transition-colors"
           >
             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
               <path
@@ -45,7 +45,7 @@ const pageTitle = "Micro"
             const { Content } = await micro.render()
             return (
               <article class="group relative">
-                <div class="flex flex-col space-y-4 rounded-xl border border-[hsl(var(--muted))] bg-[hsl(var(--card))] p-6 transition-colors hover:bg-[hsl(var(--accent))]">
+                <div class="flex flex-col space-y-4 rounded-xl border border-[hsl(var(--muted))] bg-[hsl(var(--card))] p-6 transition-colors hover:border-[hsl(var(--muted-foreground)/0.3)]">
                   <div class="flex items-center justify-between">
                     <time
                       datetime={micro.data.date.toISOString()}
@@ -76,7 +76,7 @@ const pageTitle = "Micro"
                   </div>
 
                   {micro.data.title && (
-                    <h2 class="text-xl font-semibold group-hover:text-[hsl(var(--primary))] transition-colors">
+                    <h2 class="text-xl font-semibold group-hover:text-[hsl(var(--foreground))] transition-colors">
                       {micro.data.title}
                     </h2>
                   )}

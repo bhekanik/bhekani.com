@@ -1,0 +1,14 @@
+{
+	"title": "EasyDeck",
+	"description": "AI presentation generator that creates professionally designed slide decks from text prompts. Custom graphics for each slide, no templates. Present remotely via QR code and export to PowerPoint, PDF, or images.",
+	"url": "https://www.easydeck.app",
+	"image": "../_images/easydeck.png",
+	"startDate": "2024-12-15",
+	"published": true,
+	"tech": [
+		"Next.js",
+		"AI",
+		"Image Generation",
+		"Vercel"
+	]
+}
