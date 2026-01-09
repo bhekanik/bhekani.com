@@ -13,12 +13,12 @@ const { heading } = Astro.props
 ---
 
 <li>
-  <a class="inline-block" href={"#" + heading.slug}>
+  <a class="toc-link" href={"#" + heading.slug}>
     {heading.text}
   </a>
   {
     heading.subheadings && heading.subheadings?.length > 0 && (
-      <ul class="pl-4">
+      <ul class="pl-3 space-y-0.5">
         {heading.subheadings?.map((subheading) => (
           <Astro.self heading={subheading} />
         ))}
@@ -26,16 +26,3 @@ const { heading } = Astro.props
     )
   }
 </li>
-
-<style>
-  a {
-    color: hsl(var(--links));
-    transition: all 0.2s ease-in-out;
-  }
-
-  a:hover {
-    background-color: hsl(var(--muted));
-    color: hsl(var(--links-hovered));
-    transition: all 0.2s ease-in-out;
-  }
-</style>

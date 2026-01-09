@@ -5,9 +5,9 @@ import MainContainer from "../../components/MainContainer.astro"
 import BaseLayout from "../../layouts/BaseLayout.astro"
 
 const allPosts = await getCollection("posts")
-const sortedPosts = allPosts.sort(
-  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
-)
+const sortedPosts = allPosts
+  .filter((post) => post.data.published)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
 
 // Group posts by year
 const yearToPosts = sortedPosts.reduce(
@@ -27,80 +27,57 @@ const pageTitle = "Writing"
 
 <BaseLayout pageTitle={pageTitle}>
   <MainContainer>
-    <div class="max-w-4xl mx-auto space-y-16 mt-12">
-      {/* Header Section */}
-      <div class="space-y-6">
-        <h1 class="text-4xl font-bold">Writing</h1>
-        <p class="text-lg text-[hsl(var(--muted-foreground))]">
-          Long-form articles about software engineering, productivity, and
-          personal growth.
-        </p>
-
-        <div class="flex items-center gap-4">
-          <a
-            href="/rss.xml"
-            class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md bg-[hsl(var(--muted))] hover:bg-[hsl(var(--accent))] transition-colors"
-          >
-            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-              <path
-                d="M6.18 15.64a2.18 2.18 0 012.18 2.18C8.36 19 7.38 20 6.18 20C5 20 4 19 4 17.82a2.18 2.18 0 012.18-2.18M4 4.44A15.56 15.56 0 0119.56 20h-2.83A12.73 12.73 0 004 7.27zm0 5.66a9.9 9.9 0 019.9 9.9h-2.83A7.07 7.07 0 004 12.93z"
-              ></path>
-            </svg>
-            Subscribe via RSS
-          </a>
+    <div class="max-w-3xl mx-auto mt-8">
+      {/* Compact Header */}
+      <div class="flex items-end justify-between border-b border-[hsl(var(--muted))] pb-6 mb-8">
+        <div>
+          <h1 class="text-3xl font-headings">Writing</h1>
+          <p class="text-[hsl(var(--muted-foreground))] mt-1">
+            {sortedPosts.length} articles
+          </p>
         </div>
+        <a
+          href="/rss.xml"
+          class="text-sm text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))] transition-colors"
+          title="RSS Feed"
+        >
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M6.18 15.64a2.18 2.18 0 012.18 2.18C8.36 19 7.38 20 6.18 20C5 20 4 19 4 17.82a2.18 2.18 0 012.18-2.18M4 4.44A15.56 15.56 0 0119.56 20h-2.83A12.73 12.73 0 004 7.27zm0 5.66a9.9 9.9 0 019.9 9.9h-2.83A7.07 7.07 0 004 12.93z"></path>
+          </svg>
+        </a>
       </div>
 
-      {/* Tags Section */}
-      <div class="space-y-6">
-        <h2 class="text-xl font-semibold">Browse by topic</h2>
+      {/* Tags - Compact */}
+      <div class="mb-12">
         <AllTags />
       </div>
 
-      {/* Posts by Year */}
-      <div class="space-y-16">
+      {/* Posts by Year - Timeline Style */}
+      <div class="space-y-12">
         {
           Object.entries(yearToPosts)
             .sort(([a], [b]) => Number(b) - Number(a))
             .map(([year, posts]) => (
-              <section class="space-y-8">
-                <h2 class="text-2xl font-bold sticky top-20 bg-[hsl(var(--background))]/80 backdrop-blur-sm py-4">
+              <section>
+                <h2 class="text-sm font-medium text-[hsl(var(--muted-foreground))] uppercase tracking-wider mb-6">
                   {year}
                 </h2>
-                <div class="space-y-12">
+                <div class="space-y-1">
                   {posts.map((post) => (
-                    <article class="group">
-                      <a href={`/posts/${post.slug}/`} class="space-y-3 block">
-                        <h3 class="text-xl font-semibold group-hover:text-[hsl(var(--primary))] transition-colors">
-                          {post.data.title}
-                        </h3>
-                        {post.data.description && (
-                          <p class="text-[hsl(var(--muted-foreground))] line-clamp-2">
-                            {post.data.description}
-                          </p>
-                        )}
-                        <div class="flex flex-wrap gap-2">
-                          {post.data.tags.map((tag: string) => (
-                            <span class="text-sm px-2 py-1 rounded-md bg-[hsl(var(--muted))] text-[hsl(var(--muted-foreground))]">
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
-                        <time
-                          datetime={post.data.pubDate.toISOString()}
-                          class="text-sm text-[hsl(var(--muted-foreground))]"
-                        >
-                          {new Date(post.data.pubDate).toLocaleDateString(
-                            "en-US",
-                            {
-                              year: "numeric",
-                              month: "long",
-                              day: "numeric",
-                            },
-                          )}
-                        </time>
-                      </a>
-                    </article>
+                    <a
+                      href={`/posts/${post.slug}/`}
+                      class="group flex items-baseline gap-4 py-3 -mx-3 px-3 rounded-lg hover:bg-[hsl(var(--muted)/0.5)] transition-colors"
+                    >
+                      <time
+                        datetime={post.data.pubDate.toISOString()}
+                        class="text-sm text-[hsl(var(--muted-foreground))] tabular-nums shrink-0 w-12"
+                      >
+                        {new Date(post.data.pubDate).toLocaleDateString("en-US", { month: "short", day: "numeric" }).replace(" ", " ")}
+                      </time>
+                      <span class="font-medium group-hover:text-[hsl(var(--links))] transition-colors">
+                        {post.data.title}
+                      </span>
+                    </a>
                   ))}
                 </div>
               </section>
@@ -110,10 +87,3 @@ const pageTitle = "Writing"
     </div>
   </MainContainer>
 </BaseLayout>
-
-<style>
-  /* Optional: Add smooth scroll behavior */
-  html {
-    scroll-behavior: smooth;
-  }
-</style>
