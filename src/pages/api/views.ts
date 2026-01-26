@@ -48,13 +48,6 @@ export const POST: APIRoute = async ({ url, clientAddress }) => {
 
   let item
   try {
-    await db
-      .select({
-        count: Views.count,
-      })
-      .from(Views)
-      .where(eq(Views.slug, slug))
-
     item = await db
       .insert(Views)
       .values({

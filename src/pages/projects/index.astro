@@ -1,8 +1,7 @@
 ---
+import { Image } from "astro:assets"
 import { getCollection } from "astro:content"
-import FeaturedProject from "../../components/FeaturedProject.astro"
 import MainContainer from "../../components/MainContainer.astro"
-import ProjectGrid from "../../components/ProjectGrid.astro"
 import BaseLayout from "../../layouts/BaseLayout.astro"
 
 const allProjects = await getCollection("projects")
@@ -22,20 +21,93 @@ const pageTitle = "Projects"
 
 <BaseLayout pageTitle={pageTitle}>
   <MainContainer>
-    <div class="space-y-16 mt-8">
-      {featuredProjects.map((project) => <FeaturedProject project={project} />)}
-
-      <div class="space-y-8">
-        <h2 class="text-2xl font-bold">More Projects</h2>
-        <ProjectGrid projects={otherProjects} />
+    <div class="max-w-3xl mx-auto mt-8 space-y-12">
+      {/* Featured Projects */}
+      <div class="space-y-6">
+        {
+          featuredProjects.map((project) => (
+            <a
+              href={project.data.url}
+              target="_blank"
+              class="group block rounded-xl border border-[hsl(var(--accent)/0.3)] bg-[hsl(var(--card))] overflow-hidden transition-all hover:border-[hsl(var(--accent)/0.6)]"
+            >
+              {project.data.image && (
+                <div class="w-full">
+                  <Image
+                    src={project.data.image}
+                    alt={project.data.title}
+                    width={800}
+                    height={450}
+                    class="w-full h-48 sm:h-56 object-cover object-top"
+                  />
+                </div>
+              )}
+              <div class="p-6 space-y-3">
+                <h2 class="text-xl font-semibold group-hover:text-[hsl(var(--links))] transition-colors">
+                  {project.data.title}
+                </h2>
+                <p class="text-[hsl(var(--muted-foreground))]">
+                  {project.data.description}
+                </p>
+                <div class="flex flex-wrap gap-1.5 pt-1">
+                  {project.data.tech.map((tech) => (
+                    <span class="text-xs px-2 py-0.5 rounded bg-[hsl(var(--muted))] text-[hsl(var(--muted-foreground))]">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </a>
+          ))
+        }
       </div>
+
+      {/* Other Projects */}
+      {otherProjects.length > 0 && (
+        <div class="space-y-4">
+          <h2 class="text-lg font-semibold text-[hsl(var(--muted-foreground))]">More Projects</h2>
+          <div class="space-y-4">
+            {
+              otherProjects.map((project) => (
+                <a
+                  href={project.data.url}
+                  target="_blank"
+                  class="group block rounded-xl border border-[hsl(var(--muted))] bg-[hsl(var(--card))] overflow-hidden transition-all hover:border-[hsl(var(--muted-foreground)/0.3)]"
+                >
+                  <div class="flex flex-col sm:flex-row">
+                    {project.data.image && (
+                      <div class="sm:w-44 sm:flex-shrink-0">
+                        <Image
+                          src={project.data.image}
+                          alt={project.data.title}
+                          width={400}
+                          height={225}
+                          class="w-full h-36 sm:h-full object-cover"
+                        />
+                      </div>
+                    )}
+                    <div class="p-4 flex-1 space-y-1.5">
+                      <h3 class="font-semibold group-hover:text-[hsl(var(--links))] transition-colors">
+                        {project.data.title}
+                      </h3>
+                      <p class="text-sm text-[hsl(var(--muted-foreground))] line-clamp-2">
+                        {project.data.description}
+                      </p>
+                      <div class="flex flex-wrap gap-1.5 pt-1">
+                        {project.data.tech.slice(0, 3).map((tech) => (
+                          <span class="text-xs px-2 py-0.5 rounded bg-[hsl(var(--muted))] text-[hsl(var(--muted-foreground))]">
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </a>
+              ))
+            }
+          </div>
+        </div>
+      )}
     </div>
   </MainContainer>
 </BaseLayout>
-
-<style>
-  .projects {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  }
-</style>
