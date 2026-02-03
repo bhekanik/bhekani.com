@@ -1,0 +1,15 @@
+{
+	"title": "Reference Optimiser",
+	"description": "AI-powered voice reference checks for recruiters. Conducts natural, adaptive interviews with referees and delivers audit-ready reports with full transcripts and prosody analysis—revealing tone, hesitation, and genuine enthusiasm that form miss.",
+	"url": "https://www.referenceoptimiser.com",
+	"image": "../_images/reference-optimiser.png",
+	"startDate": "2024-11-15",
+	"published": true,
+	"tech": [
+		"Next.js",
+		"Voice AI",
+		"Hume AI",
+		"Postgresql",
+		"Vercel"
+	]
+}

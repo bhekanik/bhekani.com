@@ -1,0 +1,15 @@
+{
+	"title": "Blah Chat",
+	"description": "Unified AI chat interface for OpenAI, Anthropic, Google, and Perplexity models. Switch models mid-conversation, branch chats to explore different paths, and track costs transparently—all in one workspace.",
+	"url": "https://www.blah.chat",
+	"image": "../_images/blah-chat.png",
+	"startDate": "2025-01-01",
+	"published": true,
+	"tech": [
+		"Next.js",
+		"OpenAI",
+		"Anthropic",
+		"Google AI",
+		"Vercel"
+	]
+}

@@ -1,0 +1,242 @@
+---
+import Link from "../components/Link.astro"
+import MainContainer from "../components/MainContainer.astro"
+import BaseLayout from "../layouts/BaseLayout.astro"
+
+const pageTitle = "CV"
+---
+
+<BaseLayout pageTitle={pageTitle}>
+  <MainContainer>
+    <div class="max-w-4xl mx-auto mt-12 space-y-12 print:mt-0 print:space-y-8">
+      {/* Header */}
+      <header class="space-y-4 print:space-y-2">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div>
+            <h1 class="text-4xl font-bold print:text-3xl">Bhekani Khumalo</h1>
+            <p class="text-xl text-[hsl(var(--muted-foreground))] print:text-lg">
+              Senior AI Software Engineer
+            </p>
+          </div>
+          <div class="flex gap-3 print:hidden">
+            <button
+              onclick="window.print()"
+              class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg bg-[hsl(var(--muted))] hover:bg-[hsl(var(--muted-foreground)/0.15)] transition-colors"
+            >
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+              </svg>
+              Print
+            </button>
+          </div>
+        </div>
+        <div class="flex flex-wrap gap-x-6 gap-y-2 text-sm text-[hsl(var(--muted-foreground))]">
+          <span class="inline-flex items-center gap-1.5">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            London, UK
+          </span>
+          <Link href="https://github.com/bhekanik" class="inline-flex items-center gap-1.5 hover:text-[hsl(var(--foreground))]">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+            github.com/bhekanik
+          </Link>
+          <Link href="https://linkedin.com/in/bhekanik" class="inline-flex items-center gap-1.5 hover:text-[hsl(var(--foreground))]">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+            </svg>
+            linkedin.com/in/bhekanik
+          </Link>
+          <Link href="https://bhekani.com" class="inline-flex items-center gap-1.5 hover:text-[hsl(var(--foreground))]">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+            </svg>
+            bhekani.com
+          </Link>
+        </div>
+      </header>
+
+      {/* Summary */}
+      <section class="space-y-3">
+        <h2 class="text-2xl font-bold print:text-xl">Summary</h2>
+        <p class="text-[hsl(var(--muted-foreground))] leading-relaxed">
+          Software engineer with 5+ years experience building production systems. Currently focused on
+          AI/ML infrastructure—vector databases, semantic search, and recommendation pipelines processing
+          millions of content items. Previously worked on billing systems, audit logging, and
+          performance optimization. Background in civil engineering brings systems thinking and
+          attention to failure modes.
+        </p>
+      </section>
+
+      {/* Experience */}
+      <section class="space-y-6">
+        <h2 class="text-2xl font-bold print:text-xl">Experience</h2>
+
+        <div class="space-y-2">
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
+            <h3 class="text-lg font-semibold">Senior AI Software Engineer</h3>
+            <span class="text-sm text-[hsl(var(--muted-foreground))]">Apr 2025 - Present</span>
+          </div>
+          <p class="text-[hsl(var(--muted-foreground))]">Contentful, London</p>
+          <ul class="mt-2 space-y-1 text-[hsl(var(--muted-foreground))] list-disc list-inside">
+            <li>Building semantic infrastructure—vector databases, embedding pipelines, and APIs for search and recommendations</li>
+            <li>Designing event-driven systems that vectorize millions of content items in real-time</li>
+            <li>Developing duplicate detection and content similarity features using ML models</li>
+          </ul>
+        </div>
+
+        <div class="space-y-2">
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
+            <h3 class="text-lg font-semibold">Software Engineer</h3>
+            <span class="text-sm text-[hsl(var(--muted-foreground))]">Sep 2022 - Mar 2025</span>
+          </div>
+          <p class="text-[hsl(var(--muted-foreground))]">Contentful, London · Business Foundations team</p>
+          <ul class="mt-2 space-y-1 text-[hsl(var(--muted-foreground))] list-disc list-inside">
+            <li>Led development of billing pipeline handling millions in monthly transactions</li>
+            <li>Built audit logging system for compliance and debugging across distributed services</li>
+            <li>Optimized API performance, reducing p99 latency by 40%</li>
+          </ul>
+        </div>
+
+        <div class="space-y-2">
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
+            <h3 class="text-lg font-semibold">Software Engineer</h3>
+            <span class="text-sm text-[hsl(var(--muted-foreground))]">Feb 2021 - Aug 2022</span>
+          </div>
+          <p class="text-[hsl(var(--muted-foreground))]">Anaplan, London (Remote)</p>
+        </div>
+
+        <div class="space-y-2">
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
+            <h3 class="text-lg font-semibold">Senior Software Engineer</h3>
+            <span class="text-sm text-[hsl(var(--muted-foreground))]">Nov 2019 - Dec 2020</span>
+          </div>
+          <p class="text-[hsl(var(--muted-foreground))]">Sigma Digital, South Africa (Remote)</p>
+        </div>
+
+        <div class="space-y-2">
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
+            <h3 class="text-lg font-semibold">Frontend Software Engineer</h3>
+            <span class="text-sm text-[hsl(var(--muted-foreground))]">Sep 2019 - Jan 2021</span>
+          </div>
+          <p class="text-[hsl(var(--muted-foreground))]">The Spry Group LLC, NY (Remote, Part-time)</p>
+        </div>
+
+        <div class="space-y-2">
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
+            <h3 class="text-lg font-semibold">Software Developer</h3>
+            <span class="text-sm text-[hsl(var(--muted-foreground))]">2018 - 2019</span>
+          </div>
+          <p class="text-[hsl(var(--muted-foreground))]">ESRI South Africa</p>
+        </div>
+
+        <div class="space-y-2">
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
+            <h3 class="text-lg font-semibold">GIS Analyst</h3>
+            <span class="text-sm text-[hsl(var(--muted-foreground))]">2016 - 2018</span>
+          </div>
+          <p class="text-[hsl(var(--muted-foreground))]">RAMM Technologies, Zimbabwe</p>
+        </div>
+
+        <div class="space-y-2">
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
+            <h3 class="text-lg font-semibold">Civil Engineer</h3>
+            <span class="text-sm text-[hsl(var(--muted-foreground))]">2014 - 2016</span>
+          </div>
+          <p class="text-[hsl(var(--muted-foreground))]">City of Bulawayo, Zimbabwe</p>
+          <ul class="mt-2 space-y-1 text-[hsl(var(--muted-foreground))] list-disc list-inside">
+            <li>Designed water distribution networks and managed infrastructure projects</li>
+            <li>Volunteered for GIS department, leading to transition into tech</li>
+          </ul>
+        </div>
+      </section>
+
+      {/* Skills */}
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold print:text-xl">Skills</h2>
+        <div class="grid gap-4 sm:grid-cols-2">
+          <div>
+            <h3 class="font-semibold mb-2">Languages & Frameworks</h3>
+            <p class="text-[hsl(var(--muted-foreground))] text-sm">
+              TypeScript, JavaScript, Python, React, Node.js, Next.js, Astro
+            </p>
+          </div>
+          <div>
+            <h3 class="font-semibold mb-2">AI/ML & Data</h3>
+            <p class="text-[hsl(var(--muted-foreground))] text-sm">
+              Vector databases (Pinecone, Upstash), OpenAI, embeddings, PostgreSQL, Redis
+            </p>
+          </div>
+          <div>
+            <h3 class="font-semibold mb-2">Infrastructure</h3>
+            <p class="text-[hsl(var(--muted-foreground))] text-sm">
+              AWS (Lambda, S3, SQS, DynamoDB), Terraform, Docker, Vercel
+            </p>
+          </div>
+          <div>
+            <h3 class="font-semibold mb-2">Practices</h3>
+            <p class="text-[hsl(var(--muted-foreground))] text-sm">
+              Event-driven architecture, CI/CD, testing, observability, agile
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Education */}
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold print:text-xl">Education</h2>
+        <div class="space-y-2">
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
+            <h3 class="font-semibold">BEng (Hons) Civil and Water Engineering</h3>
+            <span class="text-sm text-[hsl(var(--muted-foreground))]">2009 - 2014</span>
+          </div>
+          <p class="text-[hsl(var(--muted-foreground))]">National University of Science and Technology (NUST), Zimbabwe</p>
+        </div>
+      </section>
+
+      {/* Projects */}
+      <section class="space-y-4 print:hidden">
+        <h2 class="text-2xl font-bold">Side Projects</h2>
+        <p class="text-[hsl(var(--muted-foreground))]">
+          I build indie products in my spare time. See all projects at <Link href="/projects">/projects</Link>.
+        </p>
+        <div class="grid gap-4 sm:grid-cols-2">
+          <div class="p-4 rounded-lg bg-[hsl(var(--card))]">
+            <h3 class="font-semibold">CV Optimiser</h3>
+            <p class="text-sm text-[hsl(var(--muted-foreground))]">
+              AI-powered CV analysis against job descriptions
+            </p>
+          </div>
+          <div class="p-4 rounded-lg bg-[hsl(var(--card))]">
+            <h3 class="font-semibold">Dealbase Africa</h3>
+            <p class="text-sm text-[hsl(var(--muted-foreground))]">
+              Startup funding data tracker for African tech
+            </p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </MainContainer>
+</BaseLayout>
+
+<style>
+  @media print {
+    :global(header:has(.sticky)),
+    :global(footer),
+    :global(.mobile-menu),
+    :global(.search-trigger) {
+      display: none !important;
+    }
+
+    :global(main) {
+      padding: 0 !important;
+    }
+
+    :global(body) {
+      font-size: 12px;
+    }
+  }
+</style>

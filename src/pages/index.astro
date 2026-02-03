@@ -19,22 +19,41 @@ const pageTitle = "Bhekani Khumalo"
       <ul class="flex flex-col gap-2">
         <li>
           <div>
-            <Link href="https://www.cvoptimiser.com">CV Optimiser </Link>
-
+            <Link href="https://faithbench.com/">FaithBench</Link>
             <p class="mb-2">
-              A tool to optimise your CV for specific job descriptions using AI.
+              AI theological faithfulness benchmark. 300+ test cases, 6 dimensions, 5 traditions.
             </p>
           </div>
         </li>
         <li>
           <div>
-            <Link href="https://www.interviewoptimiser.com"
-              >Interview Optimiser
-            </Link>
-
+            <Link href="https://blah.chat/">blah.chat</Link>
             <p class="mb-2">
-              An app providing realistic mock interviews and comprehensive
-              performance reports.
+              Unified AI chat interface. One workspace for OpenAI, Anthropic, Google, and Perplexity.
+            </p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <Link href="https://www.cvoptimiser.com">CV Optimiser</Link>
+            <p class="mb-2">
+              AI-powered CV tailoring against specific job descriptions.
+            </p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <Link href="https://www.easydeck.app">EasyDeck</Link>
+            <p class="mb-2">
+              AI presentation generator. Prompt to deck with custom graphics.
+            </p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <Link href="https://chromewebstore.google.com/detail/vidpulse">VidPulse</Link>
+            <p class="mb-2">
+              Chrome extension for AI-powered video analysis.
             </p>
           </div>
         </li>
@@ -54,11 +73,18 @@ const pageTitle = "Bhekani Khumalo"
     </p>
 
     <AllTags />
-    <iframe
-      class="w-full bg-[hsl(var(--muted))] mt-8"
-      src="https://justreflections.bhekani.com/embed"
-      width="480"
-      height="320"
-      loading="lazy"></iframe>
+    <div class="mt-8 p-6 rounded-xl bg-[hsl(var(--card))] border border-[hsl(var(--muted))]">
+      <h3 class="text-lg font-semibold mb-2">Just Reflections</h3>
+      <p class="text-[hsl(var(--muted-foreground))] mb-4">
+        Thoughts on software, building products, and life beyond tech. Delivered to your inbox.
+      </p>
+      <a
+        href="https://justreflections.bhekani.com/"
+        target="_blank"
+        class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg bg-[hsl(var(--foreground))] text-[hsl(var(--background))] hover:opacity-90 transition-opacity"
+      >
+        Subscribe →
+      </a>
+    </div>
   </MainContainer>
 </BaseLayout>

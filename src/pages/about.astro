@@ -27,10 +27,10 @@ const pageTitle = "About Me"
             </div>
             <p class="text-xl leading-relaxed">
               Most people call me <span class="font-bold">BK</span> (my initials).
-              I'm a software engineer living in London, currently working as a Senior
-              Software Engineer at <Link href="https://contentful.com/"
-                >Contentful</Link
-              >.
+              I'm a software engineer in London, currently a Senior AI Software Engineer
+              at <Link href="https://contentful.com/">Contentful</Link>, working on
+              semantic infrastructure—vector DBs, pipelines, and the APIs that power
+              search and recommendations.
             </p>
           </div>
           <div class="relative w-48 h-48 md:w-64 md:h-64 flex-shrink-0">
@@ -54,47 +54,71 @@ const pageTitle = "About Me"
         <h2 class="text-3xl font-bold">Background</h2>
         <div class="prose prose-lg dark:prose-invert">
           <p>
-            My professional journey started in Civil Engineering - I hold a
-            Bachelor's degree in Civil and Water Engineering and worked as a
-            Civil Engineer for 6 years. My path then led me through Geographic
-            Information Science before finding my true passion in Software
-            Engineering.
+            At Contentful, I build the semantic layer—event-driven pipelines that
+            vectorize millions of content items, the vector databases that store them,
+            and the APIs powering search, recommendations, and duplicate detection.
+            Before moving into AI/ML, I spent two and a half years on billing pipelines,
+            audit logging, and performance optimization.
           </p>
           <p>
-            I'm also building <Link href="https://dealbase.africa/"
-              >Dealbase.Africa</Link
-            >, where we collect and share data on deal activity in the African
-            early stage tech ecosystem. Before Contentful, I worked at <Link
-              href="https://anaplan.com/">Anaplan</Link
-            >,
-            <Link href="https://www.sigmadigital.co.za/">Sigma Digital</Link>,
-            <Link href="https://esri-southafrica.com/">ESRI South Africa</Link> and
-            <Link href="https://www.ramm.co.za/">RAMM Technologies</Link>.
+            I've worked across the full stack: React and TypeScript on the frontend,
+            Node and Postgres on the backend, Terraform and AWS for infrastructure.
+            I'm comfortable in early-stage startups shipping fast and in larger companies
+            where reliability and scale matter.
+          </p>
+          <p>
+            Earlier in my career, I was a civil engineer in Zimbabwe — designing water
+            networks and managing infrastructure projects. I volunteered for the GIS
+            department, which led to a GIS analyst role, then software development
+            at ESRI South Africa. That background still shapes how I think about
+            software: systems, constraints, dependencies, failure modes.
           </p>
         </div>
       </section>
 
       {/* Current Work Section */}
       <section class="space-y-6">
-        <h2 class="text-3xl font-bold">What I'm Doing Now</h2>
+        <h2 class="text-3xl font-bold">What I'm Building</h2>
+        <p class="text-[hsl(var(--muted-foreground))]">
+          Outside work, I build indie products—tools that fix workflows that waste people's time.
+        </p>
         <div class="grid gap-6 md:grid-cols-2">
           <div class="p-6 rounded-xl bg-[hsl(var(--card))] space-y-4">
-            <h3 class="text-xl font-semibold">Writing & Sharing</h3>
+            <h3 class="text-xl font-semibold">AI Career Tools</h3>
             <p class="text-[hsl(var(--muted-foreground))]">
-              I write the <Link href="https://justreflections.bhekani.com/"
-                >Just Reflections newsletter</Link
-              > and maintain a <Link href="https://digitalgarden.bhekani.com"
-                >digital garden</Link
-              > documenting my learning journey.
+              <Link href="https://cvoptimiser.com/">CV Optimiser</Link> for tailoring resumes,
+              <Link href="https://interviewoptimiser.com/">Interview Optimiser</Link> for
+              voice AI mock interviews, and <Link href="https://referenceoptimiser.com/">Reference Optimiser</Link> for recruiters.
             </p>
           </div>
           <div class="p-6 rounded-xl bg-[hsl(var(--card))] space-y-4">
-            <h3 class="text-xl font-semibold">Speaking & Community</h3>
+            <h3 class="text-xl font-semibold">AI & Research</h3>
             <p class="text-[hsl(var(--muted-foreground))]">
-              I love speaking at events and have <Link
+              <Link href="https://faithbench.com/">FaithBench</Link> — an AI theological
+              faithfulness benchmark with 300+ test cases across 6 dimensions.
+              <Link href="https://blah.chat/">blah.chat</Link> — unified AI chat across models.
+            </p>
+          </div>
+          <div class="p-6 rounded-xl bg-[hsl(var(--card))] space-y-4">
+            <h3 class="text-xl font-semibold">Other Projects</h3>
+            <p class="text-[hsl(var(--muted-foreground))]">
+              <Link href="https://dealbase.africa/">Dealbase Africa</Link> tracks startup
+              funding data across the continent.
+              <Link href="https://easydeck.app/">EasyDeck</Link> generates presentation
+              decks from prompts.
+              <Link href="https://worthyourtime.xyz/">worthyourtime.xyz</Link> for
+              taste-based movie picks.
+            </p>
+          </div>
+          <div class="p-6 rounded-xl bg-[hsl(var(--card))] space-y-4">
+            <h3 class="text-xl font-semibold">Writing & Speaking</h3>
+            <p class="text-[hsl(var(--muted-foreground))]">
+              I write the <Link href="https://justreflections.bhekani.com/"
+                >Just Reflections newsletter</Link
+              > and <Link
                 href="https://github.com/bhekanik/talks/blob/main/speaker-rider.md"
-                >a speaker rider</Link
-              > if you'd like to invite me to yours.
+                >speak at events</Link
+              >.
             </p>
           </div>
         </div>
@@ -103,10 +127,13 @@ const pageTitle = "About Me"
       {/* Connect Section */}
       <section class="space-y-6">
         <h2 class="text-3xl font-bold">Connect</h2>
+        <p class="text-[hsl(var(--muted-foreground))]">
+          Looking for my full work history? Check out my <Link href="/cv">CV</Link>.
+        </p>
         <div class="flex flex-wrap gap-4">
           <Link
             href="https://twitter.com/bhekanik"
-            class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[hsl(var(--muted))] hover:bg-[hsl(var(--accent))] transition-colors"
+            class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[hsl(var(--muted))] hover:bg-[hsl(var(--muted-foreground)/0.15)] transition-colors"
           >
             <span>Twitter</span>
             <svg
@@ -123,7 +150,7 @@ const pageTitle = "About Me"
           </Link>
           <Link
             href="https://github.com/bhekanik"
-            class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[hsl(var(--muted))] hover:bg-[hsl(var(--accent))] transition-colors"
+            class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[hsl(var(--muted))] hover:bg-[hsl(var(--muted-foreground)/0.15)] transition-colors"
           >
             <span>GitHub</span>
             <svg
@@ -140,7 +167,7 @@ const pageTitle = "About Me"
           </Link>
           <Link
             href="https://linkedin.com/in/bhekanik"
-            class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[hsl(var(--muted))] hover:bg-[hsl(var(--accent))] transition-colors"
+            class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[hsl(var(--muted))] hover:bg-[hsl(var(--muted-foreground)/0.15)] transition-colors"
           >
             <span>LinkedIn</span>
             <svg
