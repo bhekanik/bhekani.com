@@ -34,7 +34,7 @@ async function loadSearchIndex(): Promise<SearchIndexItem[]> {
   if (searchIndex) return searchIndex
 
   try {
-    const response = await fetch(new URL("/search-index.json", import.meta.url))
+    const response = await fetch(new URL("/search-index.json", import.meta.env.SITE || "http://localhost:4321"))
     if (response.ok) {
       searchIndex = await response.json()
       return searchIndex || []
@@ -100,7 +100,7 @@ function fuseResults(vectorResults: SearchResult[], keywordResults: SearchResult
 }
 
 export const GET: APIRoute = async ({ url, clientAddress }) => {
-  const ip = clientAddress ?? `unknown-${Math.random()}`
+  const ip = clientAddress ?? `unknown-${crypto.randomUUID()}`
 
   let rateLimitResult
   try {

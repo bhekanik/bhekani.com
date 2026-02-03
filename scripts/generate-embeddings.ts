@@ -166,7 +166,7 @@ async function main() {
     const batch = items.slice(i, i + BATCH_SIZE)
     console.log(`Processing batch ${Math.floor(i / BATCH_SIZE) + 1}/${Math.ceil(items.length / BATCH_SIZE)}...`)
 
-    const texts = batch.map((item) => item.text.slice(0, 8000)) // Truncate to ~8k chars
+    const texts = batch.map((item) => item.text.slice(0, 8000)) // Truncate to 8k characters (conservative vs model token limit)
     const embeddings = await generateEmbeddings(texts, openai)
 
     // Upsert to Upstash Vector
