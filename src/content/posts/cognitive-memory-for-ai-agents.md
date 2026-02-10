@@ -243,7 +243,7 @@ async function retrieveWithAssociations(
   // For each primary memory, get associated memories
   const associations = await getLinkedMemories(
     primary.map(m => m.id),
-    minStrength: 0.3
+    { minStrength: 0.3 }
   );
   
   // Return combined set
@@ -256,7 +256,7 @@ async function strengthenLinks(memoryIds: string[]) {
     for (const targetId of memoryIds) {
       if (sourceId === targetId) continue;
       
-      await strengthenLink(sourceId, targetId, increment: 0.1);
+      await strengthenLink(sourceId, targetId, { increment: 0.1 });
     }
   }
 }
