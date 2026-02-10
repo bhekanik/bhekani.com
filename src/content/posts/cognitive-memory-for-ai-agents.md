@@ -9,7 +9,23 @@ tags: ["ai", "technical", "memory", "cognitive-science"]
 
 Most AI memory systems have a problem: they remember everything equally, forever. Or they remember nothing at all. Neither is how human memory works.
 
+**And that matters.**
+
+## Why Forgetting is a Feature
+
+Your brain forgets most things you experience. Not because it's broken, but because it's brilliantly designed.
+
+Research shows that **forgetting is an active process** that frees up cognitive resources. When your brain discards irrelevant information, it leaves more capacity for what actually matters. This isn't a bug—it's how you make good decisions without drowning in noise.
+
+Neuroscientist Blake Richards puts it plainly: *"The goal of memory is not to transmit the most accurate information over time, but to guide intelligent decision-making."*
+
+In a dynamic world, remembering everything is worse than remembering the right things. Your brain knows this. AI should too.
+
+## The Problem with Perfect Memory
+
 After months of building [blah.chat](https://blah.chat), I kept hitting the same wall: the AI would remember trivial details from weeks ago while forgetting important preferences mentioned yesterday. Or it would drown in context, unable to distinguish signal from noise.
+
+Static memory (like ChatGPT's facts list) doesn't decay. Append-only RAG systems treat all context equally. Both approaches miss the fundamental insight: **memory should be dynamic, selective, and adaptive**.
 
 So we built something different. Memory that works like *your* memory: important things stick, trivial things fade, and related memories surface together when needed.
 
@@ -332,6 +348,18 @@ Other systems:
 - **MemGPT**: Manages context windows (different problem)
 - **ChatGPT Memory**: Static fact lists (no decay)
 - **RAG systems**: Dump everything (no cognitive model)
+
+### Neuroscience Foundation
+
+Our approach is grounded in cognitive science research:
+
+- **Ebbinghaus, H. (1885).** *Memory: A Contribution to Experimental Psychology.* The original research on forgetting curves.
+
+- **Popov, V., Marevic, I., Rummel, J., & Reder, L. M. (2019).** *"Forgetting Is a Feature, Not a Bug: Intentionally Forgetting Some Things Helps Us Remember Others by Freeing Up Working Memory Resources."* Psychological Science. Shows that forgetting frees cognitive resources for new information.
+
+- **Richards, B. A., & Frankland, P. W. (2017).** *"The Persistence and Transience of Memory."* Neuron. Argues that memory's goal is intelligent decision-making, not perfect recall.
+
+The neuroscience consensus: **forgetting helps the brain adapt to changing environments and prioritize relevant information.** Our system implements these principles in code.
 
 ## What's Next
 
