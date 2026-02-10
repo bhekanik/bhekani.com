@@ -198,7 +198,23 @@ async function retrieve(query: string, limit: number): Promise<Memory[]> {
 }
 ```
 
-Highly relevant but faded memories rank lower. Moderately relevant but strong memories rank higher. Just like human recall.
+**The key insight:** Two memories can have **identical semantic relevance** but rank completely differently based on recency, importance, and access patterns.
+
+**Example:**
+
+Memory A: "Beach day is Thursday, confirmed reservation"
+- Semantic relevance: 0.92
+- Retention: 0.97 (1 day old, high importance, accessed twice)
+- **Final score: 0.89**
+
+Memory B: "We should go to the beach on Thursday"
+- Semantic relevance: 0.91 (nearly identical!)
+- Retention: 0.45 (21 days old, low importance, never accessed)
+- **Final score: 0.41**
+
+**Result:** Memory A ranks 2.2x higher despite virtually the same semantic match. The difference? Recency, importance, and retrieval strengthening.
+
+This is what standard RAG misses: **relevance alone can't distinguish a confirmed plan from a passing thought.** Human recall doesn't work that way. Neither should AI memory.
 
 ### Associative Linking
 

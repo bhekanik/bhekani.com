@@ -35,13 +35,24 @@ Most AI memory systems—including the one I'd built for [blah.chat](https://bla
 
 The only way memories are prioritized is by **relevance score**—how closely the embedding matches your query.
 
-But here's what that misses:
+Here's the problem with that. Consider these two memories:
 
-- **Recency**: The beach plan from yesterday vs. a beach thought from three weeks ago
-- **Importance**: A confirmed reservation vs. a passing "maybe we should..."
-- **Access patterns**: Something I've referenced 10 times vs. mentioned once
+**Memory A** (from yesterday): "Beach day is Thursday, confirmed with Sarah, 10am meet at hotel"
 
-Everything gets the same treatment. A trivial thought from last month can outrank a critical detail from yesterday, simply because the words match better.
+**Memory B** (from 3 weeks ago): "We should definitely go to the beach while in Tampa, maybe Thursday?"
+
+When I ask "which day is the beach?", both memories mention "beach" and "Thursday." They have **nearly identical semantic relevance**. Vector search sees them as equally good matches.
+
+But one is a confirmed plan from yesterday. The other is a passing thought from weeks ago.
+
+Standard RAG can't tell the difference. It only knows: "Both mention beach + Thursday."
+
+What it's missing:
+- **Recency**: Yesterday vs. three weeks ago
+- **Importance**: Confirmed plan vs. casual "maybe"
+- **Access patterns**: I've referenced the Thursday plan five times since making it
+
+**Even with identical semantic relevance, these should rank completely differently.** But they don't—because the only lever is similarity score.
 
 That's not how your brain works.
 
@@ -129,15 +140,25 @@ I tested the new system with the Tampa scenario.
 
 **Before (static memory):**
 - Query: "Which day is the beach?"
-- Top result: Generic beach discussion from 3 weeks ago
-- My specific plan: Buried at #8
+- Top result: "We should go to the beach, maybe Thursday?" (3 weeks old)
+- My actual plan: "Beach day Thursday, confirmed with Sarah" (buried at #8)
+- **Both mention "beach" and "Thursday"—nearly identical semantic relevance**
+- Only difference in scoring: slight word-match variation
 
 **After (cognitive memory):**
 - Query: "Which day is the beach?"
 - Top result: "Beach day Thursday, confirmed with Sarah"
-- Why: High importance, accessed twice, very recent
+- Runner-up: "Hotel checkout Friday morning" (linked memory)
+- Old "maybe Thursday" thought: Ranked #12 (faded naturally)
+- **Why the ranking changed despite similar semantic relevance:**
+  - Recent (1 day) vs. old (21 days): 2x retention difference
+  - High importance (0.9) vs. low (0.3): 3x boost
+  - Accessed twice vs. never: stability 0.5 vs. 0.3
+  - **Final score: 8.2x higher despite ~same relevance**
 
 The magic came back. But now it was *reliable* magic.
+
+Here's the key insight: **Semantic similarity alone can't distinguish between a passing thought and a confirmed plan.** You need recency, importance, and access patterns working together.
 
 ## Why This Matters for Your AI Projects
 
