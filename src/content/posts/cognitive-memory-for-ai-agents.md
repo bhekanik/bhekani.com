@@ -187,7 +187,12 @@ async function retrieve(query: string, limit: number): Promise<Memory[]> {
   const scored = candidates.map(memory => ({
     ...memory,
     relevanceScore: cosineSimilarity(queryEmbedding, memory.embedding),
-    retentionScore: calculateRetention(memory),
+    retentionScore: calculateRetention(
+      memory.stability,
+      memory.importance,
+      memory.lastAccessed,
+      memory.memoryType
+    ),
     finalScore: relevanceScore * retentionScore
   }));
   
