@@ -283,7 +283,7 @@ async function consolidate(userId: string): Promise<void> {
   const fading = await getFadingMemories(userId);
   
   // 2. Group by topic similarity
-  const groups = clusterBySimilarity(fading, threshold: 0.85);
+  const groups = clusterBySimilarity(fading, { threshold: 0.85 });
   
   // 3. Compress clusters of 5+ memories
   for (const group of groups) {
