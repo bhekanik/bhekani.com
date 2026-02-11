@@ -195,12 +195,17 @@ async function retrieve(query: string, limit: number): Promise<Memory[]> {
   const candidates = await vectorSearch(queryEmbedding, limit * 3);
   
   // 3. Calculate final scores
-  const scored = candidates.map(memory => ({
-    ...memory,
-    relevanceScore: cosineSimilarity(queryEmbedding, memory.embedding),
-    retentionScore: calculateRetention(memory),
-    finalScore: relevanceScore * retentionScore
-  }));
+  const scored = candidates.map(memory => {
+    const relevanceScore = cosineSimilarity(queryEmbedding, memory.embedding);
+    const retentionScore = calculateRetention(memory, new Date());
+    
+    return {
+      ...memory,
+      relevanceScore,
+      retentionScore,
+      finalScore: relevanceScore * retentionScore
+    };
+  });
   
   // 4. Sort by final score, return top results
   return scored
