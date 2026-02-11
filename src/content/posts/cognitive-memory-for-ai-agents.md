@@ -122,7 +122,7 @@ function calculateRetention(
 ): number {
   const daysSinceAccess = (Date.now() - lastAccessed) / (1000 * 60 * 60 * 24);
 
-  // Importance boosts decay resistance (2x max)
+  // Importance boosts decay resistance (3x max)
   const importanceBoost = 1 + (importance * 2);
 
   // Base decay varies by type
