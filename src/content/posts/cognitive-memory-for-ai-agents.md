@@ -133,7 +133,9 @@ function calculateRetention(
   }[memoryType];
   
   // Combined decay constant
-  const decayConstant = stability * importanceBoost * baseDecay;
+  // Clamp to epsilon to prevent NaN when stability is 0
+  const EPSILON = 0.001;
+  const decayConstant = Math.max(EPSILON, stability * importanceBoost * baseDecay);
   
   // Exponential decay (Ebbinghaus curve)
   return Math.exp(-daysSinceAccess / decayConstant);
