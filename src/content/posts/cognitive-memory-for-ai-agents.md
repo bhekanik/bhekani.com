@@ -254,7 +254,7 @@ async function retrieveWithAssociations(
   // For each primary memory, get associated memories
   const associations = await getLinkedMemories(
     primary.map(m => m.id),
-    minStrength: 0.3
+    { minStrength: 0.3 }
   );
   
   // Return combined set
@@ -263,13 +263,18 @@ async function retrieveWithAssociations(
 
 // After retrieval, strengthen links
 async function strengthenLinks(memoryIds: string[]) {
+  // Build all link pairs upfront
+  const linkPairs: Array<{ sourceId: string; targetId: string }> = [];
+  
   for (const sourceId of memoryIds) {
     for (const targetId of memoryIds) {
       if (sourceId === targetId) continue;
-      
-      await strengthenLink(sourceId, targetId, increment: 0.1);
+      linkPairs.push({ sourceId, targetId });
     }
   }
+  
+  // Batch update all links in a single operation
+  await strengthenLinksBatch(linkPairs, { increment: 0.1 });
 }
 ```
 
@@ -283,7 +288,7 @@ async function consolidate(userId: string): Promise<void> {
   const fading = await getFadingMemories(userId);
   
   // 2. Group by topic similarity
-  const groups = clusterBySimilarity(fading, threshold: 0.85);
+  const groups = clusterBySimilarity(fading, { threshold: 0.85 });
   
   // 3. Compress clusters of 5+ memories
   for (const group of groups) {
