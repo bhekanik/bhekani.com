@@ -121,20 +121,31 @@ function calculateRetention(
   memoryType: MemoryType
 ): number {
   const daysSinceAccess = (Date.now() - lastAccessed) / (1000 * 60 * 60 * 24);
-  
-  // Importance boosts decay resistance (2x max)
+
+  // Importance boosts decay resistance (3x max)
   const importanceBoost = 1 + (importance * 2);
-  
+
   // Base decay varies by type
   const baseDecay = {
-    episodic: 30,    // 30 days
-    semantic: 90,    // 90 days
-    procedural: Infinity  // Never decays
+    episodic: 30,          // 30 days
+    semantic: 90,          // 90 days
+    procedural: Infinity   // Never decays
   }[memoryType];
-  
+
+  // Non-decaying memories always retain fully
+  if (!Number.isFinite(baseDecay)) {
+    return 1;
+  }
+
+  // Avoid zero/NaN decay constants by clamping stability
+  const epsilon = 1e-6;
+  const safeStability = Math.max(stability, epsilon);
+
   // Combined decay constant
-  const decayConstant = stability * importanceBoost * baseDecay;
-  
+  const decayConstant = Math.max(
+    safeStability * importanceBoost * baseDecay,
+    epsilon
+  );
   // Exponential decay (Ebbinghaus curve)
   return Math.exp(-daysSinceAccess / decayConstant);
 }
@@ -184,17 +195,17 @@ async function retrieve(query: string, limit: number): Promise<Memory[]> {
   const candidates = await vectorSearch(queryEmbedding, limit * 3);
   
   // 3. Calculate final scores
-  const scored = candidates.map(memory => ({
-    ...memory,
-    relevanceScore: cosineSimilarity(queryEmbedding, memory.embedding),
-    retentionScore: calculateRetention(
-      memory.stability,
-      memory.importance,
-      memory.lastAccessed,
-      memory.memoryType
-    ),
-    finalScore: relevanceScore * retentionScore
-  }));
+  const scored = candidates.map(memory => {
+    const relevanceScore = cosineSimilarity(queryEmbedding, memory.embedding);
+    const retentionScore = calculateRetention(memory, new Date());
+    
+    return {
+      ...memory,
+      relevanceScore,
+      retentionScore,
+      finalScore: relevanceScore * retentionScore
+    };
+  });
   
   // 4. Sort by final score, return top results
   return scored
