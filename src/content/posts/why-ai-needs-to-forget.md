@@ -191,7 +191,7 @@ If you want to implement this yourself, I open-sourced the system:
 The core formula is simple:
 
 ```typescript
-retention = e^(-days / (stability × importance × base_decay))
+retention = Math.exp(-days / (stability * importance * base_decay));
 ```
 
 Where:

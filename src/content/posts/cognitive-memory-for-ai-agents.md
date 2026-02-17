@@ -121,17 +121,26 @@ function calculateRetention(
   memoryType: MemoryType
 ): number {
   const daysSinceAccess = (Date.now() - lastAccessed) / (1000 * 60 * 60 * 24);
-  
-  // Importance boosts decay resistance (2x max)
+
+  // Importance boosts decay resistance (3x max)
   const importanceBoost = 1 + (importance * 2);
-  
+
   // Base decay varies by type
   const baseDecay = {
-    episodic: 30,    // 30 days
-    semantic: 90,    // 90 days
-    procedural: Infinity  // Never decays
+    episodic: 30,          // 30 days
+    semantic: 90,          // 90 days
+    procedural: Infinity   // Never decays
   }[memoryType];
-  
+
+  // Non-decaying memories always retain fully
+  if (!Number.isFinite(baseDecay)) {
+    return 1;
+  }
+
+  // Avoid zero/NaN decay constants by clamping stability
+  const epsilon = 1e-6;
+  const safeStability = Math.max(stability, epsilon);
+
   // Combined decay constant
   // Clamp to epsilon to prevent NaN when stability is 0
   const EPSILON = 0.001;
@@ -186,12 +195,17 @@ async function retrieve(query: string, limit: number): Promise<Memory[]> {
   const candidates = await vectorSearch(queryEmbedding, limit * 3);
   
   // 3. Calculate final scores
-  const scored = candidates.map(memory => ({
-    ...memory,
-    relevanceScore: cosineSimilarity(queryEmbedding, memory.embedding),
-    retentionScore: calculateRetention(memory),
-    finalScore: relevanceScore * retentionScore
-  }));
+  const scored = candidates.map(memory => {
+    const relevanceScore = cosineSimilarity(queryEmbedding, memory.embedding);
+    const retentionScore = calculateRetention(memory, new Date());
+    
+    return {
+      ...memory,
+      relevanceScore,
+      retentionScore,
+      finalScore: relevanceScore * retentionScore
+    };
+  });
   
   // 4. Sort by final score, return top results
   return scored
@@ -269,7 +283,7 @@ async function consolidate(userId: string): Promise<void> {
   const fading = await getFadingMemories(userId);
   
   // 2. Group by topic similarity
-  const groups = clusterBySimilarity(fading, threshold: 0.85);
+  const groups = clusterBySimilarity(fading, { threshold: 0.85 });
   
   // 3. Compress clusters of 5+ memories
   for (const group of groups) {
