@@ -142,10 +142,10 @@ function calculateRetention(
   const safeStability = Math.max(stability, epsilon);
 
   // Combined decay constant
-  const decayConstant = Math.max(
-    safeStability * importanceBoost * baseDecay,
-    epsilon
-  );
+  // Clamp to epsilon to prevent NaN when stability is 0
+  const EPSILON = 0.001;
+  const decayConstant = Math.max(EPSILON, stability * importanceBoost * baseDecay);
+  
   // Exponential decay (Ebbinghaus curve)
   return Math.exp(-daysSinceAccess / decayConstant);
 }
@@ -263,6 +263,9 @@ async function retrieveWithAssociations(
 
 // After retrieval, strengthen links
 async function strengthenLinks(memoryIds: string[]) {
+  // Build all link pairs upfront
+  const linkPairs: Array<{ sourceId: string; targetId: string }> = [];
+  
   for (const sourceId of memoryIds) {
     for (const targetId of memoryIds) {
       if (sourceId === targetId) continue;
@@ -270,6 +273,9 @@ async function strengthenLinks(memoryIds: string[]) {
       await strengthenLink(sourceId, targetId, { increment: 0.1 });
     }
   }
+  
+  // Batch update all links in a single operation
+  await strengthenLinksBatch(linkPairs, { increment: 0.1 });
 }
 ```
 
@@ -283,7 +289,7 @@ async function consolidate(userId: string): Promise<void> {
   const fading = await getFadingMemories(userId);
   
   // 2. Group by topic similarity
-  const groups = clusterBySimilarity(fading, threshold: 0.85);
+  const groups = clusterBySimilarity(fading, { threshold: 0.85 });
   
   // 3. Compress clusters of 5+ memories
   for (const group of groups) {
