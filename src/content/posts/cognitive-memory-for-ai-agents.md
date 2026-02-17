@@ -269,7 +269,8 @@ async function strengthenLinks(memoryIds: string[]) {
   for (const sourceId of memoryIds) {
     for (const targetId of memoryIds) {
       if (sourceId === targetId) continue;
-      linkPairs.push({ sourceId, targetId });
+      
+      await strengthenLink(sourceId, targetId, { increment: 0.1 });
     }
   }
   
