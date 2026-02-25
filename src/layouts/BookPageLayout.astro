@@ -17,7 +17,7 @@ const {
 } = Astro.props
 ---
 
-<BaseLayout title={frontmatter.title} pageTitle={frontmatter.title}>
+<BaseLayout title={frontmatter.title} pageTitle={frontmatter.title} imageUrl={`https://www.bhekani.com/books/${book.slug}.png`}>
   <MainContainer>
     <article class="mx-auto max-w-4xl">
       <BookHeader book={book} slug={book.slug} />
