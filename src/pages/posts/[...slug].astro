@@ -28,7 +28,7 @@ const { Content, headings } = await post.render()
 <BaseLayout
   pageTitle={post.data.title}
   description={post.data.description}
-  imageUrl={post.data.image?.src}
+  imageUrl={`https://www.bhekani.com/posts/${post.slug}.png`}
 >
   {/* Reading Progress Bar */}
   <div id="reading-progress" class="fixed top-0 left-0 h-0.5 z-50" style="width: 0%"></div>

@@ -1,21 +1,17 @@
-import { OGImageRoute } from "astro-og-canvas";
-import { getCollection } from "astro:content";
+import { OGImageRoute } from "astro-og-canvas"
+import { getCollection } from "astro:content"
+import { getBookOgOptions } from "../../constants/og-image"
 
-const collectionEntries = await getCollection("books");
+const collectionEntries = await getCollection("books")
 
-// Map the array of content collection entries to create an object.
-// Converts [{ id: 'post.md', data: { title: 'Example', description: '' } }]
-// to { 'post.md': { title: 'Example', description: '' } }
 const pages = Object.fromEntries(
-  collectionEntries.map(({ slug, data }) => [slug, data])
-);
+  collectionEntries.map(({ slug, data }) => [slug, data]),
+)
 
 export const { getStaticPaths, GET } = await OGImageRoute({
   pages: pages,
   param: "route",
 
-  getImageOptions: (_path, page) => ({
-    title: page.title,
-    description: `by ${page.author}`,
-  }),
-});
+  getImageOptions: (_path, page) =>
+    getBookOgOptions(page.title, page.author),
+})

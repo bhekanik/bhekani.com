@@ -101,6 +101,22 @@ Everything else lives in skills. [blah.chat](https://blah.chat) has a `.claude/s
 
 It works. The agent stays focused. Costs stay reasonable. And the skills don't rot because they're scoped narrowly enough to stay accurate.
 
+## Fix it right now
+
+You can fix your own repo in about two minutes. Point your coding agent at this article and tell it to apply the ideas. Here's a prompt you can copy:
+
+```
+Read https://www.bhekani.com/posts/your-agents-md-is-probably-hurting-your-agent/ and apply its recommendations to this repo:
+
+1. Audit the current AGENTS.md (or CLAUDE.md, CURSOR.md, etc.)
+2. Apply the two-question filter to every line: "Does the agent need this on every task?" and "Can the agent figure this out from the code?"
+3. Keep only what passes both filters (should be ~10 lines max)
+4. Move everything else into scoped skills files under .claude/skills/ (or equivalent)
+5. Delete anything the agent can discover from the code itself
+```
+
+The agent will read the article, understand the reasoning, and restructure your context files accordingly.
+
 ## The simple version
 
 Your AGENTS.md is probably too long, and it's probably making your agent worse.
