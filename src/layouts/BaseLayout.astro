@@ -12,7 +12,7 @@ import PostHog from "../components/PostHog.astro"
 import { SEO_DEFAULTS } from "../constants/seo"
 import "../styles/global.css";
 
-const { pageTitle, description, title, imageUrl } = Astro.props
+const { pageTitle, description, title, imageUrl, hidePageHeader } = Astro.props
 ---
 
 <html lang="en" class="dark">
@@ -80,12 +80,14 @@ const { pageTitle, description, title, imageUrl } = Astro.props
   <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
     <Header />
-    <h1
-      class="flex flex-col gap-2 page-header container-readable text-center font-headings tracking-tight leading-tight text-4xl md:text-5xl py-8 border-b border-[hsl(var(--muted))]"
-    >
-      {title ?? pageTitle}
-      <span class="text-base md:text-lg text-[hsl(var(--muted-foreground))] font-normal">{description}</span>
-    </h1>
+    {!hidePageHeader && (
+      <h1
+        class="flex flex-col gap-2 page-header container-readable text-center font-headings tracking-tight leading-tight text-4xl md:text-5xl py-8 border-b border-[hsl(var(--muted))]"
+      >
+        {title ?? pageTitle}
+        <span class="text-base md:text-lg text-[hsl(var(--muted-foreground))] font-normal">{description}</span>
+      </h1>
+    )}
     <main id="main-content">
       <slot />
     </main>
