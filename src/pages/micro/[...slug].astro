@@ -23,7 +23,7 @@ const { micro } = Astro.props
 const { Content } = await micro.render()
 ---
 
-<BaseLayout pageTitle={micro.data.title ?? "Micro Post"} imageUrl={`https://www.bhekani.com/micro/${micro.slug}.png`}>
+<BaseLayout pageTitle={micro.data.title ?? "Micro Post"} imageUrl={`https://www.bhekani.com/micro/${micro.slug}.png`} hidePageHeader={true}>
   <MainContainer>
     <article class="max-w-2xl mx-auto mt-12">
       {/* Header */}

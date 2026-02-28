@@ -35,7 +35,7 @@ const allTags = [...new Set(sortedBooks.flatMap((b) => b.data.tags || []))]
 const pageTitle = "Library"
 ---
 
-<BaseLayout pageTitle={pageTitle}>
+<BaseLayout pageTitle={pageTitle} hidePageHeader={true}>
   <MainContainer>
     <div class="max-w-5xl mx-auto mt-8 space-y-12">
       {/* Header Section */}

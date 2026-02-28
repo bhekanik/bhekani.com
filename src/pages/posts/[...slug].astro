@@ -23,12 +23,16 @@ type Props = {
 
 const { post } = Astro.props
 const { Content, headings } = await post.render()
+
+const wordCount = post.body?.split(/\s+/).length ?? 0
+const readingTime = Math.max(1, Math.round(wordCount / 200))
 ---
 
 <BaseLayout
   pageTitle={post.data.title}
   description={post.data.description}
   imageUrl={`https://www.bhekani.com/posts/${post.slug}.png`}
+  hidePageHeader={true}
 >
   {/* Reading Progress Bar */}
   <div id="reading-progress" class="fixed top-0 left-0 h-0.5 z-50" style="width: 0%"></div>
@@ -36,7 +40,7 @@ const { Content, headings } = await post.render()
   <MainContainer>
     <article class="max-w-4xl mx-auto mt-12">
       {/* Article Header */}
-      <header class="space-y-8 mb-16">
+      <header class="post-animate-header space-y-8 mb-16">
         <div class="space-y-4">
           <div
             class="flex items-center gap-2 text-sm text-[hsl(var(--muted-foreground))]"
@@ -55,10 +59,12 @@ const { Content, headings } = await post.render()
               }
             </time>
             <span class="text-[hsl(var(--muted-foreground))]">•</span>
+            <span>{readingTime} min read</span>
+            <span class="text-[hsl(var(--muted-foreground))]">•</span>
             <ViewCounter client:load slug={post.slug} />
           </div>
 
-          <h1 class="text-4xl font-bold">{post.data.title}</h1>
+          <h1 class="text-4xl md:text-5xl font-headings tracking-tight leading-tight">{post.data.title}</h1>
 
           {
             post.data.description && (
@@ -97,6 +103,9 @@ const { Content, headings } = await post.render()
         }
       </header>
 
+      {/* Divider */}
+      <div class="h-px bg-[hsl(var(--accent)/0.3)] mb-12"></div>
+
       {/* Table of Contents - Desktop */}
       {
         headings.length > 0 && (
@@ -112,14 +121,14 @@ const { Content, headings } = await post.render()
       }
 
       {/* Main Content */}
-      <div class="relative">
+      <div class="post-animate-content relative">
         <Prose>
           <Content />
         </Prose>
       </div>
 
       {/* Article Footer */}
-      <footer class="mt-16 pt-8">
+      <footer class="post-animate-footer mt-16 pt-8">
         {/* Share Section */}
         <div class="mb-16 space-y-4">
           <h2 class="text-lg font-semibold">Share this post</h2>
