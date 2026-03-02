@@ -19,7 +19,9 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss() as any]
   },
-  integrations: [sitemap(), robotsTxt(), expressiveCode({
+  integrations: [sitemap(), robotsTxt({
+    policy: [{ userAgent: '*', allow: '/llms.txt' }],
+  }), expressiveCode({
     themes: ["one-dark-pro"],
     defaultProps: {
       // Enable word wrap by default
