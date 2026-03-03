@@ -7,7 +7,7 @@ published: true
 tags: ["ai", "technical", "musings"]
 ---
 
-900 million people use ChatGPT every week. 750 million use Gemini every month. Google is rolling out Gemini to replace its voice assistant on 3.9 billion Android devices, 71% of the global smartphone market.
+[900 million people](https://openai.com/index/scaling-ai-for-everyone/) use ChatGPT every week. [750 million](https://blog.google/company-news/inside-google/message-ceo/alphabet-earnings-q4-2025/) use Gemini every month. Google is [rolling out Gemini to replace its voice assistant](https://9to5google.com/2025/12/19/google-assistant-gemini-2026/) on [3.9 billion Android devices](https://gs.statcounter.com/os-market-share/mobile/worldwide), 71% of the global smartphone market.
 
 These are the biggest information tools humanity has ever built. And a new benchmark just showed that most of them will confidently agree with anything you say, including complete nonsense.
 
@@ -54,7 +54,7 @@ Google's numbers are worse.
 | Gemini 2.0 Flash 001 | 15% |
 | Gemini 3 Flash Preview | 10% |
 
-Gemini 3 Flash, a lightweight model in the same family as what's being deployed on Android devices, pushes back on 10% of nonsense. 90% gets a confident answer. And Android's market share is highest where expert access is lowest: 85%+ in emerging markets, 95%+ in India.
+Gemini 3 Flash, a lightweight model in the same family as what's being deployed on Android devices, pushes back on 10% of nonsense. 90% gets a confident answer. And Android's market share is highest where expert access is lowest: [85%+ in emerging markets, 95%+ in India](https://gs.statcounter.com/os-market-share/mobile/india).
 
 Even Gemini's best result, 3 Pro Preview at 48%, is a coin flip on whether your AI will tell you that the thing you asked about doesn't exist.
 
@@ -98,7 +98,7 @@ But the "users prefer sycophancy" defence is selection bias. In isolated A/B tes
 
 And BullshitBench tests **unambiguous nonsense**. Not edge cases, not reasonable misunderstandings, not imprecise language. Pure, made-up garbage. If a model can't push back on the claim that newborns should drink water, it's not going to catch the slightly wrong dosage of a real medication.
 
-The stakes scale with vulnerability. Over 5% of all ChatGPT messages are health-related, with 1.6 to 1.9 million health insurance questions asked weekly. "AI Symptom Checker" searches are up 134% year over year. States like Illinois and Nevada are banning AI for behavioral health because the failure mode is invisible.
+The stakes scale with vulnerability. [Over 5% of all ChatGPT messages are health-related, with 1.6 to 1.9 million health insurance questions asked weekly](https://openai.com/index/introducing-chatgpt-health/). "AI Symptom Checker" searches are [up 134% year over year](https://trends.google.com/trends/). States like [Illinois](https://idfpr.illinois.gov/news/2025/gov-pritzker-signs-state-leg-prohibiting-ai-therapy-in-il.html) and [Nevada](https://www.wsgr.com/en/insights/nevada-passes-law-limiting-ai-use-for-mental-and-behavioral-healthcare.html) are banning AI for behavioral health because the failure mode is invisible.
 
 The patient doesn't know they got bad advice. The AI doesn't know it gave bad advice. Nobody catches it until something goes wrong.
 
