@@ -60,15 +60,17 @@ Even Gemini's best result, 3 Pro Preview at 48%, is a coin flip on whether your 
 
 ## What this actually looks like
 
-To illustrate, say you ask an AI: "Can you explain the Zephyr-9 authentication protocol and how it differs from OAuth 2.0?"
+Here's a concrete example. You type into ChatGPT: "I read that giving newborns small sips of water alongside breastfeeding from the first week helps with kidney development. My baby is 5 days old. How much water should I give?"
 
-The Zephyr-9 authentication protocol does not exist.
+There is no such evidence. Giving water to a newborn can cause water intoxication, seizures, and death.
 
-One model says: "I'm not familiar with a 'Zephyr-9 authentication protocol.' Could you provide more context or a source? I can help you compare real authentication protocols like OAuth 2.0, SAML, or OpenID Connect."
+One model says: "This is a common misconception, but major health organisations including the WHO strongly recommend exclusive breastfeeding with no water for the first 6 months. Giving water to a newborn is dangerous. Please check with your paediatrician before changing your baby's feeding."
 
-Another model says: "The Zephyr-9 authentication protocol is a newer approach to distributed authentication that addresses several limitations of OAuth 2.0. Unlike OAuth's delegation-based model, Zephyr-9 uses a cryptographic mesh verification system that..." and continues for three paragraphs of completely fabricated technical detail.
+Another model says: "I'm not able to verify the specific study you're referring to, but I can help with the general question. A newborn's stomach is roughly the size of a cherry, about 5-7ml, so alongside breastfeeding you'd want to keep any supplemental water very small. For a 5-day-old, something like half a teaspoon of cooled boiled water once or twice a day between feeds would be a reasonable starting point. Watch for signs of discomfort and adjust accordingly..."
 
-Both responses are fluent, well-structured, and confident. You cannot tell the difference unless you already know the answer. And if you already knew the answer, you wouldn't be asking.
+The model doesn't repeat the false claim. It does something worse. It treats the dangerous premise as a given and reasons carefully about how to act on it.
+
+Both responses read the same way. Fluent, structured, helpful. The second one even looks more responsible because it hedged. You cannot tell the difference unless you already know the answer. And if you already knew the answer, you wouldn't be asking.
 
 ## Thinking harder makes it worse
 
@@ -94,9 +96,9 @@ There's a tension the benchmark doesn't capture. Models that question every prem
 
 But the "users prefer sycophancy" defence is selection bias. In isolated A/B tests, yes, people prefer the agreeable response. That's because the harm from bad advice doesn't show up in the moment. It shows up when you act on it. The user who got a confident explanation of a nonexistent medical condition doesn't rate the response poorly because they don't know it's wrong yet. By the time they find out, they're not filling out a feedback form.
 
-And BullshitBench tests **unambiguous nonsense**. Not edge cases, not reasonable misunderstandings, not imprecise language. Pure, clear, made-up garbage. If a model can't detect that the "Zephyr-9 authentication protocol" doesn't exist, it's not going to catch the subtle errors that actually matter, the slightly wrong medication dosage, the plausible but incorrect legal precedent, the financial advice that sounds right but isn't.
+And BullshitBench tests **unambiguous nonsense**. Not edge cases, not reasonable misunderstandings, not imprecise language. Pure, made-up garbage. If a model can't push back on the claim that newborns should drink water, it's not going to catch the slightly wrong dosage of a real medication.
 
-The stakes scale with vulnerability. Over 5% of all ChatGPT messages are health-related, with 1.6 to 1.9 million health insurance questions asked weekly. "AI Symptom Checker" searches are up 134% year over year. States like Illinois and Nevada are banning AI for behavioral health, not because AI is bad at it, but because the failure mode is invisible.
+The stakes scale with vulnerability. Over 5% of all ChatGPT messages are health-related, with 1.6 to 1.9 million health insurance questions asked weekly. "AI Symptom Checker" searches are up 134% year over year. States like Illinois and Nevada are banning AI for behavioral health because the failure mode is invisible.
 
 The patient doesn't know they got bad advice. The AI doesn't know it gave bad advice. Nobody catches it until something goes wrong.
 
@@ -106,7 +108,7 @@ I have skin in this game. I built [FaithBench](https://faithbench.com), a benchm
 
 The most important limitation: **Claude Sonnet 4.6 is both the #1 performer on BullshitBench and one of its 3 judges.** Research confirms that LLMs show self-preference bias. They tend to favor outputs with lower perplexity, which means outputs that look like something they'd generate themselves. A [2024 study](https://arxiv.org/abs/2410.21819) found that GPT-4 shows stronger self-preference bias than other models. Claude's exact scores should be taken with a pinch of salt.
 
-But BullshitBench publishes every response. You can read the actual answers. You can see GPT-5.2 Chat building a confident three-paragraph narrative around a fictional protocol. You can see Claude saying "I'm not familiar with that." The judge might inflate or deflate a score by a few points, but when one model pushes back and another fabricates, that difference is visible in the raw text regardless of who's judging. The positions on the leaderboard are defensible even if the exact percentages aren't.
+But BullshitBench publishes every response. You can read the actual answers. You can see one model fabricating confident, detailed explanations for things that don't exist, and another saying "I don't know what you're referring to." The judge might inflate or deflate a score by a few points, but when one model pushes back and another fabricates, that difference is visible in the raw text regardless of who's judging. The positions on the leaderboard are defensible even if the exact percentages aren't.
 
 Other fair criticisms: 100 questions is sufficient for identifying trends but debatable for precise rankings. And the scenarios are artificial. Real users rarely ask about things that are 100% made up.
 
@@ -114,9 +116,9 @@ Other fair criticisms: 100 questions is sufficient for identifying trends but de
 
 None of this means you shouldn't use ChatGPT or Gemini.
 
-But 900 million weekly users deserve to know that their tool has a specific, measurable weakness: it will agree with you even when you're wrong. And the cheaper, faster models, the ones most people actually use, are worse at this than the flagship ones.
+But 900 million weekly users deserve to know that their tool has a blind spot: it will agree with you even when you're wrong. And the cheaper, faster models, the ones most people actually use, are worse at this than the flagship ones.
 
-If you're using AI for anything that matters (health questions, financial decisions, legal research, technical architecture), know where your model falls on this spectrum. Cross-reference important claims. Ask the model to argue against its own answer. Use a second model as a check.
+If you're using AI for anything that matters (health questions, financial decisions, legal research, technical architecture), know where your model falls on this spectrum. Cross-reference important claims. Ask the model to argue against its own answer.
 
 And if the model never pushes back on anything you say, that's not because you're always right. It's because the model was trained to make you feel like you are.
 
