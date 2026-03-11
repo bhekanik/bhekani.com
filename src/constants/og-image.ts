@@ -1,37 +1,34 @@
 import type { OGImageOptions } from "astro-og-canvas"
 
 const FONTS = [
-  "https://cdn.jsdelivr.net/fontsource/fonts/playfair-display@latest/latin-700-normal.ttf",
+  "https://cdn.jsdelivr.net/fontsource/fonts/inter@latest/latin-700-normal.ttf",
   "https://cdn.jsdelivr.net/fontsource/fonts/inter@latest/latin-400-normal.ttf",
   "https://cdn.jsdelivr.net/fontsource/fonts/inter@latest/latin-600-normal.ttf",
 ]
 
 const COLORS = {
-  bg: [31, 27, 23] as [number, number, number],
-  bgDark: [23, 20, 17] as [number, number, number],
-  fg: [232, 227, 219] as [number, number, number],
+  fg: [255, 255, 255] as [number, number, number],
   accent: [217, 147, 43] as [number, number, number],
-  muted: [163, 151, 133] as [number, number, number],
+  muted: [180, 170, 155] as [number, number, number],
 }
 
 const baseOptions = {
   fonts: FONTS,
-  bgGradient: [COLORS.bg, COLORS.bgDark],
-  border: {
-    color: COLORS.accent,
-    width: 20,
-    side: "inline-start" as const,
+  bgImage: {
+    path: "./src/images/og-background.png",
+    fit: "cover" as const,
   },
+  padding: 80,
   font: {
     title: {
       color: COLORS.fg,
-      size: 64,
-      families: ["Playfair Display"],
-      lineHeight: 1.2,
+      size: 72,
+      families: ["Inter"],
+      lineHeight: 1.15,
     },
     description: {
       color: COLORS.muted,
-      size: 32,
+      size: 34,
       families: ["Inter"],
       weight: "Normal" as const,
     },
@@ -57,10 +54,6 @@ export function getBookOgOptions(
     ...baseOptions,
     title,
     description: `by ${author}`,
-    border: {
-      ...baseOptions.border,
-      side: "block-end" as const,
-    },
   }
 }
 
@@ -84,10 +77,7 @@ export function getHomepageOgOptions(): OGImageOptions {
     title: "Bhekani Khumalo",
     description: "Software Engineer \u00b7 AI Products \u00b7 Tech Writing",
     font: {
-      title: {
-        ...baseOptions.font.title,
-        size: 72,
-      },
+      ...baseOptions.font,
       description: {
         color: COLORS.accent,
         size: 36,
