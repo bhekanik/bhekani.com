@@ -69,7 +69,7 @@ None of this exists in traditional MLOps. There's no "prompt cost" in a random f
 
 Traditional software latency is measured in milliseconds. You cache aggressively, optimize queries, and if something takes more than a second you investigate. That intuition breaks with LLMs.
 
-API calls take seconds, not milliseconds. They can die or time out. And multi-step agent workflows multiply latency at each step, so if your agent makes five sequential LLM calls and each takes two seconds, your user is waiting ten seconds before seeing anything. The standard web engineering playbook (add a spinner, optimize the query) doesn't get you out of this. You need streaming responses, fallback models, circuit breakers, and deterministic fallback paths for when the AI just doesn't respond in time. 20% of teams cite latency as their top production challenge in the LangChain survey, which tracks because it's the one that most directly affects users and has the fewest easy fixes.
+API calls take seconds, not milliseconds. They can die or time out. And multi-step agent workflows multiply latency at each step, so if your agent makes five sequential LLM calls and each takes two seconds, your user is waiting ten seconds before seeing anything. The standard web engineering playbook (add a spinner, optimize the query) doesn't get you out of this. You need streaming responses, fallback models, circuit breakers, and deterministic fallback paths for when the AI just doesn't respond in time. 20% of respondents in the LangChain survey cite latency as their top production challenge, which tracks because it's the one that most directly affects users and has the fewest easy fixes.
 
 ### Model updates break things
 
@@ -87,7 +87,7 @@ When users report issues with traditional software, you check the logs, reproduc
 
 You need distributed tracing, full request/response logging with trace IDs, and the ability to replay a specific conversation. But even then, non-determinism means exact reproduction is often impossible.
 
-This is the gap most teams fall into: they instrument observability early (you can see what your LLM is doing) but never build evals (you can't systematically measure whether it's doing it well). Seeing and measuring are different problems.
+The gap that's easy to fall into: instrumenting observability early (you can see what your LLM is doing) but never building evals (you can't systematically measure whether it's doing it well). Seeing and measuring are different problems.
 
 That raises a harder question: what are you actually measuring? In traditional ML the answer is clear - you measure the model. In LLM systems the answer is more complicated, because the model isn't really what determines behavior. The prompts do.
 
@@ -101,7 +101,7 @@ Prompting isn't a solo engineering activity anymore. Product managers iterate on
 
 ## RAG: your retrieval pipeline is the product
 
-Prompts control what the model does. But in most production systems, what you put _into_ the prompt matters just as much - and that's where RAG comes in.
+Prompts control what the model does. But in most production systems, what you put *into* the prompt matters just as much - and that's where RAG comes in.
 
 RAG (Retrieval-Augmented Generation) sounds simple: the model doesn't know your data, so you retrieve relevant documents and stuff them into the context window. But this is where another MLOps assumption quietly breaks. In traditional ML, the model is the product - you train it, it encodes the knowledge, you deploy it. With RAG, the retrieval pipeline is just as much the product as the model. A bad retrieval step produces a confidently wrong answer regardless of how good your model is.
 
@@ -157,7 +157,7 @@ This is why AI engineering is real. Not because calling APIs is hard. Because op
 
 ## Bottom line
 
-MLOps is about managing models. LLMOps is about managing entire systems.
+The core difference isn't complexity - MLOps is genuinely complex. It's ownership. In traditional ML you own the weights: you trained them, you control them, nobody changes them without your knowledge. In LLMOps you don't own the thing that determines behavior. The model sits behind someone else's API, and your product is the layer you built around it - the prompts, the retrieval pipeline, the routing logic, the evals. That's what you're responsible for keeping working.
 
 If you're running an LLM application through your traditional ML pipeline, you're probably missing most of what can go wrong.
 
