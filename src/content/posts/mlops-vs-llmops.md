@@ -17,17 +17,17 @@ Chip Huyen, who literally wrote the book on this (her O'Reilly title [AI Enginee
 
 In traditional machine learning, you train a model on labeled data. You collect a dataset, label it, train a classifier or regressor, evaluate it, deploy it, and monitor it for drift.
 
-These models are deterministic. Same input, same output. You measure success with hard metrics: accuracy, precision, recall, F1 score. If performance degrades, it's usually because the data distribution shifted. Your users started behaving differently than your training data expected. You retrain on fresh data and redeploy.
+For a fixed model and environment, inference is typically deterministic - same input, same output. You measure success with hard metrics: accuracy, precision, recall, F1 score. If performance degrades, it's usually because the data distribution shifted. Your users started behaving differently than your training data expected. You retrain on fresh data and redeploy.
 
-The key thing: **you own the weights.** The model is a file you trained. You control it. You can inspect it. Nobody changes it without your knowledge.
+The key thing: **you own the weights.** The model is a file you trained. You control the full change surface - the model, the features, the serving infrastructure. If something changes, it's because someone on your team changed it.
 
-The pipeline is well-understood: data collection → labeling → training → evaluation → deployment → monitoring. MLOps tooling exists to automate each step. It's a solved-ish problem.
+The pipeline is well-understood: data collection → labeling → training → evaluation → deployment → monitoring. MLOps tooling exists to automate each step. It's more mature and better understood than what we have for LLM systems.
 
 The assumption running through all of it: you own the thing that determines behavior. That assumption doesn't survive contact with LLMs.
 
 ## The shift: you're orchestrating, not training
 
-You're not training the base model. You're calling an API. The unit of work shifts from "model" to "system": your product is now a combination of prompts, retrieval pipelines, tool integrations, guardrails, and routing logic. Each with its own lifecycle and failure modes.
+You're not training the base model. You're calling an API. This is specifically about that context - teams building on hosted foundation models rather than training or self-hosting their own. The unit of work shifts from "model" to "system": your product is now a combination of prompts, retrieval pipelines, tool integrations, guardrails, and routing logic. Each with its own lifecycle and failure modes.
 
 OpenAI, Anthropic, or Google can change model behavior under you with no notice. Your prompts that worked perfectly on GPT-5 might break when the provider updates to GPT-5.2. No code changed on your side.
 
@@ -41,7 +41,7 @@ The MLOps instincts that serve you well - deterministic outputs, owned infrastru
 
 The scariest failure mode in LLM systems is the one that doesn't look like a failure. No crash. No error. Just worse answers.
 
-Unlike traditional ML where data drift triggers alerts, LLM quality degrades without obvious signals. Hallucinations reach users without triggering anything in your monitoring. The model confidently makes something up, the user doesn't know enough to question it, and your logs show a successful 200 response.
+Unlike traditional ML where data drift triggers measurable metric changes, LLMs make silent quality failures especially common - correctness is fuzzy, users often can't verify answers, and there's no ground truth to alert against. Hallucinations reach users without triggering anything in your monitoring. The model confidently makes something up, the user doesn't know enough to question it, and your logs show a successful 200 response.
 
 According to LangChain's [State of AI Agents](https://www.langchain.com/state-of-agent-engineering) report (1,340 respondents), **32% cite quality as their number one production barrier.** Not latency, not cost — quality.
 
@@ -49,19 +49,19 @@ According to LangChain's [State of AI Agents](https://www.langchain.com/state-of
 
 Here's something that still catches people off guard: the Thinking Machines team ran [1,000 identical completions at temperature=0](https://thinkingmachines.ai/blog/defeating-nondeterminism-in-llm-inference/) and got **80 unique outputs.** Same prompt. Same parameters. 80 different answers.
 
-This isn't just an inconvenience. It breaks the foundational assumption behind most of software engineering's quality tools. Unit tests work because the same input produces the same output - you write a test, it passes or fails, done. That contract doesn't hold with LLMs. You can't write a test that says "given this question, return this answer" because the answer will vary. The whole testing paradigm shifts from pass/fail to probabilistic - which is why the field landed on evals rather than tests. You're not checking whether the output is correct, you're measuring whether it's good enough, often by using another LLM as a judge. That's a different engineering discipline, not just a different tool.
+Traditional ML systems can introduce their own variability - recommenders, stochastic pipelines, GPU-level numerical differences. But LLM variability is different in degree and in kind: it's user-visible, product-relevant, and present even when you've explicitly asked for deterministic output. That's what makes it a distinct engineering problem. It breaks the foundational assumption behind most of software engineering's quality tools. Unit tests work because the same input produces the same output - you write a test, it passes or fails, done. That contract doesn't hold with LLMs. You can't write a test that says "given this question, return this answer" because the answer will vary. The whole testing paradigm shifts from pass/fail to probabilistic - which is why the field landed on evals rather than tests. You're not checking whether the output is correct, you're measuring whether it's good enough, often by using another LLM as a judge. That's a different engineering discipline, not just a different tool.
 
 Instead of accuracy and recall, you track helpfulness, coherence, latency, hallucination rate, and cost per query. The same shift applies to monitoring: you're not alerting on errors, you're measuring quality distributions over time and watching for drift.
 
-Evaluation itself becomes an LLM task - you use one model to judge another model's outputs. It's the best approach we have at scale. I wrote about a related angle in [testing specific AI behaviors](/posts/your-ai-is-confidently-wrong), where even measuring something as simple as "does the model push back on nonsense" requires elaborate benchmarking.
+Evaluation itself becomes an LLM task - you use one model to judge another model's outputs. It's one of the most practical approaches at scale, especially when combined with task-specific checks and human calibration. I wrote about a related angle in [testing specific AI behaviors](/posts/your-ai-is-confidently-wrong), where even measuring something as simple as "does the model push back on nonsense" requires elaborate benchmarking.
 
 ### Cost spiraling
 
 In traditional ML, compute costs are frontloaded during training. You pay once, then inference is cheap. Cost is a problem you solve before deployment, not one that compounds with every user request.
 
-With LLMs, cost is a continuous operational variable. Every API call costs money, and output tokens cost 3-10x more than input tokens. A poorly optimized prompt that uses 2,000 tokens instead of 500 can quadruple your operational expenses, and you're paying that on every single request, indefinitely. The mental model of "we paid for the infrastructure, now it runs" doesn't apply.
+With LLMs, cost is a continuous operational variable. Every API call costs money, and on most providers output tokens cost significantly more than input tokens - the exact multiplier varies, but it's enough that a poorly optimized prompt can meaningfully inflate your bill on every single request, indefinitely. The mental model of "we paid for the infrastructure, now it runs" doesn't apply.
 
-The strategies that work: model tiering (cheap models handle the bulk of routine tasks, expensive models handle the edge cases that actually need them), prompt caching (cache hits cost about 10% of standard tokens, a 90% discount), and [smart routing between models](/posts/building-an-llm-model-router-lessons-from-the-wild). Applied together, these compound to 60-80% savings.
+The strategies that work: model tiering (cheap models handle the bulk of routine tasks, expensive models handle the edge cases that actually need them), prompt caching (most providers offer up to 90% reduction on cached input tokens), and [smart routing between models](/posts/building-an-llm-model-router-lessons-from-the-wild). Applied together, these compound to significant savings.
 
 None of this exists in traditional MLOps. There's no "prompt cost" in a random forest.
 
@@ -75,7 +75,7 @@ API calls take seconds, not milliseconds. They can die or time out. And multi-st
 
 This is the one with no analogy in traditional ML - or in software engineering more broadly. In most engineering disciplines, dependencies change when you update them. A library ships a new version, you pin it or upgrade it, you own that decision.
 
-To be fair to the providers: most of them do offer versioned model endpoints. You can pin to `gpt-4o-2024-05-13` or a specific Claude Sonnet release and get some stability. But "some" is doing a lot of work there. In April 2025, OpenAI pushed an update to GPT-4o that made it noticeably more sycophantic - users reported it endorsing harmful decisions and agreeing with delusions. OpenAI rolled it back four days later and admitted they'd over-weighted short-term thumbs-up feedback signals in training. On the Anthropic side, around the same time, infrastructure bugs caused weeks of quality degradation in Claude Sonnet and Haiku - responses getting dumber, context getting lost, code generation going sideways. Anthropic said it was unintentional bugs, not throttling, but the effect on developers was the same: your carefully tuned prompts stopped working and you had no way to know why.
+To be fair to the providers: most of them do offer versioned model endpoints. You can pin to `gpt-4o-2024-05-13` or a specific Claude Sonnet release and get some stability. But "some" is doing a lot of work there. In April 2025, OpenAI pushed an update to GPT-4o that made it noticeably more sycophantic - users reported it endorsing harmful decisions and agreeing with delusions. OpenAI rolled it back four days later and admitted they'd over-weighted short-term thumbs-up feedback signals in training. A few months later, between August and early September 2025, Anthropic's infrastructure bugs caused weeks of quality degradation in Claude Sonnet and Haiku - responses getting dumber, context getting lost, code generation going sideways. Anthropic said it was unintentional bugs, not throttling, but the effect on developers was the same: your carefully tuned prompts stopped working and you had no way to know why.
 
 The deeper issue is that versioning helps but doesn't fully protect you. Infrastructure changes, routing decisions, and load balancing all affect behavior without touching the model version string. You're managing a dependency with no real analogy in a package manager. When a pip package behaves differently on Tuesday than Monday with no version change, that's a bug in your code. When an LLM does it, it might be a bug in the provider's infrastructure, a training update, or just non-determinism. You often can't tell which.
 
@@ -89,7 +89,7 @@ You need distributed tracing, full request/response logging with trace IDs, and 
 
 The gap that's easy to fall into: instrumenting observability early (you can see what your LLM is doing) but never building evals (you can't systematically measure whether it's doing it well). Seeing and measuring are different problems.
 
-That raises a harder question: what are you actually measuring? In traditional ML the answer is clear - you measure the model. In LLM systems the answer is more complicated, because the model isn't really what determines behavior. The prompts do.
+That raises a harder question: what are you actually measuring? In traditional ML the answer is clear - you measure the model. In LLM systems the answer is more complicated. The model alone no longer determines behavior - prompts, retrieval quality, tool schemas, sampling settings, and whatever the provider has baked into their system prompt all shape the output. The model is one input among many.
 
 ## Prompts as production artifacts
 
@@ -103,11 +103,11 @@ Prompting isn't a solo engineering activity anymore. Product managers iterate on
 
 Prompts control what the model does. But in most production systems, what you put *into* the prompt matters just as much - and that's where RAG comes in.
 
-RAG (Retrieval-Augmented Generation) sounds simple: the model doesn't know your data, so you retrieve relevant documents and stuff them into the context window. But this is where another MLOps assumption quietly breaks. In traditional ML, the model is the product - you train it, it encodes the knowledge, you deploy it. With RAG, the retrieval pipeline is just as much the product as the model. A bad retrieval step produces a confidently wrong answer regardless of how good your model is.
+RAG (Retrieval-Augmented Generation) sounds simple: the model doesn't know your data, so you retrieve relevant documents and stuff them into the context window. But this is where another MLOps assumption quietly breaks. In traditional ML, the model is the product - you train it, it encodes the knowledge, you deploy it. With RAG, the retrieval and data pipeline are just as much the product as the model. A bad retrieval step produces a confidently wrong answer regardless of how good your model is. And it's not just a relevance problem - stale indexes, access control issues, duplicate documents, and bad chunk metadata can hurt you just as much as poor semantic matching.
 
 Chunking strategy matters - too small and you lose context, too large and you dilute relevance. So does your embedding model, your vector store, and how fresh your index is. And then there's embedding drift: your embedding model gets updated, and now all your vectors are slightly off. Everything needs re-indexing.
 
-ZenML's analysis found the biggest shift in production AI is from "prompt engineering" to "context engineering" - what goes in the context window matters more than the prompt itself. I explored related territory in [building cognitive memory for AI agents](/posts/cognitive-memory-for-ai-agents), where the challenge is deciding which memories to surface and which to let decay.
+ZenML's analysis found the biggest shift in production AI is from "prompt engineering" to "context engineering" - what goes in the context window matters more than the prompt itself. I explored related territory in [building cognitive memory for AI agents](/posts/cognitive-memory-for-ai-agents) and [why AI needs to forget](/posts/why-ai-needs-to-forget), where the challenge is deciding which memories to surface and which to let decay.
 
 ## Agents: when it gets really complicated
 
@@ -117,7 +117,7 @@ The failure modes get strange in ways that are hard to anticipate until you've s
 
 This is why you need to trace why an agent made seven API calls to answer a simple question. Was it stuck in a retry loop? Did it call the wrong tool? Did a tool timeout cause it to try a different approach? Without distributed tracing at the agent level, you're mostly guessing.
 
-In production agent systems, the AI itself completes only about [30% of the work](https://dev.to/imaginex/is-ai-agent-development-just-about-calling-apis-wheres-the-real-difficulty-2j75). The remaining 70% is tool engineering: deciding which tools to expose, how to describe them, what permissions to grant, how to handle failures. The engineering around the model dwarfs the model itself.
+A pattern that comes up repeatedly in writing about production agents: the AI call itself is a relatively small fraction of the actual engineering work. The rest is tool engineering - deciding which tools to expose, how to describe them, what permissions to grant, how to handle failures. This extends to agent configuration itself - even [how you structure your agent's instructions](/posts/your-agents-md-is-probably-hurting-your-agent) can measurably impact success rates. The engineering around the model can easily dwarf the model itself.
 
 This is the frontier. Nobody has it figured out yet.
 
@@ -130,17 +130,17 @@ This is the frontier. Nobody has it figured out yet.
 | Key artifact  | Trained model               | Prompt + pipeline config                                            |
 | Metrics       | Accuracy, precision, recall | Helpfulness, coherence, hallucination rate, latency, cost           |
 | Drift         | Data distribution drift     | Prompt drift, embedding drift, model behavior drift (provider-side) |
-| Testing       | Test set with labels        | LLM-as-judge, human eval, A/B tests                                |
+| Testing       | Test set with labels        | LLM-as-judge, human eval, A/B tests                                 |
 | Failure mode  | Wrong prediction            | Confident hallucination                                             |
 | Cost model    | Training compute (upfront)  | Inference tokens (ongoing, per-request)                             |
-| Determinism   | Same input → same output    | Same input → different output                                      |
+| Determinism   | Same input → same output    | Same input → different output                                       |
 | Debugging     | Reproduce with same input   | Can't reproduce — non-deterministic, need traces                    |
 
 ## So does calling an API make you an AI engineer?
 
 No. Every software engineer can call an API. That's table stakes.
 
-The differentiator is everything that happens after the API call. As one [analysis](https://dev.to/imaginex/is-ai-agent-development-just-about-calling-apis-wheres-the-real-difficulty-2j75) puts it: the enormous gap between a demo-quality agent and a production-quality one doesn't come from who's calling different APIs - it comes from the vastly different quality of the 95% of engineering that happens outside the API call.
+The differentiator is everything that happens after the API call. The gap between a demo-quality agent and a production-quality one doesn't come from who's calling different APIs - it comes from the engineering that happens outside the API call.
 
 AI engineers don't just build with AI APIs - they operate AI systems. The difference isn't just tooling. It's a different mental model: instead of thinking "does this code do what I wrote?" you're thinking "does this system behave well enough, often enough, at acceptable cost?" The LLMOps layer is what separates "I shipped a feature that uses AI" from "I run AI in production."
 
@@ -153,11 +153,11 @@ AI engineers don't just build with AI APIs - they operate AI systems. The differ
 | Pays whatever it costs  | Optimizes tokens, caches, batches, and tiers models                  |
 | Ships and forgets       | Monitors latency, quality, hallucination rates, and cost per request |
 
-This is why AI engineering is real. Not because calling APIs is hard. Because operating AI systems is.
+This is why application-layer AI engineering is real. Not because calling APIs is hard. Because operating AI systems built on top of them is.
 
 ## Bottom line
 
-The core difference isn't complexity - MLOps is genuinely complex. It's ownership. In traditional ML you own the weights: you trained them, you control them, nobody changes them without your knowledge. In LLMOps you don't own the thing that determines behavior. The model sits behind someone else's API, and your product is the layer you built around it - the prompts, the retrieval pipeline, the routing logic, the evals. That's what you're responsible for keeping working.
+The through-line of everything above is ownership. In traditional ML you own the weights and control the full change surface - if something behaves differently, someone on your team changed something. In LLMOps, for teams building on hosted models, a material part of that surface sits outside your control. The model sits behind someone else's API, and your product is the layer you built around it - the prompts, the retrieval pipeline, the routing logic, the evals. That's what you're responsible for keeping working.
 
 If you're running an LLM application through your traditional ML pipeline, you're probably missing most of what can go wrong.
 
