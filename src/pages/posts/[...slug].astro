@@ -1,5 +1,5 @@
 ---
-import { getCollection, type CollectionEntry } from "astro:content"
+import { getCollection, render, type CollectionEntry } from "astro:content"
 import Giscuss from "../../components/Giscuss.astro"
 import Link from "../../components/Link.astro"
 import MainContainer from "../../components/MainContainer.astro"
@@ -12,7 +12,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro"
 export async function getStaticPaths() {
   const posts = await getCollection("posts")
   return posts.map((post) => ({
-    params: { slug: post.slug },
+    params: { slug: post.id },
     props: { post },
   }))
 }
@@ -22,7 +22,7 @@ type Props = {
 }
 
 const { post } = Astro.props
-const { Content, headings } = await post.render()
+const { Content, headings } = await render(post)
 
 const wordCount = post.body?.split(/\s+/).length ?? 0
 const readingTime = Math.max(1, Math.round(wordCount / 200))
@@ -31,7 +31,7 @@ const readingTime = Math.max(1, Math.round(wordCount / 200))
 <BaseLayout
   pageTitle={post.data.title}
   description={post.data.description}
-  imageUrl={`https://www.bhekani.com/posts/${post.slug}.png`}
+  imageUrl={`https://www.bhekani.com/posts/${post.id}.png`}
   hidePageHeader={true}
 >
   {/* Reading Progress Bar */}
@@ -61,7 +61,7 @@ const readingTime = Math.max(1, Math.round(wordCount / 200))
             <span class="text-[hsl(var(--muted-foreground))]">•</span>
             <span>{readingTime} min read</span>
             <span class="text-[hsl(var(--muted-foreground))]">•</span>
-            <ViewCounter client:load slug={post.slug} />
+            <ViewCounter client:load slug={post.id} />
           </div>
 
           <h1 class="text-4xl md:text-5xl font-headings tracking-tight leading-tight">{post.data.title}</h1>
@@ -134,7 +134,7 @@ const readingTime = Math.max(1, Math.round(wordCount / 200))
           <h2 class="text-lg font-semibold">Share this post</h2>
           <div class="flex gap-4">
             <a
-              href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.data.title)}&url=${encodeURIComponent(`https://bhekani.com/posts/${post.slug}`)}`}
+              href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.data.title)}&url=${encodeURIComponent(`https://bhekani.com/posts/${post.id}`)}`}
               target="_blank"
               rel="noopener noreferrer"
               class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md bg-[hsl(var(--muted))] hover:bg-[hsl(var(--muted-foreground)/0.15)] transition-colors"
@@ -142,7 +142,7 @@ const readingTime = Math.max(1, Math.round(wordCount / 200))
               Share on Twitter
             </a>
             <a
-              href={`https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(`https://bhekani.com/posts/${post.slug}`)}&title=${encodeURIComponent(post.data.title)}`}
+              href={`https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(`https://bhekani.com/posts/${post.id}`)}&title=${encodeURIComponent(post.data.title)}`}
               target="_blank"
               rel="noopener noreferrer"
               class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md bg-[hsl(var(--muted))] hover:bg-[hsl(var(--muted-foreground)/0.15)] transition-colors"

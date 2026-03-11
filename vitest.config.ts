@@ -1,8 +1,6 @@
-/// <reference types="vitest" />
-import { getViteConfig } from 'astro/config'
-import type { UserConfig } from 'vite'
+import { defineConfig } from 'vitest/config'
 
-export default getViteConfig({
+export default defineConfig({
   test: {
     globals: true,
     environment: 'happy-dom',
@@ -22,4 +20,4 @@ export default getViteConfig({
       ],
     },
   },
-} as UserConfig)
+})

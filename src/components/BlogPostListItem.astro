@@ -11,7 +11,7 @@ type Props = {
 
 const { post } = Astro.props
 
-const url = `/posts/${post.slug}/`
+const url = `/posts/${post.id}/`
 const title = post.data.title
 const date = post.data.pubDate
 const tags = post.data.tags
@@ -19,7 +19,7 @@ const tags = post.data.tags
 
 <li>
   <div>
-    <Link href={url} transition:name={`title-${post.slug}`}>
+    <Link href={url} transition:name={`title-${post.id}`}>
       {title}
     </Link>
 
@@ -29,7 +29,7 @@ const tags = post.data.tags
     </time>
   </div>
 
-  <PostDescription description={title} slug={post.slug} />
+  <PostDescription description={title} slug={post.id} />
 
   <TagsList tags={tags} />
 </li>

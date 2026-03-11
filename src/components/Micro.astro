@@ -1,5 +1,5 @@
 ---
-import type { CollectionEntry } from "astro:content"
+import { render, type CollectionEntry } from "astro:content"
 import { format } from "date-fns"
 import Prose from "./Prose.astro"
 import Card from "./Card.astro"
@@ -10,13 +10,13 @@ type Props = {
 
 const {
   micro: {
-    slug,
+    id: slug,
     data: { title, date },
   },
   micro,
 } = Astro.props
 
-const { Content } = await micro.render()
+const { Content } = await render(micro)
 ---
 
 <Card variant="bordered" hover class="max-w-[80ch] p-[var(--space-6)]">

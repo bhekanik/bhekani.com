@@ -16,7 +16,7 @@ const {
 const allPosts = await getCollection("posts")
 const posts = allPosts.filter((post) => {
   if (!post.data.published) return false
-  if (slug === post.slug) return false
+  if (slug === post.id) return false
 
   let keep = false
   tags.forEach((tag: string) => {

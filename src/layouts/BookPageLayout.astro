@@ -17,10 +17,10 @@ const {
 } = Astro.props
 ---
 
-<BaseLayout title={frontmatter.title} pageTitle={frontmatter.title} imageUrl={`https://www.bhekani.com/books/${book.slug}.png`} hidePageHeader={true}>
+<BaseLayout title={frontmatter.title} pageTitle={frontmatter.title} imageUrl={`https://www.bhekani.com/books/${book.id}.png`} hidePageHeader={true}>
   <MainContainer>
     <article class="mx-auto max-w-4xl">
-      <BookHeader book={book} slug={book.slug} />
+      <BookHeader book={book} slug={book.id} />
 
       <div class="prose prose-lg dark:prose-invert mx-auto max-w-none">
         <slot />
@@ -31,7 +31,7 @@ const {
       <div class="space-y-12">
         <WebMentions />
         <Giscuss />
-        <RelatedBooks slug={book.slug} tags={frontmatter.tags} />
+        <RelatedBooks slug={book.id} tags={frontmatter.tags} />
       </div>
     </article>
   </MainContainer>

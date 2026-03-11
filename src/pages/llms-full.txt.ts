@@ -25,7 +25,7 @@ export const GET: APIRoute = async () => {
       post.data.tags.length > 0
         ? `- **Tags**: ${post.data.tags.join(", ")}`
         : null,
-      `- **URL**: https://bhekani.com/posts/${post.slug}/`,
+      `- **URL**: https://bhekani.com/posts/${post.id}/`,
       "",
     ]
       .filter((line): line is string => line !== null)

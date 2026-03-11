@@ -1,5 +1,5 @@
 ---
-import { getCollection, type CollectionEntry } from "astro:content"
+import { getCollection, render, type CollectionEntry } from "astro:content"
 import { format } from "date-fns"
 import Link from "../../components/Link.astro"
 import MainContainer from "../../components/MainContainer.astro"
@@ -10,7 +10,7 @@ export async function getStaticPaths() {
   return micros
     .filter((micro) => micro.data.published !== false)
     .map((micro) => ({
-      params: { slug: micro.slug },
+      params: { slug: micro.id },
       props: { micro },
     }))
 }
@@ -20,10 +20,10 @@ type Props = {
 }
 
 const { micro } = Astro.props
-const { Content } = await micro.render()
+const { Content } = await render(micro)
 ---
 
-<BaseLayout pageTitle={micro.data.title ?? "Micro Post"} imageUrl={`https://www.bhekani.com/micro/${micro.slug}.png`} hidePageHeader={true}>
+<BaseLayout pageTitle={micro.data.title ?? "Micro Post"} imageUrl={`https://www.bhekani.com/micro/${micro.id}.png`} hidePageHeader={true}>
   <MainContainer>
     <article class="max-w-2xl mx-auto mt-12">
       {/* Header */}
@@ -47,7 +47,7 @@ const { Content } = await micro.render()
           {/* Share buttons */}
           <div class="flex items-center gap-2">
             <a
-              href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`${micro.data.title ?? ""} https://bhekani.com/micro/${micro.slug}`)}`}
+              href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`${micro.data.title ?? ""} https://bhekani.com/micro/${micro.id}`)}`}
               target="_blank"
               rel="noopener noreferrer"
               class="p-2 text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))] transition-colors"
@@ -60,7 +60,7 @@ const { Content } = await micro.render()
               </svg>
             </a>
             <a
-              href={`https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(`https://bhekani.com/micro/${micro.slug}`)}`}
+              href={`https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(`https://bhekani.com/micro/${micro.id}`)}`}
               target="_blank"
               rel="noopener noreferrer"
               class="p-2 text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))] transition-colors"
@@ -75,7 +75,7 @@ const { Content } = await micro.render()
             <button
               class="copy-link p-2 text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))] transition-colors"
               title="Copy link"
-              data-url={`https://bhekani.com/micro/${micro.slug}`}
+              data-url={`https://bhekani.com/micro/${micro.id}`}
             >
               <svg
                 class="w-5 h-5"

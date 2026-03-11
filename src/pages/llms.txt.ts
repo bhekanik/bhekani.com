@@ -37,7 +37,7 @@ export const GET: APIRoute = async () => {
       const desc = post.data.description
         ? `: ${post.data.description}`
         : ""
-      return `- [${post.data.title}](https://bhekani.com/posts/${post.slug}.md)${desc}`
+      return `- [${post.data.title}](https://bhekani.com/posts/${post.id}.md)${desc}`
     }),
     "",
     "## Projects",
@@ -52,7 +52,7 @@ export const GET: APIRoute = async () => {
     "## Micro Posts",
     ...publishedMicro.map(
       (m) =>
-        `- [${m.data.title}](https://bhekani.com/micro/${m.slug}/): ${formatDate(m.data.date)}`
+        `- [${m.data.title}](https://bhekani.com/micro/${m.id}/): ${formatDate(m.data.date)}`
     ),
     "",
     "## Optional",

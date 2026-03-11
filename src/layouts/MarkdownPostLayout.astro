@@ -1,5 +1,5 @@
 ---
-import type { CollectionEntry } from "astro:content"
+import { render, type CollectionEntry } from "astro:content"
 import Giscuss from "../components/Giscuss.astro"
 import PostHeader from "../components/PostHeader.astro"
 import PostMainContainer from "../components/PostMainContainer.astro"
@@ -17,7 +17,7 @@ const {
   post,
 } = Astro.props
 
-const { headings } = await post.render()
+const { headings } = await render(post)
 ---
 
 <BaseLayout
@@ -53,7 +53,7 @@ const { headings } = await post.render()
 
     <hr class="my-8" />
 
-    <RelatedPosts slug={post.slug} frontmatter={frontmatter} />
+    <RelatedPosts slug={post.id} frontmatter={frontmatter} />
   </PostMainContainer>
 </BaseLayout>
 

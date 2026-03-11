@@ -5,7 +5,7 @@ import { cleanMdxContent, formatDate } from "../../utils/llms"
 export const getStaticPaths: GetStaticPaths = async () => {
   const posts = await getCollection("posts")
   return posts.map((post) => ({
-    params: { slug: post.slug },
+    params: { slug: post.id },
     props: { post },
   }))
 }
@@ -22,7 +22,7 @@ export async function GET({ props }: { props: any }) {
     post.data.tags.length > 0
       ? `- **Tags**: ${post.data.tags.join(", ")}`
       : null,
-    `- **URL**: https://bhekani.com/posts/${post.slug}/`,
+    `- **URL**: https://bhekani.com/posts/${post.id}/`,
     "",
     "---",
     "",

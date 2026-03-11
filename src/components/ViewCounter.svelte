@@ -1,9 +1,9 @@
-<script lang="ts">
+<script>
   import { onMount } from "svelte"
 
-  export let slug: string
-  let data: { count: number } | null = null
-  let error: string | null = null
+  let { slug } = $props()
+  let data = $state(null)
+  let error = $state(null)
 
   const fetchViews = async () => {
     try {
@@ -29,7 +29,7 @@
     try {
       data = await fetchViews()
     } catch (e) {
-      error = (e as Error).message
+      error = e.message
     }
   })
 </script>
