@@ -1,38 +1,29 @@
-<script lang="ts">
+<script>
   import { onMount, onDestroy } from "svelte"
 
-  interface SearchResult {
-    id: string
-    type: "post" | "book" | "micro" | "project"
-    title: string
-    slug: string
-    description?: string
-    score: number
-  }
+  let isOpen = $state(false)
+  let query = $state("")
+  let results = $state([])
+  let loading = $state(false)
+  let selectedIndex = $state(0)
+  let debounceTimeout = null
+  let inputRef = $state(null)
 
-  let isOpen = false
-  let query = ""
-  let results: SearchResult[] = []
-  let loading = false
-  let selectedIndex = 0
-  let debounceTimeout: ReturnType<typeof setTimeout> | null = null
-  let inputRef: HTMLInputElement | null = null
-
-  const typeColors: Record<string, string> = {
+  const typeColors = {
     post: "bg-blue-500/20 text-blue-400",
     book: "bg-amber-500/20 text-amber-400",
     micro: "bg-green-500/20 text-green-400",
     project: "bg-purple-500/20 text-purple-400",
   }
 
-  const typeLabels: Record<string, string> = {
+  const typeLabels = {
     post: "Post",
     book: "Book",
     micro: "Micro",
     project: "Project",
   }
 
-  function open() {
+  export function open() {
     isOpen = true
     query = ""
     results = []
@@ -46,7 +37,7 @@
     results = []
   }
 
-  async function search(q: string) {
+  async function search(q) {
     if (q.length < 2) {
       results = []
       return
@@ -73,7 +64,7 @@
     debounceTimeout = setTimeout(() => search(query), 300)
   }
 
-  function handleKeydown(e: KeyboardEvent) {
+  function handleKeydown(e) {
     if (e.key === "ArrowDown") {
       e.preventDefault()
       selectedIndex = Math.min(selectedIndex + 1, results.length - 1)
@@ -91,12 +82,12 @@
     }
   }
 
-  function navigateTo(result: SearchResult) {
+  function navigateTo(result) {
     close()
     window.location.href = result.slug
   }
 
-  function handleGlobalKeydown(e: KeyboardEvent) {
+  function handleGlobalKeydown(e) {
     if ((e.metaKey || e.ctrlKey) && e.key === "k") {
       e.preventDefault()
       if (isOpen) {
@@ -107,7 +98,7 @@
     }
   }
 
-  function handleBackdropClick(e: MouseEvent) {
+  function handleBackdropClick(e) {
     if (e.target === e.currentTarget) {
       close()
     }
@@ -119,7 +110,6 @@
 
   onMount(() => {
     document.addEventListener("keydown", handleGlobalKeydown)
-    // Listen for clicks on search trigger buttons
     const triggers = document.querySelectorAll(".search-trigger")
     triggers.forEach((trigger) => {
       trigger.addEventListener("click", handleSearchTriggerClick)
@@ -136,8 +126,6 @@
     }
     if (debounceTimeout) clearTimeout(debounceTimeout)
   })
-
-  export { open }
 </script>
 
 {#if isOpen}
@@ -145,7 +133,7 @@
   <!-- svelte-ignore a11y_no_static_element_interactions -->
   <div
     class="fixed inset-0 z-[100] bg-black/50 backdrop-blur-sm"
-    on:click={handleBackdropClick}
+    onclick={handleBackdropClick}
   >
     <div class="flex items-start justify-center pt-[15vh]">
       <div class="w-full max-w-xl mx-4 bg-[hsl(var(--background))] border border-[hsl(var(--muted))] rounded-lg shadow-2xl overflow-hidden">
@@ -157,8 +145,8 @@
           <input
             bind:this={inputRef}
             bind:value={query}
-            on:input={handleInput}
-            on:keydown={handleKeydown}
+            oninput={handleInput}
+            onkeydown={handleKeydown}
             type="text"
             placeholder="Search posts, books, projects..."
             class="flex-1 bg-transparent text-[hsl(var(--foreground))] placeholder:text-[hsl(var(--muted-foreground))] outline-none"
@@ -189,8 +177,8 @@
                 <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
                 <li
                   class="px-4 py-3 cursor-pointer transition-colors {i === selectedIndex ? 'bg-[hsl(var(--muted))]' : 'hover:bg-[hsl(var(--muted))]/50'}"
-                  on:click={() => navigateTo(result)}
-                  on:mouseenter={() => selectedIndex = i}
+                  onclick={() => navigateTo(result)}
+                  onmouseenter={() => selectedIndex = i}
                 >
                   <div class="flex items-start gap-3">
                     <span class="shrink-0 px-2 py-0.5 text-xs font-medium rounded {typeColors[result.type] || 'bg-gray-500/20 text-gray-400'}">

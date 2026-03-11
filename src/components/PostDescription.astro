@@ -3,7 +3,7 @@ import type { CollectionEntry } from "astro:content"
 
 type Props = {
   description: CollectionEntry<"posts">["data"]["description"]
-  slug?: CollectionEntry<"posts">["slug"]
+  slug?: CollectionEntry<"posts">["id"]
 }
 
 const { description, slug } = Astro.props

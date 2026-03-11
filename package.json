@@ -18,32 +18,31 @@
     "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
-    "@astrojs/check": "^0.9.6",
+    "@astrojs/check": "^0.9.7",
     "@astrojs/db": "^0.20.0",
-    "@astrojs/mdx": "^4.3.13",
-    "@astrojs/rss": "^4.0.14",
-    "@astrojs/sitemap": "^3.6.0",
-    "@astrojs/svelte": "^7.2.4",
-    "@astrojs/vercel": "^9.0.2",
+    "@astrojs/mdx": "^5.0.0",
+    "@astrojs/rss": "^4.0.17",
+    "@astrojs/sitemap": "^3.7.1",
+    "@astrojs/svelte": "^8.0.0",
+    "@astrojs/vercel": "^10.0.0",
     "@astrolib/seo": "1.0.0-beta.8",
     "@fontsource-variable/inter": "^5.2.8",
     "@fontsource-variable/jetbrains-mono": "^5.2.8",
     "@fontsource-variable/literata": "^5.2.8",
     "@fontsource-variable/playfair-display": "^5.2.8",
     "@fontsource/ibm-plex-sans": "^5.2.8",
-    "@sentry/astro": "10",
+    "@sentry/astro": "^10.43.0",
     "@tailwindcss/vite": "^4.1.18",
     "@upstash/vector": "^1.2.2",
-    "astro": "^5.16.6",
+    "astro": "^6.0.0",
     "astro-embed": "^0.12.0",
-    "astro-expressive-code": "^0.41.5",
+    "astro-expressive-code": "^0.41.7",
     "astro-og-canvas": "^0.10.0",
     "astro-robots-txt": "^1.0.0",
     "canvaskit-wasm": "^0.40.0",
     "case": "^1.6.3",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
-    "estree-walker": "3.0.3",
     "gray-matter": "^4.0.3",
     "openai": "^6.15.0",
     "sharp": "^0.34.5",
@@ -58,16 +57,14 @@
     "@tailwindcss/typography": "^0.5.19",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.9.1",
-    "@vitest/ui": "^4.0.16",
+    "@vitest/ui": "^4.0.18",
     "happy-dom": "^20.0.11",
     "husky": "^9.1.7",
     "lint-staged": "^16.2.7",
-    "vitest": "^4.0.16"
+    "vitest": "^4.0.18"
   },
   "trustedDependencies": [
     "@sentry/cli"
   ],
-  "overrides": {
-    "estree-walker": "2.0.2"
-  }
+  "overrides": {}
 }

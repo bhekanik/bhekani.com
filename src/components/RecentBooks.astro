@@ -14,7 +14,7 @@ const { slug, limit = 3 } = Astro.props
 const books = allBooks
   .filter((book) => book.data.exclusiveShelf === "read")
   .filter((book) => {
-    if (slug === book.slug) return false
+    if (slug === book.id) return false
 
     return true
   })

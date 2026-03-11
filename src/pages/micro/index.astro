@@ -1,5 +1,5 @@
 ---
-import { getCollection } from "astro:content"
+import { getCollection, render } from "astro:content"
 import { format } from "date-fns"
 import MainContainer from "../../components/MainContainer.astro"
 import BaseLayout from "../../layouts/BaseLayout.astro"
@@ -42,7 +42,7 @@ const pageTitle = "Micro"
       <div class="space-y-12">
         {
           sortedMicro.map(async (micro) => {
-            const { Content } = await micro.render()
+            const { Content } = await render(micro)
             return (
               <article class="group relative">
                 <div class="flex flex-col space-y-4 rounded-xl border border-[hsl(var(--muted))] bg-[hsl(var(--card))] p-6 transition-colors hover:border-[hsl(var(--muted-foreground)/0.3)]">
@@ -54,7 +54,7 @@ const pageTitle = "Micro"
                       {format(micro.data.date, "MMMM d, yyyy")}
                     </time>
                     <a
-                      href={`/micro/${micro.slug}`}
+                      href={`/micro/${micro.id}`}
                       class="text-sm text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))] transition-colors"
                       title="Permalink"
                     >

@@ -1,30 +1,30 @@
-<script lang="ts">
+<script>
   import { onMount } from 'svelte'
   import * as Sentry from '@sentry/astro'
-  
-  export let fallback: string = 'Something went wrong'
-  
-  let hasError = false
-  let errorMessage = ''
-  
-  const handleError = (error: Error) => {
+
+  let { fallback = 'Something went wrong', children } = $props()
+
+  let hasError = $state(false)
+  let errorMessage = $state('')
+
+  const handleError = (error) => {
     hasError = true
     errorMessage = error.message
     Sentry.captureException(error)
   }
-  
+
   onMount(() => {
-    const handleUnhandledRejection = (event: PromiseRejectionEvent) => {
+    const handleUnhandledRejection = (event) => {
       handleError(new Error(event.reason))
     }
-    
-    const handleErrorEvent = (event: ErrorEvent) => {
+
+    const handleErrorEvent = (event) => {
       handleError(event.error)
     }
-    
+
     window.addEventListener('unhandledrejection', handleUnhandledRejection)
     window.addEventListener('error', handleErrorEvent)
-    
+
     return () => {
       window.removeEventListener('unhandledrejection', handleUnhandledRejection)
       window.removeEventListener('error', handleErrorEvent)
@@ -44,5 +44,5 @@
     {/if}
   </div>
 {:else}
-  <slot />
+  {@render children?.()}
 {/if}

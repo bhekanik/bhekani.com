@@ -11,7 +11,7 @@ type Props = {
 
 const { book: book } = Astro.props;
 
-const url = `/books/${book.slug}/`;
+const url = `/books/${book.id}/`;
 const title = book.data.title;
 const date = new Date(book.data.dateAdded);
 const tags = book.data.tags;
@@ -20,7 +20,7 @@ const rating = book.data.myRating;
 
 <li>
   <div>
-    <Link href={url} transition:name={`title-${book.slug}`}>
+    <Link href={url} transition:name={`title-${book.id}`}>
       {title}
     </Link>
 
