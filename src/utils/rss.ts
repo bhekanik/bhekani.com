@@ -4,10 +4,13 @@ const MAX_DESCRIPTION_LENGTH = 240
 
 const stripMarkdown = (text: string): string =>
   text
+    .replace(/^import\s+.+$/gm, " ")
+    .replace(/^export\s+.+$/gm, " ")
     .replace(/```[\s\S]*?```/g, " ")
     .replace(/`[^`]*`/g, " ")
     .replace(/!\[[^\]]*\]\([^)]*\)/g, " ")
     .replace(/\[([^\]]*)\]\([^)]*\)/g, "$1")
+    .replace(/<[^>]+\/?>/g, " ")
     .replace(/[>#*_~\-]/g, " ")
     .replace(/\s+/g, " ")
     .trim()
