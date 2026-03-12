@@ -1,5 +1,5 @@
 ---
-title: "MLOps vs LLMOps: what changes when your model is an API call"
+title: "What does it actually mean to run AI in production?"
 pubDate: 2026-03-10
 description: "Your LLM can fail silently. No crash, no error - just worse answers reaching users while your logs show 200 OK. That's one of several ways LLMOps breaks from traditional MLOps. Here's what actually changes when your model is an API call."
 author: "Bhekani Khumalo"
