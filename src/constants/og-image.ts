@@ -28,7 +28,7 @@ const baseOptions = {
     },
     description: {
       color: COLORS.muted,
-      size: 34,
+      size: 28,
       families: ["Inter"],
       weight: "Normal" as const,
     },
