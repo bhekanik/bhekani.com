@@ -39,7 +39,7 @@
     "astro-expressive-code": "^0.41.7",
     "astro-og-canvas": "^0.10.0",
     "astro-robots-txt": "^1.0.0",
-    "canvaskit-wasm": "^0.40.0",
+    "canvaskit-wasm": "^0.41.0",
     "case": "^1.6.3",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
