@@ -1070,6 +1070,14 @@
     "searchText": "blah chat unified ai chat interface for openai anthropic google and perplexity models switch models mid conversation branch chats to explore different paths and track costs transparently all in one workspace next js openai anthropic google ai vercel"
   },
   {
+    "id": "project-mxr",
+    "type": "project",
+    "title": "mxr",
+    "slug": "https://mxr-mail.vercel.app",
+    "description": "mxr is a local-first email runtime for people who want their inbox to behave more like software than a website. It runs as a background daemon, syncs mail from providers like Gmail and IMAP into a local SQLite database, indexes everything for fast search, and exposes the same core capabilities to the CLI, terminal UI, scripts, and AI agents. The goal is simple: make email fast, programmable, private, and useful even when the browser is closed.",
+    "searchText": "mxr mxr is a local first email runtime for people who want their inbox to behave more like software than a website it runs as a background daemon syncs mail from providers like gmail and imap into a local sqlite database indexes everything for fast search and exposes the same core capabilities to the cli terminal ui scripts and ai agents the goal is simple make email fast programmable private and useful even when the browser is closed rust sqlite tantivy"
+  },
+  {
     "id": "project-reference-optimiser",
     "type": "project",
     "title": "Reference Optimiser",
