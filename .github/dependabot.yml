@@ -26,3 +26,6 @@ updates:
     commit-message:
       prefix: "npm:"
       include: scope
+    ignore:
+      - dependency-name: "axios"
+        versions: ["1.14.1", "0.30.4"]
