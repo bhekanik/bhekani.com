@@ -1,10 +1,4 @@
-import type { OGImageOptions } from "astro-og-canvas"
-
-const FONTS = [
-  "https://cdn.jsdelivr.net/fontsource/fonts/inter@latest/latin-700-normal.ttf",
-  "https://cdn.jsdelivr.net/fontsource/fonts/inter@latest/latin-400-normal.ttf",
-  "https://cdn.jsdelivr.net/fontsource/fonts/inter@latest/latin-600-normal.ttf",
-]
+import type { OgImageOptions } from "../utils/og"
 
 const COLORS = {
   fg: [255, 255, 255] as [number, number, number],
@@ -12,33 +6,29 @@ const COLORS = {
   muted: [180, 170, 155] as [number, number, number],
 }
 
-const baseOptions = {
-  fonts: FONTS,
-  bgImage: {
-    path: "./src/images/og-background.png",
-    fit: "cover" as const,
+const baseFont = {
+  title: {
+    color: COLORS.fg,
+    size: 72,
+    weight: 400,
+    lineHeight: 1.15,
   },
-  padding: 80,
-  font: {
-    title: {
-      color: COLORS.fg,
-      size: 72,
-      families: ["Inter"],
-      lineHeight: 1.15,
-    },
-    description: {
-      color: COLORS.muted,
-      size: 28,
-      families: ["Inter"],
-      weight: "Normal" as const,
-    },
+  description: {
+    color: COLORS.muted,
+    size: 28,
+    weight: 400,
+    lineHeight: 1.35,
   },
-} satisfies Partial<OGImageOptions>
+}
+
+const baseOptions: Partial<OgImageOptions> = {
+  font: baseFont,
+}
 
 export function getPostOgOptions(
   title: string,
   description?: string,
-): OGImageOptions {
+): OgImageOptions {
   return {
     ...baseOptions,
     title,
@@ -49,7 +39,7 @@ export function getPostOgOptions(
 export function getBookOgOptions(
   title: string,
   author: string,
-): OGImageOptions {
+): OgImageOptions {
   return {
     ...baseOptions,
     title,
@@ -57,32 +47,32 @@ export function getBookOgOptions(
   }
 }
 
-export function getMicroOgOptions(title: string): OGImageOptions {
+export function getMicroOgOptions(title: string): OgImageOptions {
   return {
     ...baseOptions,
     title: title || "Micro Post",
     font: {
-      ...baseOptions.font,
+      ...baseFont,
       title: {
-        ...baseOptions.font.title,
+        ...baseFont.title,
         size: 56,
       },
     },
   }
 }
 
-export function getHomepageOgOptions(): OGImageOptions {
+export function getHomepageOgOptions(): OgImageOptions {
   return {
     ...baseOptions,
     title: "Bhekani Khumalo",
     description: "Software Engineer \u00b7 AI Products \u00b7 Tech Writing",
     font: {
-      ...baseOptions.font,
+      ...baseFont,
       description: {
         color: COLORS.accent,
         size: 36,
-        families: ["Inter"],
-        weight: "SemiBold" as const,
+        weight: 600,
+        lineHeight: 1.2,
       },
     },
   }
