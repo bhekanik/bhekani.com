@@ -34,7 +34,7 @@
     "@sentry/astro": "^10.43.0",
     "@tailwindcss/vite": "^4.1.18",
     "@upstash/vector": "^1.2.2",
-    "astro": "^6.0.0",
+    "astro": "^7.0.0",
     "astro-embed": "^0.13.0",
     "astro-expressive-code": "^0.43.0",
     "astro-og-canvas": "^0.11.0",
