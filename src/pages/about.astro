@@ -21,21 +21,39 @@ const products = [
 <BaseLayout pageTitle={pageTitle} hidePageHeader={true}>
   <MainContainer>
     <div class="about">
-      <section class="hero">
-        <div>
+      <section class="panel dots hero land" style="--i: 0">
+        <span class="cap">Save file 01</span>
+        <div class="hero-text">
+          <p class="player">Player one</p>
           <h1>Bhekani Khumalo</h1>
           <p class="ipa">/be̞ɣäɳi kxumälo/</p>
           <p class="lede">
             Most people call me BK. I'm a software engineer in London. At <a href="https://contentful.com/">Contentful</a> I lead the engineering on Workflows; before that I spent a year on the AI platform team making the semantic layer behind the product's AI features run in production. On the side I'm the part-time CPO at <a href="https://nottoafrica.com">Notto</a>, a credit scoring company, and I ship indie products.
           </p>
+          <dl class="stats" aria-label="Stats">
+            <div><dt>Years in software</dt><dd><i style="--v: 100%"></i><b>10</b></dd></div>
+            <div><dt>Years building SaaS</dt><dd><i style="--v: 70%"></i><b>7</b></dd></div>
+            <div><dt>Products shipped</dt><dd><i style="--v: 90%"></i><b>9</b></dd></div>
+            <div><dt>Sleep</dt><dd><i style="--v: 28%"></i><b>28</b></dd></div>
+          </dl>
+          <ul class="status" aria-label="Status">
+            <li class="on">Dad mode: on</li>
+            <li>Gravel bike: equipped</li>
+            <li>Inline skates: equipped</li>
+            <li>Controller: paused</li>
+          </ul>
         </div>
         <div class="portrait">
-          <Image src={BK} alt="Bhekani Khumalo" width={300} height={300} />
+          <div class="halftone">
+            <Image src={BK} alt="Bhekani Khumalo" width={400} height={400} />
+          </div>
+          <span class="level">LV 10</span>
         </div>
       </section>
 
-      <section class="prose max-w-none">
-        <h2>Background</h2>
+      <section class="panel land" style="--i: 1">
+        <span class="cap">Origin story</span>
+        <div class="prose max-w-none">
         <p>
           I joined Contentful in 2022 on the billing and audit side. I led the work on organisation-level audit logging, which mostly meant getting services across the platform to agree on one event contract, consolidated billing and usage reporting into a single warehouse-backed system, and fixed a gateway bottleneck that took query times from seconds to milliseconds.
         </p>
@@ -51,16 +69,21 @@ const products = [
         <p>
           Before any of that I was a civil engineer in Zimbabwe. I designed water networks for the City of Bulawayo and managed a $1.8M sewer rehabilitation project. I volunteered in the GIS department, which turned into a GIS developer job, then software development at Esri South Africa. I still start most problems by asking where the system fails first. I think that's the civil engineering talking.
         </p>
+        </div>
+      </section>
 
-        <h2>Notto</h2>
+      <section class="panel land" style="--i: 2">
+        <span class="cap">Side quest: Notto</span>
+        <div class="prose max-w-none">
         <p>
           Since April 2026 I've been the fractional CPO at <a href="https://nottoafrica.com">Notto Africa</a>, which does alternative credit scoring for African lenders. There's no product engineering team yet beyond me, so I set the direction and write the code. Two products are live with customers on a book of close to a million loans. Notto Analytics ingests a lender's disbursements and repayments daily and computes vintage PAR, roll rates and yield. Notto Agent answers open-ended questions about the book and runs multi-step analysis. Because this is regulated lending, the agent's answers have to be verifiable rather than trusted: it plans the analysis, runs SQL against a read-only copy of the data, checks the result against the evidence, and keeps the plan, query and trace for audit.
         </p>
+        </div>
       </section>
 
-      <section>
-        <h2>Things I've built</h2>
-        <ul class="rule-list">
+      <section class="panel land" style="--i: 3">
+        <span class="cap">Inventory</span>
+        <ul class="rule-list products">
           {
             products.map((product) => (
               <li>
@@ -75,14 +98,16 @@ const products = [
         <a class="more link-quiet" href="/projects/">All projects →</a>
       </section>
 
-      <section class="prose max-w-none">
-        <h2>Talks, mentoring, writing</h2>
+      <section class="panel land" style="--i: 4">
+        <span class="cap">Talks, mentoring, writing</span>
+        <div class="prose max-w-none">
         <p>
           I spoke at Svelte Society London in 2022 ("How I built pro-search.io with SvelteKit") and at DevConf South Africa in 2020 ("What civil engineering taught me about being a good software developer"). I've been a coding mentor with the Andela Learning Community and an external academic supervisor at the National University of Science and Technology in Bulawayo, where I did my BEng in Civil and Water Engineering.
         </p>
         <p>
           I write the <a href="https://justreflections.bhekani.com/">Just Reflections</a> newsletter. If you'd rather talk, book a slot in my <a href="/unoffice-hours">unoffice hours</a>. The full work history is on the <a href="/cv">CV</a>.
         </p>
+        </div>
       </section>
     </div>
   </MainContainer>
@@ -90,86 +115,179 @@ const products = [
 
 <style>
   .about {
-    padding-top: var(--space-12);
+    display: grid;
+    gap: var(--space-6);
+    padding-top: var(--space-8);
+  }
+  .about .panel {
+    padding: var(--space-10) var(--space-8) var(--space-8);
   }
 
   .hero {
     display: grid;
     gap: var(--space-8);
     align-items: start;
-    margin-bottom: var(--space-12);
   }
-
-  .hero h1 {
+  .player {
     margin: 0 0 var(--space-2);
+    font-family: var(--font-sans);
+    font-size: 0.8125rem;
+    font-weight: 800;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--accent);
   }
-
+  .hero h1 {
+    margin: 0 0 var(--space-1);
+  }
   .ipa {
     font-family: var(--font-mono);
     font-size: 0.9375rem;
     color: var(--muted-foreground);
+    margin: 0 0 var(--space-5);
+  }
+  .lede {
+    font-size: 1.15rem;
+    line-height: 1.55;
+    max-width: 60ch;
     margin: 0 0 var(--space-6);
   }
 
-  .lede {
-    font-size: 1.2rem;
-    line-height: 1.55;
+  /* Character-sheet stats */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-2) var(--space-6);
+    margin: 0 0 var(--space-5);
+  }
+  .stats div {
+    display: grid;
+    grid-template-columns: 9rem 1fr auto;
+    align-items: center;
+    gap: var(--space-3);
+  }
+  .stats dt {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted-foreground);
+  }
+  .stats dd {
+    display: contents;
     margin: 0;
+  }
+  .stats i {
+    display: block;
+    height: 0.5rem;
+    background: var(--muted);
+    border: 2px solid var(--border);
+    position: relative;
+  }
+  .stats i::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    width: var(--v);
+    background: var(--accent);
+  }
+  .stats b {
+    font-family: var(--font-display);
+    font-size: 1.125rem;
+    min-width: 2ch;
+    text-align: right;
+  }
+
+  .status {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin: 0;
+    padding: 0;
+  }
+  .status li {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.625rem;
+    border: 2px solid var(--border);
+    color: var(--muted-foreground);
+  }
+  .status li.on {
+    color: var(--highlight-foreground);
+    background: var(--highlight);
   }
 
   .portrait {
     position: relative;
-    width: min(14rem, 60vw);
+    width: min(15rem, 60vw);
+    justify-self: start;
   }
-  .portrait::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    translate: 0.75rem 0.75rem;
-    background: var(--accent);
-    border-radius: var(--radius-lg);
-  }
-  .portrait img {
+  .halftone {
     position: relative;
+    border: var(--rule) solid var(--border);
+    background: var(--spot);
+    overflow: hidden;
+  }
+  .halftone img {
     display: block;
     width: 100%;
     height: auto;
     aspect-ratio: 1;
     object-fit: cover;
-    border-radius: var(--radius-lg);
+    filter: grayscale(1) contrast(1.25) brightness(1.05);
+    mix-blend-mode: multiply;
+  }
+  .halftone::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: var(--halftone);
+    background-size: 5px 5px;
+    opacity: 0.55;
+    pointer-events: none;
+  }
+  :global(html[data-skin="route"]) .halftone img {
+    filter: none;
+    mix-blend-mode: normal;
+  }
+  :global(html[data-skin="route"]) .halftone {
+    background: var(--card);
+  }
+  .level {
+    position: absolute;
+    right: -0.75rem;
+    bottom: -0.75rem;
+    padding: 0.25rem 0.625rem;
+    font-family: var(--font-display);
+    font-size: 1.125rem;
+    color: var(--highlight-foreground);
+    background: var(--highlight);
+    border: var(--rule) solid var(--border);
   }
 
-  section + section {
-    margin-top: var(--space-12);
-  }
-
-  section h2 {
-    margin: 0 0 var(--space-6);
-  }
-
-  .rule-list {
+  .products {
     list-style: none;
     margin: 0;
     padding: 0;
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
+    border-top: var(--rule) solid var(--border);
+    border-bottom: var(--rule) solid var(--border);
   }
-  .rule-list li {
+  .products li {
     padding: var(--space-4) 0;
   }
-  .rule-list li + li {
-    border-top: 1px solid var(--border);
-  }
-  .rule-list p {
+  .products p {
     margin: var(--space-1) 0 0;
     color: var(--muted-foreground);
     font-size: 1rem;
   }
-
   .product-name {
-    font-family: var(--font-display);
-    font-weight: 600;
-    font-variation-settings: "wdth" 105;
+    font-family: var(--font-sans);
+    font-weight: 800;
     font-size: 1.125rem;
     color: var(--foreground);
     text-decoration: none;
@@ -177,21 +295,31 @@ const products = [
   .product-name:hover {
     color: var(--links);
   }
-
   .more {
     display: inline-block;
     margin-top: var(--space-4);
     font-family: var(--font-sans);
-    font-weight: 500;
+    font-weight: 800;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
     color: var(--muted-foreground);
   }
 
-  @media (min-width: 40rem) {
+  @media (min-width: 48rem) {
     .hero {
       grid-template-columns: 1fr auto;
     }
     .portrait {
-      margin-top: var(--space-2);
+      justify-self: end;
+    }
+  }
+  @media (max-width: 40rem) {
+    .stats {
+      grid-template-columns: 1fr;
+    }
+    .stats div {
+      grid-template-columns: 7.5rem 1fr auto;
     }
   }
 </style>

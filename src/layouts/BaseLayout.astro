@@ -1,7 +1,14 @@
 ---
 import "@fontsource-variable/jetbrains-mono"
-import "@fontsource-variable/archivo"
 import "@fontsource-variable/source-serif-4"
+import "@fontsource/anton"
+import "@fontsource-variable/public-sans"
+import "@fontsource/barlow-condensed/600.css"
+import "@fontsource/barlow-condensed/800.css"
+import "@fontsource/barlow/400.css"
+import "@fontsource/barlow/400-italic.css"
+import "@fontsource/barlow/500.css"
+import "@fontsource/barlow/700.css"
 
 import { AstroSeo } from "@astrolib/seo"
 import { ClientRouter } from "astro:transitions"
@@ -11,7 +18,7 @@ import PostHog from "../components/PostHog.astro"
 import { SEO_DEFAULTS } from "../constants/seo"
 import "../styles/global.css"
 
-const { pageTitle, description, title, imageUrl, hidePageHeader } = Astro.props
+const { pageTitle, description, title, imageUrl, hidePageHeader, caption } = Astro.props
 ---
 
 <html lang="en">
@@ -22,8 +29,8 @@ const { pageTitle, description, title, imageUrl, hidePageHeader } = Astro.props
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
-    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f3f7fa" />
-    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b1015" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b0b0f" />
     <link
       rel="webmention"
       href="https://webmention.io/www.bhekani.com/webmention"
@@ -32,19 +39,24 @@ const { pageTitle, description, title, imageUrl, hidePageHeader } = Astro.props
 
     <title>{pageTitle} | {SEO_DEFAULTS.SITE_NAME}</title>
 
-    {/* Runs before first paint so a stored theme never flashes the other one. Re-applied after view-transition swaps. */}
+    {/* Runs before first paint so the stored theme and edition never flash. Re-applied after view-transition swaps. */}
     <script is:inline>
       ;(() => {
         const apply = () => {
           let theme = null
+          let skin = null
           try {
             theme = localStorage.getItem("theme")
+            skin = localStorage.getItem("bk:skin")
           } catch {}
           if (theme !== "light" && theme !== "dark") {
             theme = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
           }
-          document.documentElement.classList.toggle("dark", theme === "dark")
-          document.documentElement.classList.toggle("light", theme === "light")
+          if (skin !== "panels" && skin !== "route") skin = "panels"
+          const root = document.documentElement
+          root.classList.toggle("dark", theme === "dark")
+          root.classList.toggle("light", theme === "light")
+          root.dataset.skin = skin
         }
         apply()
         document.addEventListener("astro:after-swap", apply)
@@ -100,12 +112,33 @@ const { pageTitle, description, title, imageUrl, hidePageHeader } = Astro.props
         top: 0;
       }
 
+      /* Contour lines behind the route edition only */
+      .topo {
+        display: none;
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        stroke: var(--border);
+        stroke-width: 1.2;
+        opacity: 0.7;
+        pointer-events: none;
+      }
+      :global(html[data-skin="route"]) .topo {
+        display: block;
+      }
+
       .page-header {
         grid-area: page-header;
         width: 100%;
-        max-width: 80ch;
+        max-width: 74rem;
         margin: 0 auto;
-        padding: var(--space-12) var(--space-6) var(--space-8);
+        padding: var(--space-10) var(--space-6) var(--space-10);
+      }
+
+      .page-header .panel {
+        padding: var(--space-10) var(--space-8) var(--space-8);
       }
 
       .page-header h1 {
@@ -118,25 +151,27 @@ const { pageTitle, description, title, imageUrl, hidePageHeader } = Astro.props
         font-size: 1.125rem;
         color: var(--muted-foreground);
       }
-
-      .page-header::after {
-        content: "";
-        display: block;
-        width: 3rem;
-        height: 3px;
-        margin-top: var(--space-6);
-        background: var(--accent);
-      }
     </style>
   </head>
   <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
+    <svg class="topo" aria-hidden="true" viewBox="0 0 1400 900" preserveAspectRatio="xMidYMid slice" fill="none">
+      <path d="M-50 120c200-80 380 60 560-20s320-140 560-40 300 120 400 60" />
+      <path d="M-50 250c220-90 400 70 580-10s330-150 570-50 300 130 400 70" />
+      <path d="M-50 420c260-110 440 90 620 10s350-170 590-70 300 150 400 90" />
+      <path d="M-50 630c300-130 480 110 660 30s370-190 610-90 300 170 400 110" />
+      <path d="M-50 870c340-150 520 130 700 50s390-210 630-110 300 190 400 130" />
+      <path d="M-50 1100c360-160 540 140 720 60s400-220 640-120 300 200 400 140" />
+    </svg>
     <Header />
     {
       !hidePageHeader && (
         <div class="page-header">
-          <h1>{title ?? pageTitle}</h1>
-          {description && <p>{description}</p>}
+          <div class="panel dots land">
+            <span class="cap">{caption ?? "Meanwhile…"}</span>
+            <h1>{title ?? pageTitle}</h1>
+            {description && <p>{description}</p>}
+          </div>
         </div>
       )
     }

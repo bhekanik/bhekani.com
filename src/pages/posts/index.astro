@@ -25,65 +25,72 @@ const yearToPosts = sortedPosts.reduce(
 const pageTitle = "Writing"
 ---
 
-<BaseLayout pageTitle={pageTitle} hidePageHeader={true}>
+<BaseLayout pageTitle={pageTitle} description={`${sortedPosts.length} articles, newest first.`} caption="The archive">
   <MainContainer>
-    <div class="max-w-3xl mx-auto mt-8">
-      {/* Compact Header */}
-      <div class="flex items-end justify-between border-b border-muted pb-6 mb-8">
-        <div>
-          <h1 class="text-4xl">Writing</h1>
-          <p class="text-muted-foreground mt-1">
-            {sortedPosts.length} articles
-          </p>
-        </div>
-        <a
-          href="/rss.xml"
-          class="text-sm text-muted-foreground hover:text-foreground transition-colors"
-          title="RSS Feed"
-        >
-          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M6.18 15.64a2.18 2.18 0 012.18 2.18C8.36 19 7.38 20 6.18 20C5 20 4 19 4 17.82a2.18 2.18 0 012.18-2.18M4 4.44A15.56 15.56 0 0119.56 20h-2.83A12.73 12.73 0 004 7.27zm0 5.66a9.9 9.9 0 019.9 9.9h-2.83A7.07 7.07 0 004 12.93z"></path>
-          </svg>
-        </a>
-      </div>
+    <div class="archive">
+      <section class="panel land" style="--i: 0">
+        <span class="cap">Find by tag</span>
+        <AllTags title="Tags" />
+      </section>
 
-      {/* Tags - Compact */}
-      <div class="mb-12">
-        <AllTags />
-      </div>
-
-      {/* Posts by Year - Timeline Style */}
-      <div class="space-y-12">
-        {
-          Object.entries(yearToPosts)
-            .sort(([a], [b]) => Number(b) - Number(a))
-            .map(([year, posts]) => (
-              <section>
-                <h2 class="text-2xl text-muted-foreground mb-4">
-                  {year}
-                </h2>
-                <div class="space-y-1">
-                  {posts.map((post) => (
-                    <a
-                      href={`/posts/${post.id}/`}
-                      class="group flex items-baseline gap-4 py-3 border-b border-border no-underline"
-                    >
-                      <time
-                        datetime={post.data.pubDate.toISOString()}
-                        class="meta shrink-0 w-14"
-                      >
-                        {new Date(post.data.pubDate).toLocaleDateString("en-US", { month: "short", day: "numeric" }).replace(" ", " ")}
+      {
+        Object.entries(yearToPosts)
+          .sort(([a], [b]) => Number(b) - Number(a))
+          .map(([year, posts], index) => (
+            <section class="panel land" style={`--i: ${index + 1}`}>
+              <span class="cap">{year}</span>
+              <ul class="year-list">
+                {posts.map((post) => (
+                  <li>
+                    <a href={`/posts/${post.id}/`} class="post-row">
+                      <time datetime={post.data.pubDate.toISOString()} class="meta">
+                        {new Date(post.data.pubDate).toLocaleDateString("en-GB", { month: "short", day: "numeric" })}
                       </time>
-                      <span class="font-display font-semibold text-foreground group-hover:text-links transition-colors">
-                        {post.data.title}
-                      </span>
+                      <span class="post-title">{post.data.title}</span>
                     </a>
-                  ))}
-                </div>
-              </section>
-            ))
-        }
-      </div>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ))
+      }
     </div>
   </MainContainer>
 </BaseLayout>
+
+<style>
+  .archive {
+    display: grid;
+    gap: var(--space-6);
+    max-width: 56rem;
+  }
+  .archive .panel {
+    padding: var(--space-10) var(--space-6) var(--space-4);
+  }
+  .year-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .year-list li + li {
+    border-top: var(--rule) solid var(--border);
+  }
+  .post-row {
+    display: grid;
+    grid-template-columns: 4rem 1fr;
+    gap: var(--space-4);
+    align-items: baseline;
+    padding: var(--space-3) 0;
+    text-decoration: none;
+    color: var(--foreground);
+  }
+  .post-title {
+    font-family: var(--font-sans);
+    font-weight: 800;
+    font-size: 1.125rem;
+    line-height: 1.25;
+  }
+  .post-row:hover .post-title {
+    color: var(--links);
+  }
+</style>

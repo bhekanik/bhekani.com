@@ -13,7 +13,9 @@ const swatches = [
   { token: "foreground", note: "ink" },
   { token: "muted-foreground", note: "secondary ink" },
   { token: "links", note: "link text" },
-  { token: "accent", note: "oxide" },
+  { token: "accent", note: "accent" },
+  { token: "highlight", note: "captions, selection" },
+  { token: "spot", note: "spot colour" },
 ]
 ---
 
@@ -27,12 +29,16 @@ const swatches = [
 
       <h2 id="typography">Typography</h2>
       <p>
-        Headings and interface text are set in <a href="https://fonts.google.com/specimen/Archivo" style="font-family: var(--font-display); font-weight: 700; font-variation-settings: 'wdth' 118">Archivo</a>, a grotesque with a width axis. Headings use it wide (118%), the nav uses it at normal width. Body copy is <a href="https://fonts.google.com/specimen/Source+Serif+4" style="font-family: var(--font-body)">Source Serif 4</a>, chosen because it has an optical-size axis and holds up at 18px on a phone. Code is <a href="https://www.jetbrains.com/lp/mono/"><code>JetBrains Mono</code></a>. All three are variable fonts served from this domain via <a href="https://fontsource.org/">Fontsource</a>, so nothing is fetched from Google.
+        The default edition sets headings and buttons in <a href="https://fonts.google.com/specimen/Anton" style="font-family: var(--font-display)">Anton</a>, a condensed display face that does the job a comic letterer's brush does. Interface text is <a href="https://fonts.google.com/specimen/Public+Sans">Public Sans</a>. The Route edition swaps those for <a href="https://fonts.google.com/specimen/Barlow+Condensed">Barlow Condensed</a> and <a href="https://fonts.google.com/specimen/Barlow">Barlow</a>, which read like trail signage. Essays in both editions are set in <a href="https://fonts.google.com/specimen/Source+Serif+4" style="font-family: var(--font-body)">Source Serif 4</a>, chosen because it has an optical-size axis and holds up at 18px on a phone. Code is <a href="https://www.jetbrains.com/lp/mono/"><code>JetBrains Mono</code></a>. Everything is served from this domain via <a href="https://fontsource.org/">Fontsource</a>, so nothing is fetched from Google.
       </p>
 
+      <h2 id="editions">Editions</h2>
+      <p>
+        The site has two editions, switchable from the squares icon in the header. <strong>Panels</strong> is the default: a comic page. Ink on paper, Marvel red, caption yellow, one process cyan, and a night edition that flips ink and paper. Every index page is a grid of panels with caption boxes; pull quotes are speech bubbles. <strong>Route</strong> is a gravel ride: forest green, chalk, gravel orange and sage, with contour lines under everything. Both keep your light or dark preference, and the choice is remembered on this device.
+      </p>
       <h2 id="color">Colour</h2>
       <p>
-        The palette is one cool graphite ramp (OKLCH hue 240 to 255) and a single oxide orange. The orange is a nod to surveyor's paint and rebar from my civil engineering years. Light and dark themes share the same hues; dark mode raises lightness and nudges chroma up so the orange doesn't go muddy. Everything is defined in OKLCH with <code>light-dark()</code>, and every text colour clears WCAG AA in both themes.
+        Tokens are plain CSS custom properties with <code>light-dark()</code> values, one set per edition. The swatches below show whichever edition and theme you're looking at right now.
       </p>
       <ul class="swatches">
         {

@@ -5,25 +5,23 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --font-display: "Archivo Variable", "Archivo", system-ui, sans-serif;
-  --font-sans: "Archivo Variable", "Archivo", system-ui, sans-serif;
+  --font-display: var(--skin-font-display);
+  --font-sans: var(--skin-font-sans);
   --font-body: "Source Serif 4 Variable", "Source Serif 4", Georgia, serif;
   --font-mono: "JetBrains Mono Variable", "JetBrains Mono", ui-monospace, monospace;
-  /* Older class names still used in components */
   --font-headings: var(--font-display);
   --font-code: var(--font-mono);
-  --font-logo: var(--font-display);
 
-  --radius-sm: 0.25rem;
-  --radius-md: 0.375rem;
-  --radius-lg: 0.5rem;
-  --radius-xl: 0.75rem;
+  --radius-sm: 0.125rem;
+  --radius-md: 0.25rem;
+  --radius-lg: 0.375rem;
+  --radius-xl: 0.5rem;
 
   --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Colour utilities reference the live token so they flip with the theme. */
+/* Colour utilities reference the live token so they flip with theme and skin. */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -46,40 +44,58 @@
   --color-ring: var(--ring);
   --color-links: var(--links);
   --color-links-hovered: var(--links-hovered);
+  --color-ink: var(--ink);
+  --color-highlight: var(--highlight);
+  --color-spot: var(--spot);
 }
 
 /*
-  Oxidised steel.
-  Cool graphite neutrals (hue 240-255) in both themes, one oxide-orange accent.
-  Contrast verified: light ink 16.9:1, muted 6.6:1, links 6.1:1; dark ink 15.6:1, muted 7.7:1, links 9.8:1.
+  Two editions share one set of token names.
+
+  Panels (default): a comic page. Ink on paper, Marvel red, caption yellow,
+  one process cyan. The night edition flips ink and paper.
+
+  Route: a gravel ride. Forest dark with chalk, gravel orange, sage. The
+  light edition is chalk paper.
 */
 :root {
   color-scheme: light dark;
 
-  --background: light-dark(oklch(0.975 0.006 240), oklch(0.17 0.012 250));
-  --foreground: light-dark(oklch(0.2 0.02 255), oklch(0.93 0.008 240));
-  --card: light-dark(oklch(0.945 0.008 240), oklch(0.215 0.014 250));
+  --skin-font-display: "Anton", "Impact", "Arial Narrow", sans-serif;
+  --skin-font-sans: "Public Sans Variable", "Public Sans", system-ui, sans-serif;
+
+  --background: light-dark(#ffffff, #0b0b0f);
+  --foreground: light-dark(#0b0b0f, #f4f4f6);
+  --ink: var(--foreground);
+  --card: light-dark(#ffffff, #121218);
   --card-foreground: var(--foreground);
-  --popover: light-dark(oklch(0.99 0.003 240), oklch(0.2 0.013 250));
+  --popover: light-dark(#ffffff, #121218);
   --popover-foreground: var(--foreground);
   --secondary: var(--card);
   --secondary-foreground: var(--foreground);
-  --muted: light-dark(oklch(0.91 0.01 240), oklch(0.26 0.014 250));
-  --muted-foreground: light-dark(oklch(0.46 0.02 250), oklch(0.72 0.015 245));
-  --border: light-dark(oklch(0.86 0.008 240), oklch(0.3 0.012 250));
+  --muted: light-dark(#ededf0, #1d1d25);
+  --muted-foreground: light-dark(#4a4a54, #b4b4c0);
+  --border: var(--ink);
   --input: var(--border);
 
-  /* Text-safe oxide for links; vivid oxide for surfaces, rules, focus. */
-  --links: light-dark(oklch(0.5 0.17 38), oklch(0.8 0.14 55));
-  --links-hovered: light-dark(oklch(0.44 0.17 38), oklch(0.86 0.12 60));
-  --accent: light-dark(oklch(0.62 0.2 40), oklch(0.74 0.17 45));
-  --accent-foreground: light-dark(oklch(0.985 0.006 240), oklch(0.17 0.012 250));
+  --accent: light-dark(#e0201b, #ff3b35);
+  --accent-foreground: light-dark(#ffffff, #0b0b0f);
+  --links: light-dark(#b8140f, #ff6f6a);
+  --links-hovered: light-dark(#8f0f0b, #ffa09c);
+  --highlight: #ffd400;
+  --highlight-foreground: #0b0b0f;
+  --spot: light-dark(#2bb3e6, #37b8e8);
   --primary: var(--links);
   --primary-foreground: var(--accent-foreground);
   --ring: var(--accent);
 
-  --destructive: light-dark(oklch(0.55 0.2 25), oklch(0.7 0.18 25));
-  --destructive-foreground: var(--accent-foreground);
+  --destructive: light-dark(#c4150f, #ff6f6a);
+  --destructive-foreground: #ffffff;
+
+  --rule: 3px;
+  --shadow-ink: 6px 6px 0 var(--ink);
+  --shadow-ink-sm: 4px 4px 0 var(--ink);
+  --halftone: radial-gradient(circle at 30% 30%, var(--ink) 0.8px, transparent 1.05px);
 
   --space-1: 0.25rem;
   --space-2: 0.5rem;
@@ -96,16 +112,45 @@
   --transition-base: 250ms var(--ease-out-quart);
   --transition-slow: 400ms var(--ease-out-expo);
 
-  --shadow-sm: 0 1px 2px 0 oklch(0 0 0 / 0.08);
-  --shadow-md: 0 2px 8px -2px oklch(0 0 0 / 0.14);
-  --shadow-lg: 0 6px 16px -6px oklch(0 0 0 / 0.2);
+  --shadow-sm: var(--shadow-ink-sm);
+  --shadow-md: var(--shadow-ink);
+  --shadow-lg: var(--shadow-ink);
 
-  /* z-index scale */
   --z-sticky: 20;
   --z-progress: 30;
   --z-menu: 40;
   --z-modal: 50;
   --z-toast: 60;
+}
+
+html[data-skin="route"] {
+  --skin-font-display: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --skin-font-sans: "Barlow", system-ui, sans-serif;
+
+  --background: light-dark(#eef1ea, #1d2420);
+  --foreground: light-dark(#1d2420, #eef1ea);
+  --ink: var(--foreground);
+  --card: light-dark(#e3e8df, #26302a);
+  --popover: light-dark(#f5f7f2, #222b26);
+  --muted: light-dark(#d5dcd1, #2e3a33);
+  --muted-foreground: light-dark(#4d5a52, #a9b3a8);
+  --border: light-dark(#c1cbbd, #3a473e);
+
+  --accent: #d9742a;
+  --accent-foreground: #1a120b;
+  --links: light-dark(#9a4b11, #e89a5e);
+  --links-hovered: light-dark(#6f350b, #f2b785);
+  --highlight: #8fae8b;
+  --highlight-foreground: #1d2420;
+  --spot: #8fae8b;
+
+  --rule: 1px;
+  --shadow-ink: none;
+  --shadow-ink-sm: none;
+  --halftone: none;
+  --shadow-sm: 0 1px 2px oklch(0 0 0 / 0.2);
+  --shadow-md: 0 2px 8px -2px oklch(0 0 0 / 0.3);
+  --shadow-lg: 0 6px 16px -6px oklch(0 0 0 / 0.35);
 }
 
 html.light {
@@ -141,7 +186,7 @@ html.dark {
     grid-template-columns: minmax(0, 1fr);
     width: 100%;
     min-height: 100svh;
-    line-height: 1.65;
+    line-height: 1.6;
     font-size: 1.0625rem;
   }
 
@@ -149,11 +194,10 @@ html.dark {
     grid-area: main;
     margin: 0 auto;
     width: 100%;
-    max-width: 80ch;
+    max-width: 74rem;
     padding: 0 var(--space-6) var(--space-12);
   }
 
-  /* Archivo does UI; the serif is for reading. */
   .site-header,
   .site-footer,
   nav,
@@ -175,24 +219,26 @@ html.dark {
   h5,
   h6 {
     font-family: var(--font-display);
-    font-weight: 700;
-    font-variation-settings: "wdth" 110;
-    letter-spacing: -0.02em;
-    line-height: 1.05;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    line-height: 0.95;
     text-wrap: balance;
   }
 
-  h1 {
-    font-size: clamp(2.25rem, 1.4rem + 3.2vw, 4rem);
+  html[data-skin="route"] :is(h1, h2, h3, h4, h5, h6) {
     font-weight: 800;
-    font-variation-settings: "wdth" 118;
+    letter-spacing: 0.02em;
+  }
+
+  h1 {
+    font-size: clamp(3rem, 2rem + 5vw, 6rem);
   }
   h2 {
-    font-size: clamp(1.5rem, 1.2rem + 1.2vw, 2.125rem);
+    font-size: clamp(1.75rem, 1.4rem + 1.6vw, 2.75rem);
   }
   h3 {
-    font-size: clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem);
-    font-variation-settings: "wdth" 105;
+    font-size: clamp(1.375rem, 1.2rem + 0.8vw, 1.875rem);
   }
 
   p {
@@ -210,28 +256,26 @@ html.dark {
   a {
     color: var(--links);
     text-decoration: underline;
-    text-decoration-color: color-mix(in oklch, var(--accent) 45%, transparent);
-    text-decoration-thickness: 1px;
-    text-underline-offset: 0.18em;
+    text-decoration-color: color-mix(in oklch, var(--accent) 55%, transparent);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.16em;
     transition:
       color var(--transition-fast),
       text-decoration-color var(--transition-fast);
   }
-
   a:hover {
     color: var(--links-hovered);
     text-decoration-color: var(--accent);
   }
 
   ::selection {
-    background: var(--accent);
-    color: var(--accent-foreground);
+    background: var(--highlight);
+    color: var(--highlight-foreground);
   }
 
   :focus-visible {
-    outline: 2px solid var(--accent);
+    outline: 3px solid var(--accent);
     outline-offset: 3px;
-    border-radius: var(--radius-sm);
   }
 
   button {
@@ -240,7 +284,7 @@ html.dark {
 
   hr {
     border: 0;
-    border-top: 1px solid var(--border);
+    border-top: var(--rule) solid var(--border);
   }
 
   img {
@@ -250,29 +294,117 @@ html.dark {
 }
 
 @layer components {
+  /* A panel is the unit of the comic page. The route edition turns it into a card. */
+  .panel {
+    position: relative;
+    background: var(--card);
+    border: var(--rule) solid var(--border);
+    box-shadow: var(--shadow-ink);
+    padding: var(--space-6);
+  }
+  html[data-skin="route"] .panel {
+    border-radius: var(--radius-lg);
+  }
+
+  /* Caption box: the comic's narration. Sits on the panel's top-left corner. */
+  .cap {
+    position: absolute;
+    top: calc(-1 * var(--rule));
+    left: calc(-1 * var(--rule));
+    display: inline-block;
+    padding: 0.25rem 0.625rem;
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--highlight-foreground);
+    background: var(--highlight);
+    border: var(--rule) solid var(--border);
+    z-index: 1;
+  }
+  html[data-skin="route"] .cap {
+    position: static;
+    display: inline-block;
+    margin-bottom: var(--space-3);
+    padding: 0;
+    font-family: var(--font-display);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    background: transparent;
+    border: 0;
+  }
+  html[data-skin="route"] .cap::after {
+    content: "";
+    display: inline-block;
+    width: 2.5rem;
+    height: 2px;
+    margin-left: 0.75rem;
+    vertical-align: middle;
+    background: repeating-linear-gradient(90deg, var(--accent) 0 8px, transparent 8px 13px);
+  }
+
+  /* Section heading with a trailing rule, for sections that aren't panels */
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    margin: 0 0 var(--space-6);
+  }
+  .section-title::after {
+    content: "";
+    flex: 1;
+    height: var(--rule);
+    background: var(--border);
+  }
+  html[data-skin="route"] .section-title::after {
+    height: 2px;
+    background: repeating-linear-gradient(90deg, var(--accent) 0 14px, transparent 14px 22px);
+  }
+
   .btn {
     display: inline-flex;
     align-items: center;
     gap: var(--space-2);
     padding: 0.625rem 1rem;
-    font-family: var(--font-sans);
-    font-size: 0.9375rem;
-    font-weight: 600;
+    font-family: var(--font-display);
+    font-size: 1.0625rem;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
     line-height: 1;
     color: var(--accent-foreground);
     background: var(--accent);
-    border-radius: var(--radius-md);
+    border: var(--rule) solid var(--border);
+    box-shadow: var(--shadow-ink-sm);
     text-decoration: none;
     transition:
       transform var(--transition-fast),
-      background-color var(--transition-fast);
+      box-shadow var(--transition-fast);
   }
   .btn:hover {
     color: var(--accent-foreground);
-    background: color-mix(in oklch, var(--accent) 88%, var(--foreground));
+    transform: translate(-1px, -1px);
+    box-shadow: 5px 5px 0 var(--ink);
   }
   .btn:active {
-    transform: scale(0.97);
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0 var(--ink);
+  }
+  html[data-skin="route"] .btn {
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    border: 0;
+    clip-path: polygon(0 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+    padding-right: 1.5rem;
+  }
+  html[data-skin="route"] .btn:hover,
+  html[data-skin="route"] .btn:active {
+    transform: none;
+    box-shadow: none;
+    background: color-mix(in oklch, var(--accent) 85%, var(--foreground));
   }
 
   .btn-ghost {
@@ -280,51 +412,61 @@ html.dark {
     align-items: center;
     gap: var(--space-2);
     padding: 0.625rem 1rem;
-    font-family: var(--font-sans);
-    font-size: 0.9375rem;
-    font-weight: 600;
+    font-family: var(--font-display);
+    font-size: 1.0625rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
     line-height: 1;
     color: var(--foreground);
-    background: transparent;
-    border: 1px solid var(--border);
-    border-radius: var(--radius-md);
+    background: var(--card);
+    border: var(--rule) solid var(--border);
+    box-shadow: var(--shadow-ink-sm);
     text-decoration: none;
     transition:
-      border-color var(--transition-fast),
-      transform var(--transition-fast);
+      transform var(--transition-fast),
+      box-shadow var(--transition-fast);
   }
   .btn-ghost:hover {
     color: var(--foreground);
-    border-color: var(--accent);
+    transform: translate(-1px, -1px);
+    box-shadow: 5px 5px 0 var(--ink);
   }
   .btn-ghost:active {
-    transform: scale(0.97);
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0 var(--ink);
+  }
+  html[data-skin="route"] .btn-ghost {
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    background: transparent;
+    border: 2px solid var(--border);
+  }
+  html[data-skin="route"] .btn-ghost:hover,
+  html[data-skin="route"] .btn-ghost:active {
+    transform: none;
+    box-shadow: none;
+    border-color: var(--accent);
   }
 
-  /* Icon-only control in the header */
   .icon-btn {
     display: inline-grid;
     place-items: center;
     width: 2.5rem;
     height: 2.5rem;
-    color: var(--muted-foreground);
+    color: var(--foreground);
     background: transparent;
     border: 0;
-    border-radius: var(--radius-md);
     transition:
-      color var(--transition-fast),
       background-color var(--transition-fast),
       transform var(--transition-fast);
   }
   .icon-btn:hover {
-    color: var(--foreground);
     background: var(--muted);
   }
   .icon-btn:active {
     transform: scale(0.92);
   }
 
-  /* Quiet links: inherit colour, underline on hover only */
   .link-quiet {
     color: inherit;
     text-decoration: none;
@@ -335,16 +477,15 @@ html.dark {
     text-decoration-color: var(--accent);
   }
 
-  /* Hairline list rows: the replacement for card grids */
   .rule-list > * + * {
-    border-top: 1px solid var(--border);
+    border-top: var(--rule) solid var(--border);
   }
 
-  /* Small uppercase meta label. One cadence, used sparingly. */
   .meta {
     font-family: var(--font-sans);
     font-size: 0.8125rem;
-    font-weight: 500;
+    font-weight: 600;
+    letter-spacing: 0.04em;
     color: var(--muted-foreground);
     font-variant-numeric: tabular-nums;
   }
@@ -352,31 +493,114 @@ html.dark {
   .tag {
     display: inline-block;
     font-family: var(--font-sans);
-    font-size: 0.8125rem;
-    font-weight: 500;
-    color: var(--muted-foreground);
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--foreground);
     text-decoration: none;
-    padding: 0.125rem 0;
-    border-bottom: 1px solid color-mix(in oklch, var(--accent) 45%, transparent);
+    padding: 0.125rem 0.5rem;
+    border: 2px solid var(--border);
     transition:
-      color var(--transition-fast),
-      border-color var(--transition-fast);
+      background-color var(--transition-fast),
+      color var(--transition-fast);
   }
   .tag:hover,
   .tag[aria-current="true"] {
-    color: var(--links);
-    border-bottom-color: var(--accent);
+    color: var(--highlight-foreground);
+    background: var(--highlight);
+  }
+  html[data-skin="route"] .tag {
+    color: var(--muted-foreground);
+  }
+  html[data-skin="route"] .tag:hover,
+  html[data-skin="route"] .tag[aria-current="true"] {
+    color: var(--accent-foreground);
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+
+  /* Halftone texture. Panels only; route sets the gradient to none. */
+  .dots {
+    /* Dots fade in from the right so they never sit under the text */
+    background-image: linear-gradient(to right, var(--card) 45%, transparent 100%), var(--halftone);
+    background-size: 100% 100%, 6px 6px;
+  }
+
+  /* Starburst badge for one-off callouts ("Issue #2026", "Now on iOS") */
+  .burst {
+    display: grid;
+    place-items: center;
+    width: 7.5rem;
+    height: 7.5rem;
+    padding: 1rem;
+    font-family: var(--font-display);
+    font-size: 1.125rem;
+    line-height: 0.9;
+    text-align: center;
+    text-transform: uppercase;
+    color: var(--highlight-foreground);
+    background: var(--highlight);
+    clip-path: polygon(50% 0, 61% 20%, 82% 8%, 78% 31%, 100% 35%, 84% 52%, 100% 70%, 77% 70%, 80% 95%, 60% 80%, 50% 100%, 40% 80%, 20% 95%, 23% 70%, 0 70%, 16% 52%, 0 35%, 22% 31%, 18% 8%, 39% 20%);
+    transform: rotate(8deg);
+  }
+  html[data-skin="route"] .burst {
+    width: auto;
+    height: auto;
+    padding: 0.375rem 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    font-size: 0.875rem;
+    color: var(--accent-foreground);
+    background: var(--accent);
+    clip-path: none;
+    transform: none;
+    border-radius: var(--radius-sm);
+  }
+
+  /* Speech bubble for asides and the newsletter box */
+  .bubble {
+    position: relative;
+    background: var(--card);
+    border: var(--rule) solid var(--border);
+    border-radius: 2rem;
+    padding: var(--space-6) var(--space-8);
+    box-shadow: var(--shadow-ink);
+  }
+  .bubble::before,
+  .bubble::after {
+    content: "";
+    position: absolute;
+    left: 2.5rem;
+    bottom: calc(-1 * var(--space-6));
+    border: 0.75rem solid transparent;
+    border-top-color: var(--border);
+    border-right-color: var(--border);
+  }
+  .bubble::after {
+    left: calc(2.5rem + var(--rule) + 1px);
+    bottom: calc(-1 * var(--space-6) + var(--rule) + 2px);
+    border-width: 0.6rem;
+    border-top-color: var(--card);
+    border-right-color: var(--card);
+  }
+  html[data-skin="route"] .bubble {
+    border-radius: var(--radius-lg);
+  }
+  html[data-skin="route"] .bubble::before,
+  html[data-skin="route"] .bubble::after {
+    content: none;
   }
 }
 
-/* Prose: map Tailwind Typography onto the tokens so one `.prose` works in both themes */
+/* Prose: map Tailwind Typography onto the tokens so one `.prose` works in both themes and skins */
 .prose {
   --tw-prose-body: var(--foreground);
   --tw-prose-headings: var(--foreground);
   --tw-prose-lead: var(--muted-foreground);
   --tw-prose-links: var(--links);
   --tw-prose-bold: var(--foreground);
-  --tw-prose-counters: var(--muted-foreground);
+  --tw-prose-counters: var(--accent);
   --tw-prose-bullets: var(--accent);
   --tw-prose-hr: var(--border);
   --tw-prose-quotes: var(--foreground);
@@ -396,18 +620,21 @@ html.dark {
 
 .prose :where(h2, h3, h4) {
   font-family: var(--font-display);
-  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
 }
-
 .prose :where(h2) {
   margin-top: 2.5em;
+  font-size: 2rem;
+}
+.prose :where(h3) {
+  font-size: 1.5rem;
 }
 
 .prose :where(code):not(pre code) {
   font-size: 0.875em;
   font-weight: 500;
   padding: 0.1em 0.35em;
-  border-radius: var(--radius-sm);
   background: var(--muted);
 }
 .prose :where(code):not(pre code)::before,
@@ -415,43 +642,57 @@ html.dark {
   content: none;
 }
 
+/* Pull quotes are speech bubbles */
 .prose :where(blockquote) {
   position: relative;
   font-style: italic;
   font-weight: 400;
-  font-size: 1.15em;
+  font-size: 1.1em;
   line-height: 1.5;
-  padding: 0 0 0 2.5rem;
   margin: 2.5rem 0;
-  border: 0;
+  padding: 1.25rem 1.75rem;
+  background: var(--card);
+  border: var(--rule) solid var(--border);
+  border-radius: 1.5rem;
+  box-shadow: var(--shadow-ink);
 }
-
-.prose :where(blockquote)::before {
-  content: "\201C";
+.prose :where(blockquote)::before,
+.prose :where(blockquote)::after {
+  content: "";
   position: absolute;
-  top: -0.35em;
-  left: 0;
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-style: normal;
-  font-size: 3.5rem;
-  line-height: 1;
-  color: var(--accent);
+  left: 2rem;
+  bottom: -1.5rem;
+  border: 0.75rem solid transparent;
+  border-top-color: var(--border);
+  border-right-color: var(--border);
 }
-
+.prose :where(blockquote)::after {
+  left: calc(2rem + var(--rule) + 1px);
+  bottom: calc(-1.5rem + var(--rule) + 2px);
+  border-width: 0.6rem;
+  border-top-color: var(--card);
+  border-right-color: var(--card);
+}
 .prose :where(blockquote p:first-of-type)::before,
 .prose :where(blockquote p:last-of-type)::after {
   content: none;
 }
+html[data-skin="route"] .prose :where(blockquote) {
+  border-radius: var(--radius-lg);
+  border-left: 4px solid var(--accent);
+}
+html[data-skin="route"] .prose :where(blockquote)::before,
+html[data-skin="route"] .prose :where(blockquote)::after {
+  content: none;
+}
 
 .prose :where(img) {
-  border-radius: var(--radius-lg);
+  border: var(--rule) solid var(--border);
 }
 
 .prose :where(hr) {
-  margin: 3rem auto;
-  width: 4rem;
-  border-top: 2px solid var(--accent);
+  margin: 3rem 0;
+  border-top: var(--rule) solid var(--border);
 }
 
 /* Reading progress */
@@ -466,22 +707,21 @@ html.dark {
   padding: 0.3rem 0 0.3rem 1rem;
   font-family: var(--font-sans);
   font-size: 0.8125rem;
+  font-weight: 600;
   line-height: 1.4;
   color: var(--muted-foreground);
-  border-left: 1px solid transparent;
-  margin-left: -1px;
+  border-left: 2px solid transparent;
+  margin-left: -2px;
   text-decoration: none;
   transition:
     color var(--transition-fast),
     border-color var(--transition-fast);
 }
-
 .toc-link:hover {
   color: var(--foreground);
 }
-
 .toc-active {
-  color: var(--links);
+  color: var(--foreground);
   border-left-color: var(--accent);
 }
 
@@ -493,12 +733,23 @@ html.dark {
 
   @keyframes rise {
     from {
-      opacity: 0;
+      opacity: 0.4;
       transform: translateY(10px);
     }
     to {
       opacity: 1;
       transform: translateY(0);
+    }
+  }
+
+  /* Panels land on the page one after another, in reading order */
+  /* Transform only: content stays visible if the animation never runs */
+  @keyframes land {
+    from {
+      transform: translate(-8px, -8px);
+    }
+    to {
+      transform: none;
     }
   }
 
@@ -515,7 +766,11 @@ html.dark {
     animation-delay: 0.16s;
   }
 
-  /* Theme switch crossfade (driven by document.startViewTransition in ThemeIcon) */
+  .land {
+    animation: land 0.45s var(--ease-out-expo) both;
+    animation-delay: calc(var(--i, 0) * 70ms);
+  }
+
   ::view-transition-old(root),
   ::view-transition-new(root) {
     animation-duration: 0.3s;
