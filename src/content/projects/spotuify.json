@@ -1,0 +1,10 @@
+{
+	"title": "spotuify",
+	"description": "Spotify, built for the command line. A daemon owns playback; a keyboard-native TUI, a pipeable CLI, an MCP server for coding agents and a macOS menubar app are all just clients. Quit any of them and the music keeps playing.",
+	"url": "https://spotuify.app",
+	"image": "../_images/spotuify.png",
+	"startDate": "2026-06-01",
+	"published": true,
+	"featured": true,
+	"tech": ["Rust", "Spotify API", "MCP"]
+}

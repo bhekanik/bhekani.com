@@ -1,0 +1,160 @@
+---
+const editions = [
+  { id: "panels", name: "Panels", note: "Ink, paper, one red. A comic page." },
+  { id: "route", name: "Route", note: "Contours, chalk, gravel orange." },
+]
+---
+
+<div class="skin-switcher">
+  <button
+    type="button"
+    class="icon-btn"
+    popovertarget="skin-menu"
+    aria-label="Change edition"
+    title="Edition"
+    data-feedback="toggle"
+  >
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true">
+      <rect x="3" y="3" width="10" height="10" />
+      <rect x="11" y="11" width="10" height="10" />
+    </svg>
+  </button>
+
+  <div id="skin-menu" popover class="skin-menu">
+    <p class="skin-menu-title">Edition</p>
+    {
+      editions.map((edition) => (
+        <button type="button" class="skin-option" data-skin-option={edition.id} aria-pressed="false" data-feedback="toggle">
+          <span class="swatch" data-swatch={edition.id} aria-hidden="true" />
+          <span>
+            <strong>{edition.name}</strong>
+            <small>{edition.note}</small>
+          </span>
+        </button>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .skin-switcher {
+    position: relative;
+  }
+
+  .skin-menu {
+    inset: auto;
+    margin: 0;
+    padding: var(--space-2);
+    min-width: 16rem;
+    background: var(--popover);
+    color: var(--foreground);
+    border: var(--rule) solid var(--border);
+    box-shadow: var(--shadow-ink);
+    z-index: var(--z-menu);
+  }
+  .skin-menu:popover-open {
+    position: fixed;
+    top: 4rem;
+    right: var(--space-6);
+  }
+
+  .skin-menu-title {
+    margin: 0.25rem 0.5rem 0.5rem;
+    font-family: var(--font-sans);
+    font-size: 0.6875rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted-foreground);
+  }
+
+  .skin-option {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: var(--space-3);
+    width: 100%;
+    padding: 0.5rem;
+    text-align: left;
+    background: transparent;
+    border: 2px solid transparent;
+    color: inherit;
+  }
+  .skin-option:hover {
+    background: var(--muted);
+  }
+  .skin-option[aria-pressed="true"] {
+    border-color: var(--accent);
+  }
+  .skin-option strong {
+    display: block;
+    font-family: var(--font-sans);
+    font-weight: 800;
+    font-size: 0.9375rem;
+  }
+  .skin-option small {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--muted-foreground);
+  }
+
+  .swatch {
+    width: 2rem;
+    height: 2rem;
+    border: 2px solid currentColor;
+  }
+  .swatch[data-swatch="panels"] {
+    background:
+      linear-gradient(135deg, #ffffff 50%, #e0201b 50%);
+    color: #0b0b0f;
+  }
+  .swatch[data-swatch="route"] {
+    background: linear-gradient(135deg, #1d2420 50%, #d9742a 50%);
+    color: #3a473e;
+    border-radius: 50%;
+  }
+</style>
+
+<script>
+  import { feedback } from "../scripts/feedback"
+
+  const STORAGE_KEY = "bk:skin"
+
+  function current(): string {
+    return document.documentElement.dataset.skin ?? "panels"
+  }
+
+  function render() {
+    const active = current()
+    document.querySelectorAll<HTMLButtonElement>("[data-skin-option]").forEach((button) => {
+      button.setAttribute("aria-pressed", String(button.dataset.skinOption === active))
+    })
+  }
+
+  function setSkin(skin: string) {
+    document.documentElement.dataset.skin = skin
+    try {
+      localStorage.setItem(STORAGE_KEY, skin)
+    } catch {}
+    render()
+  }
+
+  document.addEventListener("astro:page-load", () => {
+    render()
+    document.querySelectorAll<HTMLButtonElement>("[data-skin-option]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const skin = button.dataset.skinOption
+        if (!skin || skin === current()) return
+        feedback.play("double")
+        feedback.haptic("success")
+        const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches
+        if (!reduced && "startViewTransition" in document) {
+          document.startViewTransition(() => setSkin(skin))
+        } else {
+          setSkin(skin)
+        }
+        document.getElementById("skin-menu")?.hidePopover()
+      })
+    })
+  })
+</script>

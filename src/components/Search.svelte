@@ -84,7 +84,7 @@
   }
 
   function navigateTo(result) {
-    feedback.play("select")
+    feedback.play("tick")
     feedback.haptic("tap")
     close()
     window.location.href = result.slug
