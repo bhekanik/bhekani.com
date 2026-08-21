@@ -6,133 +6,123 @@ function readSource(relativePath: string): string {
   return readFileSync(resolve(__dirname, '../../src', relativePath), 'utf-8')
 }
 
-describe('AboutCard component', () => {
-  const content = readSource('components/AboutCard.astro')
+function readProject(name: string) {
+  return JSON.parse(readSource(`content/projects/${name}.json`)) as {
+    title: string
+    url: string
+    featured?: boolean
+    appStoreUrl?: string
+    published: boolean
+  }
+}
 
-  it('shows correct job title', () => {
-    expect(content).toContain('Senior AI Software Engineer')
+describe('Featured projects', () => {
+  it.each([
+    ['mxr', 'https://mxr.sh'],
+    ['spotuify', 'https://spotuify.app'],
+    ['worthyourtime', 'https://worthyourtime.xyz'],
+  ])('%s is published, featured and points at %s', (name, url) => {
+    const project = readProject(name)
+    expect(project.published).toBe(true)
+    expect(project.featured).toBe(true)
+    expect(project.url).toBe(url)
   })
 
-  it('shows correct employer', () => {
-    expect(content).toContain('Contentful')
+  it('Worth Your Time links to the App Store', () => {
+    expect(readProject('worthyourtime').appStoreUrl).toMatch(/^https:\/\/apps\.apple\.com\//)
   })
 
-  it('describes role accurately', () => {
-    expect(content).toContain('vector DBs, pipelines, and search APIs')
-  })
-
-  it('mentions indie builder', () => {
-    expect(content).toContain('Indie builder')
+  it('nothing else is featured', () => {
+    const featured = ['blah-chat', 'cv-optimiser', 'dealbase', 'easydeck', 'imali', 'interview-optimiser', 'journaler', 'linganisa', 'pro-search', 'reference-optimiser']
+      .map(readProject)
+      .filter((project) => project.featured)
+    expect(featured).toEqual([])
   })
 })
 
 describe('Homepage', () => {
   const content = readSource('pages/index.astro')
 
-  it('lists FaithBench project', () => {
-    expect(content).toContain('FaithBench')
-    expect(content).toContain('https://faithbench.com/')
+  it('renders featured projects from the collection', () => {
+    expect(content).toContain('project.data.featured')
   })
 
-  it('lists blah.chat project', () => {
-    expect(content).toContain('blah.chat')
-    expect(content).toContain('https://blah.chat/')
+  it('names Contentful and Notto with links', () => {
+    expect(content).toContain('https://contentful.com/')
+    expect(content).toContain('https://nottoafrica.com')
   })
 
-  it('lists CV Optimiser project', () => {
-    expect(content).toContain('CV Optimiser')
-    expect(content).toContain('https://www.cvoptimiser.com')
-  })
-
-  it('lists EasyDeck project', () => {
-    expect(content).toContain('EasyDeck')
-    expect(content).toContain('https://www.easydeck.app')
-  })
-
-  it('lists VidPulse project', () => {
-    expect(content).toContain('VidPulse')
-    expect(content).toContain('vidpulse')
+  it('has the newsletter box with a subscribe link, not an iframe', () => {
+    expect(content).toContain('Just Reflections')
+    expect(content).toContain('Subscribe')
+    expect(content).toContain('https://justreflections.bhekani.com/')
+    expect(content).not.toContain('<iframe')
   })
 
   it('does not list Pro-search', () => {
     expect(content.toLowerCase()).not.toContain('pro-search')
     expect(content.toLowerCase()).not.toContain('prosearch')
   })
-
-  it('has newsletter CTA with subscribe link instead of iframe', () => {
-    expect(content).toContain('Just Reflections')
-    expect(content).toContain('Subscribe')
-    expect(content).toContain('https://justreflections.bhekani.com/')
-    expect(content).not.toContain('<iframe')
-  })
 })
 
 describe('About page', () => {
   const content = readSource('pages/about.astro')
 
-  it('shows correct role description', () => {
-    expect(content).toContain('Senior AI Software Engineer')
-  })
-
-  it('mentions Contentful employer', () => {
+  it('describes the current role', () => {
+    expect(content).toContain('Workflows')
     expect(content).toContain('Contentful')
+    expect(content).toContain('part-time CPO')
   })
 
-  it('describes semantic infrastructure work', () => {
+  it('covers the AI platform year', () => {
     expect(content).toContain('semantic')
     expect(content).toContain('vector')
   })
 
-  it('mentions civil engineering background', () => {
+  it('mentions the civil engineering background', () => {
     expect(content).toContain('civil engineer')
+    expect(content).toContain('City of Bulawayo')
   })
 
-  it('links to CV page', () => {
+  it('links to Notto, the CV and unoffice hours', () => {
+    expect(content).toContain('https://nottoafrica.com')
     expect(content).toContain('href="/cv"')
+    expect(content).toContain('href="/unoffice-hours"')
   })
 })
 
 describe('CV page', () => {
   const content = readSource('pages/cv.astro')
 
-  it('shows correct job title', () => {
-    expect(content).toContain('Senior AI Software Engineer')
+  it('shows the current title', () => {
+    expect(content).toContain('Senior Software Engineer')
+    expect(content).toContain('AI and distributed systems')
   })
 
-  it('has NUST education entry', () => {
+  it('has the NUST education entry', () => {
     expect(content).toContain('National University of Science and Technology')
     expect(content).toContain('NUST')
   })
 
-  it('has Contentful experience entries', () => {
-    expect(content).toContain('Contentful, London')
+  it.each(['Contentful', 'Notto Africa', 'Anaplan', 'Sigma Digital'])('has the %s entry', (org) => {
+    expect(content).toContain(`org: "${org}"`)
   })
 
-  it('has Anaplan experience entry', () => {
-    expect(content).toContain('Anaplan')
-  })
-
-  it('has ESRI experience entry', () => {
-    expect(content).toContain('ESRI South Africa')
-  })
-
-  it('has civil engineering entry', () => {
-    expect(content).toContain('Civil Engineer')
+  it('keeps the pre-software history', () => {
+    expect(content).toContain('Esri South Africa')
+    expect(content).toContain('RAMM Technologies')
     expect(content).toContain('City of Bulawayo')
   })
 
-  it('has Sigma Digital entry', () => {
-    expect(content).toContain('Sigma Digital')
+  it('lists the independent products', () => {
+    expect(content).toContain('https://blah.chat')
+    expect(content).toContain('https://www.easydeck.app')
+    expect(content).toContain('https://mxr.sh')
   })
 
-  it('has GIS Analyst entry', () => {
-    expect(content).toContain('GIS Analyst')
-    expect(content).toContain('RAMM Technologies')
-  })
-
-  it('has skills section with relevant technologies', () => {
+  it('has the skills section', () => {
     expect(content).toContain('TypeScript')
-    expect(content).toContain('Vector databases')
+    expect(content).toContain('vector databases')
     expect(content).toContain('AWS')
   })
 })
@@ -140,20 +130,14 @@ describe('CV page', () => {
 describe('Footer', () => {
   const content = readSource('components/Footer.astro')
 
-  it('lists FaithBench project', () => {
-    expect(content).toContain('FaithBench')
-  })
-
-  it('lists blah.chat project', () => {
-    expect(content).toContain('blah.chat')
-  })
-
-  it('lists CV Optimiser project', () => {
-    expect(content).toContain('CV Optimiser')
-  })
-
-  it('lists Dealbase Africa project', () => {
-    expect(content).toContain('Dealbase Africa')
+  it.each([
+    ['mxr', 'https://mxr.sh'],
+    ['spotuify', 'https://spotuify.app'],
+    ['Worth Your Time', 'https://worthyourtime.xyz'],
+    ['blah.chat', 'https://blah.chat/'],
+    ['FaithBench', 'https://faithbench.com/'],
+  ])('lists %s', (label, href) => {
+    expect(content).toContain(`{ label: "${label}", href: "${href}" }`)
   })
 
   it('does not list Pro-search', () => {
@@ -161,8 +145,8 @@ describe('Footer', () => {
     expect(content.toLowerCase()).not.toContain('prosearch')
   })
 
-  it('has newsletter link', () => {
-    expect(content).toContain('Newsletter')
+  it('links the newsletter and unoffice hours', () => {
     expect(content).toContain('justreflections.bhekani.com')
+    expect(content).toContain('/unoffice-hours')
   })
 })
