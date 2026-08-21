@@ -65,7 +65,7 @@ export function getHomepageOgOptions(): OgImageOptions {
   return {
     ...baseOptions,
     title: "Bhekani Khumalo",
-    description: "Software Engineer \u00b7 AI Products \u00b7 Tech Writing",
+    description: "Software Engineer \u00b7 AI and distributed systems",
     font: {
       ...baseFont,
       description: {

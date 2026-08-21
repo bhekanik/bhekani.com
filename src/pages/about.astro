@@ -1,186 +1,197 @@
 ---
 import { Image } from "astro:assets"
-import Link from "../components/Link.astro"
 import MainContainer from "../components/MainContainer.astro"
 import BK from "../images/BK.webp"
 import BaseLayout from "../layouts/BaseLayout.astro"
 
-const pageTitle = "About Me"
+const pageTitle = "About"
+
+const products = [
+  { name: "mxr.sh", href: "https://mxr.sh", what: "Agent-first, local-first email client in Rust. Open source. A daemon syncs Gmail, Outlook, Microsoft 365 and IMAP into SQLite; the terminal UI, CLI, web app and MCP server are thin clients on the same API." },
+  { name: "blah.chat", href: "https://blah.chat", what: "50+ models behind one interface, switchable mid-conversation. RAG over your documents, memory, and a router that picks a model on cost, capability and latency." },
+  { name: "easydeck.app", href: "https://www.easydeck.app", what: "Describe a deck, get finished slides with generated graphics as PowerPoint or PDF. Research, structure, visuals and layout are separate validated steps, so one bad step doesn't ruin the deck." },
+  { name: "FaithBench", href: "https://faithbench.com", what: "Public benchmark for theological faithfulness in LLMs, with a multi-stage LLM-as-judge pipeline and a held-out test split." },
+  { name: "worthyourtime.xyz", href: "https://worthyourtime.xyz", what: "Film recommendations from a learned taste model that explains its verdict." },
+  { name: "Interview Optimiser and Reference Optimiser", href: "https://www.interviewoptimiser.com", what: "Real-time voice AI for mock interviews and reference checks, built on Hume AI." },
+  { name: "CV Optimiser", href: "https://www.cvoptimiser.com", what: "Tailors a CV to a specific job description." },
+  { name: "Dealbase Africa", href: "https://dealbase.africa", what: "AI extraction of African startup funding data." },
+]
 ---
 
 <BaseLayout pageTitle={pageTitle} hidePageHeader={true}>
   <MainContainer>
-    <div class="max-w-4xl mx-auto mt-12 space-y-16">
-      {/* Hero Section */}
-      <div
-        class="relative"
-      >
-        <div class="flex flex-col md:flex-row items-center gap-8 md:gap-12">
-          <div class="flex-1 space-y-6">
-            <div>
-              <h1 class="mb-2">
-                Bhekani Khumalo
-              </h1>
-              <p class="text-muted-foreground font-code">
-                /be̞ɣäɳi kxumälo/
-              </p>
-            </div>
-            <p class="text-xl leading-relaxed">
-              Most people call me <span class="font-bold">BK</span> (my initials).
-              I'm a software engineer in London, currently a Senior AI Software Engineer
-              at <Link href="https://contentful.com/">Contentful</Link>, working on
-              semantic infrastructure—vector DBs, pipelines, and the APIs that power
-              search and recommendations.
-            </p>
-          </div>
-          <div class="relative w-48 h-48 md:w-64 md:h-64 flex-shrink-0">
-            <Image
-              src={BK}
-              alt="Bhekani Khumalo"
-              class="rounded-lg object-cover w-full h-full"
-              width={300}
-              height={300}
-            />
-            
-          </div>
+    <div class="about">
+      <section class="hero">
+        <div>
+          <h1>Bhekani Khumalo</h1>
+          <p class="ipa">/be̞ɣäɳi kxumälo/</p>
+          <p class="lede">
+            Most people call me BK. I'm a software engineer in London. At <a href="https://contentful.com/">Contentful</a> I lead the engineering on Workflows; before that I spent a year on the AI platform team making the semantic layer behind the product's AI features run in production. On the side I'm the part-time CPO at Notto, a credit scoring company, and I ship indie products.
+          </p>
         </div>
-      </div>
-
-      {/* Background Section */}
-      <section class="space-y-6">
-        <h2 class="text-3xl font-bold">Background</h2>
-        <div class="prose prose-lg dark:prose-invert">
-          <p>
-            At Contentful, I build the semantic layer—event-driven pipelines that
-            vectorize millions of content items, the vector databases that store them,
-            and the APIs powering search, recommendations, and duplicate detection.
-            Before moving into AI/ML, I spent two and a half years on billing pipelines,
-            audit logging, and performance optimization.
-          </p>
-          <p>
-            I've worked across the full stack: React and TypeScript on the frontend,
-            Node and Postgres on the backend, Terraform and AWS for infrastructure.
-            I'm comfortable in early-stage startups shipping fast and in larger companies
-            where reliability and scale matter.
-          </p>
-          <p>
-            Earlier in my career, I was a civil engineer in Zimbabwe — designing water
-            networks and managing infrastructure projects. I volunteered for the GIS
-            department, which led to a GIS analyst role, then software development
-            at ESRI South Africa. That background still shapes how I think about
-            software: systems, constraints, dependencies, failure modes.
-          </p>
+        <div class="portrait">
+          <Image src={BK} alt="Bhekani Khumalo" width={300} height={300} />
         </div>
       </section>
 
-      {/* Current Work Section */}
-      <section class="space-y-6">
-        <h2 class="text-3xl font-bold">What I'm Building</h2>
-        <p class="text-muted-foreground">
-          Outside work, I build indie products—tools that fix workflows that waste people's time.
+      <section class="prose max-w-none">
+        <h2>Background</h2>
+        <p>
+          I joined Contentful in 2022 on the billing and audit side. I led the work on organisation-level audit logging, which mostly meant getting services across the platform to agree on one event contract, consolidated billing and usage reporting into a single warehouse-backed system, and fixed a gateway bottleneck that took query times from seconds to milliseconds.
         </p>
-        <div class="grid gap-6 md:grid-cols-2">
-          <div class="p-6 rounded-xl bg-card space-y-4">
-            <h3 class="text-xl font-semibold">AI Career Tools</h3>
-            <p class="text-muted-foreground">
-              <Link href="https://cvoptimiser.com/">CV Optimiser</Link> for tailoring resumes,
-              <Link href="https://interviewoptimiser.com/">Interview Optimiser</Link> for
-              voice AI mock interviews, and <Link href="https://referenceoptimiser.com/">Reference Optimiser</Link> for recruiters.
-            </p>
-          </div>
-          <div class="p-6 rounded-xl bg-card space-y-4">
-            <h3 class="text-xl font-semibold">AI & Research</h3>
-            <p class="text-muted-foreground">
-              <Link href="https://faithbench.com/">FaithBench</Link> — an AI theological
-              faithfulness benchmark with 300+ test cases across 6 dimensions.
-              <Link href="https://blah.chat/">blah.chat</Link> — unified AI chat across models.
-            </p>
-          </div>
-          <div class="p-6 rounded-xl bg-card space-y-4">
-            <h3 class="text-xl font-semibold">Other Projects</h3>
-            <p class="text-muted-foreground">
-              <Link href="https://dealbase.africa/">Dealbase Africa</Link> tracks startup
-              funding data across the continent.
-              <Link href="https://easydeck.app/">EasyDeck</Link> generates presentation
-              decks from prompts.
-              <Link href="https://worthyourtime.xyz/">worthyourtime.xyz</Link> for
-              taste-based movie picks.
-            </p>
-          </div>
-          <div class="p-6 rounded-xl bg-card space-y-4">
-            <h3 class="text-xl font-semibold">Writing & Speaking</h3>
-            <p class="text-muted-foreground">
-              I write the <Link href="https://justreflections.bhekani.com/"
-                >Just Reflections newsletter</Link
-              > and <Link
-                href="https://github.com/bhekanik/talks/blob/main/speaker-rider.md"
-                >speak at events</Link
-              >.
-            </p>
-          </div>
-        </div>
+        <p>
+          In 2025 I moved to the AI platform group. The ML engineers had proved the approach. My job was making it hold up in production: Kafka, Lambda and Step Functions pipelines that keep embeddings current across millions of content items, the vector store on Aurora with the index tuning and partitioning to keep retrieval latency flat as the corpus grew, and the endpoints for semantic search, recommendations and duplicate detection. Most of the real work turned out to be batching, fallbacks, cost ceilings, and deciding what happens when a model call times out behind a synchronous customer endpoint.
+        </p>
+        <p>
+          Since January 2026 I've been on Workflows, leading the work to extend workflows and automations to the new entity types in Contentful's experience platform. That's a technical design across six services, a runtime refactor, and a storage migration with a dry-run-first backfill. I also interview engineers for the team, usually the system design round, and wrote the org's conventions for AGENTS.md and coding-agent skills.
+        </p>
+        <p>
+          Before Contentful I was at Anaplan, where I led a ground-up rebuild of the DocuSign extension and moved a legacy API to GraphQL, and before that I led a distributed team at Sigma Digital building software for enterprise clients. Ten years in software, seven of them building SaaS.
+        </p>
+        <p>
+          Before any of that I was a civil engineer in Zimbabwe. I designed water networks for the City of Bulawayo and managed a $1.8M sewer rehabilitation project. I volunteered in the GIS department, which turned into a GIS developer job, then software development at Esri South Africa. I still start most problems by asking where the system fails first. I think that's the civil engineering talking.
+        </p>
+
+        <h2>Notto</h2>
+        <p>
+          Since April 2026 I've been the fractional CPO at Notto Africa, which does alternative credit scoring for African lenders. There's no product engineering team yet beyond me, so I set the direction and write the code. Two products are live with customers on a book of close to a million loans. Notto Analytics ingests a lender's disbursements and repayments daily and computes vintage PAR, roll rates and yield. Notto Agent answers open-ended questions about the book and runs multi-step analysis. Because this is regulated lending, the agent's answers have to be verifiable rather than trusted: it plans the analysis, runs SQL against a read-only copy of the data, checks the result against the evidence, and keeps the plan, query and trace for audit.
+        </p>
       </section>
 
-      {/* Connect Section */}
-      <section class="space-y-6">
-        <h2 class="text-3xl font-bold">Connect</h2>
-        <p class="text-muted-foreground">
-          Looking for my full work history? Check out my <Link href="/cv">CV</Link>.
+      <section>
+        <h2>Things I've built</h2>
+        <ul class="rule-list">
+          {
+            products.map((product) => (
+              <li>
+                <a href={product.href} class="product-name">
+                  {product.name}
+                </a>
+                <p>{product.what}</p>
+              </li>
+            ))
+          }
+        </ul>
+        <a class="more link-quiet" href="/projects/">All projects →</a>
+      </section>
+
+      <section class="prose max-w-none">
+        <h2>Talks, mentoring, writing</h2>
+        <p>
+          I spoke at Svelte Society London in 2022 ("How I built pro-search.io with SvelteKit") and at DevConf South Africa in 2020 ("What civil engineering taught me about being a good software developer"). I've been a coding mentor with the Andela Learning Community and an external academic supervisor at the National University of Science and Technology in Bulawayo, where I did my BEng in Civil and Water Engineering.
         </p>
-        <div class="flex flex-wrap gap-4">
-          <Link
-            href="https://twitter.com/bhekanik"
-            class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-muted hover:bg-muted-foreground/15 transition-colors"
-          >
-            <span>Twitter</span>
-            <svg
-              class="w-4 h-4"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path
-                d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"
-              ></path>
-            </svg>
-          </Link>
-          <Link
-            href="https://github.com/bhekanik"
-            class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-muted hover:bg-muted-foreground/15 transition-colors"
-          >
-            <span>GitHub</span>
-            <svg
-              class="w-4 h-4"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path
-                d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"
-              ></path>
-            </svg>
-          </Link>
-          <Link
-            href="https://linkedin.com/in/bhekanik"
-            class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-muted hover:bg-muted-foreground/15 transition-colors"
-          >
-            <span>LinkedIn</span>
-            <svg
-              class="w-4 h-4"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path
-                d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"
-              ></path>
-            </svg>
-          </Link>
-        </div>
+        <p>
+          I write the <a href="https://justreflections.bhekani.com/">Just Reflections</a> newsletter. If you'd rather talk, book a slot in my <a href="/unoffice-hours">unoffice hours</a>. The full work history is on the <a href="/cv">CV</a>.
+        </p>
       </section>
     </div>
   </MainContainer>
 </BaseLayout>
+
+<style>
+  .about {
+    padding-top: var(--space-12);
+  }
+
+  .hero {
+    display: grid;
+    gap: var(--space-8);
+    align-items: start;
+    margin-bottom: var(--space-12);
+  }
+
+  .hero h1 {
+    margin: 0 0 var(--space-2);
+  }
+
+  .ipa {
+    font-family: var(--font-mono);
+    font-size: 0.9375rem;
+    color: var(--muted-foreground);
+    margin: 0 0 var(--space-6);
+  }
+
+  .lede {
+    font-size: 1.2rem;
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  .portrait {
+    position: relative;
+    width: min(14rem, 60vw);
+  }
+  .portrait::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    translate: 0.75rem 0.75rem;
+    background: var(--accent);
+    border-radius: var(--radius-lg);
+  }
+  .portrait img {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: var(--radius-lg);
+  }
+
+  section + section {
+    margin-top: var(--space-12);
+  }
+
+  section h2 {
+    margin: 0 0 var(--space-6);
+  }
+
+  .rule-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .rule-list li {
+    padding: var(--space-4) 0;
+  }
+  .rule-list li + li {
+    border-top: 1px solid var(--border);
+  }
+  .rule-list p {
+    margin: var(--space-1) 0 0;
+    color: var(--muted-foreground);
+    font-size: 1rem;
+  }
+
+  .product-name {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-variation-settings: "wdth" 105;
+    font-size: 1.125rem;
+    color: var(--foreground);
+    text-decoration: none;
+  }
+  .product-name:hover {
+    color: var(--links);
+  }
+
+  .more {
+    display: inline-block;
+    margin-top: var(--space-4);
+    font-family: var(--font-sans);
+    font-weight: 500;
+    color: var(--muted-foreground);
+  }
+
+  @media (min-width: 40rem) {
+    .hero {
+      grid-template-columns: 1fr auto;
+    }
+    .portrait {
+      margin-top: var(--space-2);
+    }
+  }
+</style>
