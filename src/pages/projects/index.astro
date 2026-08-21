@@ -7,107 +7,207 @@ import BaseLayout from "../../layouts/BaseLayout.astro"
 const allProjects = await getCollection("projects")
 const sortedProjects = allProjects
   .filter((project) => project.data.published)
-  .sort(
-    (a, b) =>
-      new Date(b.data.startDate).valueOf() -
-      new Date(a.data.startDate).valueOf(),
-  )
+  .sort((a, b) => new Date(b.data.startDate).valueOf() - new Date(a.data.startDate).valueOf())
 
-const featuredProjects = sortedProjects.slice(0, 2)
-const otherProjects = sortedProjects.slice(2)
+const featuredProjects = sortedProjects.filter((project) => project.data.featured)
+const otherProjects = sortedProjects.filter((project) => !project.data.featured)
 
 const pageTitle = "Projects"
+const description = "Things I've built outside work. The three at the top are what I'm working on now."
 ---
 
-<BaseLayout pageTitle={pageTitle}>
+<BaseLayout pageTitle={pageTitle} description={description}>
   <MainContainer>
-    <div class="max-w-3xl mx-auto mt-8 space-y-12">
-      {/* Featured Projects */}
-      <div class="space-y-6">
-        {
-          featuredProjects.map((project) => (
-            <a
-              href={project.data.url}
-              target="_blank"
-              class="group block rounded-lg border border-border bg-card overflow-hidden no-underline text-foreground hover:text-foreground transition-colors hover:border-accent"
-            >
+    <section class="featured">
+      {
+        featuredProjects.map((project, index) => (
+          <article class="feature" style={`--i: ${index}`}>
+            <a href={project.data.url} class="shot" aria-label={`Open ${project.data.title}`}>
               {project.data.image && (
-                <div class="w-full">
-                  <Image
-                    src={project.data.image}
-                    alt={project.data.title}
-                    width={800}
-                    height={450}
-                    class="w-full h-48 sm:h-56 object-cover object-top"
-                  />
-                </div>
+                <Image
+                  src={project.data.image}
+                  alt={`Screenshot of ${project.data.title}`}
+                  width={1280}
+                  height={800}
+                  loading={index === 0 ? "eager" : "lazy"}
+                />
               )}
-              <div class="p-6 space-y-3">
-                <h2 class="text-xl font-semibold group-hover:text-links transition-colors">
-                  {project.data.title}
-                </h2>
-                <p class="text-muted-foreground">
-                  {project.data.description}
-                </p>
-                <div class="flex flex-wrap gap-1.5 pt-1">
-                  {project.data.tech.map((tech) => (
-                    <span class="ui text-xs px-2 py-0.5 rounded-sm bg-muted text-muted-foreground">
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-              </div>
             </a>
-          ))
-        }
-      </div>
-
-      {/* Other Projects */}
-      {otherProjects.length > 0 && (
-        <div class="space-y-4">
-          <h2 class="text-lg font-semibold text-muted-foreground">More Projects</h2>
-          <div class="space-y-4">
-            {
-              otherProjects.map((project) => (
-                <a
-                  href={project.data.url}
-                  target="_blank"
-                  class="group block rounded-lg border border-border bg-card overflow-hidden no-underline text-foreground hover:text-foreground transition-colors hover:border-accent"
-                >
-                  <div class="flex flex-col sm:flex-row">
-                    {project.data.image && (
-                      <div class="sm:w-44 sm:flex-shrink-0">
-                        <Image
-                          src={project.data.image}
-                          alt={project.data.title}
-                          width={400}
-                          height={225}
-                          class="w-full h-36 sm:h-full object-cover"
-                        />
-                      </div>
-                    )}
-                    <div class="p-4 flex-1 space-y-1.5">
-                      <h3 class="font-semibold group-hover:text-links transition-colors">
-                        {project.data.title}
-                      </h3>
-                      <p class="text-sm text-muted-foreground line-clamp-2">
-                        {project.data.description}
-                      </p>
-                      <div class="flex flex-wrap gap-1.5 pt-1">
-                        {project.data.tech.slice(0, 3).map((tech) => (
-                          <span class="ui text-xs px-2 py-0.5 rounded-sm bg-muted text-muted-foreground">
-                            {tech}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
+            <div class="feature-body">
+              <h2>
+                <a href={project.data.url}>{project.data.title}</a>
+              </h2>
+              <p>{project.data.description}</p>
+              <p class="feature-links">
+                <a href={project.data.url} class="btn">
+                  Visit site
                 </a>
-              ))
-            }
-          </div>
-        </div>
-      )}
-    </div>
+                {project.data.appStoreUrl && (
+                  <a href={project.data.appStoreUrl} class="btn-ghost">
+                    App Store
+                  </a>
+                )}
+              </p>
+              <ul class="tech">
+                {project.data.tech.map((tech) => (
+                  <li>{tech}</li>
+                ))}
+              </ul>
+            </div>
+          </article>
+        ))
+      }
+    </section>
+
+    {
+      otherProjects.length > 0 && (
+        <section class="others">
+          <h2>Earlier</h2>
+          <ul class="rule-list">
+            {otherProjects.map((project) => (
+              <li>
+                <a href={project.data.url} class="project-name">
+                  {project.data.title}
+                </a>
+                <span class="meta">{new Date(project.data.startDate).getFullYear()}</span>
+                <p>{project.data.description}</p>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
   </MainContainer>
 </BaseLayout>
+
+<style>
+  .featured {
+    display: grid;
+    gap: var(--space-16);
+    margin-top: var(--space-4);
+  }
+
+  .feature {
+    display: grid;
+    gap: var(--space-6);
+  }
+
+  /* Screenshot sits on an oxide slab, offset to alternate sides per project */
+  .shot {
+    position: relative;
+    display: block;
+    border-radius: var(--radius-lg);
+  }
+  .shot::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    translate: 0.875rem 0.875rem;
+    background: var(--accent);
+    border-radius: var(--radius-lg);
+    transition: translate var(--transition-slow);
+  }
+  .feature:nth-child(even) .shot::before {
+    translate: -0.875rem 0.875rem;
+  }
+  .shot:hover::before {
+    translate: 0.5rem 0.5rem;
+  }
+  .feature:nth-child(even) .shot:hover::before {
+    translate: -0.5rem 0.5rem;
+  }
+  .shot img {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    object-position: top;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+  }
+
+  .feature-body h2 {
+    margin: 0 0 var(--space-3);
+  }
+  .feature-body h2 a {
+    color: inherit;
+    text-decoration: none;
+  }
+  .feature-body h2 a:hover {
+    color: var(--links);
+  }
+  .feature-body > p {
+    margin: 0 0 var(--space-5);
+    max-width: 60ch;
+  }
+  .feature-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+
+  .tech {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-4);
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    color: var(--muted-foreground);
+  }
+
+  .others {
+    margin-top: var(--space-16);
+  }
+  .others h2 {
+    margin: 0 0 var(--space-6);
+  }
+  .rule-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .rule-list li {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    column-gap: var(--space-4);
+    padding: var(--space-4) 0;
+  }
+  .rule-list li + li {
+    border-top: 1px solid var(--border);
+  }
+  .rule-list p {
+    grid-column: 1 / -1;
+    margin: var(--space-1) 0 0;
+    color: var(--muted-foreground);
+    font-size: 1rem;
+  }
+  .project-name {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-variation-settings: "wdth" 105;
+    font-size: 1.125rem;
+    color: var(--foreground);
+    text-decoration: none;
+  }
+  .project-name:hover {
+    color: var(--links);
+  }
+
+  @media (min-width: 48rem) {
+    .feature {
+      grid-template-columns: 3fr 2fr;
+      align-items: center;
+      gap: var(--space-10);
+    }
+    .feature:nth-child(even) .shot {
+      order: 2;
+    }
+  }
+</style>

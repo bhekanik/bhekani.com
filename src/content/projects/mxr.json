@@ -1,9 +1,10 @@
 {
 	"title": "mxr",
-	"description": "mxr is a local-first email runtime for people who want their inbox to behave more like software than a website. It runs as a background daemon, syncs mail from providers like Gmail and IMAP into a local SQLite database, indexes everything for fast search, and exposes the same core capabilities to the CLI, terminal UI, scripts, and AI agents. The goal is simple: make email fast, programmable, private, and useful even when the browser is closed.",
+	"description": "Agent-first, local-first email client in Rust. A background daemon syncs Gmail, Outlook, Microsoft 365 and IMAP into SQLite and keeps a Tantivy search index. The terminal UI, CLI, web app, MCP server and agent skill are thin clients on the same API, so an agent can do anything a person can. Every mutating command has a dry run, and a pre-send check catches missing attachments, leaked secrets and reply-all mistakes.",
 	"url": "https://mxr.sh",
 	"image": "../_images/mxr.png",
 	"startDate": "2026-03-01",
 	"published": true,
-	"tech": ["Rust", "SQLite", "Tantivy"]
+	"featured": true,
+	"tech": ["Rust", "SQLite", "Tantivy", "MCP"]
 }

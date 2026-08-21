@@ -1,26 +1,35 @@
-# BK's personal site
+# bhekani.com
 
-BK's personal site, using:
+Personal site and blog. Astro 6, Tailwind CSS v4, a little Svelte for search and view counts. Hosted on Vercel. Comments via Giscus (GitHub Discussions), page views in Astro DB, semantic search on Upstash Vector.
 
-- Astro
-- Tailwind 3 + Tailwind Typography
-- Vercel
-- GitHub Issues for comments
+Live at <https://bhekani.com>. The colophon at </colophon> covers the type, colour and sound choices.
 
-## Live URL
+## Run it
 
-See <https://bhekani.com>
+Bun only. No npm, pnpm, yarn or npx.
 
-## Environment Setup
+```bash
+bun install
+cp .env.example .env        # SENTRY_DSN, SENTRY_AUTH_TOKEN, OPENAI/Upstash keys for search
+bun run dev                  # http://localhost:4321
+```
 
-1. Copy the `.env.example` file to `.env`:
+Build and check:
 
-   ```bash
-   cp .env.example .env
-   ```
+```bash
+ASTRO_DATABASE_FILE=./db.sqlite bun run lint    # astro check
+ASTRO_DATABASE_FILE=./db.sqlite bun run build   # lint + search index + embeddings + astro build
+```
 
-2. Add your environment variables:
-   - `SENTRY_DSN`: Your Sentry DSN for error tracking
-   - `SENTRY_AUTH_TOKEN`: Sentry auth token for source maps upload
+The build mutates `db.sqlite`; `git checkout -- db.sqlite` afterwards.
 
-3. For production deployment on Vercel, configure these environment variables in your Vercel project settings
+## Where things live
+
+- `src/styles/global.css`: design tokens (OKLCH, `light-dark()`), type scale, shared classes
+- `src/scripts/feedback.ts`: click sound and haptics
+- `src/content/{posts,micro,books,projects}`: content collections, schemas in `src/content/_schemas`
+- `PRODUCT.md`: audience, voice and design principles
+
+## Shipping
+
+`main` is protected. Branch, open a PR, let the Vercel check pass, merge.
