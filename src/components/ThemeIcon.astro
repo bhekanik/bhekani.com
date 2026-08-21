@@ -62,7 +62,7 @@
 
   function toggleTheme() {
     const next = isDark() ? "light" : "dark"
-    feedback.play(next === "dark" ? "toggle-off" : "toggle-on")
+    feedback.play("tock")
     feedback.haptic("tap")
 
     const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches
