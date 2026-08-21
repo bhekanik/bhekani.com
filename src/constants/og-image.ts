@@ -1,21 +1,21 @@
 import type { OgImageOptions } from "../utils/og"
 
 const COLORS = {
-  fg: [255, 255, 255] as [number, number, number],
-  accent: [227, 75, 0] as [number, number, number],
-  muted: [157, 166, 174] as [number, number, number],
+  fg: [244, 244, 246] as [number, number, number],
+  accent: [255, 59, 53] as [number, number, number],
+  muted: [180, 180, 192] as [number, number, number],
 }
 
 const baseFont = {
   title: {
     color: COLORS.fg,
-    size: 72,
+    size: 88,
     weight: 400,
-    lineHeight: 1.15,
+    lineHeight: 1.0,
   },
   description: {
     color: COLORS.muted,
-    size: 28,
+    size: 30,
     weight: 400,
     lineHeight: 1.35,
   },
@@ -31,6 +31,7 @@ export function getPostOgOptions(
 ): OgImageOptions {
   return {
     ...baseOptions,
+    caption: "Blog",
     title,
     description,
   }
@@ -42,6 +43,7 @@ export function getBookOgOptions(
 ): OgImageOptions {
   return {
     ...baseOptions,
+    caption: "Book",
     title,
     description: `by ${author}`,
   }
@@ -50,12 +52,13 @@ export function getBookOgOptions(
 export function getMicroOgOptions(title: string): OgImageOptions {
   return {
     ...baseOptions,
-    title: title || "Micro Post",
+    caption: "Micro",
+    title: title || "Micro post",
     font: {
       ...baseFont,
       title: {
         ...baseFont.title,
-        size: 56,
+        size: 72,
       },
     },
   }
@@ -64,14 +67,16 @@ export function getMicroOgOptions(title: string): OgImageOptions {
 export function getHomepageOgOptions(): OgImageOptions {
   return {
     ...baseOptions,
+    caption: "Meanwhile, in London\u2026",
     title: "Bhekani Khumalo",
-    description: "Software Engineer \u00b7 AI and distributed systems",
+    description: "Software engineer \u00b7 AI and distributed systems",
     font: {
       ...baseFont,
+      title: { ...baseFont.title, size: 120 },
       description: {
         color: COLORS.accent,
-        size: 36,
-        weight: 600,
+        size: 34,
+        weight: 700,
         lineHeight: 1.2,
       },
     },
