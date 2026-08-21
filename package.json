@@ -8,7 +8,7 @@
     "lint": "astro check",
     "generate:search-index": "bun run scripts/generate-search-index.ts",
     "generate:embeddings": "bun run scripts/generate-embeddings.ts",
-    "prebuild": "bun run generate:search-index && bun run generate:embeddings",
+    "prebuild": "rm -rf node_modules/.astro && bun run generate:search-index && bun run generate:embeddings",
     "build": "bun run lint && astro sync && astro build --remote",
     "preview": "astro preview",
     "astro": "astro",

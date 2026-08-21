@@ -33,3 +33,7 @@ The build mutates `db.sqlite`; `git checkout -- db.sqlite` afterwards.
 ## Shipping
 
 `main` is protected. Branch, open a PR, let the Vercel check pass, merge.
+
+## Why `prebuild` deletes `node_modules/.astro`
+
+Vercel restores `node_modules` from the previous deploy, and Astro's content layer caches rendered markdown in `node_modules/.astro`. Expressive Code names its stylesheet by a hash of its CSS, so after a dependency bump the cached HTML pointed at `ec.<old>.css` while the build emitted `ec.<new>.css`, and every code block lost its highlighting in production. Clearing the cache before each build keeps the two in step.
