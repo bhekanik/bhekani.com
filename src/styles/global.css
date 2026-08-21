@@ -95,7 +95,7 @@
   --rule: 3px;
   --shadow-ink: 6px 6px 0 var(--ink);
   --shadow-ink-sm: 4px 4px 0 var(--ink);
-  --halftone: radial-gradient(circle at 30% 30%, var(--ink) 0.8px, transparent 1.05px);
+  --halftone: radial-gradient(circle at 30% 30%, color-mix(in oklch, var(--ink) 70%, transparent) 0.8px, transparent 1.05px);
 
   --space-1: 0.25rem;
   --space-2: 0.5rem;
@@ -523,7 +523,7 @@ html.dark {
   /* Halftone texture. Panels only; route sets the gradient to none. */
   .dots {
     /* Dots fade in from the right so they never sit under the text */
-    background-image: linear-gradient(to right, var(--card) 45%, transparent 100%), var(--halftone);
+    background-image: linear-gradient(to right, var(--card) 58%, transparent 100%), var(--halftone);
     background-size: 100% 100%, 6px 6px;
   }
 
