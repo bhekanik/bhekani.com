@@ -1,0 +1,126 @@
+---
+import MainContainer from "../components/MainContainer.astro"
+import BaseLayout from "../layouts/BaseLayout.astro"
+
+const pageTitle = "Unoffice Hours"
+const description = "Thirty minutes with me, about whatever you like. No agenda needed."
+const bookingUrl = "https://cal.com/bhekanik/30min"
+
+const goodFor = [
+  "A catch-up. I'd like to hear what you're working on, even if we've never met.",
+  "Code review, architecture questions, a second pair of eyes on a design.",
+  "AI infrastructure: vector databases, embeddings, search, RAG pipelines, and what actually runs in production.",
+  "Career stuff. Switching into software from another field, moving from IC to senior, what it's like at a company my size.",
+  "Indie products and half-baked ideas you want to pressure-test.",
+  "Or nothing in particular.",
+]
+
+const notFor = [
+  "A sales pitch, in either direction.",
+  "Coaching. I can tell you what I've seen, not run a programme.",
+  "A guaranteed answer. You get thirty minutes of honest attention, not a solution.",
+]
+---
+
+<BaseLayout pageTitle={pageTitle} description={description}>
+  <MainContainer>
+    <div class="unoffice">
+      <p class="intro">
+        <a href="https://interconnected.org/home/2020/09/24/unoffice_hours">Matt Webb</a> started doing this in 2020: open a slice of the week to anyone who wants to book it, no agenda required. I liked the idea enough to copy it.
+      </p>
+
+      <a href={bookingUrl} class="book" rel="noopener">
+        <span class="book-label">Open calendar</span>
+        <span class="book-action">Book a 30-minute call →</span>
+      </a>
+
+      <section>
+        <h2>What it's good for</h2>
+        <ul class="rule-list">
+          {goodFor.map((item) => <li>{item}</li>)}
+        </ul>
+      </section>
+
+      <section>
+        <h2>What it isn't</h2>
+        <ul class="rule-list">
+          {notFor.map((item) => <li>{item}</li>)}
+        </ul>
+      </section>
+
+      <section>
+        <h2>Notes</h2>
+        <ul class="rule-list">
+          <li>Thirty minutes, video call. The invite has the link.</li>
+          <li>I'm in London (UTC+0, UTC+1 in summer). The calendar shows times in your zone.</li>
+          <li>Can't make it? Cancel or move it from the invite. No need to explain.</li>
+        </ul>
+      </section>
+    </div>
+  </MainContainer>
+</BaseLayout>
+
+<style>
+  .unoffice {
+    max-width: 62ch;
+  }
+
+  .intro {
+    font-size: 1.2rem;
+    line-height: 1.55;
+    margin: 0 0 var(--space-8);
+  }
+
+  .book {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-2) var(--space-6);
+    padding: var(--space-6);
+    margin-bottom: var(--space-12);
+    background: var(--accent);
+    color: var(--accent-foreground);
+    border-radius: var(--radius-xl);
+    text-decoration: none;
+    font-family: var(--font-sans);
+    transition: transform var(--transition-fast);
+  }
+  .book:hover {
+    color: var(--accent-foreground);
+    transform: translateY(-1px);
+  }
+  .book:active {
+    transform: scale(0.99);
+  }
+  .book-label {
+    font-size: 0.9375rem;
+    font-weight: 500;
+    opacity: 0.85;
+  }
+  .book-action {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-variation-settings: "wdth" 110;
+    font-size: 1.375rem;
+    letter-spacing: -0.01em;
+  }
+
+  section + section {
+    margin-top: var(--space-10);
+  }
+  section h2 {
+    margin: 0 0 var(--space-4);
+  }
+
+  .rule-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--border);
+  }
+  .rule-list li {
+    padding: var(--space-3) 0;
+    border-bottom: 1px solid var(--border);
+  }
+</style>

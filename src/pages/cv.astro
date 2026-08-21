@@ -1,242 +1,381 @@
 ---
-import Link from "../components/Link.astro"
 import MainContainer from "../components/MainContainer.astro"
 import BaseLayout from "../layouts/BaseLayout.astro"
 
 const pageTitle = "CV"
+
+type Role = {
+  org: string
+  orgNote?: string
+  href?: string
+  positions: {
+    title: string
+    dates: string
+    note?: string
+    bullets: string[]
+  }[]
+}
+
+const roles: Role[] = [
+  {
+    org: "Contentful",
+    orgNote: "Composable content platform, London. Senior Software Engineer across three teams.",
+    href: "https://contentful.com",
+    positions: [
+      {
+        title: "Workflows",
+        dates: "Jan 2026 to present",
+        bullets: [
+          "Lead engineer for extending Workflows to the new entity types in Contentful's experience platform. Wrote the technical design across six services, refactored the Workflow Management API runtime around subject adapters, and shipped the storage migration with an idempotent, dry-run-first backfill.",
+          "Shipped Automation Builder features: entry query filters through the execution pipeline, feature flags for new action types, and failure handling that keeps error context for support.",
+          "Routine production debugging across the stack. One recent case: a 403 storm traced through three services to environment-alias handling in the web app.",
+          "Interview engineers for the team, usually leading the system design round. Wrote the org-wide conventions for AGENTS.md and skills, and the team's golden-context docs for coding agents.",
+        ],
+      },
+      {
+        title: "AI Platform",
+        dates: "Apr 2025 to Jan 2026",
+        bullets: [
+          "Led the design of the semantic service behind AI features across the platform, including the vector storage layer on Aurora, with index tuning and partitioning so retrieval latency stayed flat as the corpus grew.",
+          "Worked alongside ML engineers to take model work from prototype to production: batching, validation, cost controls, fallbacks and the constraints of serving models synchronously behind a customer-facing API. Set up the monitoring and alerting the team now runs on.",
+          "Built Kafka, Lambda and Step Functions pipelines that keep embeddings current across millions of content items in near real time.",
+          "Shipped the retrieval endpoints for semantic search, recommendations, duplicate detection and contextual references.",
+        ],
+      },
+      {
+        title: "Business Foundations",
+        dates: "Sep 2022 to Mar 2025",
+        bullets: [
+          "Led a cross-functional initiative to build organisation-level audit logging, which meant getting services across the platform onto one event contract to meet enterprise security and compliance requirements.",
+          "Consolidated billing and usage reporting into a single warehouse-backed platform, replacing brittle pipelines and removing manual work finance and support repeated every month.",
+          "Fixed a bottleneck in a high-traffic gateway service, taking query times from seconds to milliseconds.",
+        ],
+      },
+    ],
+  },
+  {
+    org: "Notto Africa",
+    orgNote: "Alternative credit scoring for African lenders. Fractional CPO, part-time alongside Contentful. No product team yet beyond me; I set direction and write the code.",
+    positions: [
+      {
+        title: "Fractional CPO",
+        dates: "Apr 2026 to present",
+        bullets: [
+          "Built Notto Analytics and Notto Agent, both in production with customers on a live book of close to a million loans.",
+          "Analytics ingests a lender's disbursements and repayments daily and computes vintage PAR, roll rates and yield, with drill-down by product, cohort and segment.",
+          "Agent answers open-ended questions about the book, sends scheduled insights, and runs multi-step analysis workflows. It works on any loan book, not only ones Notto scores.",
+          "It operates in regulated lending, so answers are verifiable rather than trusted: it plans the analysis, runs SQL against a read-only copy of the data, checks the result against the evidence, and keeps plan, query and trace for audit.",
+          "Before customer testing, added a spend ledger, per-tenant and per-user limits, rate caps and thread compaction.",
+          "Wrote the daily ingest underneath: lender CSVs arrive over SFTP, load into TimescaleDB, feed the dashboard. Runs on-prem inside the partner's own data centre with no outbound network.",
+          "Own the product definition across the four products. Engineering, credit science, commercial and marketing now describe the product the same way, which they didn't in April.",
+        ],
+      },
+    ],
+  },
+  {
+    org: "Anaplan",
+    orgNote: "Software Engineer, Integrations. London.",
+    positions: [
+      {
+        title: "Software Engineer",
+        dates: "Feb 2021 to Aug 2022",
+        bullets: [
+          "Led a ground-up rebuild of the DocuSign extension: migrated Flow to TypeScript, rewrote the test suite with React Testing Library and Cypress, and moved state management to React Context.",
+          "Rebuilt a legacy API as a GraphQL server on Apollo, so the team could change it safely.",
+        ],
+      },
+    ],
+  },
+  {
+    org: "Sigma Digital",
+    orgNote: "Senior Software Developer and Team Lead. Remote, South Africa.",
+    positions: [
+      {
+        title: "Senior Software Developer / Team Lead",
+        dates: "Nov 2019 to Dec 2020",
+        bullets: [
+          "Primary technical leader for a distributed team building custom software for enterprise clients, owning scoping, architecture, delivery and the client relationship.",
+          "Set the code review, testing and release practices the team then ran on across timezones.",
+        ],
+      },
+    ],
+  },
+]
+
+const products = [
+  { name: "blah.chat", href: "https://blah.chat", tag: "multi-model AI chat", what: "50+ models behind one interface, switchable mid-conversation, bring your own key or self-host. RAG over uploaded documents, memory, multi-modal input, agentic workflows. An orchestration layer routes each task on cost, capability and latency, with per-request cost shown to the user. Next.js, Convex, vector search." },
+  { name: "easydeck.app", href: "https://www.easydeck.app", tag: "AI slide generator", what: "Describe a deck, get finished slides with original generated graphics as PowerPoint or PDF. Research, structuring, visuals and layout are each a discrete step with its own validation, so one bad step doesn't poison the whole deck." },
+  { name: "mxr.sh", href: "https://mxr.sh", tag: "agent-first, local-first email client in Rust, open source", what: "A background daemon syncs Gmail, Outlook, Microsoft 365 and IMAP into SQLite, keeps a Tantivy search index, and exposes everything over a JSON-over-Unix-socket API. The terminal UI, CLI, web app, MCP server and agent skill are thin clients on that API. Every mutating command has a dry run. A deterministic pre-send pass checks for missing attachments, leaked secrets, reply-all mistakes, unknown recipients and tone drift. Search is BM25 plus local embeddings, all on-device." },
+]
 ---
 
 <BaseLayout pageTitle={pageTitle} hidePageHeader={true}>
   <MainContainer>
-    <div class="max-w-4xl mx-auto mt-12 space-y-12 print:mt-0 print:space-y-8">
-      {/* Header */}
-      <header class="space-y-4 print:space-y-2">
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div>
-            <h1 class="text-4xl font-bold print:text-3xl">Bhekani Khumalo</h1>
-            <p class="text-xl text-muted-foreground print:text-lg">
-              Senior AI Software Engineer
-            </p>
-          </div>
-          <div class="flex gap-3 print:hidden">
-            <button
-              onclick="window.print()"
-              class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg bg-muted hover:bg-muted-foreground/15 transition-colors"
-            >
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
-              </svg>
-              Print
-            </button>
-          </div>
+    <article class="cv">
+      <header class="cv-header">
+        <div>
+          <h1>Bhekani Khumalo</h1>
+          <p class="role">Senior Software Engineer · AI and distributed systems</p>
+          <p class="contact meta">
+            London, UK · <a href="mailto:bhekanik@gmail.com">bhekanik@gmail.com</a> · <a href="https://github.com/bhekanik">github.com/bhekanik</a> · <a href="https://linkedin.com/in/bhekanik">linkedin.com/in/bhekanik</a>
+          </p>
         </div>
-        <div class="flex flex-wrap gap-x-6 gap-y-2 text-sm text-muted-foreground">
-          <span class="inline-flex items-center gap-1.5">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-            </svg>
-            London, UK
-          </span>
-          <Link href="https://github.com/bhekanik" class="inline-flex items-center gap-1.5 hover:text-foreground">
-            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-            </svg>
-            github.com/bhekanik
-          </Link>
-          <Link href="https://linkedin.com/in/bhekanik" class="inline-flex items-center gap-1.5 hover:text-foreground">
-            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-            </svg>
-            linkedin.com/in/bhekanik
-          </Link>
-          <Link href="https://bhekani.com" class="inline-flex items-center gap-1.5 hover:text-foreground">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
-            </svg>
-            bhekani.com
-          </Link>
-        </div>
+        <button type="button" class="btn-ghost print-button" onclick="window.print()">Print</button>
       </header>
 
-      {/* Summary */}
-      <section class="space-y-3">
-        <h2 class="text-2xl font-bold print:text-xl">Summary</h2>
-        <p class="text-muted-foreground leading-relaxed">
-          Software engineer with 5+ years experience building production systems. Currently focused on
-          AI/ML infrastructure—vector databases, semantic search, and recommendation pipelines processing
-          millions of content items. Previously worked on billing systems, audit logging, and
-          performance optimization. Background in civil engineering brings systems thinking and
-          attention to failure modes.
+      <section class="prose max-w-none">
+        <h2>Summary</h2>
+        <p>
+          I'm a senior engineer at Contentful. In 2025 I worked on the semantic layer behind the platform's AI features: pipelines that vectorise millions of customer content items, the vector store on Aurora, and the APIs that search, recommendations and duplicate detection call. The ML engineers proved the approach; I made it run in production, which meant batching, fallbacks, cost ceilings, and deciding what happens when a model call times out behind a synchronous customer endpoint. Since January 2026 I've been on Workflows, leading the work to extend workflows and automations to new entity types across six services.
+        </p>
+        <p>
+          Outside work I've shipped blah.chat (multi-model chat with RAG), easydeck.app (AI slide generator) and mxr.sh (an agent-first email client in Rust). They have users. At Notto, a credit scoring company, I'm the part-time CPO. There's no product engineering team yet, so I also wrote their portfolio analytics product and loan-book agent, both now in customers' hands.
+        </p>
+        <p>
+          Ten years in software, seven building SaaS. Before software I was a civil engineer in Zimbabwe designing water networks, which is probably why I still start by asking where a system fails first.
         </p>
       </section>
 
-      {/* Experience */}
-      <section class="space-y-6">
-        <h2 class="text-2xl font-bold print:text-xl">Experience</h2>
-
-        <div class="space-y-2">
-          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
-            <h3 class="text-lg font-semibold">Senior AI Software Engineer</h3>
-            <span class="text-sm text-muted-foreground">Apr 2025 - Present</span>
-          </div>
-          <p class="text-muted-foreground">Contentful, London</p>
-          <ul class="mt-2 space-y-1 text-muted-foreground list-disc list-inside">
-            <li>Building semantic infrastructure—vector databases, embedding pipelines, and APIs for search and recommendations</li>
-            <li>Designing event-driven systems that vectorize millions of content items in real-time</li>
-            <li>Developing duplicate detection and content similarity features using ML models</li>
-          </ul>
-        </div>
-
-        <div class="space-y-2">
-          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
-            <h3 class="text-lg font-semibold">Software Engineer</h3>
-            <span class="text-sm text-muted-foreground">Sep 2022 - Mar 2025</span>
-          </div>
-          <p class="text-muted-foreground">Contentful, London · Business Foundations team</p>
-          <ul class="mt-2 space-y-1 text-muted-foreground list-disc list-inside">
-            <li>Led development of billing pipeline handling millions in monthly transactions</li>
-            <li>Built audit logging system for compliance and debugging across distributed services</li>
-            <li>Optimized API performance, reducing p99 latency by 40%</li>
-          </ul>
-        </div>
-
-        <div class="space-y-2">
-          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
-            <h3 class="text-lg font-semibold">Software Engineer</h3>
-            <span class="text-sm text-muted-foreground">Feb 2021 - Aug 2022</span>
-          </div>
-          <p class="text-muted-foreground">Anaplan, London (Remote)</p>
-        </div>
-
-        <div class="space-y-2">
-          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
-            <h3 class="text-lg font-semibold">Senior Software Engineer</h3>
-            <span class="text-sm text-muted-foreground">Nov 2019 - Dec 2020</span>
-          </div>
-          <p class="text-muted-foreground">Sigma Digital, South Africa (Remote)</p>
-        </div>
-
-        <div class="space-y-2">
-          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
-            <h3 class="text-lg font-semibold">Frontend Software Engineer</h3>
-            <span class="text-sm text-muted-foreground">Sep 2019 - Jan 2021</span>
-          </div>
-          <p class="text-muted-foreground">The Spry Group LLC, NY (Remote, Part-time)</p>
-        </div>
-
-        <div class="space-y-2">
-          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
-            <h3 class="text-lg font-semibold">Software Developer</h3>
-            <span class="text-sm text-muted-foreground">2018 - 2019</span>
-          </div>
-          <p class="text-muted-foreground">ESRI South Africa</p>
-        </div>
-
-        <div class="space-y-2">
-          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
-            <h3 class="text-lg font-semibold">GIS Analyst</h3>
-            <span class="text-sm text-muted-foreground">2016 - 2018</span>
-          </div>
-          <p class="text-muted-foreground">RAMM Technologies, Zimbabwe</p>
-        </div>
-
-        <div class="space-y-2">
-          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
-            <h3 class="text-lg font-semibold">Civil Engineer</h3>
-            <span class="text-sm text-muted-foreground">2014 - 2016</span>
-          </div>
-          <p class="text-muted-foreground">City of Bulawayo, Zimbabwe</p>
-          <ul class="mt-2 space-y-1 text-muted-foreground list-disc list-inside">
-            <li>Designed water distribution networks and managed infrastructure projects</li>
-            <li>Volunteered for GIS department, leading to transition into tech</li>
-          </ul>
-        </div>
+      <section>
+        <h2>Skills</h2>
+        <dl class="skills">
+          <dt>Languages</dt>
+          <dd>Python, TypeScript, JavaScript, Go, Rust, SQL</dd>
+          <dt>AI/ML</dt>
+          <dd>LLM integration and orchestration, agentic workflows, RAG and retrieval, embeddings and semantic search, vector databases, multi-model and multi-modal systems, voice AI, evaluation and benchmarking</dd>
+          <dt>Backend and data</dt>
+          <dd>Distributed systems, microservices, event-driven architecture, batch and streaming pipelines, relational databases, caching, warehouse-backed reporting, REST and GraphQL APIs</dd>
+          <dt>Infrastructure</dt>
+          <dd>AWS, infrastructure as code, Docker and Kubernetes, CI/CD, observability and incident response</dd>
+          <dt>Frontend</dt>
+          <dd>React, Next.js, Svelte, TypeScript</dd>
+        </dl>
       </section>
 
-      {/* Skills */}
-      <section class="space-y-4">
-        <h2 class="text-2xl font-bold print:text-xl">Skills</h2>
-        <div class="grid gap-4 sm:grid-cols-2">
-          <div>
-            <h3 class="font-semibold mb-2">Languages & Frameworks</h3>
-            <p class="text-muted-foreground text-sm">
-              TypeScript, JavaScript, Python, React, Node.js, Next.js, Astro
-            </p>
-          </div>
-          <div>
-            <h3 class="font-semibold mb-2">AI/ML & Data</h3>
-            <p class="text-muted-foreground text-sm">
-              Vector databases (Pinecone, Upstash), OpenAI, embeddings, PostgreSQL, Redis
-            </p>
-          </div>
-          <div>
-            <h3 class="font-semibold mb-2">Infrastructure</h3>
-            <p class="text-muted-foreground text-sm">
-              AWS (Lambda, S3, SQS, DynamoDB), Terraform, Docker, Vercel
-            </p>
-          </div>
-          <div>
-            <h3 class="font-semibold mb-2">Practices</h3>
-            <p class="text-muted-foreground text-sm">
-              Event-driven architecture, CI/CD, testing, observability, agile
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Education */}
-      <section class="space-y-4">
-        <h2 class="text-2xl font-bold print:text-xl">Education</h2>
-        <div class="space-y-2">
-          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
-            <h3 class="font-semibold">BEng (Hons) Civil and Water Engineering</h3>
-            <span class="text-sm text-muted-foreground">2009 - 2014</span>
-          </div>
-          <p class="text-muted-foreground">National University of Science and Technology (NUST), Zimbabwe</p>
-        </div>
-      </section>
-
-      {/* Projects */}
-      <section class="space-y-4 print:hidden">
-        <h2 class="text-2xl font-bold">Side Projects</h2>
-        <p class="text-muted-foreground">
-          I build indie products in my spare time. See all projects at <Link href="/projects">/projects</Link>.
+      <section>
+        <h2>Experience</h2>
+        {
+          roles.map((role) => (
+            <div class="org">
+              <h3>{role.href ? <a href={role.href}>{role.org}</a> : role.org}</h3>
+              {role.orgNote && <p class="org-note">{role.orgNote}</p>}
+              {role.positions.map((position) => (
+                <div class="position">
+                  <div class="position-head">
+                    <h4>{position.title}</h4>
+                    <span class="meta">{position.dates}</span>
+                  </div>
+                  <ul>
+                    {position.bullets.map((bullet) => (
+                      <li>{bullet}</li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          ))
+        }
+        <p class="earlier">
+          Earlier: Frontend Software Engineer, The Spry Group, Sep 2019 to Jan 2021 (concurrent consulting; React, Gatsby, TypeScript). Before software: GIS Developer at Esri South Africa and RAMM Technologies, then Civil Engineer at City of Bulawayo and Kuma Consulting, designing water networks and managing a $1.8M sewer rehabilitation project.
         </p>
-        <div class="grid gap-4 sm:grid-cols-2">
-          <div class="p-4 rounded-lg bg-card">
-            <h3 class="font-semibold">CV Optimiser</h3>
-            <p class="text-sm text-muted-foreground">
-              AI-powered CV analysis against job descriptions
-            </p>
-          </div>
-          <div class="p-4 rounded-lg bg-card">
-            <h3 class="font-semibold">Dealbase Africa</h3>
-            <p class="text-sm text-muted-foreground">
-              Startup funding data tracker for African tech
-            </p>
-          </div>
-        </div>
       </section>
-    </div>
+
+      <section>
+        <h2>Independent products</h2>
+        <ul class="products">
+          {
+            products.map((product) => (
+              <li>
+                <p class="product-head">
+                  <a href={product.href}>{product.name}</a>
+                  <span class="meta">{product.tag}</span>
+                </p>
+                <p>{product.what}</p>
+              </li>
+            ))
+          }
+        </ul>
+        <p class="earlier">
+          Also: <a href="https://worthyourtime.xyz">worthyourtime.xyz</a> (film recommendations from a learned taste model that explains its verdict), <a href="https://faithbench.com">faithbench.com</a> (public LLM benchmark with a multi-stage LLM-as-judge evaluation pipeline and a held-out test split), <a href="https://www.interviewoptimiser.com">interviewoptimiser.com</a> and <a href="https://www.referenceoptimiser.com">referenceoptimiser.com</a> (real-time voice AI for mock interviews and reference checks, with Hume AI), <a href="https://dealbase.africa">dealbase.africa</a> (AI extraction of African startup funding data), <a href="https://www.imali.cc">imali.cc</a>.
+        </p>
+      </section>
+
+      <section>
+        <h2>Speaking, mentoring, education</h2>
+        <dl class="skills">
+          <dt>Talks</dt>
+          <dd>Svelte Society London, 2022, "How I built pro-search.io with SvelteKit". DevConf South Africa, 2020, "What civil engineering taught me about being a good software developer".</dd>
+          <dt>Mentoring</dt>
+          <dd>Coding Mentor, Andela Learning Community (Google scholarship initiative). External Academic Supervisor, National University of Science and Technology.</dd>
+          <dt>Education</dt>
+          <dd>BEng (Hons), Civil and Water Engineering, NUST, Bulawayo, Zimbabwe, 2009 to 2014.</dd>
+        </dl>
+      </section>
+    </article>
   </MainContainer>
 </BaseLayout>
 
 <style>
+  .cv {
+    padding-top: var(--space-12);
+  }
+
+  .cv-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-4);
+    margin-bottom: var(--space-10);
+  }
+  .cv-header h1 {
+    margin: 0 0 var(--space-2);
+  }
+  .role {
+    margin: 0 0 var(--space-2);
+    font-family: var(--font-sans);
+    font-size: 1.125rem;
+    color: var(--muted-foreground);
+  }
+  .contact {
+    margin: 0;
+  }
+
+  section + section {
+    margin-top: var(--space-12);
+  }
+  section h2 {
+    margin: 0 0 var(--space-6);
+    padding-bottom: var(--space-2);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .skills {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: var(--space-2) var(--space-6);
+    margin: 0;
+  }
+  .skills dt {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 0.9375rem;
+  }
+  .skills dd {
+    margin: 0;
+    color: var(--muted-foreground);
+  }
+
+  .org + .org {
+    margin-top: var(--space-10);
+  }
+  .org h3 {
+    margin: 0 0 var(--space-1);
+  }
+  .org h3 a {
+    color: inherit;
+    text-decoration: none;
+  }
+  .org h3 a:hover {
+    color: var(--links);
+  }
+  .org-note {
+    margin: 0 0 var(--space-4);
+    color: var(--muted-foreground);
+    font-size: 1rem;
+  }
+
+  .position + .position {
+    margin-top: var(--space-6);
+  }
+  .position-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-2);
+    margin-bottom: var(--space-2);
+  }
+  .position-head h4 {
+    margin: 0;
+    font-size: 1.0625rem;
+  }
+  .position ul {
+    margin: 0;
+    padding-left: 1.25rem;
+  }
+  .position li {
+    margin: 0.375rem 0;
+    font-size: 1rem;
+  }
+  .position li::marker {
+    color: var(--accent);
+  }
+
+  .earlier {
+    margin: var(--space-8) 0 0;
+    font-size: 1rem;
+    color: var(--muted-foreground);
+  }
+
+  .products {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .products li + li {
+    margin-top: var(--space-6);
+  }
+  .products p {
+    margin: 0;
+  }
+  .product-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-3);
+    margin-bottom: var(--space-1) !important;
+  }
+  .product-head a {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-variation-settings: "wdth" 105;
+    font-size: 1.125rem;
+    color: var(--foreground);
+    text-decoration: none;
+  }
+  .product-head a:hover {
+    color: var(--links);
+  }
+
+  @media (max-width: 40rem) {
+    .skills {
+      grid-template-columns: 1fr;
+      gap: var(--space-1);
+    }
+    .skills dd {
+      margin-bottom: var(--space-3);
+    }
+  }
+
   @media print {
-    :global(header:has(.sticky)),
-    :global(footer),
-    :global(.mobile-menu),
-    :global(.search-trigger) {
+    :global(.site-header),
+    :global(.site-footer),
+    .print-button {
       display: none !important;
     }
-
     :global(main) {
       padding: 0 !important;
+      max-width: none !important;
     }
-
     :global(body) {
-      font-size: 12px;
+      font-size: 11px;
+    }
+    .cv {
+      padding-top: 0;
+    }
+    section + section {
+      margin-top: var(--space-6);
     }
   }
 </style>
