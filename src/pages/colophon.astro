@@ -48,7 +48,7 @@ const swatches = [
 
       <h2 id="feedback">Sound and haptics</h2>
       <p>
-        Clicking anything on this site makes a small sound and, on phones that allow it, a small buzz. The sounds come from <a href="https://github.com/romainsimon/uisfx">uisfx</a>, which synthesises them in the browser with Web Audio, so there are no audio files to download. The buzz comes from <a href="https://github.com/lochie/web-haptics">web-haptics</a>. It works on Android and on iOS before 26.5; Apple closed the loophole it relied on after that. The speaker icon in the header mutes both, and the choice is remembered.
+        Clicking anything on this site makes a small sound and, on phones that allow it, a small buzz. The sound is a 14 millisecond burst of filtered noise synthesised in the browser with Web Audio, so there are no audio files to download. I tried a packaged UI sound library first, but its shortest click was ten times longer and sounded like a notification. The buzz comes from <a href="https://github.com/lochie/web-haptics">web-haptics</a>. It works on Android and on iOS before 26.5; Apple closed the loophole it relied on after that. The speaker icon in the header mutes both, and the choice is remembered.
       </p>
 
       <h2 id="source">Source</h2>

@@ -1,0 +1,11 @@
+{
+	"title": "Worth Your Time",
+	"description": "Tell it what you love and it tells you whether a film is worth your evening. Recommendations come from a learned taste model that explains its verdict, not from critics' scores. On the web and on iOS.",
+	"url": "https://worthyourtime.xyz",
+	"appStoreUrl": "https://apps.apple.com/gb/app/worth-your-time/id6757996208",
+	"image": "../_images/worthyourtime.png",
+	"startDate": "2026-01-01",
+	"published": true,
+	"featured": true,
+	"tech": ["Next.js", "iOS", "Recommender model"]
+}

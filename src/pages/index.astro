@@ -9,14 +9,9 @@ import BaseLayout from "../layouts/BaseLayout.astro"
 
 const pageTitle = "Bhekani Khumalo"
 
-const building = [
-  { name: "mxr", href: "https://mxr.sh", what: "Agent-first, local-first email client in Rust. Open source. Syncs Gmail, Outlook and IMAP into SQLite; CLI, TUI, web app and MCP server share one API." },
-  { name: "blah.chat", href: "https://blah.chat/", what: "50+ models behind one chat interface, switchable mid-conversation, with RAG over your documents and a cost-aware router." },
-  { name: "EasyDeck", href: "https://www.easydeck.app", what: "Describe a deck, get finished slides with generated graphics as PowerPoint or PDF." },
-  { name: "FaithBench", href: "https://faithbench.com/", what: "Public benchmark for theological faithfulness in LLMs. Multi-stage LLM-as-judge pipeline, held-out test split." },
-  { name: "worthyourtime.xyz", href: "https://worthyourtime.xyz", what: "Film recommendations from a learned taste model that explains its verdict." },
-  { name: "Interview Optimiser", href: "https://www.interviewoptimiser.com", what: "Real-time voice AI mock interviews, built on Hume AI." },
-]
+const featured = (await getCollection("projects"))
+  .filter((project) => project.data.published && project.data.featured)
+  .sort((a, b) => new Date(b.data.startDate).valueOf() - new Date(a.data.startDate).valueOf())
 
 const posts = (await getCollection("posts"))
   .filter((post) => post.data.published)
@@ -45,18 +40,19 @@ const posts = (await getCollection("posts"))
 
     <section class="building">
       <h2>Currently building</h2>
-      <ul class="rule-list">
+      <div class="features">
         {
-          building.map((project) => (
-            <li>
-              <a href={project.href} class="project-name">
-                {project.name}
-              </a>
-              <p>{project.what}</p>
-            </li>
+          featured.map((project) => (
+            <a href={project.data.url} class="feature">
+              {project.data.image && (
+                <Image src={project.data.image} alt={`Screenshot of ${project.data.title}`} width={640} height={400} loading="lazy" />
+              )}
+              <span class="feature-title">{project.data.title}</span>
+              <span class="feature-desc">{project.data.description}</span>
+            </a>
           ))
         }
-      </ul>
+      </div>
       <a class="more link-quiet" href="/projects/">All projects →</a>
     </section>
 
@@ -175,6 +171,50 @@ const posts = (await getCollection("posts"))
     font-size: 1rem;
   }
 
+  .features {
+    display: grid;
+    gap: var(--space-8) var(--space-6);
+  }
+  .feature {
+    display: grid;
+    gap: var(--space-3);
+    align-content: start;
+    color: var(--foreground);
+    text-decoration: none;
+  }
+  .feature img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    object-position: top;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+    transition: border-color var(--transition-fast);
+  }
+  .feature:hover img {
+    border-color: var(--accent);
+  }
+  .feature-title {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-variation-settings: "wdth" 105;
+    font-size: 1.125rem;
+  }
+  .feature:hover .feature-title {
+    color: var(--links);
+  }
+  .feature-desc {
+    color: var(--muted-foreground);
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
   .project-name,
   .post-title {
     font-family: var(--font-display);
@@ -227,6 +267,9 @@ const posts = (await getCollection("posts"))
   }
 
   @media (min-width: 40rem) {
+    .features {
+      grid-template-columns: repeat(3, 1fr);
+    }
     .hero {
       grid-template-columns: 1fr auto;
     }
