@@ -14,14 +14,17 @@ const otherProjects = sortedProjects.filter((project) => !project.data.featured)
 
 const pageTitle = "Projects"
 const description = "Things I've built outside work. The three at the top are what I'm working on now."
+const issueNumber = (date: string) => new Date(date).getFullYear()
 ---
 
-<BaseLayout pageTitle={pageTitle} description={description}>
+<BaseLayout pageTitle={pageTitle} description={description} caption="Now showing">
   <MainContainer>
-    <section class="featured">
+    <section class="covers">
       {
         featuredProjects.map((project, index) => (
-          <article class="feature" style={`--i: ${index}`}>
+          <article class="panel cover land" style={`--i: ${index}`}>
+            <span class="cap">Issue #{issueNumber(project.data.startDate)}</span>
+            {project.data.appStoreUrl && <span class="burst">Now on iOS</span>}
             <a href={project.data.url} class="shot" aria-label={`Open ${project.data.title}`}>
               {project.data.image && (
                 <Image
@@ -33,12 +36,12 @@ const description = "Things I've built outside work. The three at the top are wh
                 />
               )}
             </a>
-            <div class="feature-body">
+            <div class="cover-body">
               <h2>
                 <a href={project.data.url}>{project.data.title}</a>
               </h2>
               <p>{project.data.description}</p>
-              <p class="feature-links">
+              <p class="cover-links">
                 <a href={project.data.url} class="btn">
                   Visit site
                 </a>
@@ -61,15 +64,15 @@ const description = "Things I've built outside work. The three at the top are wh
 
     {
       otherProjects.length > 0 && (
-        <section class="others">
-          <h2>Earlier</h2>
+        <section class="panel back-issues land" style="--i: 3">
+          <span class="cap">Back issues</span>
           <ul class="rule-list">
             {otherProjects.map((project) => (
               <li>
                 <a href={project.data.url} class="project-name">
                   {project.data.title}
                 </a>
-                <span class="meta">{new Date(project.data.startDate).getFullYear()}</span>
+                <span class="meta">{issueNumber(project.data.startDate)}</span>
                 <p>{project.data.description}</p>
               </li>
             ))}
@@ -81,68 +84,63 @@ const description = "Things I've built outside work. The three at the top are wh
 </BaseLayout>
 
 <style>
-  .featured {
+  .covers {
     display: grid;
-    gap: var(--space-16);
-    margin-top: var(--space-4);
+    gap: var(--space-8);
   }
 
-  .feature {
+  .cover {
     display: grid;
     gap: var(--space-6);
+    padding: var(--space-10) var(--space-6) var(--space-6);
+  }
+  .cover .burst {
+    position: absolute;
+    top: -1.5rem;
+    right: -1rem;
+    z-index: 1;
+  }
+  :global(html[data-skin="route"]) .cover .burst {
+    top: var(--space-4);
+    right: var(--space-4);
   }
 
-  /* Screenshot sits on an oxide slab, offset to alternate sides per project */
   .shot {
-    position: relative;
     display: block;
-    border-radius: var(--radius-lg);
-  }
-  .shot::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    translate: 0.875rem 0.875rem;
-    background: var(--accent);
-    border-radius: var(--radius-lg);
-    transition: translate var(--transition-slow);
-  }
-  .feature:nth-child(even) .shot::before {
-    translate: -0.875rem 0.875rem;
-  }
-  .shot:hover::before {
-    translate: 0.5rem 0.5rem;
-  }
-  .feature:nth-child(even) .shot:hover::before {
-    translate: -0.5rem 0.5rem;
   }
   .shot img {
-    position: relative;
     display: block;
     width: 100%;
     height: auto;
     aspect-ratio: 16 / 10;
     object-fit: cover;
     object-position: top;
-    border-radius: var(--radius-lg);
-    border: 1px solid var(--border);
+    border: var(--rule) solid var(--border);
+    transition:
+      transform var(--transition-fast),
+      box-shadow var(--transition-fast);
+  }
+  .shot:hover img {
+    transform: translate(-3px, -3px);
+    box-shadow: var(--shadow-ink);
   }
 
-  .feature-body h2 {
+  .cover-body h2 {
     margin: 0 0 var(--space-3);
+    font-size: clamp(2rem, 1.5rem + 2vw, 3rem);
   }
-  .feature-body h2 a {
+  .cover-body h2 a {
     color: inherit;
     text-decoration: none;
   }
-  .feature-body h2 a:hover {
+  .cover-body h2 a:hover {
     color: var(--links);
   }
-  .feature-body > p {
+  .cover-body > p {
     margin: 0 0 var(--space-5);
     max-width: 60ch;
   }
-  .feature-links {
+  .cover-links {
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-3);
@@ -160,27 +158,20 @@ const description = "Things I've built outside work. The three at the top are wh
     color: var(--muted-foreground);
   }
 
-  .others {
-    margin-top: var(--space-16);
-  }
-  .others h2 {
-    margin: 0 0 var(--space-6);
+  .back-issues {
+    margin-top: var(--space-10);
+    padding: var(--space-10) var(--space-6) var(--space-6);
   }
   .rule-list {
     list-style: none;
     margin: 0;
     padding: 0;
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
   }
   .rule-list li {
     display: grid;
     grid-template-columns: 1fr auto;
     column-gap: var(--space-4);
     padding: var(--space-4) 0;
-  }
-  .rule-list li + li {
-    border-top: 1px solid var(--border);
   }
   .rule-list p {
     grid-column: 1 / -1;
@@ -189,9 +180,8 @@ const description = "Things I've built outside work. The three at the top are wh
     font-size: 1rem;
   }
   .project-name {
-    font-family: var(--font-display);
-    font-weight: 600;
-    font-variation-settings: "wdth" 105;
+    font-family: var(--font-sans);
+    font-weight: 800;
     font-size: 1.125rem;
     color: var(--foreground);
     text-decoration: none;
@@ -201,12 +191,12 @@ const description = "Things I've built outside work. The three at the top are wh
   }
 
   @media (min-width: 48rem) {
-    .feature {
+    .cover {
       grid-template-columns: 3fr 2fr;
       align-items: center;
-      gap: var(--space-10);
+      gap: var(--space-8);
     }
-    .feature:nth-child(even) .shot {
+    .cover:nth-child(even) .shot {
       order: 2;
     }
   }

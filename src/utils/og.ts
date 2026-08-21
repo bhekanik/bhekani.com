@@ -108,12 +108,12 @@ async function generateOgImage(options: OgImageOptions) {
       <defs>
         <style>
           @font-face {
-            font-family: "Archivo";
+            font-family: "Anton";
             src: url("${font}") format("woff2");
-            font-weight: 100 900;
+            font-weight: 400;
           }
           text {
-            font-family: "Archivo", "Arial", sans-serif;
+            font-family: "Anton", "Impact", sans-serif;
             letter-spacing: 0;
           }
         </style>
@@ -134,7 +134,7 @@ async function loadAssets() {
       fs.readFile(
         path.join(
           process.cwd(),
-          "node_modules/@fontsource-variable/archivo/files/archivo-latin-standard-normal.woff2",
+          "node_modules/@fontsource/anton/files/anton-latin-400-normal.woff2",
         ),
       ),
     ]).then(([background, font]) => ({

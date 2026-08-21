@@ -8,6 +8,7 @@ import BK from "../images/BK.webp"
 import BaseLayout from "../layouts/BaseLayout.astro"
 
 const pageTitle = "Bhekani Khumalo"
+const issue = new Date().getFullYear()
 
 const featured = (await getCollection("projects"))
   .filter((project) => project.data.published && project.data.featured)
@@ -16,171 +17,190 @@ const featured = (await getCollection("projects"))
 const posts = (await getCollection("posts"))
   .filter((post) => post.data.published)
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-  .slice(0, 5)
+  .slice(0, 4)
 ---
 
 <BaseLayout pageTitle={pageTitle} imageUrl="https://www.bhekani.com/og/homepage.png" hidePageHeader={true}>
   <MainContainer>
-    <section class="hero rise">
-      <div class="hero-text">
-        <h1>Bhekani<br />Khumalo</h1>
+    <div class="page">
+      <section class="panel dots splash land" style="--i: 0">
+        <span class="cap">Meanwhile, in London…</span>
+        <h1>Bhekani<br /><em>Khumalo</em></h1>
         <p class="lede">
-          Software engineer in London. I lead the Workflows engineering at <a href="https://contentful.com/">Contentful</a>, after a year building the semantic layer behind its AI features. Part-time CPO at Notto. Civil engineer before any of it. I ship indie products in the gaps.
+          Software engineer. Workflows at <a href="https://contentful.com/">Contentful</a> by day, part-time CPO at <a href="https://nottoafrica.com">Notto</a>, indie products in the gaps. Civil engineer in a previous issue.
         </p>
-        <p class="hero-links">
-          <a href="/about" class="btn">About me</a>
-          <a href="/posts" class="btn-ghost">Read the blog</a>
+        <p class="actions">
+          <a href="/posts" class="btn">Read the blog</a>
           <a href="/unoffice-hours" class="btn-ghost">Book a call</a>
         </p>
-      </div>
-      <div class="portrait">
-        <Image src={BK} alt="Bhekani Khumalo" width={320} height={320} loading="eager" />
-      </div>
-    </section>
+      </section>
 
-    <section class="building">
-      <h2>Currently building</h2>
-      <div class="features">
-        {
-          featured.map((project) => (
-            <a href={project.data.url} class="feature">
-              {project.data.image && (
-                <Image src={project.data.image} alt={`Screenshot of ${project.data.title}`} width={640} height={400} loading="lazy" />
-              )}
-              <span class="feature-title">{project.data.title}</span>
-              <span class="feature-desc">{project.data.description}</span>
-            </a>
-          ))
-        }
-      </div>
-      <a class="more link-quiet" href="/projects/">All projects →</a>
-    </section>
+      <section class="panel portrait land" style="--i: 1" aria-label="Portrait">
+        <span class="burst">Issue #{issue}</span>
+        <div class="halftone">
+          <Image src={BK} alt="Bhekani Khumalo" width={640} height={640} loading="eager" />
+        </div>
+      </section>
 
-    <section class="writing">
-      <h2>Recent writing</h2>
-      <ul class="rule-list">
-        {
-          posts.map((post) => (
-            <li>
-              <a href={`/posts/${post.id}/`} class="post-title" transition:name={`title-${post.id}`}>
-                {post.data.title}
+      <section class="panel building land" style="--i: 2">
+        <span class="cap">Currently building</span>
+        <div class="strip">
+          {
+            featured.map((project) => (
+              <a href={project.data.url} class="feature">
+                {project.data.image && (
+                  <Image src={project.data.image} alt={`Screenshot of ${project.data.title}`} width={640} height={400} loading="lazy" />
+                )}
+                <h3>{project.data.title}</h3>
+                <p>{project.data.description}</p>
               </a>
-              <time class="meta" datetime={post.data.pubDate.toISOString()}>
-                {format(post.data.pubDate, "d MMM yyyy")}
-              </time>
-              {post.data.description && <p>{post.data.description}</p>}
-            </li>
-          ))
-        }
-      </ul>
-      <a class="more link-quiet" href="/posts/">All posts →</a>
-    </section>
+            ))
+          }
+        </div>
+        <a class="more link-quiet" href="/projects/">All projects →</a>
+      </section>
 
-    <AllTags />
+      <section class="panel writing land" style="--i: 3">
+        <span class="cap">Recent writing</span>
+        <ol class="posts">
+          {
+            posts.map((post, index) => (
+              <li>
+                <span class="n" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+                <div>
+                  <a href={`/posts/${post.id}/`} class="post-title" transition:name={`title-${post.id}`}>
+                    {post.data.title}
+                  </a>
+                  <time class="meta" datetime={post.data.pubDate.toISOString()}>
+                    {format(post.data.pubDate, "d MMM yyyy")}
+                  </time>
+                </div>
+              </li>
+            ))
+          }
+        </ol>
+        <a class="more link-quiet" href="/posts/">All posts →</a>
+      </section>
 
-    <section class="newsletter">
-      <div>
+      <aside class="bubble newsletter land" style="--i: 4">
         <h2>Just Reflections</h2>
-        <p>
-          A newsletter on software, building products, and life outside tech. Goes out when I have something worth saying, not on a schedule.
-        </p>
-      </div>
-      <a href="https://justreflections.bhekani.com/" target="_blank" rel="noopener" class="btn newsletter-btn">Subscribe</a>
-    </section>
+        <p>A newsletter on software, building products, and life outside tech. Goes out when I have something worth saying, not on a schedule.</p>
+        <a href="https://justreflections.bhekani.com/" target="_blank" rel="noopener" class="btn">Subscribe</a>
+      </aside>
+
+      <section class="tags land" style="--i: 5">
+        <AllTags />
+      </section>
+    </div>
   </MainContainer>
 </BaseLayout>
 
 <style>
-  .hero {
+  .page {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--space-8);
-    align-items: end;
-    padding: var(--space-12) 0 var(--space-10);
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: var(--space-4);
+    padding-top: var(--space-8);
+  }
+  .page > * {
+    grid-column: 1 / -1;
   }
 
-  .hero h1 {
-    font-size: clamp(3rem, 2rem + 5vw, 5.5rem);
-    line-height: 0.95;
-    margin: 0 0 var(--space-6);
+  .splash {
+    min-height: 28rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: var(--space-12) var(--space-6) var(--space-6);
+    background-image: linear-gradient(transparent 0 55%, var(--card) 100%), var(--halftone);
   }
-
+  .splash h1 {
+    font-size: clamp(3.5rem, 2rem + 8vw, 8rem);
+    line-height: 0.9;
+    margin: 0 0 var(--space-4);
+  }
+  .splash h1 em {
+    font-style: normal;
+    color: var(--accent);
+  }
   .lede {
-    font-size: 1.25rem;
-    line-height: 1.55;
-    max-width: 42ch;
-    margin: 0 0 var(--space-8);
+    max-width: 46ch;
+    font-size: 1.2rem;
+    margin: 0 0 var(--space-6);
+    padding: var(--space-1) 0;
+    background: var(--card);
+    box-shadow: 0 0 0 6px var(--card);
   }
-
-  .hero-links {
+  .actions {
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-3);
     margin: 0;
   }
 
-  /* Offset oxide slab behind the portrait: the one decorative move on the page */
   .portrait {
-    position: relative;
-    width: min(16rem, 60vw);
-    justify-self: start;
+    padding: 0;
+    overflow: hidden;
+    background: var(--spot);
+    min-height: 22rem;
   }
-  .portrait::before {
+  .portrait .burst {
+    position: absolute;
+    top: -1.25rem;
+    right: -1rem;
+    z-index: 1;
+  }
+  :global(html[data-skin="route"]) .portrait .burst {
+    top: var(--space-3);
+    right: var(--space-3);
+  }
+  /* CSS halftone: greyscale photo, hard contrast, dot screen multiplied on top */
+  .halftone {
+    position: relative;
+    height: 100%;
+    min-height: 22rem;
+  }
+  .halftone img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: grayscale(1) contrast(1.25) brightness(1.05);
+    mix-blend-mode: multiply;
+  }
+  .halftone::after {
     content: "";
     position: absolute;
     inset: 0;
-    translate: 0.875rem 0.875rem;
-    background: var(--accent);
-    border-radius: var(--radius-lg);
+    background-image: var(--halftone);
+    background-size: 5px 5px;
+    opacity: 0.55;
+    pointer-events: none;
   }
-  .portrait img {
-    position: relative;
-    display: block;
-    width: 100%;
-    height: auto;
-    aspect-ratio: 1;
-    object-fit: cover;
-    border-radius: var(--radius-lg);
+  :global(html[data-skin="route"]) .halftone img {
+    filter: none;
+    mix-blend-mode: normal;
   }
-
-  section + section {
-    margin-top: var(--space-16);
+  :global(html[data-skin="route"]) .portrait {
+    background: var(--card);
   }
 
-  section h2 {
-    margin: 0 0 var(--space-6);
+  .building {
+    padding: var(--space-8) 0 var(--space-6);
   }
-
-  .rule-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-  }
-  .rule-list li {
+  .strip {
     display: grid;
-    grid-template-columns: 1fr auto;
-    column-gap: var(--space-4);
-    padding: var(--space-4) 0;
-  }
-  .rule-list p {
-    grid-column: 1 / -1;
-    margin: var(--space-1) 0 0;
-    color: var(--muted-foreground);
-    font-size: 1rem;
-  }
-
-  .features {
-    display: grid;
-    gap: var(--space-8) var(--space-6);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
   .feature {
-    display: grid;
-    gap: var(--space-3);
-    align-content: start;
+    display: block;
+    padding: var(--space-5);
     color: var(--foreground);
     text-decoration: none;
+    border-right: var(--rule) solid var(--border);
+  }
+  .feature:last-child {
+    border-right: 0;
   }
   .feature img {
     display: block;
@@ -189,42 +209,66 @@ const posts = (await getCollection("posts"))
     aspect-ratio: 16 / 10;
     object-fit: cover;
     object-position: top;
-    border-radius: var(--radius-lg);
-    border: 1px solid var(--border);
-    transition: border-color var(--transition-fast);
+    border: var(--rule) solid var(--border);
+    margin-bottom: var(--space-4);
+    transition: transform var(--transition-fast);
   }
   .feature:hover img {
-    border-color: var(--accent);
+    transform: translate(-2px, -2px);
+    box-shadow: var(--shadow-ink-sm);
   }
-  .feature-title {
-    font-family: var(--font-display);
-    font-weight: 600;
-    font-variation-settings: "wdth" 105;
-    font-size: 1.125rem;
+  .feature h3 {
+    margin: 0 0 var(--space-2);
+    font-size: 1.75rem;
   }
-  .feature:hover .feature-title {
+  .feature:hover h3 {
     color: var(--links);
   }
-  .feature-desc {
-    color: var(--muted-foreground);
+  .feature p {
+    margin: 0;
     font-size: 0.9375rem;
-    line-height: 1.5;
+    color: var(--muted-foreground);
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
+  .building .more {
+    margin: var(--space-4) var(--space-5) 0;
+  }
 
-  .project-name,
-  .post-title {
+  .writing {
+    padding-top: var(--space-10);
+  }
+  .posts {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .posts li {
+    display: grid;
+    grid-template-columns: 3.5rem 1fr;
+    gap: var(--space-4);
+    align-items: start;
+    padding: var(--space-4) 0;
+    border-top: var(--rule) solid var(--border);
+  }
+  .posts .n {
     font-family: var(--font-display);
-    font-weight: 600;
-    font-variation-settings: "wdth" 105;
-    font-size: 1.125rem;
+    font-size: 2.5rem;
+    line-height: 0.85;
+    color: var(--accent);
+  }
+  .post-title {
+    display: block;
+    font-family: var(--font-sans);
+    font-size: 1.25rem;
+    font-weight: 800;
+    line-height: 1.2;
     color: var(--foreground);
     text-decoration: none;
+    margin-bottom: 0.25rem;
   }
-  .project-name:hover,
   .post-title:hover {
     color: var(--links);
   }
@@ -233,53 +277,58 @@ const posts = (await getCollection("posts"))
     display: inline-block;
     margin-top: var(--space-4);
     font-family: var(--font-sans);
-    font-weight: 500;
+    font-weight: 800;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
     color: var(--muted-foreground);
   }
 
   .newsletter {
-    display: grid;
-    gap: var(--space-6);
-    padding: var(--space-8);
-    background: var(--accent);
-    color: var(--accent-foreground);
-    border-radius: var(--radius-xl);
+    align-self: start;
+    margin-bottom: var(--space-8);
   }
   .newsletter h2 {
     margin: 0 0 var(--space-2);
-    color: inherit;
   }
   .newsletter p {
-    margin: 0;
-    max-width: 48ch;
-    color: inherit;
-  }
-  .newsletter-btn {
-    align-self: end;
-    justify-self: start;
-    background: var(--accent-foreground);
-    color: var(--accent);
-  }
-  .newsletter-btn:hover {
-    background: var(--accent-foreground);
-    color: var(--accent);
-    opacity: 0.92;
+    margin: 0 0 var(--space-5);
+    font-size: 0.9375rem;
   }
 
-  @media (min-width: 40rem) {
-    .features {
-      grid-template-columns: repeat(3, 1fr);
+  .tags {
+    padding-top: var(--space-4);
+  }
+
+  @media (min-width: 48rem) {
+    .page {
+      gap: var(--space-5);
     }
-    .hero {
-      grid-template-columns: 1fr auto;
+    .page .splash {
+      grid-column: 1 / 5;
     }
-    .portrait {
-      justify-self: end;
-      margin-bottom: var(--space-2);
+    .page .portrait {
+      grid-column: 5 / 7;
+      min-height: 0;
     }
-    .newsletter {
-      grid-template-columns: 1fr auto;
-      align-items: end;
+    .page .writing {
+      grid-column: 1 / 5;
+    }
+    .page .newsletter {
+      grid-column: 5 / 7;
+      margin-top: var(--space-10);
+    }
+  }
+  @media (max-width: 48rem) {
+    .strip {
+      grid-template-columns: 1fr;
+    }
+    .feature {
+      border-right: 0;
+      border-bottom: var(--rule) solid var(--border);
+    }
+    .feature:last-child {
+      border-bottom: 0;
     }
   }
 </style>

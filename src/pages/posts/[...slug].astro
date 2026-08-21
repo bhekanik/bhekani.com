@@ -38,9 +38,10 @@ const readingTime = Math.max(1, Math.round(wordCount / 200))
   <div id="reading-progress" class="fixed top-0 left-0 h-0.5 z-50" style="width: 0%"></div>
 
   <MainContainer>
-    <article class="max-w-4xl mx-auto mt-12">
+    <article class="max-w-4xl mx-auto mt-8">
       {/* Article Header */}
-      <header class="post-animate-header space-y-8 mb-16">
+      <header class="post-animate-header panel dots mb-12" style="padding: var(--space-12) var(--space-8) var(--space-8)">
+        <span class="cap">{new Date(post.data.pubDate).toLocaleDateString("en-GB", { month: "long", year: "numeric" })}</span>
         <div class="space-y-4">
           <div
             class="flex items-center gap-2 text-sm text-muted-foreground"
@@ -68,7 +69,7 @@ const readingTime = Math.max(1, Math.round(wordCount / 200))
 
           {
             post.data.description && (
-              <p class="text-xl text-muted-foreground max-w-[60ch]">
+              <p class="text-xl text-muted-foreground max-w-[60ch] font-body">
                 {post.data.description}
               </p>
             )
@@ -103,8 +104,6 @@ const readingTime = Math.max(1, Math.round(wordCount / 200))
         }
       </header>
 
-      {/* Divider */}
-      <div class="h-[3px] w-12 bg-accent mb-12"></div>
 
       {/* Table of Contents - Desktop */}
       {
