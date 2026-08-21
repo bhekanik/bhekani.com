@@ -51,7 +51,7 @@
     "svelte": "^5.46.1",
     "tailwind-merge": "^3.4.0",
     "tailwindcss": "^4.1.18",
-    "typescript": "^6.0.3",
+    "typescript": "^7.0.2",
     "web-haptics": "0.0.6",
     "wrap-ansi": "^10.0.0"
   },
