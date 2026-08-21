@@ -1,105 +1,94 @@
 ---
-import Link from "../components/Link.astro";
-import MainContainer from "../components/MainContainer.astro";
-import BaseLayout from "../layouts/BaseLayout.astro";
+import MainContainer from "../components/MainContainer.astro"
+import BaseLayout from "../layouts/BaseLayout.astro"
 
-const pageTitle = "Colophon";
+const pageTitle = "Colophon"
+const description = "How this site is put together."
+
+const swatches = [
+  { token: "background", note: "page" },
+  { token: "card", note: "raised surface" },
+  { token: "muted", note: "hover, pills" },
+  { token: "border", note: "hairlines" },
+  { token: "foreground", note: "ink" },
+  { token: "muted-foreground", note: "secondary ink" },
+  { token: "links", note: "link text" },
+  { token: "accent", note: "oxide" },
+]
 ---
 
-<BaseLayout pageTitle={pageTitle}>
+<BaseLayout pageTitle={pageTitle} description={description}>
   <MainContainer>
-    <main>
-      <section class="page-contain colophon mt-8">
-        <p>
-          This site is built using <Link href="https://astro.build/">
-            Astro.js
-          </Link>
-          and hosted on <Link href="https://vercel.com">Vercel</Link>.
-        </p>
-        <h2 class="text-2xl" id="typography">Typography</h2>
-        <p>
-          I’m using <a style="font-family: Oswald" href="#">Oswald</a> for headings
-          and <a style="font-family: IBM Plex Sans" href="#">IBM Plex Sans</a> for
-          body copy, and <code>JetBrains Mono</code> for code. The fonts are all
-          <a href="https://fonts.google.com">Google Fonts</a>, so they’re free.
-        </p>
-        <h2 class="text-2xl" id="color">Color</h2>
-        <ul class="color-list">
-          <li style="--currentVal: var(--background)">background</li>
-          <li style="--currentVal: var(--foreground)">foreground</li>
-          <li style="--currentVal: var(--card)">card</li>
-          <li style="--currentVal: var(--card-foreground)">card-foreground</li>
-          <li style="--currentVal: var(--popover)">popover</li>
-          <li style="--currentVal: var(--popover-foreground)">
-            popover-foreground
-          </li>
-          <li style="--currentVal: var(--primary)">primary</li>
-          <li style="--currentVal: var(--primary-foreground)">
-            primary-foreground
-          </li>
-          <li style="--currentVal: var(--secondary)">secondary</li>
-          <li style="--currentVal: var(--secondary-foreground)">
-            secondary-foreground
-          </li>
-          <li style="--currentVal: var(--muted)">muted</li>
-          <li style="--currentVal: var(--muted-foreground)">
-            muted-foreground
-          </li>
-          <li style="--currentVal: var(--accent)">accent</li>
-          <li style="--currentVal: var(--accent-foreground)">
-            accent-foreground
-          </li>
-          <li style="--currentVal: var(--destructive)">destructive</li>
-          <li style="--currentVal: var(--destructive-foreground)">
-            destructive-foreground
-          </li>
-          <li style="--currentVal: var(--border)">border</li>
-          <li style="--currentVal: var(--input)">input</li>
-          <li style="--currentVal: var(--ring)">ring</li>
-          <li style="--currentVal: var(--radius)">radius</li>
-          <li style="--currentVal: var(--links)">links</li>
-          <li style="--currentVal: var(--links-hovered)">links-hovered</li>
-        </ul>
-      </section>
-    </main>
+    <div class="prose max-w-none colophon">
+      <h2 id="stack">Stack</h2>
+      <p>
+        Built with <a href="https://astro.build/">Astro</a>, styled with <a href="https://tailwindcss.com/">Tailwind CSS v4</a>, with a little <a href="https://svelte.dev/">Svelte</a> for search and view counts. Hosted on <a href="https://vercel.com">Vercel</a>. Comments run on <a href="https://giscus.app/">Giscus</a>, which stores them in GitHub Discussions. Page views live in <a href="https://docs.astro.build/en/guides/astro-db/">Astro DB</a>.
+      </p>
+
+      <h2 id="typography">Typography</h2>
+      <p>
+        Headings and interface text are set in <a href="https://fonts.google.com/specimen/Archivo" style="font-family: var(--font-display); font-weight: 700; font-variation-settings: 'wdth' 118">Archivo</a>, a grotesque with a width axis. Headings use it wide (118%), the nav uses it at normal width. Body copy is <a href="https://fonts.google.com/specimen/Source+Serif+4" style="font-family: var(--font-body)">Source Serif 4</a>, chosen because it has an optical-size axis and holds up at 18px on a phone. Code is <a href="https://www.jetbrains.com/lp/mono/"><code>JetBrains Mono</code></a>. All three are variable fonts served from this domain via <a href="https://fontsource.org/">Fontsource</a>, so nothing is fetched from Google.
+      </p>
+
+      <h2 id="color">Colour</h2>
+      <p>
+        The palette is one cool graphite ramp (OKLCH hue 240 to 255) and a single oxide orange. The orange is a nod to surveyor's paint and rebar from my civil engineering years. Light and dark themes share the same hues; dark mode raises lightness and nudges chroma up so the orange doesn't go muddy. Everything is defined in OKLCH with <code>light-dark()</code>, and every text colour clears WCAG AA in both themes.
+      </p>
+      <ul class="swatches">
+        {
+          swatches.map((swatch) => (
+            <li style={`--swatch: var(--${swatch.token})`}>
+              <span class="chip" />
+              <code>--{swatch.token}</code>
+              <span class="note">{swatch.note}</span>
+            </li>
+          ))
+        }
+      </ul>
+
+      <h2 id="feedback">Sound and haptics</h2>
+      <p>
+        Clicking anything on this site makes a small sound and, on phones that allow it, a small buzz. The sounds come from <a href="https://github.com/romainsimon/uisfx">uisfx</a>, which synthesises them in the browser with Web Audio, so there are no audio files to download. The buzz comes from <a href="https://github.com/lochie/web-haptics">web-haptics</a>. It works on Android and on iOS before 26.5; Apple closed the loophole it relied on after that. The speaker icon in the header mutes both, and the choice is remembered.
+      </p>
+
+      <h2 id="source">Source</h2>
+      <p>
+        The whole thing is on <a href="https://github.com/bhekanik/bhekani.com">GitHub</a>.
+      </p>
+    </div>
   </MainContainer>
 
   <style>
-    .colophon ul,
-    .colophon ol {
-      padding-left: 2rem;
-      margin-top: 1rem;
-    }
-
-    .color-list {
-      columns: 2;
+    .swatches {
       list-style: none;
-      max-width: 65ch;
-      margin: 1rem -1rem 1rem;
+      padding: 0;
+      margin: var(--space-6) 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+      gap: var(--space-3) var(--space-6);
     }
-
-    .color-list li::before {
-      content: "";
-      width: 1em;
-      height: 1em;
-      display: inline-block;
-      vertical-align: middle;
-      margin-right: 0.5rem;
-      border: 1px solid hsl(var(--card));
-      background-color: hsl(var(--currentVal));
+    .swatches li {
+      display: grid;
+      grid-template-columns: auto auto 1fr;
+      align-items: center;
+      gap: var(--space-3);
+      margin: 0;
+      padding: 0;
     }
-
-    @media (max-width: 440px) {
-      .colophon ul,
-      .colophon ol {
-        padding-left: 1rem;
-      }
+    .chip {
+      width: 1.75rem;
+      height: 1.75rem;
+      border-radius: var(--radius-sm);
+      background: var(--swatch);
+      border: 1px solid var(--border);
     }
-
-    @media (max-width: 600px) {
-      .colophon {
-        padding: 0;
-      }
+    .swatches code {
+      font-size: 0.8125rem;
+    }
+    .note {
+      font-family: var(--font-sans);
+      font-size: 0.8125rem;
+      color: var(--muted-foreground);
     }
   </style>
 </BaseLayout>

@@ -1,5 +1,6 @@
 <script>
   import { onMount, onDestroy } from "svelte"
+  import { feedback } from "../scripts/feedback"
 
   let isOpen = $state(false)
   let query = $state("")
@@ -10,10 +11,10 @@
   let inputRef = $state(null)
 
   const typeColors = {
-    post: "bg-blue-500/20 text-blue-400",
-    book: "bg-amber-500/20 text-amber-400",
-    micro: "bg-green-500/20 text-green-400",
-    project: "bg-purple-500/20 text-purple-400",
+    post: "bg-accent/15 text-links",
+    book: "bg-muted text-foreground",
+    micro: "bg-muted text-muted-foreground",
+    project: "bg-foreground text-background",
   }
 
   const typeLabels = {
@@ -83,6 +84,8 @@
   }
 
   function navigateTo(result) {
+    feedback.play("select")
+    feedback.haptic("tap")
     close()
     window.location.href = result.slug
   }
@@ -136,10 +139,10 @@
     onclick={handleBackdropClick}
   >
     <div class="flex items-start justify-center pt-[15vh]">
-      <div class="w-full max-w-xl mx-4 bg-[hsl(var(--background))] border border-[hsl(var(--muted))] rounded-lg shadow-2xl overflow-hidden">
+      <div class="w-full max-w-xl mx-4 bg-background border border-muted rounded-lg shadow-2xl overflow-hidden">
         <!-- Search Input -->
-        <div class="flex items-center gap-3 px-4 py-3 border-b border-[hsl(var(--muted))]">
-          <svg class="w-5 h-5 text-[hsl(var(--muted-foreground))]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="flex items-center gap-3 px-4 py-3 border-b border-muted">
+          <svg class="w-5 h-5 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
           <input
@@ -149,9 +152,9 @@
             onkeydown={handleKeydown}
             type="text"
             placeholder="Search posts, books, projects..."
-            class="flex-1 bg-transparent text-[hsl(var(--foreground))] placeholder:text-[hsl(var(--muted-foreground))] outline-none"
+            class="flex-1 bg-transparent text-foreground placeholder:text-muted-foreground outline-none"
           />
-          <kbd class="hidden sm:inline-flex items-center gap-1 px-2 py-1 text-xs text-[hsl(var(--muted-foreground))] bg-[hsl(var(--muted))] rounded">
+          <kbd class="hidden sm:inline-flex items-center gap-1 px-2 py-1 text-xs text-muted-foreground bg-muted rounded">
             esc
           </kbd>
         </div>
@@ -159,15 +162,15 @@
         <!-- Results -->
         <div class="max-h-[60vh] overflow-y-auto">
           {#if loading}
-            <div class="px-4 py-8 text-center text-[hsl(var(--muted-foreground))]">
-              <div class="inline-block w-5 h-5 border-2 border-[hsl(var(--muted-foreground))] border-t-transparent rounded-full animate-spin"></div>
+            <div class="px-4 py-8 text-center text-muted-foreground">
+              <div class="inline-block w-5 h-5 border-2 border-muted-foreground border-t-transparent rounded-full animate-spin"></div>
             </div>
           {:else if query.length > 0 && query.length < 2}
-            <div class="px-4 py-8 text-center text-[hsl(var(--muted-foreground))] text-sm">
+            <div class="px-4 py-8 text-center text-muted-foreground text-sm">
               Type at least 2 characters to search
             </div>
           {:else if query.length >= 2 && results.length === 0}
-            <div class="px-4 py-8 text-center text-[hsl(var(--muted-foreground))] text-sm">
+            <div class="px-4 py-8 text-center text-muted-foreground text-sm">
               No results found for "{query}"
             </div>
           {:else if results.length > 0}
@@ -176,20 +179,20 @@
                 <!-- svelte-ignore a11y_click_events_have_key_events -->
                 <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
                 <li
-                  class="px-4 py-3 cursor-pointer transition-colors {i === selectedIndex ? 'bg-[hsl(var(--muted))]' : 'hover:bg-[hsl(var(--muted))]/50'}"
+                  class="px-4 py-3 cursor-pointer transition-colors {i === selectedIndex ? 'bg-muted' : 'hover:bg-muted/50'}"
                   onclick={() => navigateTo(result)}
                   onmouseenter={() => selectedIndex = i}
                 >
                   <div class="flex items-start gap-3">
-                    <span class="shrink-0 px-2 py-0.5 text-xs font-medium rounded {typeColors[result.type] || 'bg-gray-500/20 text-gray-400'}">
+                    <span class="shrink-0 px-2 py-0.5 text-xs font-medium rounded {typeColors[result.type] || 'bg-muted text-muted-foreground'}">
                       {typeLabels[result.type] || result.type}
                     </span>
                     <div class="min-w-0">
-                      <div class="font-medium text-[hsl(var(--foreground))] truncate">
+                      <div class="font-medium text-foreground truncate">
                         {result.title}
                       </div>
                       {#if result.description}
-                        <div class="text-sm text-[hsl(var(--muted-foreground))] truncate mt-0.5">
+                        <div class="text-sm text-muted-foreground truncate mt-0.5">
                           {result.description}
                         </div>
                       {/if}
@@ -199,7 +202,7 @@
               {/each}
             </ul>
           {:else}
-            <div class="px-4 py-6 text-center text-[hsl(var(--muted-foreground))] text-sm">
+            <div class="px-4 py-6 text-center text-muted-foreground text-sm">
               <p>Search across all content</p>
               <p class="mt-2 text-xs">
                 Posts, books, micro posts, and projects
@@ -209,15 +212,15 @@
         </div>
 
         <!-- Footer -->
-        <div class="flex items-center justify-between px-4 py-2 border-t border-[hsl(var(--muted))] text-xs text-[hsl(var(--muted-foreground))]">
+        <div class="flex items-center justify-between px-4 py-2 border-t border-muted text-xs text-muted-foreground">
           <div class="flex items-center gap-4">
             <span class="flex items-center gap-1">
-              <kbd class="px-1.5 py-0.5 bg-[hsl(var(--muted))] rounded">↑</kbd>
-              <kbd class="px-1.5 py-0.5 bg-[hsl(var(--muted))] rounded">↓</kbd>
+              <kbd class="px-1.5 py-0.5 bg-muted rounded">↑</kbd>
+              <kbd class="px-1.5 py-0.5 bg-muted rounded">↓</kbd>
               navigate
             </span>
             <span class="flex items-center gap-1">
-              <kbd class="px-1.5 py-0.5 bg-[hsl(var(--muted))] rounded">↵</kbd>
+              <kbd class="px-1.5 py-0.5 bg-muted rounded">↵</kbd>
               select
             </span>
           </div>

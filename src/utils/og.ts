@@ -108,12 +108,12 @@ async function generateOgImage(options: OgImageOptions) {
       <defs>
         <style>
           @font-face {
-            font-family: "Inter";
+            font-family: "Archivo";
             src: url("${font}") format("woff2");
             font-weight: 100 900;
           }
           text {
-            font-family: "Inter", "Arial", sans-serif;
+            font-family: "Archivo", "Arial", sans-serif;
             letter-spacing: 0;
           }
         </style>
@@ -134,7 +134,7 @@ async function loadAssets() {
       fs.readFile(
         path.join(
           process.cwd(),
-          "node_modules/@fontsource-variable/inter/files/inter-latin-standard-normal.woff2",
+          "node_modules/@fontsource-variable/archivo/files/archivo-latin-standard-normal.woff2",
         ),
       ),
     ]).then(([background, font]) => ({

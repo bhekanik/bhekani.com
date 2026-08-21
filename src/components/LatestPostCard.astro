@@ -30,7 +30,7 @@ const {
     <TagsList tags={tags} />
     <p
       transition:name={`date-${slug}`}
-      class="text-sm text-[hsl(var(--muted-foreground))]"
+      class="text-sm text-muted-foreground"
     >
       {format(date, "MMMM dd, yyyy")}
     </p>
@@ -57,8 +57,8 @@ const {
   .card {
     display: grid;
     grid-template: "content image" / 3fr 1fr;
-    color: hsl(var(--card-foreground));
-    background-color: hsl(var(--muted));
+    color: var(--card-foreground);
+    background-color: var(--muted);
   }
 
   .card:has(.image) {
@@ -91,7 +91,7 @@ const {
     grid-area: image;
   }
   a {
-    color: hsl(var(--card-foreground));
+    color: var(--card-foreground);
   }
   a:hover {
     background-color: transparent;

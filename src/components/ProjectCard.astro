@@ -33,29 +33,29 @@ const {
 
   <div class="p-[var(--space-6)] space-y-[var(--space-3)]">
     <a href={url} target="_blank" class="block hover:bg-transparent">
-      <h2 class="text-xl font-semibold group-hover:text-[hsl(var(--primary))] transition-colors duration-[var(--transition-fast)]">{title}</h2>
+      <h2 class="text-xl font-semibold group-hover:text-primary transition-colors duration-[var(--transition-fast)]">{title}</h2>
     </a>
     <a
       href={url}
       target="_blank"
-      class="text-sm text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--primary))] hover:bg-transparent inline-flex items-center gap-[var(--space-1)]"
+      class="text-sm text-muted-foreground hover:text-primary hover:bg-transparent inline-flex items-center gap-[var(--space-1)]"
     >
       {url}
       <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/>
       </svg>
     </a>
-    <p class="text-sm text-[hsl(var(--muted-foreground))]">{description}</p>
+    <p class="text-sm text-muted-foreground">{description}</p>
     <!-- <div class="text-sm flex gap-2">
       <time
-        class="text-[hsl(var(--muted-foreground))]"
+        class="text-muted-foreground"
         datetime={new Date(startDate).toISOString()}
       >
         {format(new Date(startDate), "MMMM dd, yyyy")}
       </time>
       <span>&mdash;</span>
       <time
-        class="text-[hsl(var(--muted-foreground))]"
+        class="text-muted-foreground"
         datetime={new Date(startDate).toISOString()}
       >
         {endDate ? format(new Date(endDate), "MMMM dd, yyyy") : "Present"}
@@ -64,7 +64,7 @@ const {
     <div class="flex flex-wrap gap-[var(--space-2)]">
       {
         tech.map((tag: string) => (
-          <span class="text-xs px-[var(--space-2)] py-[var(--space-1)] bg-[hsl(var(--muted))] text-[hsl(var(--muted-foreground))] rounded-[var(--radius-sm)] transition-colors duration-[var(--transition-fast)] hover:bg-[hsl(var(--primary)/0.1)] hover:text-[hsl(var(--primary))]">
+          <span class="text-xs px-[var(--space-2)] py-[var(--space-1)] bg-muted text-muted-foreground rounded-[var(--radius-sm)] transition-colors duration-[var(--transition-fast)] hover:bg-primary/10 hover:text-primary">
             {tag}
           </span>
         ))

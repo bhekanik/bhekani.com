@@ -34,11 +34,11 @@
 </script>
 
 {#if data}
-  <p class="text-sm text-[hsl(var(--muted-foreground))]">
+  <p class="text-sm text-muted-foreground">
     Views: {data.count}
   </p>
 {:else if error}
-  <p class="text-sm text-[hsl(var(--muted-foreground))]">Views: 1</p>
+  <p class="text-sm text-muted-foreground">Views: 1</p>
 {:else}
   <p>Loading...</p>
 {/if}

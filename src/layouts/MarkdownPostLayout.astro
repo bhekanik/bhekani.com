@@ -29,7 +29,7 @@ const { headings } = await render(post)
   <PostMainContainer>
     <div class="w-full flex justify-center mb-8 font-bold">
       <a
-        class="px-3 p-2 text-[hsl(var(--foreground))] border-b-[1px] border-l-[1px] border-r-[1px] border-[hsl(var(--muted))]"
+        class="px-3 p-2 text-foreground border-b-[1px] border-l-[1px] border-r-[1px] border-muted"
         href="/rss.xml"
       >
         Subscribe to RSS
@@ -41,7 +41,7 @@ const { headings } = await render(post)
     <div class="article-area gap-8">
       <TableOfContents headings={headings} />
       <div
-        class="article max-w-[80ch] border-r pr-8 border-[hsl(var(--muted))]"
+        class="article max-w-[80ch] border-r pr-8 border-muted"
       >
         <slot />
       </div>

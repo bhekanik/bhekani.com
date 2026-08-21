@@ -13,15 +13,15 @@ const pageTitle = "About Me"
     <div class="max-w-4xl mx-auto mt-12 space-y-16">
       {/* Hero Section */}
       <div
-        class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[hsl(var(--muted))] to-[hsl(var(--background))] p-8 md:p-12"
+        class="relative"
       >
         <div class="flex flex-col md:flex-row items-center gap-8 md:gap-12">
           <div class="flex-1 space-y-6">
             <div>
-              <h1 class="text-4xl md:text-5xl font-bold mb-2">
+              <h1 class="mb-2">
                 Bhekani Khumalo
               </h1>
-              <p class="text-[hsl(var(--muted-foreground))] font-code">
+              <p class="text-muted-foreground font-code">
                 /be̞ɣäɳi kxumälo/
               </p>
             </div>
@@ -37,14 +37,11 @@ const pageTitle = "About Me"
             <Image
               src={BK}
               alt="Bhekani Khumalo"
-              class="rounded-2xl object-cover w-full h-full shadow-lg"
+              class="rounded-lg object-cover w-full h-full"
               width={300}
               height={300}
             />
-            <div
-              class="absolute inset-0 rounded-2xl ring-1 ring-inset ring-[hsl(var(--muted))]"
-            >
-            </div>
+            
           </div>
         </div>
       </div>
@@ -79,29 +76,29 @@ const pageTitle = "About Me"
       {/* Current Work Section */}
       <section class="space-y-6">
         <h2 class="text-3xl font-bold">What I'm Building</h2>
-        <p class="text-[hsl(var(--muted-foreground))]">
+        <p class="text-muted-foreground">
           Outside work, I build indie products—tools that fix workflows that waste people's time.
         </p>
         <div class="grid gap-6 md:grid-cols-2">
-          <div class="p-6 rounded-xl bg-[hsl(var(--card))] space-y-4">
+          <div class="p-6 rounded-xl bg-card space-y-4">
             <h3 class="text-xl font-semibold">AI Career Tools</h3>
-            <p class="text-[hsl(var(--muted-foreground))]">
+            <p class="text-muted-foreground">
               <Link href="https://cvoptimiser.com/">CV Optimiser</Link> for tailoring resumes,
               <Link href="https://interviewoptimiser.com/">Interview Optimiser</Link> for
               voice AI mock interviews, and <Link href="https://referenceoptimiser.com/">Reference Optimiser</Link> for recruiters.
             </p>
           </div>
-          <div class="p-6 rounded-xl bg-[hsl(var(--card))] space-y-4">
+          <div class="p-6 rounded-xl bg-card space-y-4">
             <h3 class="text-xl font-semibold">AI & Research</h3>
-            <p class="text-[hsl(var(--muted-foreground))]">
+            <p class="text-muted-foreground">
               <Link href="https://faithbench.com/">FaithBench</Link> — an AI theological
               faithfulness benchmark with 300+ test cases across 6 dimensions.
               <Link href="https://blah.chat/">blah.chat</Link> — unified AI chat across models.
             </p>
           </div>
-          <div class="p-6 rounded-xl bg-[hsl(var(--card))] space-y-4">
+          <div class="p-6 rounded-xl bg-card space-y-4">
             <h3 class="text-xl font-semibold">Other Projects</h3>
-            <p class="text-[hsl(var(--muted-foreground))]">
+            <p class="text-muted-foreground">
               <Link href="https://dealbase.africa/">Dealbase Africa</Link> tracks startup
               funding data across the continent.
               <Link href="https://easydeck.app/">EasyDeck</Link> generates presentation
@@ -110,9 +107,9 @@ const pageTitle = "About Me"
               taste-based movie picks.
             </p>
           </div>
-          <div class="p-6 rounded-xl bg-[hsl(var(--card))] space-y-4">
+          <div class="p-6 rounded-xl bg-card space-y-4">
             <h3 class="text-xl font-semibold">Writing & Speaking</h3>
-            <p class="text-[hsl(var(--muted-foreground))]">
+            <p class="text-muted-foreground">
               I write the <Link href="https://justreflections.bhekani.com/"
                 >Just Reflections newsletter</Link
               > and <Link
@@ -127,13 +124,13 @@ const pageTitle = "About Me"
       {/* Connect Section */}
       <section class="space-y-6">
         <h2 class="text-3xl font-bold">Connect</h2>
-        <p class="text-[hsl(var(--muted-foreground))]">
+        <p class="text-muted-foreground">
           Looking for my full work history? Check out my <Link href="/cv">CV</Link>.
         </p>
         <div class="flex flex-wrap gap-4">
           <Link
             href="https://twitter.com/bhekanik"
-            class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[hsl(var(--muted))] hover:bg-[hsl(var(--muted-foreground)/0.15)] transition-colors"
+            class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-muted hover:bg-muted-foreground/15 transition-colors"
           >
             <span>Twitter</span>
             <svg
@@ -150,7 +147,7 @@ const pageTitle = "About Me"
           </Link>
           <Link
             href="https://github.com/bhekanik"
-            class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[hsl(var(--muted))] hover:bg-[hsl(var(--muted-foreground)/0.15)] transition-colors"
+            class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-muted hover:bg-muted-foreground/15 transition-colors"
           >
             <span>GitHub</span>
             <svg
@@ -167,7 +164,7 @@ const pageTitle = "About Me"
           </Link>
           <Link
             href="https://linkedin.com/in/bhekanik"
-            class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[hsl(var(--muted))] hover:bg-[hsl(var(--muted-foreground)/0.15)] transition-colors"
+            class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-muted hover:bg-muted-foreground/15 transition-colors"
           >
             <span>LinkedIn</span>
             <svg

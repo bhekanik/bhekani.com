@@ -9,11 +9,11 @@ const { href, title } = Astro.props;
 
 {
   title === "Github" ? (
-    <a rel="me" class="text-[hsl(var(--muted-foreground))]" href={href}>
+    <a rel="me" class="text-muted-foreground" href={href}>
       {title}
     </a>
   ) : (
-    <a class="text-[hsl(var(--muted-foreground))]" href={href}>
+    <a class="text-muted-foreground" href={href}>
       {title}
     </a>
   )

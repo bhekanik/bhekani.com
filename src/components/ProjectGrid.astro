@@ -15,7 +15,7 @@ const { projects } = Astro.props
       <a
         href={project.data.url}
         target="_blank"
-        class="group relative overflow-hidden rounded-lg bg-[hsl(var(--card))] hover:bg-[hsl(var(--muted))] transition-colors duration-300"
+        class="group relative overflow-hidden rounded-lg bg-card hover:bg-muted transition-colors duration-300"
       >
         <div class="aspect-video w-full overflow-hidden">
           {project.data.image && (
@@ -30,17 +30,17 @@ const { projects } = Astro.props
         </div>
 
         <div class="p-4 space-y-2">
-          <h3 class="text-lg font-semibold group-hover:text-[hsl(var(--primary))] transition-colors">
+          <h3 class="text-lg font-semibold group-hover:text-primary transition-colors">
             {project.data.title}
           </h3>
 
-          <p class="text-sm text-[hsl(var(--muted-foreground))]">
+          <p class="text-sm text-muted-foreground">
             {project.data.description}
           </p>
 
           <div class="flex flex-wrap gap-2 pt-2">
             {project.data.tech.map((tech) => (
-              <span class="text-xs px-2 py-1 rounded-full bg-[hsl(var(--muted))] text-[hsl(var(--muted-foreground))]">
+              <span class="text-xs px-2 py-1 rounded-full bg-muted text-muted-foreground">
                 {tech}
               </span>
             ))}

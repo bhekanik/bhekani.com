@@ -29,7 +29,7 @@ const pageTitle = "Projects"
             <a
               href={project.data.url}
               target="_blank"
-              class="group block rounded-xl border border-[hsl(var(--accent)/0.3)] bg-[hsl(var(--card))] overflow-hidden transition-all hover:border-[hsl(var(--accent)/0.6)]"
+              class="group block rounded-lg border border-border bg-card overflow-hidden no-underline text-foreground hover:text-foreground transition-colors hover:border-accent"
             >
               {project.data.image && (
                 <div class="w-full">
@@ -43,15 +43,15 @@ const pageTitle = "Projects"
                 </div>
               )}
               <div class="p-6 space-y-3">
-                <h2 class="text-xl font-semibold group-hover:text-[hsl(var(--links))] transition-colors">
+                <h2 class="text-xl font-semibold group-hover:text-links transition-colors">
                   {project.data.title}
                 </h2>
-                <p class="text-[hsl(var(--muted-foreground))]">
+                <p class="text-muted-foreground">
                   {project.data.description}
                 </p>
                 <div class="flex flex-wrap gap-1.5 pt-1">
                   {project.data.tech.map((tech) => (
-                    <span class="text-xs px-2 py-0.5 rounded bg-[hsl(var(--muted))] text-[hsl(var(--muted-foreground))]">
+                    <span class="ui text-xs px-2 py-0.5 rounded-sm bg-muted text-muted-foreground">
                       {tech}
                     </span>
                   ))}
@@ -65,14 +65,14 @@ const pageTitle = "Projects"
       {/* Other Projects */}
       {otherProjects.length > 0 && (
         <div class="space-y-4">
-          <h2 class="text-lg font-semibold text-[hsl(var(--muted-foreground))]">More Projects</h2>
+          <h2 class="text-lg font-semibold text-muted-foreground">More Projects</h2>
           <div class="space-y-4">
             {
               otherProjects.map((project) => (
                 <a
                   href={project.data.url}
                   target="_blank"
-                  class="group block rounded-xl border border-[hsl(var(--muted))] bg-[hsl(var(--card))] overflow-hidden transition-all hover:border-[hsl(var(--muted-foreground)/0.3)]"
+                  class="group block rounded-lg border border-border bg-card overflow-hidden no-underline text-foreground hover:text-foreground transition-colors hover:border-accent"
                 >
                   <div class="flex flex-col sm:flex-row">
                     {project.data.image && (
@@ -87,15 +87,15 @@ const pageTitle = "Projects"
                       </div>
                     )}
                     <div class="p-4 flex-1 space-y-1.5">
-                      <h3 class="font-semibold group-hover:text-[hsl(var(--links))] transition-colors">
+                      <h3 class="font-semibold group-hover:text-links transition-colors">
                         {project.data.title}
                       </h3>
-                      <p class="text-sm text-[hsl(var(--muted-foreground))] line-clamp-2">
+                      <p class="text-sm text-muted-foreground line-clamp-2">
                         {project.data.description}
                       </p>
                       <div class="flex flex-wrap gap-1.5 pt-1">
                         {project.data.tech.slice(0, 3).map((tech) => (
-                          <span class="text-xs px-2 py-0.5 rounded bg-[hsl(var(--muted))] text-[hsl(var(--muted-foreground))]">
+                          <span class="ui text-xs px-2 py-0.5 rounded-sm bg-muted text-muted-foreground">
                             {tech}
                           </span>
                         ))}

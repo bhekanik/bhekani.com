@@ -1,34 +1,37 @@
 ---
-import { Image } from "astro:assets";
-import Link from "../components/Link.astro";
-import MainContainer from "../components/MainContainer.astro";
-import BaseLayout from "../layouts/BaseLayout.astro";
+import MainContainer from "../components/MainContainer.astro"
+import BaseLayout from "../layouts/BaseLayout.astro"
 
-const pageTitle = "404: Page Not Found";
-
-const imageSrc =
-  "https://source.unsplash.com/random/?lost";
+const pageTitle = "Page not found"
 ---
 
-<BaseLayout pageTitle={pageTitle}>
+<BaseLayout pageTitle={pageTitle} hidePageHeader={true}>
   <MainContainer>
-		<div class="mt-8 text-center">
-
-  <div class="w-full mb-4 h-28 overflow-hidden">
-    <Image
-      class="w-full object-cover h-full"
-      src={imageSrc as any}
-      width="1200"
-      height="300"
-      alt="Thought header"
-    />
-  </div>
-			<p >
-				This page does not exist.
-			</p>
-			<p>
-				<Link href="/">Click here to go home</Link>
-			</p>
-		</div>
+    <div class="not-found">
+      <p class="code">404</p>
+      <h1>There's nothing here.</h1>
+      <p>The link is wrong or the page moved. The search in the header covers every post, book, and project.</p>
+      <p><a href="/" class="btn">Go home</a></p>
+    </div>
   </MainContainer>
 </BaseLayout>
+
+<style>
+  .not-found {
+    padding: var(--space-16) 0;
+    max-width: 48ch;
+  }
+  .code {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-variation-settings: "wdth" 125;
+    font-size: clamp(5rem, 20vw, 9rem);
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+    color: var(--accent);
+    margin: 0 0 var(--space-4);
+  }
+  h1 {
+    margin: 0 0 var(--space-4);
+  }
+</style>

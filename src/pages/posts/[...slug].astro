@@ -43,12 +43,12 @@ const readingTime = Math.max(1, Math.round(wordCount / 200))
       <header class="post-animate-header space-y-8 mb-16">
         <div class="space-y-4">
           <div
-            class="flex items-center gap-2 text-sm text-[hsl(var(--muted-foreground))]"
+            class="flex items-center gap-2 text-sm text-muted-foreground"
           >
-            <Link href="/posts" class="hover:text-[hsl(var(--foreground))]">
+            <Link href="/posts" class="hover:text-foreground">
               ← Back to posts
             </Link>
-            <span class="text-[hsl(var(--muted-foreground))]">•</span>
+            <span class="text-muted-foreground">•</span>
             <time datetime={post.data.pubDate.toISOString()}>
               {
                 new Date(post.data.pubDate).toLocaleDateString("en-US", {
@@ -58,17 +58,17 @@ const readingTime = Math.max(1, Math.round(wordCount / 200))
                 })
               }
             </time>
-            <span class="text-[hsl(var(--muted-foreground))]">•</span>
+            <span class="text-muted-foreground">•</span>
             <span>{readingTime} min read</span>
-            <span class="text-[hsl(var(--muted-foreground))]">•</span>
+            <span class="text-muted-foreground">•</span>
             <ViewCounter client:load slug={post.id} />
           </div>
 
-          <h1 class="text-4xl md:text-5xl font-headings tracking-tight leading-tight">{post.data.title}</h1>
+          <h1>{post.data.title}</h1>
 
           {
             post.data.description && (
-              <p class="text-xl text-[hsl(var(--muted-foreground))] max-w-prose">
+              <p class="text-xl text-muted-foreground max-w-[60ch]">
                 {post.data.description}
               </p>
             )
@@ -76,11 +76,11 @@ const readingTime = Math.max(1, Math.round(wordCount / 200))
 
           {
             post.data.tags && (
-              <div class="flex flex-wrap gap-2">
+              <div class="flex flex-wrap gap-4">
                 {post.data.tags.map((tag: string) => (
                   <a
                     href={`/posts/tags/${tag}`}
-                    class="text-sm px-3 py-1 rounded-md bg-[hsl(var(--muted))] text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))] transition-colors"
+                    class="tag"
                   >
                     #{tag}
                   </a>
@@ -104,14 +104,14 @@ const readingTime = Math.max(1, Math.round(wordCount / 200))
       </header>
 
       {/* Divider */}
-      <div class="h-px bg-[hsl(var(--accent)/0.3)] mb-12"></div>
+      <div class="h-[3px] w-12 bg-accent mb-12"></div>
 
       {/* Table of Contents - Desktop */}
       {
         headings.length > 0 && (
           <aside class="hidden xl:block fixed right-8 top-28 w-56 overflow-auto max-h-[calc(100vh-8rem)]">
-            <nav class="border-l border-[hsl(var(--muted))]">
-              <p class="text-xs font-medium uppercase tracking-wider text-[hsl(var(--muted-foreground))] mb-3 pl-4">
+            <nav class="border-l border-muted">
+              <p class="meta mb-3 pl-4">
                 Contents
               </p>
               <TableOfContents headings={headings} />
@@ -137,7 +137,7 @@ const readingTime = Math.max(1, Math.round(wordCount / 200))
               href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.data.title)}&url=${encodeURIComponent(`https://bhekani.com/posts/${post.id}`)}`}
               target="_blank"
               rel="noopener noreferrer"
-              class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md bg-[hsl(var(--muted))] hover:bg-[hsl(var(--muted-foreground)/0.15)] transition-colors"
+              class="btn-ghost"
             >
               Share on Twitter
             </a>
@@ -145,14 +145,14 @@ const readingTime = Math.max(1, Math.round(wordCount / 200))
               href={`https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(`https://bhekani.com/posts/${post.id}`)}&title=${encodeURIComponent(post.data.title)}`}
               target="_blank"
               rel="noopener noreferrer"
-              class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md bg-[hsl(var(--muted))] hover:bg-[hsl(var(--muted-foreground)/0.15)] transition-colors"
+              class="btn-ghost"
             >
               Share on LinkedIn
             </a>
           </div>
         </div>
 
-        <div class="border-t border-[hsl(var(--muted))]">
+        <div class="border-t border-muted">
           {/* Webmentions */}
           <div class="my-16">
             <WebMentions />
@@ -179,7 +179,7 @@ const readingTime = Math.max(1, Math.round(wordCount / 200))
 
   /* Style for active ToC link */
   :global(.toc-active) {
-    color: hsl(var(--primary));
+    color: var(--primary);
     font-weight: 500;
   }
 

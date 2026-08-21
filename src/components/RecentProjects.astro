@@ -26,7 +26,7 @@ const { limit = 3 } = Astro.props
       stroke-width="2"
       stroke-linecap="round"
       stroke-linejoin="round"
-      class="text-[hsl(var(--primary))]"
+      class="text-primary"
     >
       <path d="M3 9h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9Z"></path>
       <path d="M3 9a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2"></path>
@@ -50,7 +50,7 @@ const { limit = 3 } = Astro.props
           <a
             href={project.data.url}
             target="_blank"
-            class="group relative overflow-hidden rounded-lg bg-[hsl(var(--card))] hover:bg-[hsl(var(--muted))] transition-colors"
+            class="group relative overflow-hidden rounded-lg bg-card hover:bg-muted transition-colors"
           >
             <div class="aspect-video w-full overflow-hidden">
               {project.data.image && (
@@ -65,12 +65,12 @@ const { limit = 3 } = Astro.props
             </div>
             <div class="p-4">
               <h3 class="text-xl font-semibold mb-2">{project.data.title}</h3>
-              <p class="text-sm text-[hsl(var(--muted-foreground))] mb-4">
+              <p class="text-sm text-muted-foreground mb-4">
                 {project.data.description}
               </p>
               <div class="flex flex-wrap gap-2">
                 {project.data.tech.map((tech) => (
-                  <span class="text-xs px-2 py-1 rounded-full bg-[hsl(var(--muted))] text-[hsl(var(--muted-foreground))]">
+                  <span class="text-xs px-2 py-1 rounded-full bg-muted text-muted-foreground">
                     {tech}
                   </span>
                 ))}
@@ -83,7 +83,7 @@ const { limit = 3 } = Astro.props
 
   <a
     href="/projects/"
-    class="inline-flex items-center gap-2 mt-6 text-sm font-medium text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))] transition-colors"
+    class="inline-flex items-center gap-2 mt-6 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
   >
     View all projects
     <svg

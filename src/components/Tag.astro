@@ -1,6 +1,4 @@
 ---
-import { cn } from "../utils/cn"
-
 type Props = {
   tag: string
   selected?: boolean
@@ -9,25 +7,6 @@ type Props = {
 const { tag, selected } = Astro.props
 ---
 
-<a
-  class={cn(
-    "text-sm text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--muted-foreground))] whitespace-nowrap",
-    selected ? "font-bold text-[hsl(var(--links-hovered))]" : "",
-  )}
-  href={`/posts/tags/${tag}`}
->
+<a class="tag" aria-current={selected ? "true" : undefined} href={`/posts/tags/${tag}`}>
   #{tag}
 </a>
-
-<style>
-  a {
-    transition: all 0.2s ease-in-out;
-    border-bottom: 1px solid hsl(var(--links-hovered));
-  }
-
-  a:hover {
-    background-color: hsl(var(--muted));
-    color: hsl(var(--links-hovered));
-    transition: all 0.2s ease-in-out;
-  }
-</style>
