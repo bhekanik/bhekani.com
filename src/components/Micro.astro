@@ -20,13 +20,13 @@ const { Content } = await render(micro)
 ---
 
 <Card variant="bordered" hover class="max-w-[80ch] p-[var(--space-6)]">
-  <div class="pb-[var(--space-4)] mb-[var(--space-4)] border-b border-[hsl(var(--border))]">
+  <div class="pb-[var(--space-4)] mb-[var(--space-4)] border-b border-border">
     <a href={`/micro/${slug}/`} class="block hover:bg-transparent">
-      <h2 transition:name={`title-${slug}`} class="text-xl font-semibold mb-[var(--space-2)] hover:text-[hsl(var(--primary))] transition-colors duration-[var(--transition-fast)]">{title}</h2>
+      <h2 transition:name={`title-${slug}`} class="text-xl font-semibold mb-[var(--space-2)] hover:text-primary transition-colors duration-[var(--transition-fast)]">{title}</h2>
     </a>
     <time
       transition:name={`date-${slug}`}
-      class="text-sm text-[hsl(var(--muted-foreground))]"
+      class="text-sm text-muted-foreground"
       datetime={date.toISOString()}
     >
       {format(date, "MMMM dd, yyyy")}

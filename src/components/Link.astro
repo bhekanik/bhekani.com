@@ -1,21 +1,7 @@
 ---
-const { ...props } = Astro.props;
+const { ...props } = Astro.props
 ---
 
 <a {...props}>
   <slot />
 </a>
-
-<style>
-  a {
-    color: hsl(var(--links));
-    text-decoration: underline;
-    text-decoration-thickness: 1px;
-    text-underline-offset: 3px;
-    transition: color 0.2s ease-in-out;
-  }
-
-  a:hover {
-    color: hsl(var(--links-hovered));
-  }
-</style>

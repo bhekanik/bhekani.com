@@ -29,9 +29,9 @@ const { Content } = await render(micro)
       {/* Header */}
       <header class="mb-12">
         <div
-          class="flex items-center gap-2 text-sm text-[hsl(var(--muted-foreground))] mb-8"
+          class="flex items-center gap-2 text-sm text-muted-foreground mb-8"
         >
-          <Link href="/micro" class="hover:text-[hsl(var(--foreground))]">
+          <Link href="/micro" class="hover:text-foreground">
             ← Back to micro
           </Link>
         </div>
@@ -39,7 +39,7 @@ const { Content } = await render(micro)
         <div class="flex items-center justify-between mb-6">
           <time
             datetime={micro.data.date.toISOString()}
-            class="text-sm text-[hsl(var(--muted-foreground))]"
+            class="text-sm text-muted-foreground"
           >
             {format(micro.data.date, "MMMM d, yyyy 'at' h:mm a")}
           </time>
@@ -50,7 +50,7 @@ const { Content } = await render(micro)
               href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`${micro.data.title ?? ""} https://bhekani.com/micro/${micro.id}`)}`}
               target="_blank"
               rel="noopener noreferrer"
-              class="p-2 text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))] transition-colors"
+              class="p-2 text-muted-foreground hover:text-foreground transition-colors"
               title="Share on Twitter"
             >
               <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
@@ -63,7 +63,7 @@ const { Content } = await render(micro)
               href={`https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(`https://bhekani.com/micro/${micro.id}`)}`}
               target="_blank"
               rel="noopener noreferrer"
-              class="p-2 text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))] transition-colors"
+              class="p-2 text-muted-foreground hover:text-foreground transition-colors"
               title="Share on LinkedIn"
             >
               <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
@@ -73,7 +73,7 @@ const { Content } = await render(micro)
               </svg>
             </a>
             <button
-              class="copy-link p-2 text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))] transition-colors"
+              class="copy-link p-2 text-muted-foreground hover:text-foreground transition-colors"
               title="Copy link"
               data-url={`https://bhekani.com/micro/${micro.id}`}
             >
@@ -105,11 +105,11 @@ const { Content } = await render(micro)
       </div>
 
       {/* Footer */}
-      <footer class="mt-12 pt-8 border-t border-[hsl(var(--muted))]">
+      <footer class="mt-12 pt-8 border-t border-muted">
         <nav
-          class="flex justify-between text-sm text-[hsl(var(--muted-foreground))]"
+          class="flex justify-between text-sm text-muted-foreground"
         >
-          <Link href="/micro" class="hover:text-[hsl(var(--foreground))]">
+          <Link href="/micro" class="hover:text-foreground">
             ← All micro posts
           </Link>
         </nav>

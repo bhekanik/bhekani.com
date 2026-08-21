@@ -2,8 +2,8 @@ import type { OgImageOptions } from "../utils/og"
 
 const COLORS = {
   fg: [255, 255, 255] as [number, number, number],
-  accent: [217, 147, 43] as [number, number, number],
-  muted: [180, 170, 155] as [number, number, number],
+  accent: [227, 75, 0] as [number, number, number],
+  muted: [157, 166, 174] as [number, number, number],
 }
 
 const baseFont = {

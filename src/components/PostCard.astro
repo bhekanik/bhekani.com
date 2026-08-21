@@ -23,9 +23,9 @@ const {
   <div class="grid grid-cols-[1fr_auto] gap-4 p-[var(--space-6)]">
     <div class="flex flex-col gap-[var(--space-2)]">
       <a href={`/posts/${slug}/`} class="block hover:bg-transparent">
-        <h2 transition:name={`title-${slug}`} class="text-xl font-semibold group-hover:text-[hsl(var(--primary))] transition-colors duration-[var(--transition-fast)]">{title}</h2>
+        <h2 transition:name={`title-${slug}`} class="text-xl font-semibold group-hover:text-primary transition-colors duration-[var(--transition-fast)]">{title}</h2>
       </a>
-      <div class="flex items-center gap-[var(--space-3)] text-sm text-[hsl(var(--muted-foreground))]">
+      <div class="flex items-center gap-[var(--space-3)] text-sm text-muted-foreground">
         <time
           transition:name={`date-${slug}`}
           datetime={date.toISOString()}

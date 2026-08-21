@@ -18,7 +18,7 @@ const pageTitle = "Micro"
       {/* Header Section */}
       <div class="space-y-6">
         <h1 class="text-4xl font-bold">Micro</h1>
-        <p class="text-lg text-[hsl(var(--muted-foreground))]">
+        <p class="text-lg text-muted-foreground">
           Quick thoughts, updates, and shorter musings. Like tweets, but on my
           own site.
         </p>
@@ -26,7 +26,7 @@ const pageTitle = "Micro"
         <div class="flex items-center gap-4">
           <a
             href="/rss.xml"
-            class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md bg-[hsl(var(--muted))] hover:bg-[hsl(var(--muted-foreground)/0.15)] transition-colors"
+            class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md bg-muted hover:bg-muted-foreground/15 transition-colors"
           >
             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
               <path
@@ -45,17 +45,17 @@ const pageTitle = "Micro"
             const { Content } = await render(micro)
             return (
               <article class="group relative">
-                <div class="flex flex-col space-y-4 rounded-xl border border-[hsl(var(--muted))] bg-[hsl(var(--card))] p-6 transition-colors hover:border-[hsl(var(--muted-foreground)/0.3)]">
+                <div class="flex flex-col space-y-4 rounded-xl border border-muted bg-card p-6 transition-colors hover:border-muted-foreground/30">
                   <div class="flex items-center justify-between">
                     <time
                       datetime={micro.data.date.toISOString()}
-                      class="text-sm text-[hsl(var(--muted-foreground))]"
+                      class="text-sm text-muted-foreground"
                     >
                       {format(micro.data.date, "MMMM d, yyyy")}
                     </time>
                     <a
                       href={`/micro/${micro.id}`}
-                      class="text-sm text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))] transition-colors"
+                      class="text-sm text-muted-foreground hover:text-foreground transition-colors"
                       title="Permalink"
                     >
                       <svg
@@ -76,7 +76,7 @@ const pageTitle = "Micro"
                   </div>
 
                   {micro.data.title && (
-                    <h2 class="text-xl font-semibold group-hover:text-[hsl(var(--foreground))] transition-colors">
+                    <h2 class="text-xl font-semibold group-hover:text-foreground transition-colors">
                       {micro.data.title}
                     </h2>
                   )}

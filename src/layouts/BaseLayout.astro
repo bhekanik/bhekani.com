@@ -1,8 +1,7 @@
 ---
 import "@fontsource-variable/jetbrains-mono"
-import "@fontsource-variable/inter";
-import "@fontsource-variable/literata"
-import "@fontsource-variable/playfair-display"
+import "@fontsource-variable/archivo"
+import "@fontsource-variable/source-serif-4"
 
 import { AstroSeo } from "@astrolib/seo"
 import { ClientRouter } from "astro:transitions"
@@ -10,19 +9,21 @@ import Footer from "../components/Footer.astro"
 import Header from "../components/Header.astro"
 import PostHog from "../components/PostHog.astro"
 import { SEO_DEFAULTS } from "../constants/seo"
-import "../styles/global.css";
+import "../styles/global.css"
 
 const { pageTitle, description, title, imageUrl, hidePageHeader } = Astro.props
 ---
 
-<html lang="en" class="dark">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <link rel="alternate" type="application/rss+xml" title="Bhekani.com RSS Feed" href={new URL("rss.xml", Astro.site)} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f3f7fa" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b1015" />
     <link
       rel="webmention"
       href="https://webmention.io/www.bhekani.com/webmention"
@@ -30,6 +31,26 @@ const { pageTitle, description, title, imageUrl, hidePageHeader } = Astro.props
     <link rel="pingback" href="https://webmention.io/www.bhekani.com/xmlrpc" />
 
     <title>{pageTitle} | {SEO_DEFAULTS.SITE_NAME}</title>
+
+    {/* Runs before first paint so a stored theme never flashes the other one. Re-applied after view-transition swaps. */}
+    <script is:inline>
+      ;(() => {
+        const apply = () => {
+          let theme = null
+          try {
+            theme = localStorage.getItem("theme")
+          } catch {}
+          if (theme !== "light" && theme !== "dark") {
+            theme = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
+          }
+          document.documentElement.classList.toggle("dark", theme === "dark")
+          document.documentElement.classList.toggle("light", theme === "light")
+        }
+        apply()
+        document.addEventListener("astro:after-swap", apply)
+      })()
+    </script>
+
     <ClientRouter />
     <PostHog />
     <AstroSeo
@@ -63,35 +84,68 @@ const { pageTitle, description, title, imageUrl, hidePageHeader } = Astro.props
     <style>
       .skip-link {
         position: absolute;
-        top: -40px;
-        left: 0;
-        background: hsl(var(--primary));
-        color: hsl(var(--primary-foreground));
-        padding: 8px;
+        top: -100%;
+        left: var(--space-4);
+        background: var(--accent);
+        color: var(--accent-foreground);
+        font-family: var(--font-sans);
+        font-weight: 600;
+        padding: var(--space-2) var(--space-4);
         text-decoration: none;
-        z-index: 100;
-        border-radius: 0 0 4px 0;
+        z-index: var(--z-toast);
+        border-radius: 0 0 var(--radius-md) var(--radius-md);
       }
-      
+
       .skip-link:focus {
         top: 0;
+      }
+
+      .page-header {
+        grid-area: page-header;
+        width: 100%;
+        max-width: 80ch;
+        margin: 0 auto;
+        padding: var(--space-12) var(--space-6) var(--space-8);
+      }
+
+      .page-header h1 {
+        margin: 0;
+      }
+
+      .page-header p {
+        margin: var(--space-4) 0 0;
+        max-width: 60ch;
+        font-size: 1.125rem;
+        color: var(--muted-foreground);
+      }
+
+      .page-header::after {
+        content: "";
+        display: block;
+        width: 3rem;
+        height: 3px;
+        margin-top: var(--space-6);
+        background: var(--accent);
       }
     </style>
   </head>
   <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
     <Header />
-    {!hidePageHeader && (
-      <h1
-        class="flex flex-col gap-2 page-header container-readable text-center font-headings tracking-tight leading-tight text-4xl md:text-5xl py-8 border-b border-[hsl(var(--muted))]"
-      >
-        {title ?? pageTitle}
-        <span class="text-base md:text-lg text-[hsl(var(--muted-foreground))] font-normal">{description}</span>
-      </h1>
-    )}
+    {
+      !hidePageHeader && (
+        <div class="page-header">
+          <h1>{title ?? pageTitle}</h1>
+          {description && <p>{description}</p>}
+        </div>
+      )
+    }
     <main id="main-content">
       <slot />
     </main>
     <Footer />
+    <script>
+      import "../scripts/feedback"
+    </script>
   </body>
 </html>

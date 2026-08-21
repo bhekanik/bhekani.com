@@ -34,7 +34,7 @@ const {
 
     <p
       transition:name={`date-${slug}`}
-      class="text-sm text-[hsl(var(--muted-foreground))]"
+      class="text-sm text-muted-foreground"
     >
       {format(new Date(date), "MMMM dd, yyyy")}
     </p>
@@ -56,8 +56,8 @@ const {
   .card {
     display: grid;
     /* grid-template: "content image" / 3fr 1fr; */
-    color: hsl(var(--card-foreground));
-    background-color: hsl(var(--muted));
+    color: var(--card-foreground);
+    background-color: var(--muted);
     height: 265.48px;
   }
 
@@ -91,7 +91,7 @@ const {
     grid-area: image;
   }
   a {
-    color: hsl(var(--card-foreground));
+    color: var(--card-foreground);
   }
   a:hover {
     background-color: transparent;
@@ -107,6 +107,6 @@ const {
     top: 50%;
     left: 50%;
     transform: translateX(-50%) translateY(-50%);
-    color: hsl(var(--muted-foreground));
+    color: var(--muted-foreground);
   }
 </style>

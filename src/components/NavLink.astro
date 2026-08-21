@@ -14,8 +14,8 @@ const isActive = pathname.split("/")[1] === href.split("/")[1];
 
 <a
   class={cn(
-    "text-[hsl(var(--muted-foreground))]",
-    isActive ? "text-[hsl(var(--foreground))] font-bold" : ""
+    "text-muted-foreground",
+    isActive ? "text-foreground font-bold" : ""
   )}
   href={href}>{title}</a
 >

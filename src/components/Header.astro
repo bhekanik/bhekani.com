@@ -1,239 +1,214 @@
 ---
-import ThemeIcon from "./ThemeIcon.astro"
-import Link from "./Link.astro"
+import FeedbackToggle from "./FeedbackToggle.astro"
 import Search from "./Search.svelte"
+import ThemeIcon from "./ThemeIcon.astro"
+
+const navItems = [
+  { title: "About", href: "/about" },
+  { title: "Blog", href: "/posts" },
+  { title: "Micro", href: "/micro" },
+  { title: "Projects", href: "/projects" },
+  { title: "Books", href: "/books" },
+]
+
+const section = Astro.url.pathname.split("/")[1]
+const isActive = (href: string) => href.split("/")[1] === section
 ---
 
-<header
-  class="sticky top-0 z-50 w-full border-b border-[hsl(var(--muted))] bg-[hsl(var(--background))]/80 backdrop-blur-sm"
->
-  <div class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4">
-    {/* Logo */}
-    <div class="flex items-center">
-      <a
-        href="/"
-        class="group flex items-center gap-2 transition-colors hover:text-[hsl(var(--foreground))]"
-      >
-        <div
-          class="bg-[hsl(var(--foreground))] text-[hsl(var(--background))] px-3 py-1"
-        >
-          <span class="text-xl font-bold">BK</span>
-        </div>
-      </a>
-    </div>
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="/" class="logo" aria-label="Bhekani Khumalo, home">BK</a>
 
-    {/* Navigation - Desktop */}
-    <nav class="hidden md:flex items-center gap-1">
-      <a
-        href="/about"
-        class="px-4 py-2 text-sm font-medium text-[hsl(var(--muted-foreground))] rounded-md hover:text-[hsl(var(--foreground))] hover:bg-[hsl(var(--muted))] transition-colors"
-      >
-        About
-      </a>
-      <a
-        href="/posts"
-        class="px-4 py-2 text-sm font-medium text-[hsl(var(--muted-foreground))] rounded-md hover:text-[hsl(var(--foreground))] hover:bg-[hsl(var(--muted))] transition-colors"
-      >
-        Blog
-      </a>
-      <a
-        href="/micro"
-        class="px-4 py-2 text-sm font-medium text-[hsl(var(--muted-foreground))] rounded-md hover:text-[hsl(var(--foreground))] hover:bg-[hsl(var(--muted))] transition-colors"
-      >
-        Micro
-      </a>
-      <a
-        href="/projects"
-        class="px-4 py-2 text-sm font-medium text-[hsl(var(--muted-foreground))] rounded-md hover:text-[hsl(var(--foreground))] hover:bg-[hsl(var(--muted))] transition-colors"
-      >
-        Projects
-      </a>
-      <a
-        href="/books"
-        class="px-4 py-2 text-sm font-medium text-[hsl(var(--muted-foreground))] rounded-md hover:text-[hsl(var(--foreground))] hover:bg-[hsl(var(--muted))] transition-colors"
-      >
-        Books
-      </a>
-      <button
-        type="button"
-        class="search-trigger p-2 text-[hsl(var(--muted-foreground))] rounded-md hover:text-[hsl(var(--foreground))] hover:bg-[hsl(var(--muted))] transition-colors"
-        aria-label="Search"
-      >
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-        </svg>
-      </button>
-      <div class="pl-2">
-        <ThemeIcon />
-      </div>
+    <nav class="primary-nav" aria-label="Primary">
+      {
+        navItems.map((item) => (
+          <a href={item.href} aria-current={isActive(item.href) ? "page" : undefined}>
+            {item.title}
+          </a>
+        ))
+      }
     </nav>
 
-    {/* Mobile Menu Button */}
-    <div class="flex items-center gap-4 md:hidden">
-      <button
-        type="button"
-        class="search-trigger p-2 text-[hsl(var(--muted-foreground))] rounded-md hover:text-[hsl(var(--foreground))] hover:bg-[hsl(var(--muted))] transition-colors"
-        aria-label="Search"
-      >
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+    <div class="controls">
+      <button type="button" class="icon-btn search-trigger" aria-label="Search" title="Search (⌘K)">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="7" />
+          <path d="m20 20-3.5-3.5" />
         </svg>
       </button>
+      <FeedbackToggle />
       <ThemeIcon />
       <button
         type="button"
-        class="mobile-menu-button -m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-[hsl(var(--foreground))]"
+        class="icon-btn menu-button"
+        aria-label="Open menu"
         aria-expanded="false"
+        aria-controls="mobile-menu"
       >
-        <span class="sr-only">Open main menu</span>
-        <svg
-          class="h-6 w-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          aria-hidden="true"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" aria-hidden="true">
+          <path d="M4 7h16M4 12h16M4 17h16" />
         </svg>
       </button>
     </div>
+  </div>
 
-    {/* Mobile Menu Panel */}
-    <div class="mobile-menu hidden fixed inset-0 z-50">
-      <div
-        class="mobile-menu-backdrop fixed inset-0 bg-black/20 backdrop-blur-sm dark:bg-slate-900/80 opacity-0 transition-opacity duration-[var(--transition-base)]"
-      >
-      </div>
-      <div
-        class="mobile-menu-panel fixed inset-y-0 right-0 w-full overflow-y-auto bg-[hsl(var(--background))] px-6 py-6 sm:max-w-sm transform translate-x-full transition-transform duration-[var(--transition-base)] ease-out"
-      >
-        <div class="flex items-center justify-between">
-          <a href="/" class="-m-1.5 p-1.5">
-            <div
-              class="bg-[hsl(var(--foreground))] text-[hsl(var(--background))] px-3 py-1"
-            >
-              <span class="text-xl font-bold">BK</span>
-            </div>
+  <div id="mobile-menu" class="mobile-menu" hidden>
+    <nav aria-label="Primary, mobile">
+      <a href="/" aria-current={section === "" ? "page" : undefined}>Home</a>
+      {
+        navItems.map((item) => (
+          <a href={item.href} aria-current={isActive(item.href) ? "page" : undefined}>
+            {item.title}
           </a>
-          <button
-            type="button"
-            class="mobile-menu-close -m-2.5 rounded-md p-2.5 text-[hsl(var(--foreground))]"
-          >
-            <span class="sr-only">Close menu</span>
-            <svg
-              class="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-              aria-hidden="true"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M6 18L18 6M6 6l12 12"></path>
-            </svg>
-          </button>
-        </div>
-        <div class="mt-6 flow-root">
-          <div class="-my-6 divide-y divide-[hsl(var(--muted))]">
-            <div class="space-y-2 py-6">
-              <Link
-                href="/about"
-                class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 hover:bg-[hsl(var(--muted))]"
-              >
-                About
-              </Link>
-              <Link
-                href="/posts"
-                class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 hover:bg-[hsl(var(--muted))]"
-              >
-                Blog
-              </Link>
-              <Link
-                href="/micro"
-                class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 hover:bg-[hsl(var(--muted))]"
-              >
-                Micro
-              </Link>
-              <Link
-                href="/projects"
-                class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 hover:bg-[hsl(var(--muted))]"
-              >
-                Projects
-              </Link>
-              <Link
-                href="/books"
-                class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 hover:bg-[hsl(var(--muted))]"
-              >
-                Books
-              </Link>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+        ))
+      }
+    </nav>
   </div>
 </header>
 
 <Search client:load />
 
 <script>
-  const mobileMenuButton = document.querySelector(".mobile-menu-button")
-  const mobileMenuClose = document.querySelector(".mobile-menu-close")
-  const mobileMenu = document.querySelector(".mobile-menu")
-  const mobileMenuBackdrop = document.querySelector(".mobile-menu-backdrop")
-  const mobileMenuPanel = document.querySelector(".mobile-menu-panel")
-  const mobileMenuLinks = document.querySelectorAll(".mobile-menu a")
+  document.addEventListener("astro:page-load", () => {
+    const button = document.querySelector<HTMLButtonElement>(".menu-button")
+    const menu = document.getElementById("mobile-menu") as HTMLElement | null
+    if (!button || !menu) return
 
-  function openMenu() {
-    if (!mobileMenu || !mobileMenuPanel || !mobileMenuBackdrop) return
-    
-    mobileMenu.classList.remove("hidden")
-    document.body.style.overflow = "hidden"
-    
-    requestAnimationFrame(() => {
-      mobileMenuBackdrop.classList.remove("opacity-0")
-      mobileMenuBackdrop.classList.add("opacity-100")
-      mobileMenuPanel.classList.remove("translate-x-full")
-      mobileMenuPanel.classList.add("translate-x-0")
-    })
-  }
-
-  function closeMenu() {
-    if (!mobileMenu || !mobileMenuPanel || !mobileMenuBackdrop) return
-    
-    mobileMenuBackdrop.classList.remove("opacity-100")
-    mobileMenuBackdrop.classList.add("opacity-0")
-    mobileMenuPanel.classList.remove("translate-x-0")
-    mobileMenuPanel.classList.add("translate-x-full")
-    
-    setTimeout(() => {
-      mobileMenu.classList.add("hidden")
-      document.body.style.overflow = ""
-    }, 250)
-  }
-
-  mobileMenuButton?.addEventListener("click", openMenu)
-  mobileMenuClose?.addEventListener("click", closeMenu)
-  mobileMenuBackdrop?.addEventListener("click", closeMenu)
-  mobileMenuLinks.forEach((link) => {
-    link.addEventListener("click", closeMenu)
-  })
-  
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && !mobileMenu?.classList.contains("hidden")) {
-      closeMenu()
+    const setOpen = (open: boolean) => {
+      menu.hidden = !open
+      button.setAttribute("aria-expanded", String(open))
+      button.setAttribute("aria-label", open ? "Close menu" : "Open menu")
     }
+
+    button.addEventListener("click", () => setOpen(menu.hasAttribute("hidden")))
+    menu.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => setOpen(false)))
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && !menu.hasAttribute("hidden")) {
+        setOpen(false)
+        button.focus()
+      }
+    })
   })
 </script>
 
 <style>
-  header {
+  .site-header {
     grid-area: header;
+    position: sticky;
+    top: 0;
+    z-index: var(--z-sticky);
+    background: color-mix(in oklch, var(--background) 92%, transparent);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .site-header-inner {
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+    max-width: 80rem;
+    height: 3.75rem;
+    margin: 0 auto;
+    padding: 0 var(--space-6);
+  }
+
+  .logo {
+    display: inline-grid;
+    place-items: center;
+    height: 2.125rem;
+    padding: 0 0.5rem;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-variation-settings: "wdth" 125;
+    font-size: 1.0625rem;
+    letter-spacing: -0.01em;
+    color: var(--accent-foreground);
+    background: var(--accent);
+    text-decoration: none;
+    border-radius: var(--radius-sm);
+    transition: transform var(--transition-fast);
+  }
+  .logo:hover {
+    color: var(--accent-foreground);
+    transform: rotate(-3deg);
+  }
+
+  .primary-nav {
+    display: none;
+    align-items: center;
+    gap: var(--space-1);
+    margin-right: auto;
+  }
+
+  .primary-nav a,
+  .mobile-menu a {
+    position: relative;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--muted-foreground);
+    text-decoration: none;
+    border-radius: var(--radius-md);
+    transition:
+      color var(--transition-fast),
+      background-color var(--transition-fast);
+  }
+  .primary-nav a:hover {
+    color: var(--foreground);
+    background: var(--muted);
+  }
+  .primary-nav a[aria-current="page"] {
+    color: var(--foreground);
+  }
+  .primary-nav a[aria-current="page"]::after {
+    content: "";
+    position: absolute;
+    left: 0.75rem;
+    right: 0.75rem;
+    bottom: 0.2rem;
+    height: 2px;
+    background: var(--accent);
+  }
+
+  .controls {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    margin-left: auto;
+  }
+
+  .mobile-menu {
+    border-top: 1px solid var(--border);
+    padding: var(--space-3) var(--space-6) var(--space-4);
+  }
+  .mobile-menu nav {
+    display: grid;
+    gap: var(--space-1);
+    max-width: 80rem;
+    margin: 0 auto;
+  }
+  .mobile-menu a {
+    font-size: 1.125rem;
+    padding: 0.625rem 0.75rem;
+  }
+  .mobile-menu a[aria-current="page"] {
+    color: var(--foreground);
+    background: var(--muted);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .mobile-menu:not([hidden]) {
+      animation: rise 0.25s var(--ease-out-quart) both;
+    }
+  }
+
+  @media (min-width: 48rem) {
+    .primary-nav {
+      display: flex;
+    }
+    .menu-button,
+    .mobile-menu {
+      display: none;
+    }
   }
 </style>

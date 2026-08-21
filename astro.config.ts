@@ -22,7 +22,9 @@ export default defineConfig({
   integrations: [sitemap(), robotsTxt({
     policy: [{ userAgent: '*', allow: '/llms.txt' }],
   }), expressiveCode({
-    themes: ["one-dark-pro"],
+    themes: ["github-light", "one-dark-pro"],
+    themeCssSelector: (theme) => `.${theme.type}`,
+    useDarkModeMediaQuery: false,
     defaultProps: {
       // Enable word wrap by default
       wrap: true

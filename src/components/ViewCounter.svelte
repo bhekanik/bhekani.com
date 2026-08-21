@@ -35,14 +35,14 @@
 </script>
 
 {#if data}
-  <span class="text-sm text-[hsl(var(--muted-foreground))] transition-opacity duration-300">
+  <span class="text-sm text-muted-foreground transition-opacity duration-300">
     {data.count.toLocaleString()} views
   </span>
 {:else if error}
-  <span class="text-sm text-[hsl(var(--muted-foreground))]">-</span>
+  <span class="text-sm text-muted-foreground">-</span>
 {:else}
-  <span class="inline-flex items-center gap-1 text-sm text-[hsl(var(--muted-foreground))]">
-    <span class="inline-block w-12 h-3 bg-[hsl(var(--muted))] rounded animate-pulse"></span>
+  <span class="inline-flex items-center gap-1 text-sm text-muted-foreground">
+    <span class="inline-block w-12 h-3 bg-muted rounded animate-pulse"></span>
     views
   </span>
 {/if}

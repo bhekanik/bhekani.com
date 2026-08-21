@@ -14,8 +14,8 @@ const { rating } = Astro.props
         viewBox="0 0 24 24"
         class={`h-4 w-4 ${
           i < (rating ?? 0)
-            ? "fill-[hsl(var(--primary))] text-[hsl(var(--primary))]"
-            : "fill-[hsl(var(--muted))] text-[hsl(var(--muted))]"
+            ? "fill-primary text-primary"
+            : "fill-muted text-muted"
         }`}
         stroke="currentColor"
         stroke-width="1.5"

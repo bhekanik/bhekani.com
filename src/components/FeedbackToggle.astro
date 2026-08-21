@@ -1,0 +1,64 @@
+---
+
+---
+
+<button
+  id="feedbackToggle"
+  class="icon-btn"
+  type="button"
+  aria-pressed="true"
+  aria-label="Mute click sounds and haptics"
+  title="Click sounds and haptics"
+  data-feedback="toggle"
+>
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M11 5 6 9H2v6h4l5 4V5z" />
+    <path class="wave wave-1" d="M15.5 8.5a5 5 0 0 1 0 7" />
+    <path class="wave wave-2" d="M18.5 5.5a9 9 0 0 1 0 13" />
+    <path class="slash" d="M20 8 14 16" />
+  </svg>
+</button>
+
+<style>
+  .wave,
+  .slash {
+    transition: opacity var(--transition-base);
+  }
+  .slash {
+    opacity: 0;
+  }
+  [aria-pressed="false"] .wave {
+    opacity: 0;
+  }
+  [aria-pressed="false"] .slash {
+    opacity: 1;
+  }
+</style>
+
+<script>
+  import { feedback } from "../scripts/feedback"
+
+  function render(enabled: boolean) {
+    const button = document.getElementById("feedbackToggle")
+    if (!button) return
+    button.setAttribute("aria-pressed", String(enabled))
+    button.setAttribute("aria-label", enabled ? "Mute click sounds and haptics" : "Unmute click sounds and haptics")
+  }
+
+  function toggle() {
+    const next = !feedback.isEnabled()
+    feedback.setEnabled(next)
+    // Confirm the "on" state with the very thing being switched on
+    if (next) {
+      feedback.play("toggle-on")
+      feedback.haptic("success")
+    }
+  }
+
+  feedback.onChange(render)
+
+  document.addEventListener("astro:page-load", () => {
+    render(feedback.isEnabled())
+    document.getElementById("feedbackToggle")?.addEventListener("click", toggle)
+  })
+</script>
