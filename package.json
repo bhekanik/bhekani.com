@@ -22,7 +22,7 @@
     "@astrojs/db": "0.21.3",
     "@astrojs/mdx": "7.0.6",
     "@astrojs/rss": "4.0.19",
-    "@astrojs/sitemap": "3.7.3",
+    "@astrojs/sitemap": "3.7.4",
     "@astrojs/svelte": "9.0.1",
     "@astrojs/vercel": "11.0.7",
     "@astrolib/seo": "1.0.0-beta.8",
