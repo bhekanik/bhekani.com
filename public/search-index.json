@@ -1073,9 +1073,17 @@
     "id": "project-mxr",
     "type": "project",
     "title": "mxr",
-    "slug": "https://mxr-mail.vercel.app",
-    "description": "mxr is a local-first email runtime for people who want their inbox to behave more like software than a website. It runs as a background daemon, syncs mail from providers like Gmail and IMAP into a local SQLite database, indexes everything for fast search, and exposes the same core capabilities to the CLI, terminal UI, scripts, and AI agents. The goal is simple: make email fast, programmable, private, and useful even when the browser is closed.",
-    "searchText": "mxr mxr is a local first email runtime for people who want their inbox to behave more like software than a website it runs as a background daemon syncs mail from providers like gmail and imap into a local sqlite database indexes everything for fast search and exposes the same core capabilities to the cli terminal ui scripts and ai agents the goal is simple make email fast programmable private and useful even when the browser is closed rust sqlite tantivy"
+    "slug": "https://mxr.sh",
+    "description": "Agent-first, local-first email client in Rust. A background daemon syncs Gmail, Outlook, Microsoft 365 and IMAP into SQLite and keeps a Tantivy search index. The terminal UI, CLI, web app, MCP server and agent skill are thin clients on the same API, so an agent can do anything a person can. Every mutating command has a dry run, and a pre-send check catches missing attachments, leaked secrets and reply-all mistakes.",
+    "searchText": "mxr agent first local first email client in rust a background daemon syncs gmail outlook microsoft 365 and imap into sqlite and keeps a tantivy search index the terminal ui cli web app mcp server and agent skill are thin clients on the same api so an agent can do anything a person can every mutating command has a dry run and a pre send check catches missing attachments leaked secrets and reply all mistakes rust sqlite tantivy mcp"
+  },
+  {
+    "id": "project-worthyourtime",
+    "type": "project",
+    "title": "Worth Your Time",
+    "slug": "https://worthyourtime.xyz",
+    "description": "Tell it what you love and it tells you whether a film is worth your evening. Recommendations come from a learned taste model that explains its verdict, not from critics' scores. On the web and on iOS.",
+    "searchText": "worth your time tell it what you love and it tells you whether a film is worth your evening recommendations come from a learned taste model that explains its verdict not from critics scores on the web and on ios next js ios recommender model"
   },
   {
     "id": "project-reference-optimiser",
@@ -1148,5 +1156,13 @@
     "slug": "https://journaler.me",
     "description": "A community-driven platform where users can discover, share, and engage with thought-provoking journal prompts. Features daily writing inspirations, themed collections, and the ability to save favorite prompts for later. Perfect for writers, self-reflection enthusiasts, and anyone looking to develop a consistent journaling practice.",
     "searchText": "journaler a community driven platform where users can discover share and engage with thought provoking journal prompts features daily writing inspirations themed collections and the ability to save favorite prompts for later perfect for writers self reflection enthusiasts and anyone looking to develop a consistent journaling practice next js postgresql drizzleorm tailwind vercel"
+  },
+  {
+    "id": "project-spotuify",
+    "type": "project",
+    "title": "spotuify",
+    "slug": "https://spotuify.app",
+    "description": "Spotify, built for the command line. A daemon owns playback; a keyboard-native TUI, a pipeable CLI, an MCP server for coding agents and a macOS menubar app are all just clients. Quit any of them and the music keeps playing.",
+    "searchText": "spotuify spotify built for the command line a daemon owns playback a keyboard native tui a pipeable cli an mcp server for coding agents and a macos menubar app are all just clients quit any of them and the music keeps playing rust spotify api mcp"
   }
 ]
