@@ -15,7 +15,7 @@ I used a Lenovo Tab M10, model **TB-X505F**, running Android 10. I kept stock An
 
 I've put the [launcher and a Home Assistant starter template on GitHub](https://github.com/bhekanik/android-home-display). You supply the dashboard address. The app handles displaying it full screen, keeping the screen awake, dimming overnight and recovering when the page fails to load.
 
-## The model number matters more than the M10 name
+## Check the model number
 
 Lenovo has sold several tablets under the M10 name. Mine is the TB-X505F with a 10.1-inch, 1280 × 800 display and a Micro-USB port. Other generations have different hardware and connectors, so check the model number before buying a cable, stand or dock. [Lenovo's specifications](https://psref.lenovo.com/syspool/Sys/PDF/Lenovo_Tablets/Tab_M10/Tab_M10_Spec.PDF) cover the differences within this family.
 
@@ -25,7 +25,7 @@ I wouldn't choose one solely on processor specifications, though. The charging p
 
 The launcher requires Android 10 or newer. The TB-X505F is the physical device I've tested; that doesn't establish compatibility with every old Android tablet. If you already have one, try the page in its browser before buying anything else.
 
-## Get the tablet and browser working before installing a launcher
+## Update the browser first
 
 I updated Chrome and Android System WebView through the Play Store. WebView is the browser component the Android app uses to render the dashboard. Updating Chrome alone isn't the check I care about; I want the component inside the app to work too.
 
@@ -41,7 +41,7 @@ adb devices -l
 
 Your tablet should appear with the status `device`. If it says `unauthorized`, check the tablet for the approval prompt. If it doesn't appear at all, try a different data cable or USB port. Android's [physical device setup guide](https://developer.android.com/studio/run/device) covers the OS-specific steps, including drivers where needed.
 
-## The launcher gives one web page a permanent home
+## The launcher
 
 We initially considered a kiosk app. I wanted to see whether a small app of our own would do the job, since the thing I wanted to display was already a web page.
 
@@ -74,7 +74,7 @@ Once that works, hold Volume Up, choose **Choose Home app**, and select **Home D
 
 The APK you build this way is a development build. Its WebView can be inspected through authorised ADB, which is useful while getting the page working. Disable USB debugging when you no longer need it. The launcher doesn't need a debugging connection to run.
 
-## Home Assistant is an easy first page to put on it
+## Starting with Home Assistant
 
 I already use Home Assistant, so it gave me somewhere to start. You don't need to reproduce my dashboard to use the launcher.
 
@@ -88,7 +88,7 @@ Check the result on the tablet, then copy that dashboard's URL into the launcher
 
 I eventually built a custom React interface because I wanted more control over the design. It uses Home Assistant's APIs underneath. That's an option you can take later; the launcher still just loads a URL. Changing the web page doesn't require rebuilding the Android app.
 
-## Keeping it awake and making it dim are separate jobs
+## Staying awake and dimming at night
 
 The tablet went dark while my dashboard was open. The app now uses Android's [`FLAG_KEEP_SCREEN_ON`](https://developer.android.com/develop/background-work/background-tasks/awake/screen-on), which keeps the screen awake while the activity is visible. It doesn't override the power button, bypass the lock screen or keep another app awake after you switch away.
 
@@ -98,7 +98,7 @@ These are defaults in the app, not a universal prescription for a room. You can 
 
 My custom web page has a moving screensaver too, but the shared launcher doesn't include it. Keeping the panel awake is the Android app's job. Deciding what to draw, including any screensaver, belongs to the page.
 
-## Test it on a desk before finding it a permanent spot
+## Try it on a desk first
 
 After installation, you can disconnect the tablet from the computer and power it from an appropriate charger. The computer isn't running the Android app. The dashboard server still needs to be available, though. If you host the page on your laptop, putting that laptop to sleep can make the display stop working.
 
