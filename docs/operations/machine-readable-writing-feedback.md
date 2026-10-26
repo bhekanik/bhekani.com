@@ -4,6 +4,8 @@
 
 Published blog posts are available at `/posts/<slug>.md`; published Micro notes are available at `/micro/<slug>.md`. Each is generated from the source entry with the syntax-aware MDX export helper. Draft entries are excluded. The normal HTML page advertises its matching Markdown through `rel="alternate" type="text/markdown"` and points to `/llms.txt` with `rel="describedby"`.
 
+Use **Copy as Markdown** on post details, Micro details, or the Micro feed to fetch the actual export. The control announces a visible result only after the clipboard write completes. **Open Markdown** is always available when Clipboard permissions, the Clipboard API, or the network fails; navigation cancels unfinished copies.
+
 `/llms.txt` is the concise discovery index. `/llms-full.txt` remains the published-blog aggregate only. The separate `/machine-feedback.md` guide contains the optional feedback invitation and the API details so neither the normal article nor the index turns into a posting manual.
 
 ## Optional feedback
