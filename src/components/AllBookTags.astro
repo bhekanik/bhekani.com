@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content"
 import Link from "./Link.astro"
 import TagsList from "./TagsList.astro"
+import { getBookTags } from "../utils/library"
 
 export interface Props {
   selectedTag?: string
@@ -10,14 +11,11 @@ export interface Props {
 
 const allBooks = await getCollection("books")
 
-const tags = [
-  ...new Set(
-    allBooks
-      .filter((book) => book.data.exclusiveShelf === "read")
-      .map((book) => book.data.tags)
-      .flat(),
-  ),
-]
+const tags = getBookTags(
+  allBooks
+    .filter((book) => book.data.exclusiveShelf === "read")
+    .map((book) => ({ ...book.data, ...book })),
+)
 
 const { selectedTag, title } = Astro.props
 
@@ -28,21 +26,21 @@ const { tag } = Astro.params
   tags.length > 0 && (
     <div class="my-8">
       <div class="flex items-center gap-2">
-        <h2 class="text-2xl mb-4 mt-2">{title ?? "View posts by tag"}</h2>
+        <h2 class="text-2xl mb-4 mt-2">{title ?? "Filter books by tag"}</h2>
 
         {tag && (
           <p class="my-4">
             <Link
               class="text-sm hover:text-muted-foreground"
-              href="/posts/"
+              href="/books/tags/"
             >
-              All tags
+              All book tags
             </Link>
           </p>
         )}
       </div>
 
-      <TagsList tags={tags} selectedTag={selectedTag} />
+      <TagsList collection="books" tags={tags} selectedTag={selectedTag} />
     </div>
   )
 }

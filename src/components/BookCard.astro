@@ -5,6 +5,7 @@ import { format } from "date-fns"
 import BookRating from "./BookRating.astro"
 import TagsList from "./TagsList.astro"
 import Card from "./Card.astro"
+import { getAddedDate, getValidIsbn } from "../utils/library"
 
 type Props = {
   book: CollectionEntry<"books">
@@ -13,9 +14,11 @@ type Props = {
 const {
   book: {
     id: slug,
-    data: { ISBN, tags, title, dateAdded: date, myRating, author, myReview },
+    data: { ISBN: rawIsbn, ISBN13, tags, title, dateAdded: date, myRating, author, myReview },
   },
 } = Astro.props
+const ISBN = getValidIsbn(ISBN13, rawIsbn)
+const addedDate = getAddedDate(date)
 ---
 
 <Card hover class="group">
@@ -35,7 +38,7 @@ const {
             decoding="async"
           />
         ) : (
-          <div class="flex h-full w-full items-center justify-center">
+          <div class="flex h-full w-full flex-col items-center justify-center gap-2 p-3 text-center">
             <svg
               class="h-16 w-16 text-muted-foreground"
               viewBox="0 0 24 24"
@@ -45,6 +48,8 @@ const {
             >
               <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20" />
             </svg>
+            <span class="text-xs font-medium leading-tight text-foreground line-clamp-3">{title}</span>
+            <span class="text-xs text-muted-foreground line-clamp-1">{author}</span>
           </div>
         )
       }
@@ -67,11 +72,11 @@ const {
         <div class="flex items-center gap-[var(--space-3)]">
           <BookRating rating={myRating} />
           <span class="text-sm text-muted-foreground">
-            {format(new Date(date), "MMMM dd, yyyy")}
+            {addedDate ? format(addedDate, "MMMM dd, yyyy") : "Date unknown"}
           </span>
         </div>
 
-        <TagsList tags={tags} />
+        <TagsList tags={tags} collection="books" />
 
         {
           myReview && (

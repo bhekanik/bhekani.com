@@ -1,49 +1,51 @@
 ---
 import { getCollection, type CollectionEntry } from "astro:content"
-import AllTags from "../../../components/AllTags.astro"
+import AllBookTags from "../../../components/AllBookTags.astro"
+import BookListItem from "../../../components/BookListItem.astro"
 import MainContainer from "../../../components/MainContainer.astro"
-import PostListItem from "../../../components/PostListItem.astro"
 import BaseLayout from "../../../layouts/BaseLayout.astro"
+import { getBookTags } from "../../../utils/library"
 
 export async function getStaticPaths() {
-  const posts = await getCollection("posts")
+  const books = await getCollection("books")
+  const readBooks = books.filter((book) => book.data.exclusiveShelf === "read")
 
-  const uniqueTags = [...new Set(posts.map((post) => post.data.tags).flat())]
+  const uniqueTags = getBookTags(readBooks.map((book) => ({ ...book.data, ...book })))
 
   return uniqueTags.map((tag) => {
-    const filteredPosts = posts.filter((post) => post.data.tags.includes(tag))
+    const filteredBooks = readBooks.filter((book) => book.data.tags.includes(tag))
     return {
       params: { tag },
-      props: { posts: filteredPosts },
+      props: { books: filteredBooks },
     }
   })
 }
 
 export interface Props {
-  posts: CollectionEntry<"posts">[]
+  books: CollectionEntry<"books">[]
 }
 
 const { tag } = Astro.params
-const { posts } = Astro.props
+const { books } = Astro.props
 ---
 
-<BaseLayout pageTitle={`Posts: #${tag}`}>
+<BaseLayout pageTitle={`Books: #${tag}`}>
   <MainContainer>
     <div class="w-full flex justify-center mb-8 font-bold">
       <a
         class="px-3 p-2 text-foreground border-b-[1px] border-l-[1px] border-r-[1px] border-muted"
-        href="/rss.xml"
+        href="/books/"
       >
-        Subscribe to RSS
+        Back to library
       </a>
     </div>
 
-    <AllTags title="Filter by tag" selectedTag={tag} />
+    <AllBookTags title="Filter books by tag" selectedTag={tag} />
     <h2 class="text-2xl mb-4 mt-2">
-      Posts tagged with "{tag}"
+      Books tagged with "{tag}"
     </h2>
     <ul class="flex flex-col gap-8">
-      {posts.map((post) => <PostListItem post={post} />)}
+      {books.map((book) => <BookListItem book={book} />)}
     </ul>
   </MainContainer>
 </BaseLayout>

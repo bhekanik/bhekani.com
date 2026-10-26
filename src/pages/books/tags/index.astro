@@ -1,12 +1,16 @@
 ---
 import { getCollection } from "astro:content"
+import AllBookTags from "../../../components/AllBookTags.astro"
 import MainContainer from "../../../components/MainContainer.astro"
-import Tag from "../../../components/Tag.astro"
 import BaseLayout from "../../../layouts/BaseLayout.astro"
+import { getBookTags } from "../../../utils/library"
 
-const allPosts = await getCollection("posts")
-
-const tags = [...new Set(allPosts.map((post) => post.data.tags).flat())]
+const allBooks = await getCollection("books")
+const tags = getBookTags(
+  allBooks
+    .filter((book) => book.data.exclusiveShelf === "read")
+    .map((book) => ({ ...book.data, ...book })),
+)
 
 const pageTitle = "Tags"
 ---
@@ -16,19 +20,15 @@ const pageTitle = "Tags"
     <div class="w-full flex justify-center mb-8 font-bold">
       <a
         class="px-3 p-2 text-foreground border-b-[1px] border-l-[1px] border-r-[1px] border-muted"
-        href="/rss.xml"
+        href="/books/"
       >
-        Subscribe to RSS
+        Back to library
       </a>
     </div>
-    <ul class="mt-8">
-      {
-        tags.map((tag) => (
-          <li>
-            <Tag tag={tag} />
-          </li>
-        ))
-      }
-    </ul>
+    {tags.length > 0 ? (
+      <AllBookTags title="Book tags" />
+    ) : (
+      <p class="mt-8 text-muted-foreground">No book tags have been added yet.</p>
+    )}
   </MainContainer>
 </BaseLayout>

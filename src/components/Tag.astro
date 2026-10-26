@@ -2,11 +2,12 @@
 type Props = {
   tag: string
   selected?: boolean
+  collection?: "posts" | "books"
 }
 
-const { tag, selected } = Astro.props
+const { tag, selected, collection = "posts" } = Astro.props
 ---
 
-<a class="tag" aria-current={selected ? "true" : undefined} href={`/posts/tags/${tag}`}>
+<a class="tag" aria-current={selected ? "true" : undefined} href={`/${collection}/tags/${encodeURIComponent(tag)}`}>
   #{tag}
 </a>
