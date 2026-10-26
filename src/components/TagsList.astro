@@ -4,11 +4,12 @@ import Tag from "../components/Tag.astro";
 type Props = {
   tags: string[];
   selectedTag?: string;
+  collection?: "posts" | "books";
 };
 
-const { tags, selectedTag } = Astro.props;
+const { tags, selectedTag, collection } = Astro.props;
 ---
 
 <div class="flex flex-wrap gap-4">
-  {tags.map((tag) => <Tag selected={selectedTag === tag} tag={tag} />)}
+  {tags.map((tag) => <Tag collection={collection} selected={selectedTag === tag} tag={tag} />)}
 </div>
