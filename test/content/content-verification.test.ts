@@ -91,6 +91,22 @@ describe('About page', () => {
   })
 })
 
+describe('Micro archive', () => {
+  const content = readSource('pages/micro/index.astro')
+
+  it('labels the existing RSS destination as the blog feed', () => {
+    expect(content).toContain('Blog RSS')
+    expect(content).toContain('This feed contains blog posts')
+    expect(content).not.toContain('Subscribe via RSS')
+  })
+
+  it('keeps published notes newest first with visible permalink names', () => {
+    expect(content).toContain('.filter((micro) => micro.data.published !== false)')
+    expect(content).toContain('.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())')
+    expect(content).toMatch(/class="permalink">\s*Permalink/)
+  })
+})
+
 describe('CV page', () => {
   const content = readSource('pages/cv.astro')
 
