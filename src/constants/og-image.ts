@@ -1,37 +1,12 @@
 import type { OgImageOptions } from "../utils/og"
 import { getMicroLabel } from "../utils/micro"
 
-const COLORS = {
-  fg: [255, 255, 255] as [number, number, number],
-  accent: [227, 75, 0] as [number, number, number],
-  muted: [157, 166, 174] as [number, number, number],
-}
-
-const baseFont = {
-  title: {
-    color: COLORS.fg,
-    size: 72,
-    weight: 400,
-    lineHeight: 1.15,
-  },
-  description: {
-    color: COLORS.muted,
-    size: 28,
-    weight: 400,
-    lineHeight: 1.35,
-  },
-}
-
-const baseOptions: Partial<OgImageOptions> = {
-  font: baseFont,
-}
-
 export function getPostOgOptions(
   title: string,
   description?: string,
 ): OgImageOptions {
   return {
-    ...baseOptions,
+    kind: "ARTICLE",
     title,
     description,
   }
@@ -42,7 +17,7 @@ export function getBookOgOptions(
   author: string,
 ): OgImageOptions {
   return {
-    ...baseOptions,
+    kind: "BOOK",
     title,
     description: `by ${author}`,
   }
@@ -50,31 +25,15 @@ export function getBookOgOptions(
 
 export function getMicroOgOptions(title: string | undefined, date?: Date): OgImageOptions {
   return {
-    ...baseOptions,
+    kind: "MICRO NOTE",
     title: date ? getMicroLabel(title, date) : title?.trim() || "Micro note",
-    font: {
-      ...baseFont,
-      title: {
-        ...baseFont.title,
-        size: 56,
-      },
-    },
   }
 }
 
 export function getHomepageOgOptions(): OgImageOptions {
   return {
-    ...baseOptions,
+    kind: "BHEKANI.COM",
     title: "Bhekani Khumalo",
     description: "Software Engineer \u00b7 AI and distributed systems",
-    font: {
-      ...baseFont,
-      description: {
-        color: COLORS.accent,
-        size: 36,
-        weight: 600,
-        lineHeight: 1.2,
-      },
-    },
   }
 }

@@ -1,24 +1,27 @@
 import fs from "node:fs/promises"
+import { createRequire } from "node:module"
 import path from "node:path"
-import sharp from "sharp"
-import stringWidth from "string-width"
+import CanvasKitInit, {
+  type Canvas,
+  type CanvasKit,
+  type FontMgr,
+  type Paragraph,
+} from "canvaskit-wasm/full"
 
 type RGBColor = [number, number, number]
 
-type FontStyle = {
-  color: RGBColor
-  size: number
-  weight: number
-  lineHeight: number
+type PanelsPalette = {
+  ink: RGBColor
+  paper: RGBColor
+  red: RGBColor
+  yellow: RGBColor
+  muted: RGBColor
 }
 
 export type OgImageOptions = {
   title: string
   description?: string
-  font?: {
-    title?: Partial<FontStyle>
-    description?: Partial<FontStyle>
-  }
+  kind?: string
 }
 
 type OgImageRouteOptions<Page> = {
@@ -27,46 +30,40 @@ type OgImageRouteOptions<Page> = {
   getImageOptions: (path: string, page: Page) => OgImageOptions
 }
 
-const WIDTH = 1200
-const HEIGHT = 630
-const PADDING_X = 80
-const TITLE_TOP = 84
-const TITLE_BOTTOM = 286
-const DESCRIPTION_TOP = 352
-const DESCRIPTION_BOTTOM = 520
-const MAX_TEXT_WIDTH = WIDTH - PADDING_X * 2
-const DESCRIPTION_WIDTH = 920
-
-const COLORS = {
-  fg: [255, 255, 255] as RGBColor,
-  muted: [180, 170, 155] as RGBColor,
+type LoadedAssets = {
+  canvasKit: CanvasKit
+  fontManager: FontMgr
+  fontFamilies: string[]
 }
 
-const defaultFont = {
-  title: {
-    color: COLORS.fg,
-    size: 72,
-    weight: 400,
-    lineHeight: 1.15,
-  },
-  description: {
-    color: COLORS.muted,
-    size: 28,
-    weight: 400,
-    lineHeight: 1.35,
-  },
+const require = createRequire(import.meta.url)
+
+export const OG_IMAGE_WIDTH = 1200
+export const OG_IMAGE_HEIGHT = 630
+
+const COLORS: PanelsPalette = {
+  ink: [11, 11, 15],
+  paper: [255, 255, 255],
+  red: [224, 32, 27],
+  yellow: [255, 212, 0],
+  muted: [74, 74, 84],
 }
 
-let assets: Promise<{ background: string; font: string }> | undefined
+const FONT_PATHS = [
+  path.join(process.cwd(), "src/assets/fonts/Anton-Regular.ttf"),
+  path.join(process.cwd(), "src/assets/fonts/PublicSans-Variable.ttf"),
+]
+
+let assets: Promise<LoadedAssets> | undefined
 
 export async function createOgImageRoute<Page>({
   pages,
   param,
   getImageOptions,
 }: OgImageRouteOptions<Page>) {
-  const paths = Object.entries(pages).map(([path, page]) => ({
-    params: { [param]: `${path}.png` },
-    props: { imageOptions: getImageOptions(path, page) },
+  const paths = Object.entries(pages).map(([route, page]) => ({
+    params: { [param]: `${route}.png` },
+    props: { imageOptions: getImageOptions(route, page) },
   }))
 
   return {
@@ -78,202 +75,234 @@ export async function createOgImageRoute<Page>({
   }
 }
 
-async function generateOgImage(options: OgImageOptions) {
-  const { background, font } = await loadAssets()
-  const titleFont = { ...defaultFont.title, ...options.font?.title }
-  const descriptionFont = {
-    ...defaultFont.description,
-    ...options.font?.description,
+/**
+ * Draws the public Panels-light share card. The route never reads browser
+ * preferences because crawlers have no stable visitor edition or theme.
+ */
+export async function generateOgImage(options: OgImageOptions) {
+  const { canvasKit, fontManager } = await loadAssets()
+  const surface = canvasKit.MakeSurface(OG_IMAGE_WIDTH, OG_IMAGE_HEIGHT)
+
+  if (!surface) throw new Error("CanvasKit could not create an Open Graph surface")
+
+  try {
+    const canvas = surface.getCanvas()
+    drawPanelsFrame(canvasKit, canvas)
+
+    const kind = cleanText(options.kind || "BHEKANI.COM")
+    const label = makeParagraph(canvasKit, fontManager, kind, {
+      color: COLORS.ink,
+      families: ["Public Sans"],
+      size: 22,
+      weight: "Bold",
+      lineHeight: 1,
+    })
+    canvas.drawParagraph(label, 72, 64)
+    label.delete()
+
+    const title = fitParagraph(canvasKit, fontManager, cleanText(options.title), {
+      maxHeight: 270,
+      maxWidth: 1016,
+      family: "Anton",
+      maxSize: 82,
+      minSize: 36,
+      lineHeight: 0.98,
+      color: COLORS.ink,
+    })
+    canvas.drawParagraph(title, 72, 145)
+    title.delete()
+
+    const description = fitParagraph(
+      canvasKit,
+      fontManager,
+      cleanText(options.description || "bhekani.com"),
+      {
+        maxHeight: 86,
+        maxWidth: 912,
+        family: "Public Sans",
+        maxSize: 29,
+        minSize: 20,
+        lineHeight: 1.28,
+        color: COLORS.muted,
+      },
+    )
+    canvas.drawParagraph(description, 72, 470)
+    description.delete()
+
+    const domain = makeParagraph(canvasKit, fontManager, "bhekani.com", {
+      color: COLORS.paper,
+      families: ["Public Sans"],
+      size: 24,
+      weight: "Bold",
+      lineHeight: 1,
+    })
+    canvas.drawParagraph(domain, 932, 556)
+    domain.delete()
+
+    const image = surface.makeImageSnapshot()
+    const bytes = image.encodeToBytes(canvasKit.ImageFormat.PNG, 100)
+    image.delete()
+
+    if (!bytes) throw new Error("CanvasKit could not encode an Open Graph PNG")
+
+    return toArrayBuffer(bytes)
+  } finally {
+    surface.delete()
   }
-
-  const title = layoutText({
-    text: options.title,
-    font: titleFont,
-    maxWidth: MAX_TEXT_WIDTH,
-    maxHeight: TITLE_BOTTOM - TITLE_TOP,
-    widthRatio: 0.52,
-    minSize: 46,
-  })
-  const description = layoutText({
-    text: options.description ?? "",
-    font: descriptionFont,
-    maxWidth: DESCRIPTION_WIDTH,
-    maxHeight: DESCRIPTION_BOTTOM - DESCRIPTION_TOP,
-    widthRatio: 0.48,
-    minSize: descriptionFont.size,
-  })
-
-  const svg = `
-    <svg width="${WIDTH}" height="${HEIGHT}" viewBox="0 0 ${WIDTH} ${HEIGHT}" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <style>
-          @font-face {
-            font-family: "Anton";
-            src: url("${font}") format("woff2");
-            font-weight: 400;
-          }
-          text {
-            font-family: "Anton", "Impact", sans-serif;
-            letter-spacing: 0;
-          }
-        </style>
-      </defs>
-      <image href="${background}" x="0" y="0" width="${WIDTH}" height="${HEIGHT}" preserveAspectRatio="xMidYMid slice"/>
-      ${renderText(title, PADDING_X, TITLE_TOP)}
-      ${renderText(description, PADDING_X, DESCRIPTION_TOP)}
-    </svg>
-  `
-
-  return toArrayBuffer(await sharp(Buffer.from(svg)).png().toBuffer())
 }
 
-async function loadAssets() {
+/** A focused proof for tests: the loaded display and UI fonts must differ. */
+export async function getOgFontProof() {
+  const { canvasKit, fontManager, fontFamilies } = await loadAssets()
+  const sample = "BHEKANI KHUMALO"
+  const anton = makeParagraph(canvasKit, fontManager, sample, {
+    color: COLORS.ink,
+    families: ["Anton"],
+    size: 64,
+    weight: "Normal",
+    lineHeight: 1,
+  })
+  const publicSans = makeParagraph(canvasKit, fontManager, sample, {
+    color: COLORS.ink,
+    families: ["Public Sans"],
+    size: 64,
+    weight: "Normal",
+    lineHeight: 1,
+  })
+
+  try {
+    return {
+      antonWidth: anton.getLongestLine(),
+      families: fontFamilies,
+      publicSansWidth: publicSans.getLongestLine(),
+    }
+  } finally {
+    anton.delete()
+    publicSans.delete()
+  }
+}
+
+async function loadAssets(): Promise<LoadedAssets> {
   if (!assets) {
     assets = Promise.all([
-      fs.readFile(path.join(process.cwd(), "src/images/og-background.png")),
-      fs.readFile(
-        path.join(
-          process.cwd(),
-          "node_modules/@fontsource/anton/files/anton-latin-400-normal.woff2",
-        ),
-      ),
-    ]).then(([background, font]) => ({
-      background: toDataUrl(background, "image/png"),
-      font: toDataUrl(font, "font/woff2"),
-    }))
+      CanvasKitInit({
+        locateFile: (file) =>
+          require.resolve(`canvaskit-wasm/bin/full/${file}`),
+      }),
+      Promise.all(FONT_PATHS.map((fontPath) => fs.readFile(fontPath))),
+    ]).then(([canvasKit, fonts]) => {
+      const fontManager = canvasKit.FontMgr.FromData(
+        ...fonts.map(toArrayBuffer),
+      )
+
+      if (!fontManager) throw new Error("CanvasKit could not load the bundled Open Graph fonts")
+
+      const fontFamilies = Array.from(
+        { length: fontManager.countFamilies() },
+        (_, index) => fontManager.getFamilyName(index),
+      )
+
+      if (!fontFamilies.includes("Anton") || !fontFamilies.includes("Public Sans")) {
+        throw new Error(`Open Graph fonts did not load: ${fontFamilies.join(", ")}`)
+      }
+
+      return { canvasKit, fontManager, fontFamilies }
+    })
   }
 
   return assets
 }
 
-function toDataUrl(buffer: Buffer, mime: string) {
-  return `data:${mime};base64,${buffer.toString("base64")}`
+function drawPanelsFrame(canvasKit: CanvasKit, canvas: Canvas) {
+  const fill = new canvasKit.Paint()
+
+  fill.setColor(canvasKit.Color(...COLORS.ink))
+  canvas.drawRect(canvasKit.XYWHRect(0, 0, OG_IMAGE_WIDTH, OG_IMAGE_HEIGHT), fill)
+  fill.setColor(canvasKit.Color(...COLORS.paper))
+  canvas.drawRect(canvasKit.XYWHRect(18, 18, 1164, 594), fill)
+  fill.setColor(canvasKit.Color(...COLORS.yellow))
+  canvas.drawRect(canvasKit.XYWHRect(54, 48, 270, 56), fill)
+  fill.setColor(canvasKit.Color(...COLORS.red))
+  canvas.drawRect(canvasKit.XYWHRect(900, 534, 282, 78), fill)
+  fill.delete()
 }
 
-function toArrayBuffer(buffer: Buffer) {
-  const arrayBuffer = new ArrayBuffer(buffer.byteLength)
-  new Uint8Array(arrayBuffer).set(buffer)
-
-  return arrayBuffer
-}
-
-function layoutText({
-  text,
-  font,
-  maxWidth,
-  maxHeight,
-  widthRatio,
-  minSize,
-}: {
-  text: string
-  font: FontStyle
-  maxWidth: number
-  maxHeight: number
-  widthRatio: number
-  minSize: number
-}) {
-  const cleanText = text.replace(/\s+/g, " ").trim()
-  const sizes = [font.size, 64, 58, 52, 46].filter(
-    (size, index, list) =>
-      size <= font.size && size >= minSize && list.indexOf(size) === index,
-  )
-
-  for (const size of sizes) {
-    const lineHeight = Math.round(size * font.lineHeight)
-    const maxLines = Math.floor(maxHeight / lineHeight)
-    const maxUnits = Math.floor(maxWidth / (size * widthRatio))
-    const lines = wrapText(cleanText, maxUnits)
-
-    if (lines.length <= maxLines) {
-      return { lines, font: { ...font, size }, lineHeight, maxUnits, maxLines }
-    }
-  }
-
-  const size = sizes.at(-1) ?? font.size
-  const lineHeight = Math.round(size * font.lineHeight)
-  const maxLines = Math.max(1, Math.floor(maxHeight / lineHeight))
-  const maxUnits = Math.floor(maxWidth / (size * widthRatio))
-  const lines = clampLines(wrapText(cleanText, maxUnits), maxLines, maxUnits)
-
-  return { lines, font: { ...font, size }, lineHeight, maxUnits, maxLines }
-}
-
-function renderText(
-  layout: ReturnType<typeof layoutText>,
-  x: number,
-  top: number,
+function fitParagraph(
+  canvasKit: CanvasKit,
+  fontManager: FontMgr,
+  text: string,
+  config: {
+    maxHeight: number
+    maxWidth: number
+    family: string
+    maxSize: number
+    minSize: number
+    lineHeight: number
+    color: RGBColor
+  },
 ) {
-  if (!layout.lines.length) return ""
+  for (let size = config.maxSize; size >= config.minSize; size -= 2) {
+    const paragraph = makeParagraph(canvasKit, fontManager, text, {
+      color: config.color,
+      families: [config.family],
+      size,
+      weight: "Normal",
+      lineHeight: config.lineHeight,
+    }, config.maxWidth)
 
-  const [r, g, b] = layout.font.color
-  const firstBaseline = top + layout.font.size * 0.9
-  const lines = layout.lines
-    .map(
-      (line, index) =>
-        `<tspan x="${x}" y="${index === 0 ? firstBaseline : firstBaseline + layout.lineHeight * index}">${escapeXml(line)}</tspan>`,
-    )
-    .join("")
-
-  return `<text font-size="${layout.font.size}" font-weight="${layout.font.weight}" fill="rgb(${r}, ${g}, ${b})">${lines}</text>`
-}
-
-function wrapText(text: string, maxUnits: number) {
-  if (!text) return []
-
-  const lines: string[] = []
-  let current = ""
-
-  for (const word of text.split(" ")) {
-    const candidate = current ? `${current} ${word}` : word
-
-    if (stringWidth(candidate) <= maxUnits || !current) {
-      current = candidate
-    } else {
-      lines.push(current)
-      current = word
-    }
+    if (paragraph.getHeight() <= config.maxHeight) return paragraph
+    paragraph.delete()
   }
 
-  if (current) lines.push(current)
+  const paragraph = makeParagraph(canvasKit, fontManager, text, {
+    color: config.color,
+    families: [config.family],
+    size: config.minSize,
+    weight: "Normal",
+    lineHeight: config.lineHeight,
+  }, config.maxWidth)
 
-  return lines
+  return paragraph
 }
 
-function clampLines(lines: string[], maxLines: number, maxUnits: number) {
-  if (lines.length <= maxLines) return lines
-
-  const nextLines = lines.slice(0, maxLines)
-  nextLines[maxLines - 1] = truncateLine(nextLines[maxLines - 1] ?? "", maxUnits)
-
-  return nextLines
-}
-
-function truncateLine(line: string, maxUnits: number) {
-  const suffix = "..."
-  let nextLine = line
-
-  while (stringWidth(`${nextLine}${suffix}`) > maxUnits && nextLine.length > 0) {
-    nextLine = nextLine.slice(0, -1).trimEnd()
-  }
-
-  return `${nextLine}${suffix}`
-}
-
-function escapeXml(text: string) {
-  return text.replace(/[<>&"']/g, (char) => {
-    switch (char) {
-      case "<":
-        return "&lt;"
-      case ">":
-        return "&gt;"
-      case "&":
-        return "&amp;"
-      case '"':
-        return "&quot;"
-      case "'":
-        return "&apos;"
-      default:
-        return char
-    }
+function makeParagraph(
+  canvasKit: CanvasKit,
+  fontManager: FontMgr,
+  text: string,
+  style: {
+    color: RGBColor
+    families: string[]
+    size: number
+    weight: "Normal" | "Bold"
+    lineHeight: number
+  },
+  maxWidth = OG_IMAGE_WIDTH,
+): Paragraph {
+  const textStyle = new canvasKit.TextStyle({
+    color: canvasKit.Color(...style.color),
+    fontFamilies: style.families,
+    fontSize: style.size,
+    fontStyle: { weight: canvasKit.FontWeight[style.weight] },
+    heightMultiplier: style.lineHeight,
   })
+  const builder = canvasKit.ParagraphBuilder.Make(
+    new canvasKit.ParagraphStyle({ textStyle }),
+    fontManager,
+  )
+  builder.addText(text)
+  const paragraph = builder.build()
+  paragraph.layout(maxWidth)
+  builder.delete()
+
+  return paragraph
+}
+
+function cleanText(text: string) {
+  return text.replace(/\s+/g, " ").trim()
+}
+
+function toArrayBuffer(bytes: Uint8Array) {
+  const arrayBuffer = new ArrayBuffer(bytes.byteLength)
+  new Uint8Array(arrayBuffer).set(bytes)
+  return arrayBuffer
 }

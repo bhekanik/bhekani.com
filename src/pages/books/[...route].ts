@@ -12,6 +12,6 @@ export const { getStaticPaths, GET } = await createOgImageRoute({
   pages: pages,
   param: "route",
 
-  getImageOptions: (_path, page: any) =>
+  getImageOptions: (_path, page) =>
     getBookOgOptions(page.title, page.author),
 })
