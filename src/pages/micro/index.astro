@@ -1,7 +1,7 @@
 ---
 import { getCollection, render } from "astro:content"
-import { format } from "date-fns"
 import MainContainer from "../../components/MainContainer.astro"
+import Prose from "../../components/Prose.astro"
 import BaseLayout from "../../layouts/BaseLayout.astro"
 
 const allMicro = await getCollection("micro")
@@ -10,97 +10,134 @@ const sortedMicro = allMicro
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
 
 const pageTitle = "Micro"
+const formatUtcDate = (date: Date) =>
+  new Intl.DateTimeFormat("en-US", {
+    day: "numeric",
+    month: "long",
+    timeZone: "UTC",
+    year: "numeric",
+  }).format(date)
 ---
 
-<BaseLayout pageTitle={pageTitle} hidePageHeader={true}>
+<BaseLayout
+  pageTitle={pageTitle}
+  description="Quick thoughts, updates, and shorter musings. Like tweets, but on my own site."
+  caption="Short notes"
+>
   <MainContainer>
-    <div class="max-w-2xl mx-auto mt-12 space-y-16">
-      {/* Header Section */}
-      <div class="space-y-6">
-        <h1 class="text-4xl font-bold">Micro</h1>
-        <p class="text-lg text-muted-foreground">
-          Quick thoughts, updates, and shorter musings. Like tweets, but on my
-          own site.
+    <div class="micro-archive">
+      <section class="panel land micro-feed" style="--i: 0">
+        <span class="cap">Archive</span>
+        <p>
+          <a href="/rss.xml" class="btn-ghost">Blog RSS</a>
+          <span>This feed contains blog posts; Micro notes stay on this page.</span>
         </p>
+      </section>
 
-        <div class="flex items-center gap-4">
-          <a
-            href="/rss.xml"
-            class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md bg-muted hover:bg-muted-foreground/15 transition-colors"
-          >
-            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-              <path
-                d="M6.18 15.64a2.18 2.18 0 012.18 2.18C8.36 19 7.38 20 6.18 20C5 20 4 19 4 17.82a2.18 2.18 0 012.18-2.18M4 4.44A15.56 15.56 0 0119.56 20h-2.83A12.73 12.73 0 004 7.27zm0 5.66a9.9 9.9 0 019.9 9.9h-2.83A7.07 7.07 0 004 12.93z"
-              ></path>
-            </svg>
-            Subscribe via RSS
-          </a>
-        </div>
-      </div>
-
-      {/* Micro Posts */}
-      <div class="space-y-12">
+      <section class="panel land micro-notes" style="--i: 1">
+        <span class="cap">Newest first</span>
+        <ol class="rule-list">
         {
           sortedMicro.map(async (micro) => {
             const { Content } = await render(micro)
             return (
-              <article class="group relative">
-                <div class="flex flex-col space-y-4 rounded-xl border border-muted bg-card p-6 transition-colors hover:border-muted-foreground/30">
-                  <div class="flex items-center justify-between">
-                    <time
-                      datetime={micro.data.date.toISOString()}
-                      class="text-sm text-muted-foreground"
-                    >
-                      {format(micro.data.date, "MMMM d, yyyy")}
+              <li>
+                <article class="micro-note">
+                  <header>
+                    <time datetime={micro.data.date.toISOString()} class="meta">
+                      {formatUtcDate(micro.data.date)}
                     </time>
-                    <a
-                      href={`/micro/${micro.id}`}
-                      class="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                      title="Permalink"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        class="w-4 h-4"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
-                        />
-                      </svg>
+                    <a href={`/micro/${micro.id}/`} class="permalink">
+                      Permalink
                     </a>
-                  </div>
+                  </header>
 
-                  {micro.data.title && (
-                    <h2 class="text-xl font-semibold group-hover:text-foreground transition-colors">
+                  <h2>
+                    <a href={`/micro/${micro.id}/`} class="link-quiet">
                       {micro.data.title}
-                    </h2>
-                  )}
+                    </a>
+                  </h2>
 
-                  <div class="prose prose-sm dark:prose-invert max-w-none">
+                  <Prose>
                     <Content />
-                  </div>
-                </div>
-              </article>
+                  </Prose>
+                </article>
+              </li>
             )
           })
         }
-      </div>
+        </ol>
+      </section>
     </div>
   </MainContainer>
 </BaseLayout>
 
 <style>
-  /* Optional: Add smooth transitions */
-  article {
-    transition: transform 0.2s ease-in-out;
+  .micro-archive {
+    display: grid;
+    gap: var(--space-6);
+    max-width: 56rem;
   }
 
-  article:hover {
-    transform: translateY(-2px);
+  .micro-archive > * {
+    min-width: 0;
+  }
+
+  .micro-feed {
+    padding: var(--space-10) var(--space-6) var(--space-6);
+  }
+
+  .micro-feed p {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-4);
+    margin: 0;
+    color: var(--muted-foreground);
+  }
+
+  .micro-notes {
+    padding: var(--space-10) var(--space-6) var(--space-4);
+  }
+
+  .micro-notes ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .micro-note {
+    min-width: 0;
+    padding: var(--space-6) 0 var(--space-8);
+  }
+
+  .micro-note header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-2) var(--space-4);
+  }
+
+  .permalink {
+    font-family: var(--font-sans);
+    font-size: 0.8125rem;
+    font-weight: 600;
+  }
+
+  .micro-note h2 {
+    margin: var(--space-2) 0 var(--space-4);
+  }
+
+  .micro-note h2 a {
+    display: inline;
+  }
+
+  .micro-note :global(.prose > :first-child) {
+    margin-top: 0;
+  }
+
+  .micro-note :global(.prose) {
+    overflow-wrap: anywhere;
   }
 </style>
