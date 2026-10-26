@@ -5,6 +5,7 @@ published: true
 description: " Looking to maintain your blissful state of unemployment or simply seeking a fresh perspective on job hunting? You're in luck. Here are nine unconventional strategies for not getting a job."
 author: "Bhekani Khumalo"
 image: "../_images/how-to-never-get-a-job.jpg"
+imageAlt: "Red sneakers resting in a hammock beneath a cloudy sky"
 tags: ["career", "advice", "just-reflections"]
 ---
 

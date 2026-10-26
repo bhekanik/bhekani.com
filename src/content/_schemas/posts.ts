@@ -8,6 +8,7 @@ export const postSchema = ({ image }: SchemaContext) =>
     published: z.boolean(),
     author: z.string(),
     image: image().optional(),
+    imageAlt: z.string().optional(),
     tags: z.array(z.string()),
     // tags: z.enum([
     //   "advice",
