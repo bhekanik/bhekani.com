@@ -90,8 +90,10 @@ const getWrapperReplacements = (element: MdxElement, offsets: Replacement): Repl
 
 const isYouTubeUrl = (url: string): boolean => {
   try {
-    const hostname = new URL(url).hostname
-    return hostname === "youtube.com" || hostname.endsWith(".youtube.com") || hostname === "youtu.be"
+    const parsedUrl = new URL(url)
+    const isHttp = parsedUrl.protocol === "http:" || parsedUrl.protocol === "https:"
+    const { hostname } = parsedUrl
+    return isHttp && (hostname === "youtube.com" || hostname.endsWith(".youtube.com") || hostname === "youtu.be")
   } catch {
     return false
   }
@@ -154,7 +156,7 @@ export function cleanMdxContent(content: string): string {
   }
   cleaned += content.slice(cursor)
 
-  return cleaned.replace(/\n{3,}/g, "\n\n").trim()
+  return cleaned.trim()
 }
 
 /** Format a date as YYYY-MM-DD */

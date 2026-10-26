@@ -21,8 +21,8 @@ book bodies.
 ## Markdown exports
 
 Post `.md` routes and `llms-full.txt` transform only parsed MDX imports and
-components. Source outside MDX nodes is left intact, including code fences and
-inline code. Known Quote and YouTube/iframe wrappers become Markdown.
+components. Code fences and inline code retain their authored whitespace.
+Known Quote and HTTP(S) YouTube/iframe wrappers become Markdown.
 
 `llms.txt` exposes only public bibliographic fields and calls 111 entries
 “catalogued,” not “read.” It does not include book bodies or private notes.
@@ -32,17 +32,16 @@ inline code. Known Quote and YouTube/iframe wrappers become Markdown.
 Run the focused tests during edits:
 
 ```sh
-bun run test -- test/utils/llms.test.ts test/utils/rss.test.ts
+bun run test --run test/utils/llms.test.ts test/utils/rss.test.ts
 ```
 
-Then run the repository’s offline verification command when it is available.
-For a local static proof without the deployment publisher, use:
+Then run the repository’s offline verification command:
 
 ```sh
-VERIFY_OFFLINE=1 ASTRO_DATABASE_FILE=./.astro/verify.db bun astro build
+bun run verify:offline
 ```
 
-In emitted output, parse `dist/rss.xml`; its GUIDs must match the fixture while
+In emitted output, parse `dist/client/rss.xml`; its GUIDs must match the fixture while
 its item links, sitemap, canonical links, and export URLs use `www`. A rendered
 post must contain one title, `/favicon.ico`, and a `text/markdown` alternate;
 non-post pages must not advertise a Markdown alternate.

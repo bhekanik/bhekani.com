@@ -43,6 +43,18 @@ describe("cleanMdxContent", () => {
     ].join("\n"))
   })
 
+  it("preserves consecutive blank lines inside code literals", () => {
+    const fencedCode = ["```text", "first", "", "", "last", "```"].join("\n")
+    const inlineCode = ["Use `first", "", "", "last` exactly."].join("\n")
+
+    expect(cleanMdxContent(fencedCode)).toBe(fencedCode)
+    expect(cleanMdxContent(inlineCode)).toBe(inlineCode)
+  })
+
+  it("does not convert non-web YouTube URLs", () => {
+    expect(cleanMdxContent('<iframe src="ftp://youtube.com/embed/abc123" title="A video" />')).toBe("")
+  })
+
   it("removes actual MDX wrappers while retaining their authored content", () => {
     expect(cleanMdxContent("<Callout tone=\"note\">Keep this text.</Callout>")).toBe(
       "Keep this text.",
