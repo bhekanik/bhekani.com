@@ -9,6 +9,7 @@ function readSource(relativePath: string): string {
 function readProject(name: string) {
   return JSON.parse(readSource(`content/projects/${name}.json`)) as {
     title: string
+    description?: string
     url: string
     featured?: boolean
     appStoreUrl?: string
@@ -37,6 +38,35 @@ describe('Featured projects', () => {
       .map(readProject)
       .filter((project) => project.featured)
     expect(featured).toEqual([])
+  })
+})
+
+describe('Project facts', () => {
+  it.each([
+    ['imali', 'imports CSV and PDF bank statements'],
+    ['linganisa', 'AI try-on previews'],
+    ['cv-optimiser', 'tailors a CV to a specific job description'],
+    ['interview-optimiser', 'real-time voice conversations and feedback reports'],
+    ['reference-optimiser', 'voice reference interviews with reports'],
+    ['journaler', 'historical community platform'],
+    ['pro-search', 'Search query builder'],
+  ])('%s uses a conservative capability description', (name, description) => {
+    expect(readProject(name)).toMatchObject({ description: expect.stringContaining(description) })
+  })
+
+  it('does not retain unsupported outcome promises or the stale Dealbase stack label', () => {
+    expect(readProject('imali').description).not.toContain('UK bank accounts')
+    expect(readProject('linganisa').description).not.toContain('returns')
+    expect(readProject('cv-optimiser').description).not.toContain('ATS')
+    expect(readProject('reference-optimiser').description).not.toContain('genuine enthusiasm')
+    expect(readSource('content/projects/dealbase.json')).toContain('"Drizzle"')
+    expect(readSource('content/projects/dealbase.json')).not.toContain('"Prisma"')
+  })
+
+  it('keeps FaithBench as a direct link, not a new project record', () => {
+    expect(readSource('pages/about.astro')).toContain('https://faithbench.com')
+    expect(readSource('pages/cv.astro')).toContain('https://faithbench.com')
+    expect(() => readProject('faithbench')).toThrow()
   })
 })
 
@@ -89,6 +119,11 @@ describe('About page', () => {
     expect(content).toContain('href="/cv"')
     expect(content).toContain('href="/unoffice-hours"')
   })
+
+  it('projects collection facts for the inventory without changing its direct FaithBench link', () => {
+    expect(content).toContain('selectProjectSummaries')
+    expect(content).toContain('https://faithbench.com')
+  })
 })
 
 describe('Micro archive', () => {
@@ -130,10 +165,12 @@ describe('CV page', () => {
     expect(content).toContain('City of Bulawayo')
   })
 
-  it('lists the independent products', () => {
-    expect(content).toContain('https://blah.chat')
-    expect(content).toContain('https://www.easydeck.app')
-    expect(content).toContain('https://mxr.sh')
+  it('lists the independent products from the collection', () => {
+    expect(content).toContain('selectProjectSummaries(allProjects, ["blah-chat", "easydeck", "mxr"])')
+  })
+
+  it('projects its detailed products from the collection', () => {
+    expect(content).toContain('selectProjectSummaries')
   })
 
   it('has the skills section', () => {
