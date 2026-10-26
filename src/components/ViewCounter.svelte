@@ -1,45 +1,42 @@
 <script>
   import { onMount } from "svelte"
+  import { parseViewCount } from "../utils/viewsClient"
 
   let { slug } = $props()
-  let data = $state(null)
-  let error = $state(null)
+  let count = $state(undefined)
+  let unavailable = $state(false)
 
-  const fetchViews = async () => {
-    try {
-      const url = `/api/views?${new URLSearchParams({ slug })}`
+  onMount(() => {
+    const controller = new AbortController()
 
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ slug }),
+    const request = fetch(`/api/views?${new URLSearchParams({ slug })}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ slug }),
+      signal: controller.signal,
+    })
+
+    void request
+      .then((response) => response.ok ? response.json().then(parseViewCount) : undefined)
+      .then((nextCount) => {
+        if (controller.signal.aborted) return
+        if (nextCount === undefined) unavailable = true
+        else count = nextCount
       })
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
-      }
-      return await response.json()
-    } catch (e) {
-      throw e
-    }
-  }
+      .catch(() => {
+        if (!controller.signal.aborted) unavailable = true
+      })
 
-  onMount(async () => {
-    try {
-      data = await fetchViews()
-    } catch (e) {
-      error = e.message
-    }
+    return () => controller.abort()
   })
 </script>
 
-{#if data}
+{#if count !== undefined}
   <span class="text-sm text-muted-foreground transition-opacity duration-300">
-    {data.count.toLocaleString()} views
+    {count.toLocaleString()} views
   </span>
-{:else if error}
-  <span class="text-sm text-muted-foreground">-</span>
+{:else if unavailable}
+  <span class="text-sm text-muted-foreground" aria-label="View count unavailable">Views unavailable</span>
 {:else}
   <span class="inline-flex items-center gap-1 text-sm text-muted-foreground">
     <span class="inline-block w-12 h-3 bg-muted rounded animate-pulse"></span>
