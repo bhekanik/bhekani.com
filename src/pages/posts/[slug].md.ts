@@ -1,39 +1,19 @@
 import type { GetStaticPaths } from "astro"
-import { getCollection } from "astro:content"
-import { cleanMdxContent, formatDate } from "../../utils/llms"
-import { getSiteUrl } from "../../constants/seo"
+import { getCollection, type CollectionEntry } from "astro:content"
+import { createPostMarkdown } from "../../utils/markdownExports"
+
+type Props = { post: CollectionEntry<"posts"> }
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const posts = await getCollection("posts")
-  return posts.map((post) => ({
+  return posts.filter((post) => post.data.published).map((post) => ({
     params: { slug: post.id },
     props: { post },
   }))
 }
 
-export async function GET({ props }: { props: any }) {
-  const { post } = props
-
-  const meta = [
-    `# ${post.data.title}`,
-    "",
-    `- **Date**: ${formatDate(post.data.pubDate)}`,
-    `- **Author**: ${post.data.author}`,
-    post.data.description ? `- **Summary**: ${post.data.description}` : null,
-    post.data.tags.length > 0
-      ? `- **Tags**: ${post.data.tags.join(", ")}`
-      : null,
-    `- **URL**: ${getSiteUrl(`/posts/${post.id}/`)}`,
-    "",
-    "---",
-    "",
-  ]
-    .filter((line): line is string => line !== null)
-    .join("\n")
-
-  const body = cleanMdxContent(post.body || "")
-
-  return new Response(meta + body + "\n", {
+export async function GET({ props }: { props: Props }) {
+  return new Response(createPostMarkdown(props.post), {
     headers: {
       "Content-Type": "text/markdown; charset=utf-8",
     },

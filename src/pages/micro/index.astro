@@ -2,6 +2,7 @@
 import { Image } from "astro:assets"
 import { getCollection, render } from "astro:content"
 import MainContainer from "../../components/MainContainer.astro"
+import MarkdownCopy from "../../components/MarkdownCopy.astro"
 import Prose from "../../components/Prose.astro"
 import SocialInteractions from "../../components/SocialInteractions.astro"
 import BK from "../../images/BK.webp"
@@ -29,15 +30,7 @@ const formatUtcDate = (date: Date) =>
 >
   <MainContainer>
     <div class="micro-archive">
-      <section class="panel land micro-feed" style="--i: 0">
-        <span class="cap">Archive</span>
-        <p>
-          <a href="/rss.xml" class="btn-ghost">Blog RSS</a>
-          <span>This feed contains blog posts; Micro notes stay on this page.</span>
-        </p>
-      </section>
-
-      <section class="panel land micro-notes" style="--i: 1">
+      <section class="panel land micro-notes" style="--i: 0">
         <span class="cap">Newest first</span>
           <ol class="micro-stream">
         {
@@ -57,6 +50,7 @@ const formatUtcDate = (date: Date) =>
                     <a href={`/micro/${micro.id}/`} class="permalink">
                       Permalink
                     </a>
+                    <MarkdownCopy markdownUrl={`/micro/${micro.id}.md`} compact />
                   </header>
 
                   {micro.data.title?.trim() && <h2><a href={`/micro/${micro.id}/`} class="link-quiet">{micro.data.title.trim()}</a></h2>}
@@ -72,6 +66,11 @@ const formatUtcDate = (date: Date) =>
         }
         </ol>
       </section>
+
+      <aside class="micro-feed" aria-label="Blog feed">
+        <a href="/rss.xml" class="btn-ghost">Blog RSS</a>
+        <span>This feed contains blog posts; Micro notes stay on this page.</span>
+      </aside>
     </div>
   </MainContainer>
 </BaseLayout>
@@ -88,15 +87,12 @@ const formatUtcDate = (date: Date) =>
   }
 
   .micro-feed {
-    padding: var(--space-10) var(--space-6) var(--space-6);
-  }
-
-  .micro-feed p {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     gap: var(--space-4);
     margin: 0;
+    padding: 0 var(--space-2) var(--space-4);
     color: var(--muted-foreground);
   }
 
@@ -137,6 +133,7 @@ const formatUtcDate = (date: Date) =>
   .micro-author div { display: grid; gap: 0.125rem; }
 
   .micro-author .permalink { margin-left: auto; }
+  .micro-author :global(.markdown-copy) { gap: var(--space-2); }
 
   .permalink {
     font-family: var(--font-sans);

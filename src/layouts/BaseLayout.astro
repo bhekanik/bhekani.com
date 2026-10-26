@@ -19,7 +19,7 @@ import { getDocumentTitle, getSiteUrl, SEO_DEFAULTS } from "../constants/seo"
 import "../styles/global.css"
 
 const { pageTitle, description, title, imageUrl, hidePageHeader, caption } = Astro.props
-const markdownUrl = /^\/posts\/[^/]+\/$/.test(Astro.url.pathname)
+const markdownUrl = /^\/(?:posts|micro)\/[^/]+\/$/.test(Astro.url.pathname)
   ? getSiteUrl(`${Astro.url.pathname.slice(0, -1)}.md`)
   : undefined
 ---
@@ -30,6 +30,7 @@ const markdownUrl = /^\/posts\/[^/]+\/$/.test(Astro.url.pathname)
     <link rel="sitemap" href="/sitemap-index.xml" />
     <link rel="alternate" type="application/rss+xml" title="Bhekani.com blog RSS feed" href={new URL("/rss.xml", Astro.site)} />
     {markdownUrl && <link rel="alternate" type="text/markdown" title={`${pageTitle} in Markdown`} href={markdownUrl} />}
+    {markdownUrl && <link rel="describedby" type="text/plain" href="/llms.txt" />}
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />

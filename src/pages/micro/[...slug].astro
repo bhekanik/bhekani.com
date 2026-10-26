@@ -3,6 +3,7 @@ import { getCollection, render, type CollectionEntry } from "astro:content"
 import { format } from "date-fns"
 import Link from "../../components/Link.astro"
 import MainContainer from "../../components/MainContainer.astro"
+import MarkdownCopy from "../../components/MarkdownCopy.astro"
 import SocialInteractions from "../../components/SocialInteractions.astro"
 import BaseLayout from "../../layouts/BaseLayout.astro"
 import { getMicroLabel } from "../../utils/micro"
@@ -75,23 +76,7 @@ const label = getMicroLabel(micro.data.title, micro.data.date)
                 ></path>
               </svg>
             </a>
-            <button
-              class="copy-link p-2 text-muted-foreground hover:text-foreground transition-colors"
-              title="Copy link"
-              data-url={`https://bhekani.com/micro/${micro.id}`}
-            >
-              <svg
-                class="w-5 h-5"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <path
-                  d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
-                ></path>
-              </svg>
-            </button>
+            <MarkdownCopy markdownUrl={`/micro/${micro.id}.md`} compact />
           </div>
         </div>
 
@@ -122,25 +107,6 @@ const label = getMicroLabel(micro.data.title, micro.data.date)
     </article>
   </MainContainer>
 </BaseLayout>
-
-<script>
-  // Copy link functionality
-  document.querySelector(".copy-link")?.addEventListener("click", async (e) => {
-    const button = e.currentTarget as HTMLButtonElement
-    const url = button.dataset.url
-
-    if (url) {
-      await navigator.clipboard.writeText(url)
-
-      // Optional: Show feedback
-      const originalTitle = button.getAttribute("title")
-      button.setAttribute("title", "Copied!")
-      setTimeout(() => {
-        button.setAttribute("title", originalTitle || "Copy link")
-      }, 2000)
-    }
-  })
-</script>
 
 <style>
   /* Optional: Add smooth transitions */
