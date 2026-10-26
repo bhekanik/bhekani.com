@@ -12,7 +12,7 @@ const postDataSchema = z.object({
   published: z.boolean(),
   tags: z.array(z.string()),
 })
-const microDataSchema = z.object({ title: z.string(), published: z.boolean() })
+const microDataSchema = z.object({ title: z.string().optional(), date: z.coerce.date(), published: z.boolean() })
 const projectDataSchema = z.object({
   title: z.string(),
   description: z.string().optional(),

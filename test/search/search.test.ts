@@ -54,7 +54,7 @@ describe("Astro search projection", () => {
   it("uses actual entry identities, excludes drafts and book bodies, and only permits http(s) project URLs", () => {
     const projection = createSearchProjection({
       posts: [{ id: "published-post", body: "Searchable public post body", data: { title: "Published", description: "Summary", published: true, tags: ["Writing"] } }, { id: "draft-post", body: "Must not appear", data: { title: "Draft", published: false, tags: [] } }],
-      micro: [{ id: "published-micro", body: "A short public thought", data: { title: "Micro", published: true } }],
+      micro: [{ id: "published-micro", body: "A short public thought", data: { title: "Micro", date: new Date("2026-10-26"), published: true } }],
       projects: [{ id: "mxr", data: { title: "mxr", description: "Mail", published: true, tech: ["Rust"], url: "https://mxr.sh" } }, { id: "unsafe", data: { title: "Unsafe", published: true, tech: [], url: "javascript:alert(1)" } }],
       books: [{ id: "warbreaker-warbreaker-1", body: "PRIVATE NOTE: never index", data: { id: 1, title: "Warbreaker", author: "Brandon Sanderson", tags: ["fantasy"] } }],
     })

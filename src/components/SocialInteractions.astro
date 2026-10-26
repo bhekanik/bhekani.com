@@ -1,0 +1,73 @@
+---
+type Props = {
+  contentType: "micro" | "post"
+  contentId: string
+}
+
+const { contentType, contentId } = Astro.props
+---
+
+<section class="social-interactions" data-social-interactions data-content-type={contentType} data-content-id={contentId} aria-label="Reader responses">
+  <div class="social-actions">
+    <button class="social-heart" type="button" data-social-heart aria-pressed="false" aria-label="Heart this note" disabled>
+      <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor" focusable="false">
+        <path d="M12 21.35 10.55 20C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09A6.02 6.02 0 0 1 16.5 3C19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.51L12 21.35Z" />
+      </svg>
+      <span data-social-like-count>0</span>
+      <span class="sr-only" data-social-heart-label>Heart this note</span>
+    </button>
+    <details class="social-comments" data-social-comments>
+      <summary>Comments <span data-social-comment-count>0</span></summary>
+      <div class="social-comment-list" data-social-comment-list aria-live="polite"></div>
+      <p class="social-note">Comments are reviewed before they appear here.</p>
+      <form class="social-comment-form" data-social-comment-form action="/api/social" method="post">
+        <fieldset data-social-inputs disabled>
+          <label>
+            Name
+            <input name="displayName" maxlength="60" autocomplete="name" required />
+          </label>
+          <label>
+            Comment
+            <textarea name="body" maxlength="1000" rows="4" required></textarea>
+          </label>
+          <button type="submit">Submit for review</button>
+        </fieldset>
+        <p class="social-form-status" data-social-form-status aria-live="polite"></p>
+      </form>
+      <noscript><p class="social-note">Comments need JavaScript. You can still read the notes here.</p></noscript>
+    </details>
+  </div>
+  <p class="social-status" data-social-status aria-live="polite">Loading responses…</p>
+  <button class="social-retry" type="button" data-social-retry hidden>Retry responses</button>
+</section>
+
+<script>
+  import { cleanupSocialInteractions, initializeAllSocialInteractions } from "../utils/socialClient"
+
+  initializeAllSocialInteractions()
+  document.addEventListener("astro:before-swap", cleanupSocialInteractions)
+  document.addEventListener("astro:page-load", initializeAllSocialInteractions)
+</script>
+
+<style>
+  .social-interactions { margin-top: var(--space-6); font-family: var(--font-sans); }
+  .social-actions { display: flex; align-items: flex-start; gap: var(--space-4); }
+  .social-heart { display: inline-flex; align-items: center; gap: var(--space-1); min-height: 2.5rem; padding: var(--space-2) var(--space-3); border: var(--rule) solid var(--border); background: var(--card); color: var(--foreground); font-weight: 700; }
+  .social-heart svg { width: 1rem; height: 1rem; }
+  .social-heart[aria-pressed="true"] { background: var(--accent); color: var(--accent-foreground); }
+  .social-comments { flex: 1; min-width: 0; }
+  .social-comments summary { cursor: pointer; font-weight: 700; }
+  .social-comment-list { display: grid; gap: var(--space-3); margin-top: var(--space-4); }
+  .social-comment { padding-top: var(--space-3); border-top: 1px solid var(--border); overflow-wrap: anywhere; }
+  .social-comment p { margin: 0; }
+  .social-comment-status { color: var(--muted-foreground); font-size: 0.875rem; }
+  .social-note, .social-form-status, .social-status { color: var(--muted-foreground); font-size: 0.9375rem; }
+  .social-status { margin: var(--space-2) 0 0; }
+  .social-retry { margin-top: var(--space-2); padding: var(--space-1) var(--space-2); border: 1px solid var(--border); background: transparent; color: var(--foreground); font: inherit; }
+  .social-comment-form { display: grid; gap: var(--space-3); margin-top: var(--space-4); }
+  .social-comment-form fieldset { display: grid; gap: var(--space-3); padding: 0; border: 0; margin: 0; }
+  .social-comment-form label { display: grid; gap: var(--space-1); font-weight: 700; }
+  .social-comment-form :is(input, textarea) { width: 100%; padding: var(--space-2); border: 1px solid var(--input); background: var(--background); color: var(--foreground); font: inherit; }
+  .social-comment-form button { justify-self: start; padding: var(--space-2) var(--space-3); border: var(--rule) solid var(--border); background: var(--accent); color: var(--accent-foreground); font-weight: 700; }
+  @media (max-width: 30rem) { .social-actions { display: grid; gap: var(--space-3); } }
+</style>

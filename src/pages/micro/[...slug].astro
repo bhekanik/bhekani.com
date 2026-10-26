@@ -3,7 +3,9 @@ import { getCollection, render, type CollectionEntry } from "astro:content"
 import { format } from "date-fns"
 import Link from "../../components/Link.astro"
 import MainContainer from "../../components/MainContainer.astro"
+import SocialInteractions from "../../components/SocialInteractions.astro"
 import BaseLayout from "../../layouts/BaseLayout.astro"
+import { getMicroLabel } from "../../utils/micro"
 
 export async function getStaticPaths() {
   const micros = await getCollection("micro")
@@ -21,9 +23,10 @@ type Props = {
 
 const { micro } = Astro.props
 const { Content } = await render(micro)
+const label = getMicroLabel(micro.data.title, micro.data.date)
 ---
 
-<BaseLayout pageTitle={micro.data.title ?? "Micro Post"} imageUrl={`https://www.bhekani.com/micro/${micro.id}.png`} hidePageHeader={true}>
+<BaseLayout pageTitle={label} imageUrl={`https://www.bhekani.com/micro/${micro.id}.png`} hidePageHeader={true}>
   <MainContainer>
     <article class="max-w-2xl mx-auto mt-12">
       {/* Header */}
@@ -47,7 +50,7 @@ const { Content } = await render(micro)
           {/* Share buttons */}
           <div class="flex items-center gap-2">
             <a
-              href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`${micro.data.title ?? ""} https://bhekani.com/micro/${micro.id}`)}`}
+              href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`${label} https://bhekani.com/micro/${micro.id}`)}`}
               target="_blank"
               rel="noopener noreferrer"
               class="p-2 text-muted-foreground hover:text-foreground transition-colors"
@@ -93,8 +96,8 @@ const { Content } = await render(micro)
         </div>
 
         {
-          micro.data.title && (
-            <h1 class="text-3xl font-bold mb-6">{micro.data.title}</h1>
+          micro.data.title?.trim() && (
+            <h1 class="text-3xl font-bold mb-6">{micro.data.title.trim()}</h1>
           )
         }
       </header>
@@ -103,6 +106,8 @@ const { Content } = await render(micro)
       <div class="prose prose-lg dark:prose-invert max-w-none">
         <Content />
       </div>
+
+      <SocialInteractions contentType="micro" contentId={micro.id} />
 
       {/* Footer */}
       <footer class="mt-12 pt-8 border-t border-muted">

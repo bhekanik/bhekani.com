@@ -5,6 +5,7 @@ import Giscuss from "../../components/Giscuss.astro"
 import Link from "../../components/Link.astro"
 import MainContainer from "../../components/MainContainer.astro"
 import Prose from "../../components/Prose.astro"
+import SocialInteractions from "../../components/SocialInteractions.astro"
 import TableOfContents from "../../components/TableOfContents.astro"
 import ViewCounter from "../../components/ViewCounter.svelte"
 import WebMentions from "../../components/WebMentions.astro"
@@ -162,9 +163,13 @@ const hasContents = tocHeadings.length >= 3
             <WebMentions />
           </div>
 
-          {/* Comments */}
+          {/* Native comments stay separate from the existing GitHub discussion. */}
           <div class="my-16">
-            <h2 class="text-lg font-semibold mb-8">Comments</h2>
+            <h2 class="text-lg font-semibold mb-4">Native comments</h2>
+            <SocialInteractions contentType="post" contentId={post.id} />
+          </div>
+          <div class="my-16">
+            <h2 class="text-lg font-semibold mb-8">GitHub discussion</h2>
             <div class="giscus-wrapper">
               <Giscuss />
             </div>
