@@ -1,6 +1,11 @@
 import { defineConfig } from 'vitest/config'
+import { svelte, vitePreprocess } from '@sveltejs/vite-plugin-svelte'
 
 export default defineConfig({
+  plugins: process.env.VITEST ? [svelte({ preprocess: vitePreprocess({ script: true }) })] : [],
+  resolve: {
+    conditions: ['browser'],
+  },
   test: {
     globals: true,
     environment: 'happy-dom',
