@@ -112,7 +112,12 @@ const hasContents = tocHeadings.length >= 3
       }
 
       {/* Main Content */}
-      <div class="article-body-layout">
+      <div class:list={["article-body-layout", { "has-contents": hasContents }]}>
+        <div class="post-animate-content article-body" data-reading-body>
+          <Prose>
+            <Content />
+          </Prose>
+        </div>
         {
           hasContents && (
             <aside class="article-contents-rail" aria-label="Contents">
@@ -121,11 +126,6 @@ const hasContents = tocHeadings.length >= 3
             </aside>
           )
         }
-        <div class="post-animate-content article-body">
-          <Prose>
-            <Content />
-          </Prose>
-        </div>
       </div>
 
       {/* Article Footer */}
@@ -135,7 +135,7 @@ const hasContents = tocHeadings.length >= 3
           <h2 class="text-lg font-semibold">Share this post</h2>
           <div class="flex gap-4">
             <a
-              href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.data.title)}&url=${encodeURIComponent(`https://bhekani.com/posts/${post.id}`)}`}
+              href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.data.title)}&url=${encodeURIComponent(`https://www.bhekani.com/posts/${post.id}`)}`}
               target="_blank"
               rel="noopener noreferrer"
               class="btn-ghost"
@@ -143,7 +143,7 @@ const hasContents = tocHeadings.length >= 3
               Share on Twitter
             </a>
             <a
-              href={`https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(`https://bhekani.com/posts/${post.id}`)}&title=${encodeURIComponent(post.data.title)}`}
+              href={`https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(`https://www.bhekani.com/posts/${post.id}`)}&title=${encodeURIComponent(post.data.title)}`}
               target="_blank"
               rel="noopener noreferrer"
               class="btn-ghost"
@@ -152,7 +152,7 @@ const hasContents = tocHeadings.length >= 3
             </a>
           </div>
           <div class="article-views">
-            <ViewCounter client:visible slug={post.id} />
+            <ViewCounter client:load slug={post.id} />
           </div>
         </div>
 
@@ -289,14 +289,21 @@ const hasContents = tocHeadings.length >= 3
       display: none;
     }
 
-    .article-body-layout {
+    .article-body-layout.has-contents {
       display: grid;
       grid-template-columns: minmax(0, 1fr) 13rem;
       gap: var(--space-8);
       align-items: start;
     }
 
+    .article-body {
+      min-width: 0;
+      grid-column: 1;
+    }
+
     .article-contents-rail {
+      grid-column: 2;
+      grid-row: 1;
       position: sticky;
       top: 5.5rem;
       display: block;

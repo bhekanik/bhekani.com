@@ -1,9 +1,10 @@
-import { beforeEach, describe, expect, it, vi } from "vitest"
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest"
 import {
   buildTableOfContents,
   formatPostDateUtc,
   initializeArticleReading,
 } from "../../src/utils/articleReading"
+import { initializeGiscus } from "../../src/utils/giscus"
 
 describe("article reading helpers", () => {
   it("formats publication dates in UTC regardless of the local timezone", () => {
@@ -46,21 +47,54 @@ describe("article reading helpers", () => {
 describe("article reading lifecycle", () => {
   const observe = vi.fn()
   const disconnect = vi.fn()
+  let triggerIntersection: ((target: Element) => void) | undefined
 
   beforeEach(() => {
+    triggerIntersection = undefined
     document.body.innerHTML = `
       <div id="reading-progress"></div>
       <article data-article-reading>
-        <details data-article-contents open><summary>Contents</summary><a class="toc-link" href="#first">First</a></details>
-        <div class="prose"><h2 id="first">First</h2></div>
-        <div data-giscus-container></div>
+        <details data-article-contents open><summary>Contents</summary><a class="toc-link" href="#first">Mobile First</a></details>
+        <div data-reading-body class="prose"><h2 id="first">First</h2></div>
+        <aside><a class="toc-link" href="#first">Rail First</a></aside>
       </article>
     `
     observe.mockClear()
     disconnect.mockClear()
-    class MockIntersectionObserver {
-      observe = observe
-      disconnect = disconnect
+    class MockIntersectionObserver implements IntersectionObserver {
+      constructor(callback: IntersectionObserverCallback) {
+        triggerIntersection = (target) => {
+          const bounds = new DOMRect()
+          callback([{
+            boundingClientRect: bounds,
+            intersectionRatio: 1,
+            intersectionRect: bounds,
+            isIntersecting: true,
+            rootBounds: null,
+            target,
+            time: 0,
+          }], this)
+        }
+      }
+
+      root = null
+      rootMargin = "0px 0px 0px 0px"
+      scrollMargin = "0px 0px 0px 0px"
+      thresholds = []
+
+      disconnect() {
+        disconnect()
+      }
+
+      observe(target: Element) {
+        observe(target)
+      }
+
+      takeRecords() {
+        return []
+      }
+
+      unobserve() {}
     }
     vi.stubGlobal("IntersectionObserver", MockIntersectionObserver)
     vi.stubGlobal("requestAnimationFrame", vi.fn((callback) => {
@@ -70,21 +104,19 @@ describe("article reading lifecycle", () => {
     vi.stubGlobal("cancelAnimationFrame", vi.fn())
   })
 
+  afterEach(() => {
+    vi.unstubAllGlobals()
+  })
+
   it("keeps a short article's progress bounded and cleans all page-owned work", () => {
-    const article = document.querySelector<HTMLElement>("article")!
-    const giscus = document.querySelector<HTMLElement>("[data-giscus-container]")!
-    const append = vi.spyOn(giscus, "append").mockImplementation(() => giscus)
-    vi.spyOn(article, "getBoundingClientRect").mockReturnValue({
-      top: 0,
-      height: 100,
-    } as DOMRect)
+    const readingBody = document.querySelector<HTMLElement>("[data-reading-body]")!
+    vi.spyOn(readingBody, "getBoundingClientRect").mockReturnValue(new DOMRect(0, 0, 0, 100))
 
     const cleanup = initializeArticleReading()
     const progress = document.getElementById("reading-progress")!
 
     expect(progress.style.width).toBe("0%")
     expect(observe).toHaveBeenCalledWith(document.getElementById("first"))
-    expect(append).toHaveBeenCalledOnce()
 
     document.querySelector<HTMLAnchorElement>(".toc-link")!.click()
     expect(document.querySelector<HTMLDetailsElement>("details")!.open).toBe(false)
@@ -92,17 +124,65 @@ describe("article reading lifecycle", () => {
     cleanup()
 
     expect(disconnect).toHaveBeenCalledOnce()
-    expect(giscus.childElementCount).toBe(0)
   })
 
   it("continues to initialize when IntersectionObserver is unavailable", () => {
     vi.stubGlobal("IntersectionObserver", undefined)
-    const giscus = document.querySelector<HTMLElement>("[data-giscus-container]")!
-    vi.spyOn(giscus, "append").mockImplementation(() => giscus)
 
     const cleanup = initializeArticleReading()
 
-    expect(giscus.append).toHaveBeenCalledOnce()
+    expect(document.getElementById("reading-progress")?.style.width).toBe("0%")
     cleanup()
+  })
+
+  it("marks duplicate narrow and wide table-of-contents links active together", () => {
+    const cleanup = initializeArticleReading()
+
+    triggerIntersection?.(document.getElementById("first")!)
+
+    const tocLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>(".toc-link"))
+    expect(tocLinks).toHaveLength(2)
+    tocLinks.forEach((link) => {
+      expect(link).toHaveClass("toc-active")
+      expect(link).toHaveAttribute("aria-current", "location")
+    })
+
+    cleanup()
+  })
+
+  it("reaches completion at the end of reading body regardless of footer height", () => {
+    const article = document.querySelector<HTMLElement>("article")!
+    const readingBody = document.querySelector<HTMLElement>("[data-reading-body]")!
+    vi.stubGlobal("innerHeight", 200)
+    vi.stubGlobal("scrollY", 900)
+    let footerHeight = 10000
+    vi.spyOn(article, "getBoundingClientRect").mockImplementation(() => new DOMRect(0, -800, 0, footerHeight))
+    vi.spyOn(readingBody, "getBoundingClientRect").mockImplementation(() => new DOMRect(0, 100 - window.scrollY, 0, 1000))
+
+    const cleanup = initializeArticleReading()
+    window.dispatchEvent(new Event("scroll"))
+
+    expect(document.getElementById("reading-progress")?.style.width).toBe("100%")
+
+    footerHeight = 100000
+    window.dispatchEvent(new Event("scroll"))
+    expect(document.getElementById("reading-progress")?.style.width).toBe("100%")
+
+    cleanup()
+  })
+})
+
+describe("Giscus lifecycle", () => {
+  it("initializes a non-article consumer and cleans its mount", () => {
+    document.body.innerHTML = '<main data-book-page><div data-giscus-container></div></main>'
+    const container = document.querySelector<HTMLElement>("[data-giscus-container]")!
+    const append = vi.spyOn(container, "append").mockImplementation(() => container)
+
+    const cleanup = initializeGiscus()
+
+    expect(append).toHaveBeenCalledOnce()
+    container.replaceChildren(document.createElement("span"))
+    cleanup()
+    expect(container.childElementCount).toBe(0)
   })
 })

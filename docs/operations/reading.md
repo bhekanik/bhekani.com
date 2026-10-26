@@ -2,7 +2,7 @@
 
 ## Scope and reason
 
-The article route previously put the opening paragraph of the longest memory article below a 390×844 viewport, omitted usable narrow-screen contents navigation, rendered dates in the browser timezone, and did not restart Giscus after a client-side article navigation. The repair is limited to the article route and its owned reading components.
+The article route previously put the opening paragraph of the longest memory article below a 390×844 viewport, omitted usable narrow-screen contents navigation, rendered dates in the browser timezone, and did not restart Giscus after a client-side article navigation. The repair is limited to the article route, its owned reading components, and the shared Giscus mount used by article and book pages.
 
 The smaller adequate alternative was a mobile-only padding reduction. It could not expose the opening body while retaining the full title and description, so the repair instead gives the existing header a compact mobile scale, wraps metadata, and moves the noncritical view count below the reading path.
 
@@ -11,8 +11,8 @@ The smaller adequate alternative was a mobile-only padding reduction. It could n
 - Article dates are formatted with a fixed UTC presentation contract.
 - Posts with three or more h2/h3 headings show a native `Contents` disclosure below the header; a wide in-layout rail replaces it only from 1280px.
 - The contents builder retains an h3 that appears before an h2.
-- Progress tracks the article, uses one passive scroll listener plus a request-animation-frame update, and cleans its observer/listeners before every navigation swap.
-- Giscus preserves its `title` mapping, resolves its theme from the document root, initializes per article visit, and is removed on navigation. Storage access is not needed for comments.
+- Progress tracks the reading body, not comments or the footer; it uses one passive scroll listener plus a request-animation-frame update and cleans its observer/listeners before every navigation swap.
+- Shared Giscus preserves its `title` mapping, resolves its theme from the document root, initializes for every page that mounts it, and is removed on navigation. Storage access is not needed for comments.
 - Local heroes use Astro image processing with supplied `imageAlt` text. An image without authored alt text is deliberately decorative (`alt=""`), rather than exposing a source path.
 - The article's code and tables scroll inside their own containers; the page does not widen at 320px.
 
