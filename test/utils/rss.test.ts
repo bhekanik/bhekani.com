@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest"
+import rss from "@astrojs/rss"
 import { createPostDescription, createRssItems } from "../../src/utils/rss"
+import { historicalRssGuids } from "../fixtures/rss-history"
 
 const makePost = (
   overrides: Record<string, any> = {},
@@ -65,7 +67,32 @@ describe("rss utils", () => {
     expect(items).toHaveLength(2)
     expect(items[0]!.title).toBe("Newest")
     expect(items[0]!.link).toBe("/posts/newest-post/")
-    expect(items[0]!.guid).toBe("/posts/newest-post/")
+    expect(items[0]!.customData).toContain("https://bhekani.com/posts/newest-post/")
     expect(items[1]!.link).toBe("/posts/older-post/")
+  })
+
+  it("keeps historical GUIDs while publishing navigable links on www", async () => {
+    const posts = historicalRssGuids.map((guid, index) =>
+      makePost(
+        { pubDate: new Date(`2026-01-${String(index + 1).padStart(2, "0")}T00:00:00.000Z`) },
+        { id: guid.split("/").at(-2) },
+      ),
+    )
+    const response = await rss({
+      title: "Bhekani.com | Blog",
+      description: "Random things I learn",
+      site: "https://www.bhekani.com",
+      items: createRssItems(posts),
+    })
+    const document = new DOMParser().parseFromString(await response.text(), "application/xml")
+
+    expect(Array.from(document.querySelectorAll("item > link"), (link) => link.textContent)).toEqual(
+      posts
+        .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+        .map((post) => `https://www.bhekani.com/posts/${post.id}/`),
+    )
+    expect(Array.from(document.querySelectorAll("item > guid"), (guid) => guid.textContent)).toEqual(
+      [...historicalRssGuids].reverse(),
+    )
   })
 })

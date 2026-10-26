@@ -1,6 +1,7 @@
 import type { APIRoute } from "astro"
 import { getCollection } from "astro:content"
 import { formatDate } from "../utils/llms"
+import { getSiteUrl } from "../constants/seo"
 
 export const GET: APIRoute = async () => {
   const [posts, projects, micro, books] = await Promise.all([
@@ -30,19 +31,19 @@ export const GET: APIRoute = async () => {
     "",
     "> Personal website of Bhekani Khumalo. Writing about tech, productivity, life, and more.",
     "",
-    `- [Full blog content](https://bhekani.com/llms-full.txt): All blog posts as markdown`,
+    `- [Full blog content](${getSiteUrl("/llms-full.txt")}): All blog posts as markdown`,
     "",
     "## Blog Posts",
     ...publishedPosts.map((post) => {
       const desc = post.data.description
         ? `: ${post.data.description}`
         : ""
-      return `- [${post.data.title}](https://bhekani.com/posts/${post.id}.md)${desc}`
+      return `- [${post.data.title}](${getSiteUrl(`/posts/${post.id}.md`)})${desc}`
     }),
     "",
     "## Projects",
     ...publishedProjects.map((project) => {
-      const url = project.data.url || `https://bhekani.com/projects/`
+      const url = project.data.url || getSiteUrl("/projects/")
       const desc = project.data.description
         ? `: ${project.data.description}`
         : ""
@@ -52,15 +53,15 @@ export const GET: APIRoute = async () => {
     "## Micro Posts",
     ...publishedMicro.map(
       (m) =>
-        `- [${m.data.title}](https://bhekani.com/micro/${m.id}/): ${formatDate(m.data.date)}`
+        `- [${m.data.title}](${getSiteUrl(`/micro/${m.id}/`)}): ${formatDate(m.data.date)}`
     ),
     "",
     "## Optional",
     "### Reading Log",
-    `${books.length} books read. Full list at https://bhekani.com/books/.`,
+    `${books.length} books catalogued. Full list at ${getSiteUrl("/books/")}.`,
     ...topBooks.map(
       (b) =>
-        `- [${b.data.title}](https://bhekani.com/books/): by ${b.data.author} (${b.data.myRating}/5)`
+        `- [${b.data.title}](${getSiteUrl("/books/")}): by ${b.data.author} (${b.data.myRating}/5)`
     ),
     "",
   ]

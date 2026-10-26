@@ -13,7 +13,7 @@ const isProduction = process.env.NODE_ENV === "production" && process.env.VERIFY
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://bhekani.com",
+  site: "https://www.bhekani.com",
   output: "static",
   adapter: vercel(),
   vite: {

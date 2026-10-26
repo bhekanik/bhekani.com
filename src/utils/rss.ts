@@ -1,4 +1,5 @@
 import type { CollectionEntry } from "astro:content"
+import { LEGACY_RSS_GUID_ORIGIN } from "../constants/seo"
 
 const MAX_DESCRIPTION_LENGTH = 240
 
@@ -40,6 +41,8 @@ export const createRssItems = (posts: CollectionEntry<"posts">[]) =>
         pubDate: post.data.pubDate,
         description: createPostDescription(post),
         link: postPath,
-        guid: postPath,
+        // @astrojs/rss uses `link` as the GUID. Its custom XML is merged after
+        // that default, allowing public links to use www without changing IDs.
+        customData: `<guid isPermaLink="true">${new URL(postPath, LEGACY_RSS_GUID_ORIGIN).toString()}</guid>`,
       }
     })
