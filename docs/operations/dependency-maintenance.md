@@ -1,14 +1,33 @@
 # Dependency maintenance
 
-Regenerate the dependency graph with Bun, then verify the supported Node runtime and the offline build:
+Verify the committed dependency graph before release:
 
 ```sh
-bun install --ignore-scripts --minimum-release-age=0
+bun install --frozen-lockfile --ignore-scripts
 bun run verify:offline
 bun audit --json
 ```
 
-Direct dependencies are exact pins. Do not hand-edit `bun.lock`, force an incompatible major, or add an audit ignore. A fresh Bun resolution may select different fixed patches for different accepted major ranges; for example, it can resolve nanoid 5 and 3, or picomatch 4 and 2, at the same time. Prefer that behavior to a global override. Use an override only when every installed parent accepts it, and remove it when an ordinary fresh resolution selects the fixed version. The current manifest has no overrides.
+Direct dependencies are exact pins. Do not hand-edit `bun.lock`, force an incompatible major, or add an audit ignore. The current manifest has no overrides.
+
+## Deliberate fresh resolution
+
+`bun install` does not refresh versions already recorded in an existing lockfile. Use a fresh resolution only to investigate a verified compatible security patch, and do it in an isolated worktree so no unrelated work is removed:
+
+```sh
+git worktree add ../bhekani-resolution <commit>
+cd ../bhekani-resolution
+backup="$TMPDIR/bhekani-bun.lock"
+mv bun.lock "$backup"
+bun install --ignore-scripts --minimum-release-age=0
+git diff -- package.json bun.lock
+bun install --frozen-lockfile --ignore-scripts
+bun run verify:offline
+```
+
+`--minimum-release-age=0` is a narrow exception used after confirming the affected registry patch and every parent range; keep Bun's normal minimum-release-age policy for ordinary maintenance. Review the lockfile diff before retaining it, then remove the isolated worktree. Keep the backup outside the repository and never commit it.
+
+A fresh Bun resolution may select different fixed patches for different accepted major ranges. For example, it can resolve nanoid 5 and 3, or picomatch 4 and 2, at the same time. Prefer that behavior to a global override. Use an override only when every installed parent accepts it, and remove it when an ordinary fresh resolution selects the fixed version.
 
 ## Runtime contract
 
