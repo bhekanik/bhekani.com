@@ -23,4 +23,4 @@ bun run verify:offline # Credential-free tests, checks, sync and local static bu
 - Content frontmatter schemas live in `src/content/_schemas/`.
 - Use `bun run verify:offline` for local verification. It writes ignored `.astro/` output (including `.astro/verify.db`), `dist/`, and `.vercel/` output; it disables build telemetry and Sentry for that build, and does not run the embedding publisher or require provider credentials.
 - The pre-push hook runs `bun run verify:offline`; do not replace it with `bun run build`.
-- `bun run build` is the deployment command: its prebuild step regenerates the search index and can publish embeddings when credentials are present. Do not use it as a local check.
+- `bun run build` is the deployment command: its prebuild step clears the Astro content cache and can publish embeddings when credentials are present. It does not generate a public search index. Do not use it as a local check.

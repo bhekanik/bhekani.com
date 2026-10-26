@@ -2,9 +2,9 @@
 
 ## Purpose and boundary
 
-The deployed `/api/search` function builds a cached, server-only projection from Astro's installed content collections. It does **not** request `SITE/search-index.json`, so a protected preview searches the content bundled with that deployment rather than attempting an unauthenticated request to another origin. The legacy static artifact remains independently published for its existing consumers.
+The deployed `/api/search` function builds a cached, server-only projection from Astro's installed content collections. It does **not** request or publish `search-index.json`, so a protected preview searches the content bundled with that deployment rather than attempting an unauthenticated request to another origin.
 
-The projection indexes published posts, Micro entries and projects plus existing public book identities. It uses Astro `entry.id` for internal destinations and the S1 numeric-book-ID adapter for books. Book bodies are deliberately absent: legacy imports can contain private notes. Post and Micro bodies stay server-only inputs; no replacement full-body index is written to `public/`.
+The projection indexes published posts, Micro entries and projects plus existing public book identities. It uses Astro `entry.id` for internal destinations and the S1 numeric-book-ID adapter for books. Book bodies are deliberately absent: legacy imports can contain private notes. Post and Micro bodies stay server-only inputs; no full-body index is written to `public/`.
 
 ## Request contract
 

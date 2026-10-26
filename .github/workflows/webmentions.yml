@@ -9,12 +9,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
-        uses: actions/checkout@master
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
 
       - name: Set up Node.js
-        uses: actions/setup-node@master
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
         with:
-          node-version: 18.x
+          node-version: 22
 
       - name: Fetch webmentions
         env:
@@ -28,9 +28,9 @@ jobs:
             add webmentions
             skip-checks: true
         run: |
-          git config user.email "bhekanik@gmail.com"
-          git config user.name "Bhekani Khumalo"
-          git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/bhekanik/bhekani.com.git
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+          git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/bhekanik/bhekani.com.git"
           git checkout main
-          git add .
-          git diff --quiet && git diff --staged --quiet || (git commit -m "${COMMIT_MSG}"; git push origin main)
+          git add -- src/content/webmentions
+          git diff --cached --quiet -- src/content/webmentions || (git commit -m "${COMMIT_MSG}"; git push origin main)
