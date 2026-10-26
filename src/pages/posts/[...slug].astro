@@ -4,6 +4,7 @@ import { getCollection, render, type CollectionEntry } from "astro:content"
 import Giscuss from "../../components/Giscuss.astro"
 import Link from "../../components/Link.astro"
 import MainContainer from "../../components/MainContainer.astro"
+import MarkdownCopy from "../../components/MarkdownCopy.astro"
 import Prose from "../../components/Prose.astro"
 import SocialInteractions from "../../components/SocialInteractions.astro"
 import TableOfContents from "../../components/TableOfContents.astro"
@@ -83,6 +84,7 @@ const hasContents = tocHeadings.length >= 3
               </div>
             )
           }
+          <MarkdownCopy markdownUrl={`/posts/${post.id}.md`} />
         </div>
 
         {
