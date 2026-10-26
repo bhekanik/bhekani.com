@@ -30,11 +30,10 @@ const products = [
           <p class="lede">
             Most people call me BK. I'm a software engineer in London. At <a href="https://contentful.com/">Contentful</a> I lead the engineering on Workflows; before that I spent a year on the AI platform team making the semantic layer behind the product's AI features run in production. On the side I'm the part-time CPO at <a href="https://nottoafrica.com">Notto</a>, a credit scoring company, and I ship indie products.
           </p>
-          <dl class="stats" aria-label="Stats">
-            <div><dt>Years in software</dt><dd><i style="--v: 100%"></i><b>10</b></dd></div>
-            <div><dt>Years building SaaS</dt><dd><i style="--v: 70%"></i><b>7</b></dd></div>
-            <div><dt>Products shipped</dt><dd><i style="--v: 90%"></i><b>9</b></dd></div>
-            <div><dt>Sleep</dt><dd><i style="--v: 28%"></i><b>28</b></dd></div>
+          <dl class="stats">
+            <div><dt>Years in software</dt><dd>10 years</dd></div>
+            <div><dt>Years building SaaS</dt><dd>7 years</dd></div>
+            <div><dt>Products shipped</dt><dd>9 products</dd></div>
           </dl>
           <ul class="status" aria-label="Status">
             <li class="on">Dad mode: on</li>
@@ -153,18 +152,15 @@ const products = [
     margin: 0 0 var(--space-6);
   }
 
-  /* Character-sheet stats */
   .stats {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--space-2) var(--space-6);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-4);
     margin: 0 0 var(--space-5);
   }
   .stats div {
     display: grid;
-    grid-template-columns: 9rem 1fr auto;
-    align-items: center;
-    gap: var(--space-3);
+    gap: var(--space-1);
   }
   .stats dt {
     font-family: var(--font-sans);
@@ -175,28 +171,10 @@ const products = [
     color: var(--muted-foreground);
   }
   .stats dd {
-    display: contents;
     margin: 0;
-  }
-  .stats i {
-    display: block;
-    height: 0.5rem;
-    background: var(--muted);
-    border: 2px solid var(--border);
-    position: relative;
-  }
-  .stats i::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    width: var(--v);
-    background: var(--accent);
-  }
-  .stats b {
     font-family: var(--font-display);
     font-size: 1.125rem;
-    min-width: 2ch;
-    text-align: right;
+    line-height: 1;
   }
 
   .status {
@@ -317,9 +295,6 @@ const products = [
   @media (max-width: 40rem) {
     .stats {
       grid-template-columns: 1fr;
-    }
-    .stats div {
-      grid-template-columns: 7.5rem 1fr auto;
     }
   }
 </style>
