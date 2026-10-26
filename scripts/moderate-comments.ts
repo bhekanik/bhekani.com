@@ -23,11 +23,12 @@ if (command === "list") {
   console.table(result.rows)
 } else {
   const status = command === "approve" ? "approved" : "rejected"
+  const allowedStatuses = command === "approve" ? "'pending', 'rejected'" : "'pending', 'approved'"
   const result = await client.execute({
-    sql: "UPDATE SocialComments SET status = ?, moderatedAt = ? WHERE id = ? AND status IN ('pending', 'approved')",
+    sql: `UPDATE SocialComments SET status = ?, moderatedAt = ? WHERE id = ? AND status IN (${allowedStatuses})`,
     args: [status, new Date().toISOString(), id!],
   })
-  if (result.rowsAffected !== 1) throw new Error(command === "approve" ? "No pending comment matched that receipt." : "No pending or approved comment matched that receipt.")
+  if (result.rowsAffected !== 1) throw new Error(command === "approve" ? "No pending or rejected comment matched that receipt." : "No pending or approved comment matched that receipt.")
   console.log(`Comment ${status}.`)
 }
 

@@ -129,11 +129,25 @@ describe("social interaction client", () => {
     await vi.waitFor(() => expect(element.textContent).toContain("private · pending review"))
     expect(element.textContent).toContain("private · pending review")
 
+    const key = "bk:social:pending:micro:back-to-vscode"
+    const existingStorage = window.localStorage
+    Object.defineProperty(window, "localStorage", {
+      configurable: true,
+      get: () => ({
+        getItem: (storageKey: string) => storageKey === key ? "[]" : existingStorage.getItem(storageKey),
+        setItem: () => { throw new Error("Storage denied") },
+      }),
+    })
+    cleanupSocialInteractions()
+    const restored = root()
+    initializeSocialInteractions(restored)
+    await vi.waitFor(() => expect(restored.textContent).toContain("private · pending review"))
+
     receiptCheck = true
     cleanupSocialInteractions()
-    initializeSocialInteractions(element)
-    await vi.waitFor(() => expect(element.textContent).toContain("not published"))
-    expect(element.textContent).toContain("not published")
-    expect(element.textContent).not.toContain("private · pending review")
+    initializeSocialInteractions(restored)
+    await vi.waitFor(() => expect(restored.textContent).toContain("not published"))
+    expect(restored.textContent).toContain("not published")
+    expect(restored.textContent).not.toContain("private · pending review")
   })
 })

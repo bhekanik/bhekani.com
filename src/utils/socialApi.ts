@@ -115,39 +115,39 @@ function flagLikelyProfanity(value: string): string[] {
   return PROFANITY.filter((word) => normalized.includes(word))
 }
 
-function readText(request: Request): Promise<string | undefined> {
+async function readText(request: Request): Promise<string | undefined> {
   const contentLength = Number(request.headers.get("content-length"))
-  if (Number.isFinite(contentLength) && contentLength > MAX_BODY_BYTES) return Promise.resolve(undefined)
-  if (!request.body) return Promise.resolve("")
+  if (Number.isFinite(contentLength) && contentLength > MAX_BODY_BYTES) return undefined
+  if (!request.body) return ""
 
-  const reader = request.body.getReader()
-  const decoder = new TextDecoder()
-  let size = 0
-  let text = ""
-
-  return (async () => {
-    try {
-      while (true) {
-        const chunk = await reader.read()
-        if (chunk.done) return text + decoder.decode()
-        size += chunk.value.byteLength
-        if (size > MAX_BODY_BYTES) {
-          await reader.cancel()
-          return undefined
-        }
-        text += decoder.decode(chunk.value, { stream: true })
+  let reader: ReadableStreamDefaultReader<Uint8Array> | undefined
+  try {
+    reader = request.body.getReader()
+    const decoder = new TextDecoder()
+    let size = 0
+    let text = ""
+    while (true) {
+      const chunk = await reader.read()
+      if (chunk.done) return text + decoder.decode()
+      size += chunk.value.byteLength
+      if (size > MAX_BODY_BYTES) {
+        await reader.cancel()
+        return undefined
       }
-    } finally {
-      reader.releaseLock()
+      text += decoder.decode(chunk.value, { stream: true })
     }
-  })()
+  } catch {
+    return undefined
+  } finally {
+    reader?.releaseLock()
+  }
 }
 
 async function readPayload(request: Request): Promise<Payload | undefined> {
   if (!request.headers.get("content-type")?.toLowerCase().startsWith("application/json")) return undefined
-  const text = await readText(request)
-  if (!text) return undefined
   try {
+    const text = await readText(request)
+    if (!text) return undefined
     return payloadSchema.safeParse(JSON.parse(text)).data
   } catch {
     return undefined

@@ -42,7 +42,7 @@ describe("social operations against disposable SQLite", () => {
     expect(existsSync(remote)).toBe(false)
   })
 
-  it("keeps concurrent/replayed SQL hearts idempotent and lets the owner reject an approved comment", async () => {
+  it("keeps concurrent/replayed SQL hearts idempotent and permits bounded moderation reversals", async () => {
     const local = fixture("social-operations-moderation")
     runScript("scripts/migrate-social-schema.ts", ["--local", local], {})
     const client = createClient({ url: `file:${local}` })
@@ -58,6 +58,8 @@ describe("social operations against disposable SQLite", () => {
     })
     client.close()
 
+    runScript("scripts/moderate-comments.ts", ["approve", "a9d735b0-2b3d-4307-9b6c-bcc2b9aafb9e", "--local", local], {})
+    runScript("scripts/moderate-comments.ts", ["reject", "a9d735b0-2b3d-4307-9b6c-bcc2b9aafb9e", "--local", local], {})
     runScript("scripts/moderate-comments.ts", ["approve", "a9d735b0-2b3d-4307-9b6c-bcc2b9aafb9e", "--local", local], {})
     runScript("scripts/moderate-comments.ts", ["reject", "a9d735b0-2b3d-4307-9b6c-bcc2b9aafb9e", "--local", local], {})
 

@@ -131,6 +131,22 @@ describe("social interaction API contract", () => {
     expect(services.createComment).not.toHaveBeenCalled()
   })
 
+  it("returns the bounded invalid-request response when the JSON body stream fails", async () => {
+    const stream = new ReadableStream<Uint8Array>({ start: (controller) => controller.error(new Error("stream failed")) })
+    const brokenRequest = new Request("https://example.test/api/social", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: stream,
+    })
+    const response = await createSocialHandlers(dependencies()).POST({
+      url: new URL("https://example.test/api/social"),
+      request: brokenRequest,
+      clientAddress: "127.0.0.1",
+    })
+    expect(response.status).toBe(400)
+    await expect(response.json()).resolves.toMatchObject({ code: "invalid_request" })
+  })
+
   it("rejects draft and unknown content before its limiter or persistence dependencies run", async () => {
     const services = dependencies()
     const response = await createSocialHandlers(services).POST(request({ action: "like", contentType: "micro", contentId: "draft-note", browserId }))

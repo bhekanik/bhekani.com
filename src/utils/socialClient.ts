@@ -62,6 +62,8 @@ function pendingKey(contentType: string, contentId: string) {
 
 function pendingComments(storage: StorageLike | undefined, contentType: string, contentId: string): PendingComment[] {
   const key = pendingKey(contentType, contentId)
+  const inMemory = fallbackPending.get(key)
+  if (inMemory) return inMemory
   const stored = read(storage, key)
   if (stored) {
     try {
@@ -69,7 +71,7 @@ function pendingComments(storage: StorageLike | undefined, contentType: string, 
       if (parsed.success) return parsed.data.slice(-10)
     } catch {}
   }
-  return fallbackPending.get(key) ?? []
+  return []
 }
 
 function savePending(storage: StorageLike | undefined, contentType: string, contentId: string, comments: PendingComment[]) {
