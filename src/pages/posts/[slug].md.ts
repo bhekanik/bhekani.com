@@ -1,6 +1,7 @@
 import type { GetStaticPaths } from "astro"
 import { getCollection } from "astro:content"
 import { cleanMdxContent, formatDate } from "../../utils/llms"
+import { getSiteUrl } from "../../constants/seo"
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const posts = await getCollection("posts")
@@ -22,7 +23,7 @@ export async function GET({ props }: { props: any }) {
     post.data.tags.length > 0
       ? `- **Tags**: ${post.data.tags.join(", ")}`
       : null,
-    `- **URL**: https://bhekani.com/posts/${post.id}/`,
+    `- **URL**: ${getSiteUrl(`/posts/${post.id}/`)}`,
     "",
     "---",
     "",

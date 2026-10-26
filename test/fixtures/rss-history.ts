@@ -1,0 +1,20 @@
+/** Captured from https://www.bhekani.com/rss.xml on 2026-10-26. */
+export const historicalRssGuids = [
+  "https://bhekani.com/posts/building-a-home-dashboard-on-an-android-tablet/",
+  "https://bhekani.com/posts/were-building-the-culture-of-ai-work-right-now/",
+  "https://bhekani.com/posts/the-real-bottleneck-in-your-agentic-workflow-is-you/",
+  "https://bhekani.com/posts/mlops-vs-llmops/",
+  "https://bhekani.com/posts/your-ai-is-confidently-wrong/",
+  "https://bhekani.com/posts/building-an-llm-model-router-lessons-from-the-wild/",
+  "https://bhekani.com/posts/your-agents-md-is-probably-hurting-your-agent/",
+  "https://bhekani.com/posts/cognitive-memory-for-ai-agents/",
+  "https://bhekani.com/posts/why-ai-needs-to-forget/",
+  "https://bhekani.com/posts/sign-git-commits-with-ssh-keys/",
+  "https://bhekani.com/posts/useful-tools/",
+  "https://bhekani.com/posts/add-commenting-to-astro-blog-with-giscus/",
+  "https://bhekani.com/posts/test/",
+  "https://bhekani.com/posts/writing-is-thinking/",
+  "https://bhekani.com/posts/how-to-never-get-a-job/",
+  "https://bhekani.com/posts/confrontation-as-opportunity/",
+  "https://bhekani.com/posts/introverts-small-talk/",
+] as const

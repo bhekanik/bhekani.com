@@ -1,6 +1,7 @@
 import type { APIRoute } from "astro"
 import { getCollection } from "astro:content"
 import { cleanMdxContent, formatDate } from "../utils/llms"
+import { getSiteUrl } from "../constants/seo"
 
 export const GET: APIRoute = async () => {
   const posts = await getCollection("posts")
@@ -25,7 +26,7 @@ export const GET: APIRoute = async () => {
       post.data.tags.length > 0
         ? `- **Tags**: ${post.data.tags.join(", ")}`
         : null,
-      `- **URL**: https://bhekani.com/posts/${post.id}/`,
+       `- **URL**: ${getSiteUrl(`/posts/${post.id}/`)}`,
       "",
     ]
       .filter((line): line is string => line !== null)

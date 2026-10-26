@@ -6,3 +6,13 @@ export const SEO_DEFAULTS = {
   OG_IMAGE_HEIGHT: 630,
   TWITTER_HANDLE: '@bhekanik',
 } as const
+
+export const SITE_ORIGIN = "https://www.bhekani.com"
+
+/** RSS GUIDs published before the canonical-origin repair are subscriber IDs. */
+export const LEGACY_RSS_GUID_ORIGIN = "https://bhekani.com"
+
+export const getSiteUrl = (path: string): string => new URL(path, SITE_ORIGIN).toString()
+
+export const getDocumentTitle = (pageTitle: string): string =>
+  `${pageTitle} | ${SEO_DEFAULTS.SITE_NAME}`
