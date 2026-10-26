@@ -3,6 +3,7 @@ import { getCollection, render, type CollectionEntry } from "astro:content"
 import { format } from "date-fns"
 import Link from "../../components/Link.astro"
 import MainContainer from "../../components/MainContainer.astro"
+import SocialInteractions from "../../components/SocialInteractions.astro"
 import BaseLayout from "../../layouts/BaseLayout.astro"
 
 export async function getStaticPaths() {
@@ -103,6 +104,8 @@ const { Content } = await render(micro)
       <div class="prose prose-lg dark:prose-invert max-w-none">
         <Content />
       </div>
+
+      <SocialInteractions contentType="micro" contentId={micro.id} />
 
       {/* Footer */}
       <footer class="mt-12 pt-8 border-t border-muted">

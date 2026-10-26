@@ -3,6 +3,7 @@ import { render, type CollectionEntry } from "astro:content"
 import { format } from "date-fns"
 import Prose from "./Prose.astro"
 import Card from "./Card.astro"
+import { getMicroLabel } from "../utils/micro"
 
 type Props = {
   micro: CollectionEntry<"micro">
@@ -17,12 +18,14 @@ const {
 } = Astro.props
 
 const { Content } = await render(micro)
+const label = getMicroLabel(title, date)
 ---
 
 <Card variant="bordered" hover class="max-w-[80ch] p-[var(--space-6)]">
   <div class="pb-[var(--space-4)] mb-[var(--space-4)] border-b border-border">
     <a href={`/micro/${slug}/`} class="block hover:bg-transparent">
-      <h2 transition:name={`title-${slug}`} class="text-xl font-semibold mb-[var(--space-2)] hover:text-primary transition-colors duration-[var(--transition-fast)]">{title}</h2>
+      {title && <h2 transition:name={`title-${slug}`} class="text-xl font-semibold mb-[var(--space-2)] hover:text-primary transition-colors duration-[var(--transition-fast)]">{title}</h2>}
+      {!title && <span class="visually-hidden">{label}</span>}
     </a>
     <time
       transition:name={`date-${slug}`}

@@ -47,10 +47,10 @@ export function getBookOgOptions(
   }
 }
 
-export function getMicroOgOptions(title: string): OgImageOptions {
+export function getMicroOgOptions(title: string | undefined, date?: Date): OgImageOptions {
   return {
     ...baseOptions,
-    title: title || "Micro Post",
+    title: title || (date ? `Micro note — ${date.toISOString().slice(0, 10)}` : "Micro note"),
     font: {
       ...baseFont,
       title: {

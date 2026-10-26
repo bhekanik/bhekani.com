@@ -2,6 +2,7 @@
 import { getCollection, render } from "astro:content"
 import MainContainer from "../../components/MainContainer.astro"
 import Prose from "../../components/Prose.astro"
+import SocialInteractions from "../../components/SocialInteractions.astro"
 import BaseLayout from "../../layouts/BaseLayout.astro"
 
 const allMicro = await getCollection("micro")
@@ -52,15 +53,12 @@ const formatUtcDate = (date: Date) =>
                     </a>
                   </header>
 
-                  <h2>
-                    <a href={`/micro/${micro.id}/`} class="link-quiet">
-                      {micro.data.title}
-                    </a>
-                  </h2>
+                  {micro.data.title && <h2><a href={`/micro/${micro.id}/`} class="link-quiet">{micro.data.title}</a></h2>}
 
                   <Prose>
                     <Content />
                   </Prose>
+                  <SocialInteractions contentType="micro" contentId={micro.id} />
                 </article>
               </li>
             )

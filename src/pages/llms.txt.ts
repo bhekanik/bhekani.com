@@ -2,6 +2,7 @@ import type { APIRoute } from "astro"
 import { getCollection } from "astro:content"
 import { formatDate } from "../utils/llms"
 import { getSiteUrl } from "../constants/seo"
+import { getMicroLabel } from "../utils/micro"
 
 export const GET: APIRoute = async () => {
   const [posts, projects, micro, books] = await Promise.all([
@@ -53,7 +54,7 @@ export const GET: APIRoute = async () => {
     "## Micro Posts",
     ...publishedMicro.map(
       (m) =>
-        `- [${m.data.title}](${getSiteUrl(`/micro/${m.id}/`)}): ${formatDate(m.data.date)}`
+        `- [${getMicroLabel(m.data.title, m.data.date)}](${getSiteUrl(`/micro/${m.id}/`)}): ${formatDate(m.data.date)}`
     ),
     "",
     "## Optional",

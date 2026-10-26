@@ -15,7 +15,7 @@ type PostData = {
   tags: string[]
 }
 
-type MicroData = { title: string; published: boolean }
+type MicroData = { title?: string; date: Date; published: boolean }
 
 type ProjectData = {
   title: string
@@ -86,10 +86,10 @@ export function createSearchProjection(collections: SearchCollections): SearchPr
     index.push(item(
       `micro-${micro.id}`,
       "micro",
-      micro.data.title,
+      micro.data.title ?? `Micro note — ${micro.data.date.toISOString().slice(0, 10)}`,
       `/micro/${micro.id}`,
       undefined,
-      [micro.data.title, micro.body],
+      [micro.data.title, micro.data.date.toISOString(), micro.body],
     ))
   }
 
