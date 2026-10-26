@@ -23,6 +23,8 @@ bun run verify:offline
 
 `verify:offline` runs the non-watch Vitest suite, Astro checks, content sync, and a local static build. It uses the ignored `.astro/verify.db` database, disables build telemetry and Sentry for the verification build, and does not generate embeddings, publish to the vector index, or require provider credentials.
 
+The pre-push hook runs `verify:offline`, so it does not regenerate `public/search-index.json` or publish embeddings.
+
 `bun run build` is the deployment build. Its `prebuild` step regenerates `public/search-index.json` and attempts embedding publication when provider credentials are present; it also runs `astro build --remote`. Do not use it for local verification.
 
 ## Where things live
