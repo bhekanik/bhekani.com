@@ -1,47 +1,80 @@
 # Dependency maintenance
 
-## Update policy
+Regenerate the dependency graph with Bun, then verify the supported Node runtime and the offline build:
 
-This repository uses Bun and exact direct dependency versions. Refresh `bun.lock` with Bun, then run `bun run verify:offline`; do not use the deployment build as a local check because it may publish embeddings when credentials are present.
+```sh
+bun install --ignore-scripts --minimum-release-age=0
+bun run verify:offline
+bun audit --json
+```
 
-Use a transitive override only when **every** affected parent range accepts that version. Bun 1.3 does not support scoped/nested `overrides`, so a global override that would replace a different major or an exact dependency is not acceptable. Remove an override when a released parent update resolves the patched version naturally.
+Direct dependencies are exact pins. Do not hand-edit `bun.lock`, force an incompatible major, or add an audit ignore. A fresh Bun resolution may select different fixed patches for different accepted major ranges; for example, it can resolve nanoid 5 and 3, or picomatch 4 and 2, at the same time. Prefer that behavior to a global override. Use an override only when every installed parent accepts it, and remove it when an ordinary fresh resolution selects the fixed version. The current manifest has no overrides.
 
-An audit count is an advisory-path count, not a count of unique vulnerable packages. Severity totals can therefore change when the resolved graph deduplicates or expands paths.
+## Runtime contract
 
-## Supported update line
+`package.json` declares Node `>=22.19.0 <23`, the minimum required by the resolved `undici@8.12.3`. `bun run verify:node-runtime` prints the local Node version and whether it satisfies that contract, then fails outside it; both `build` and `verify:offline` run this gate first.
 
-The maintained compatible line is Astro 7.3.3, Svelte 5.57.2, Vitest 5.0.5, happy-dom 21.0.4, and Sharp 0.35.5. Vitest 5 requires Node `^22.12.0 || ^24.0.0 || >=26.0.0`; the project's Node 22 runtime satisfies that requirement.
+Vercel supports only Node 22.x and 24.x, honors a valid `engines.node` semver range, and rolls out minor/patch updates within an available major. The `<23` upper bound therefore constrains Vercel to its Node 22 line without changing Project Settings. Check the deployment build log before release to confirm the exact Node minor; this repository does not expose it publicly.
 
-The following in-range global overrides are intentional security fixes: `@babel/core`, `baseline-browser-mapping`, `brace-expansion`, `browserslist`, `devalue`, `fast-uri`, `http-cache-semantics`, `rollup`, `smol-toml`, `source-map-js`, `svgo`, `tar`, `vite`, and `ws`. They are within every installed parent range and are recorded in `package.json` so a fresh resolution cannot restore a known vulnerable patch.
+Sources: [Vercel supported Node.js versions](https://vercel.com/docs/functions/runtimes/node-js/node-js-versions) and [Undici 8.12.3 package metadata](https://www.npmjs.com/package/undici/v/8.12.3).
 
-## Held direct upgrades
+## Direct pin transitions
 
-- Astro 7.4.2, `@astrojs/mdx` 8.1.1, and `@astrojs/svelte` 9.1.1 require Node `>=22.23.4`. The declared runtime is Node 22 and the verified local runtime is 22.23.2, so these remain held until the deployed runtime is explicitly raised and verified.
+These are the exact direct changes from `4b17255` to this maintenance line. Entries that only lost a caret were already at the pinned version.
+
+| Package | Before | After |
+| --- | --- | --- |
+| `@astrojs/check` | `0.9.10` | `0.9.12` |
+| `@astrojs/sitemap` | `3.7.3` | `3.7.4` |
+| `@astrojs/vercel` | `11.0.7` | `11.0.16` |
+| `@fontsource-variable/jetbrains-mono` | `^5.2.8` | `5.3.0` |
+| `@fontsource-variable/source-serif-4` | `5.3.0` | `5.3.1` |
+| `@sentry/astro` | `^10.43.0` | `10.76.2` |
+| `@tailwindcss/vite` | `^4.1.18` | `4.3.3` |
+| `@upstash/vector` | `^1.2.2` | `1.2.3` |
+| `astro` | `7.3.1` | `7.3.3` |
+| `astro-embed` | `^0.13.0` | `0.14.0` |
+| `astro-expressive-code` | `^0.44.1` | `0.44.3` |
+| `astro-og-canvas` | `^0.13.0` | `0.13.2` |
+| `astro-robots-txt` | `^1.0.0` | `1.0.0` |
+| `canvaskit-wasm` | `^0.42.0` | `0.42.0` |
+| `case` | `^1.6.3` | `1.6.3` |
+| `clsx` | `^2.1.1` | `2.1.1` |
+| `date-fns` | `^4.1.0` | `4.4.0` |
+| `gray-matter` | `^4.0.3` | `4.0.3` |
+| `openai` | `^7.5.0` | `7.43.0` |
+| `sharp` | `^0.35.1` | `0.35.5` |
+| `string-width` | `^8.1.0` | `8.3.0` |
+| `svelte` | `^5.46.1` | `5.57.2` |
+| `tailwind-merge` | `^3.4.0` | `3.7.0` |
+| `tailwindcss` | `^4.1.18` | `4.3.3` |
+| `typescript` | `^6.0.3` | `6.0.3` |
+| `wrap-ansi` | `^10.0.0` | `10.0.2` |
+| `@sveltejs/vite-plugin-svelte` | `7.3.0` | `7.3.1` |
+| `@tailwindcss/typography` | `^0.5.19` | `0.5.20` |
+| `@testing-library/dom` | `^10.4.1` | `10.4.2` |
+| `@testing-library/jest-dom` | `^7.0.1` | `7.0.1` |
+| `@vitest/ui` | `^4.0.18` | `5.0.5` |
+| `happy-dom` | `^20.0.11` | `21.0.4` |
+| `husky` | `^9.1.7` | `9.1.7` |
+| `lint-staged` | `^17.0.5` | `17.6.0` |
+| `vitest` | `^4.0.18` | `5.0.5` |
+
+## Held framework upgrades
+
+- Astro 7.4.2, `@astrojs/mdx` 8.1.1, and `@astrojs/svelte` 9.1.1 require Node `>=22.23.4`. The project contract intentionally guarantees only `>=22.19.0 <23`, so keep this line until its higher Node floor is adopted deliberately and verified in a Vercel build.
 - TypeScript 7.0.2 is held because the current Astro Svelte integration peers only `^5.3.3 || ^6.0.0`.
-- Sentry remains at 10.76.2. Sentry 11 broadens default data collection and requires a separately reviewed restrictive privacy configuration; do not upgrade it as incidental dependency maintenance.
-- Astro's current v7 documentation removes `@astrojs/db`, while this site still uses Astro DB. Replacing it is a separate migration, not a dependency-only change.
+- Sentry remains at 10.76.2. Sentry 11 changes default data collection and needs separate privacy review.
+- Astro's current v7 documentation removes `@astrojs/db`; replacing it is a migration, not dependency maintenance.
 
 ## Audit snapshot — 2026-10-26
 
-`bun audit --json` after the compatible direct and global transitive updates reports **25 advisory-path entries across 7 package names**: 10 high, 12 moderate, and 3 low. This is reduced from the prior 90 entries across 22 names. The JSON evidence is retained with the work record; rerun the command before release because advisory data changes independently of the lockfile.
+A clean Bun resolution from the exact pins, with no overrides and `--minimum-release-age=0`, reduced the audit to **3 advisory-path entries across 3 packages**: 2 high and 1 moderate. The sanitized command output is retained at [`audits/2026-10-26-bun-audit.json`](audits/2026-10-26-bun-audit.json). Audit entries identify dependency paths, not proven reachability in the deployed site.
 
-The table records package provenance, not a claim that each advisory is reachable in the deployed site.
+| Advisory | Resolved path and exposure | Fixed line and bounded next action |
+| --- | --- | --- |
+| [`path-to-regexp` GHSA-9wv6-86v2-598j](https://github.com/advisories/GHSA-9wv6-86v2-598j) | `@astrojs/vercel@11.0.16 → @vercel/routing-utils@6.6.0 → path-to-regexp@6.1.0`; Vercel adapter build/runtime dependency | `6.3.0` is fixed, but routing utilities declare `6.1.0` exactly (while separately aliasing fixed 6.3.0). Wait for an adapter/routing-utilities release; do not contradict the exact parent contract. |
+| [`postcss-selector-parser` GHSA-rj75-hqrm-r3gf](https://github.com/advisories/GHSA-rj75-hqrm-r3gf) | `@tailwindcss/typography@0.5.20 → postcss-selector-parser@6.0.10`; development styling dependency | `7.1.6` is fixed, but the latest Typography package declares `6.0.10` exactly. Track a Typography release that adopts the fixed major. |
+| [`zod` GHSA-mrhx-c7xc-m3w5](https://github.com/advisories/GHSA-mrhx-c7xc-m3w5) | `@astrojs/db` and RSS now resolve `zod@4.6.7`; the remaining path is `@astrojs/vercel → @vercel/functions → @vercel/cli-config@0.3.3 → zod@4.1.11`; adapter build/config dependency | `4.6.6` is fixed. Wait for the Vercel package to replace its exact 4.1.11 pin; a global Zod 4 override would also conflict with the installed Zod 3 parent. |
 
-| Package and advisory | Resolved path | Fixed line / why held | Exposure and smallest next action |
-| --- | --- | --- | --- |
-| `ajv` — [GHSA-2g4f-4pwh-qvx6](https://github.com/advisories/GHSA-2g4f-4pwh-qvx6) | `@astrojs/check → @astrojs/language-server → yaml-language-server → ajv@8.17.1`; Vercel routing utilities also retain `ajv@6.12.6` | 8.x is fixed at `8.18.0`; 6.x has no released `6.14.0` despite the advisory range. A global 8.x override would replace the Vercel path's 6.x major. | Local Astro-check and Vercel adapter dependency. Wait for `@astrojs/check`/language-server and Vercel routing releases that converge on a fixed line. |
-| `nanoid` — [GHSA-28wg-ghj8-5hjv](https://github.com/advisories/GHSA-28wg-ghj8-5hjv), [GHSA-xwg4-73v4-xw9w](https://github.com/advisories/GHSA-xwg4-73v4-xw9w) | `@astrojs/db@0.21.3 → nanoid@5.1.6` | Fixed at `5.1.16`; `@astrojs/db` permits it, but Bun cannot scope an override and other installed parents require nanoid 3.x. | Astro DB/build dependency. Update when `@astrojs/db` resolves the fixed patch naturally or Bun supports scoped overrides. |
-| `path-to-regexp` — [GHSA-9wv6-86v2-598j](https://github.com/advisories/GHSA-9wv6-86v2-598j) | `@astrojs/vercel → @vercel/routing-utils@6.6.0 → path-to-regexp@6.1.0` | Fixed at `6.3.0`; the current routing utility declares the vulnerable `6.1.0` exactly (alongside its fixed alias). | Vercel adapter dependency. Wait for a routing-utilities/adapter release; do not override an exact upstream dependency. |
-| `picomatch` — [GHSA-3v7f-55p6-f55p](https://github.com/advisories/GHSA-3v7f-55p6-f55p), [GHSA-c2c7-rcm5-vvqj](https://github.com/advisories/GHSA-c2c7-rcm5-vvqj) | `@vercel/nft → @rollup/pluginutils → picomatch@4.0.3`; `astro → unstorage → anymatch → picomatch@2.3.1` | Fixed at `4.0.4` and `2.3.2` respectively. A global override cannot safely satisfy both majors; Bun cannot scope it. | Build/dependency graph tooling. Wait for parents to refresh their patch ranges or scoped override support. |
-| `postcss-selector-parser` — [GHSA-rj75-hqrm-r3gf](https://github.com/advisories/GHSA-rj75-hqrm-r3gf) | `@tailwindcss/typography@0.5.20 → postcss-selector-parser@6.0.10` | Fixed at `7.1.6`; the latest typography release declares `6.0.10` exactly, so this is a major-range conflict. | Development styling tool. Track a Tailwind Typography release that adopts the fixed major. |
-| `undici` — GHSA-3wwx-pv8p-q78v, GHSA-pmjh-fq2x-6v4x, GHSA-r53p-7pc4-xj5r, GHSA-rfgv-xxqx-mfg5, GHSA-3xpg-4rpp-hhhm, GHSA-2jfj-6hjv-fm6j, GHSA-2gqq-gqf2-x968, GHSA-w293-vg96-wgc3, GHSA-8436-99hf-9mmv, GHSA-vp8m-p9jh-q5pm, GHSA-rx4f-c7p8-82vq, GHSA-4qv8-2p9j-2685, GHSA-f72v-6w45-q472, GHSA-xjj6-f33q-929c | `astro → unifont@0.7.5 → undici@8.10.0` | Fixed at `8.12.2`, which requires Node `>=22.19.0`. The local runtime qualifies, but the deployed Node minor has not been verified. | Build-time Astro dependency. Verify the deployed Node minor, then add the in-range patch or update Astro/unifont. |
-| `zod` — [GHSA-mrhx-c7xc-m3w5](https://github.com/advisories/GHSA-mrhx-c7xc-m3w5) | `@astrojs/db`/`@astrojs/rss → zod@4.3.6`; Vercel CLI config retains exact `zod@4.1.11`; robots integration retains Zod 3 | Fixed at `4.6.6`; a global Zod 4 override would violate the Zod 3 parent and the Vercel package's exact version. | Build/config dependency. Wait for the direct Astro integrations and Vercel package line to converge, or use future scoped override support. |
-
-## Review procedure
-
-1. Run `bun audit --json` and inspect each remaining package with `bun pm why <package>`.
-2. Check the advisory fixed range and parent ranges before changing the lockfile. Do not use audit ignores or force an incompatible major.
-3. Prefer a released compatible parent update. Use a global override only when all parents accept it; document the removal condition above.
-4. Run `bun run verify:offline` and re-audit. Review Vercel/runtime assumptions separately from dependency maintenance.
-
-Primary sources: [Astro package metadata](https://www.npmjs.com/package/astro), [Astro MDX package metadata](https://www.npmjs.com/package/@astrojs/mdx), [Astro Svelte package metadata](https://www.npmjs.com/package/@astrojs/svelte), [Vitest package metadata](https://www.npmjs.com/package/vitest), and [Sentry v11 migration guidance](https://docs.sentry.io/platforms/javascript/guides/astro/migration/v10-to-v11/).
+The fresh graph also resolves the previously held compatible patches without overrides: `nanoid@5.1.16` beside 3.3.20, `picomatch@4.0.7` beside 2.3.2, `ajv@8.20.0` beside 6.15.0, and `undici@8.12.3`. Their parent ranges accept those versions. Re-run the audit before release because advisory data changes independently of the lockfile.

@@ -1,0 +1,51 @@
+{
+  "path-to-regexp": [
+    {
+      "id": 1101846,
+      "url": "https://github.com/advisories/GHSA-9wv6-86v2-598j",
+      "title": "path-to-regexp outputs backtracking regular expressions",
+      "severity": "high",
+      "vulnerable_versions": ">=4.0.0 <6.3.0",
+      "cwe": [
+        "CWE-1333"
+      ],
+      "cvss": {
+        "score": 7.5,
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      }
+    }
+  ],
+  "postcss-selector-parser": [
+    {
+      "id": 1241232,
+      "url": "https://github.com/advisories/GHSA-rj75-hqrm-r3gf",
+      "title": "PostCSS: Quadratic complexity in flat selector parsing allows CPU exhaustion",
+      "severity": "moderate",
+      "vulnerable_versions": "<7.1.6",
+      "cwe": [
+        "CWE-400",
+        "CWE-407"
+      ],
+      "cvss": {
+        "score": 5.9,
+        "vectorString": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      }
+    }
+  ],
+  "zod": [
+    {
+      "id": 1243066,
+      "url": "https://github.com/advisories/GHSA-mrhx-c7xc-m3w5",
+      "title": "Zod can exhaust memory while validating oversized constrained collections",
+      "severity": "high",
+      "vulnerable_versions": "<4.6.6",
+      "cwe": [
+        "CWE-770"
+      ],
+      "cvss": {
+        "score": 7.5,
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      }
+    }
+  ]
+}

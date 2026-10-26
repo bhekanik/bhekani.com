@@ -8,8 +8,9 @@
     "lint": "astro check",
     "generate:embeddings": "bun run scripts/generate-embeddings.ts",
     "prebuild": "rm -rf node_modules/.astro && bun run generate:embeddings",
-    "build": "bun run lint && astro sync && astro build --remote",
-    "verify:offline": "rm -f .astro/verify.db && ASTRO_TELEMETRY_DISABLED=1 VERIFY_OFFLINE=1 ASTRO_DATABASE_FILE=.astro/verify.db bun run test --run && ASTRO_TELEMETRY_DISABLED=1 VERIFY_OFFLINE=1 ASTRO_DATABASE_FILE=.astro/verify.db bun run lint && ASTRO_TELEMETRY_DISABLED=1 VERIFY_OFFLINE=1 ASTRO_DATABASE_FILE=.astro/verify.db astro sync && ASTRO_TELEMETRY_DISABLED=1 VERIFY_OFFLINE=1 ASTRO_DATABASE_FILE=.astro/verify.db astro build",
+    "verify:node-runtime": "node -e \"const [major, minor] = process.versions.node.split('.').map(Number); if (major !== 22 || minor < 19) throw new Error('Node 22.19 or later is required'); console.log('Node runtime ' + process.version + ' satisfies >=22.19.0 <23');\"",
+    "build": "bun run verify:node-runtime && bun run lint && astro sync && astro build --remote",
+    "verify:offline": "bun run verify:node-runtime && rm -f .astro/verify.db && ASTRO_TELEMETRY_DISABLED=1 VERIFY_OFFLINE=1 ASTRO_DATABASE_FILE=.astro/verify.db bun run test --run && ASTRO_TELEMETRY_DISABLED=1 VERIFY_OFFLINE=1 ASTRO_DATABASE_FILE=.astro/verify.db bun run lint && ASTRO_TELEMETRY_DISABLED=1 VERIFY_OFFLINE=1 ASTRO_DATABASE_FILE=.astro/verify.db astro sync && ASTRO_TELEMETRY_DISABLED=1 VERIFY_OFFLINE=1 ASTRO_DATABASE_FILE=.astro/verify.db astro build",
     "preview": "astro preview",
     "astro": "astro",
     "prepare": "husky",
@@ -75,20 +76,8 @@
   "trustedDependencies": [
     "@sentry/cli"
   ],
-  "overrides": {
-    "@babel/core": "7.29.6",
-    "baseline-browser-mapping": "2.11.33",
-    "brace-expansion": "5.0.12",
-    "browserslist": "4.29.4",
-    "devalue": "5.9.4",
-    "fast-uri": "3.1.9",
-    "http-cache-semantics": "4.3.0",
-    "rollup": "4.65.0",
-    "smol-toml": "1.9.1",
-    "source-map-js": "1.2.2",
-    "svgo": "4.1.0",
-    "tar": "7.5.22",
-    "vite": "8.3.5",
-    "ws": "8.22.0"
-  }
+  "engines": {
+    "node": ">=22.19.0 <23"
+  },
+  "overrides": {}
 }
