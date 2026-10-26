@@ -1,6 +1,6 @@
 # bhekani.com
 
-Personal site and blog. Astro 6, Tailwind CSS v4, a little Svelte for search and view counts. Hosted on Vercel. Comments via Giscus (GitHub Discussions), page views in Astro DB, semantic search on Upstash Vector.
+Personal site and blog. Astro 7, Tailwind CSS v4, a little Svelte for search and view counts. Hosted on Vercel. Comments via Giscus (GitHub Discussions), page views in Astro DB, semantic search on Upstash Vector.
 
 Live at <https://bhekani.com>. The colophon at </colophon> covers the type, colour and sound choices.
 
@@ -14,14 +14,16 @@ cp .env.example .env        # SENTRY_DSN, SENTRY_AUTH_TOKEN, OPENAI/Upstash keys
 bun run dev                  # http://localhost:4321
 ```
 
-Build and check:
+Run the credential-free verification command before opening a PR:
 
 ```bash
-ASTRO_DATABASE_FILE=./db.sqlite bun run lint    # astro check
-ASTRO_DATABASE_FILE=./db.sqlite bun run build   # lint + search index + embeddings + astro build
+bun install --frozen-lockfile
+bun run verify:offline
 ```
 
-The build mutates `db.sqlite`; `git checkout -- db.sqlite` afterwards.
+`verify:offline` runs the non-watch Vitest suite, Astro checks, content sync, and a local static build. It uses the ignored `.astro/verify.db` database, disables build telemetry and Sentry for the verification build, and does not generate embeddings, publish to the vector index, or require provider credentials.
+
+`bun run build` is the deployment build. Its `prebuild` step regenerates `public/search-index.json` and attempts embedding publication when provider credentials are present; it also runs `astro build --remote`. Do not use it for local verification.
 
 ## Where things live
 

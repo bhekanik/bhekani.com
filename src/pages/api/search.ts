@@ -1,7 +1,9 @@
 import type { APIRoute } from "astro"
+import { getCollection } from "astro:content"
 import { Index } from "@upstash/vector"
 import OpenAI from "openai"
 import * as Sentry from "@sentry/astro"
+import { canonicalizeBookSearchResults, createBookSearchRoutes } from "../../utils/bookSearchRoutes"
 import { RateLimiter } from "../../utils/rateLimiter"
 
 export const prerender = false
@@ -29,12 +31,21 @@ const searchRateLimiter = new RateLimiter(30, 60000)
 
 // Cache the search index in memory
 let searchIndex: SearchIndexItem[] | null = null
+let bookSearchRoutes: Promise<Map<string, string>> | null = null
 
-async function loadSearchIndex(): Promise<SearchIndexItem[]> {
+function loadBookSearchRoutes(): Promise<Map<string, string>> {
+  if (!bookSearchRoutes) {
+    bookSearchRoutes = getCollection("books").then(createBookSearchRoutes)
+  }
+
+  return bookSearchRoutes
+}
+
+async function loadSearchIndex(origin: string): Promise<SearchIndexItem[]> {
   if (searchIndex) return searchIndex
 
   try {
-    const response = await fetch(new URL("/search-index.json", import.meta.env.SITE || "http://localhost:4321"))
+    const response = await fetch(new URL("/search-index.json", origin))
     if (response.ok) {
       searchIndex = await response.json()
       return searchIndex || []
@@ -142,7 +153,7 @@ export const GET: APIRoute = async ({ url, clientAddress }) => {
 
   try {
     // Load keyword search index
-    const index = await loadSearchIndex()
+    const index = await loadSearchIndex(url.origin)
     const keywordResults = keywordSearch(query, index)
 
     // Try vector search if configured
@@ -187,14 +198,14 @@ export const GET: APIRoute = async ({ url, clientAddress }) => {
       } catch (error) {
         Sentry.captureException(error, {
           tags: { api: "search", component: "vector" },
-          extra: { query },
         })
         // Fall through to keyword-only results
       }
     }
 
     // Fuse results using RRF
-    const results = vectorResults.length > 0 ? fuseResults(vectorResults, keywordResults) : keywordResults
+    const combinedResults = vectorResults.length > 0 ? fuseResults(vectorResults, keywordResults) : keywordResults
+    const results = canonicalizeBookSearchResults(combinedResults, await loadBookSearchRoutes())
 
     // Return top 10
     return new Response(
@@ -215,7 +226,6 @@ export const GET: APIRoute = async ({ url, clientAddress }) => {
   } catch (error) {
     Sentry.captureException(error, {
       tags: { api: "search", method: "GET" },
-      extra: { query },
     })
 
     return new Response(JSON.stringify({ error: "Search failed" }), {
