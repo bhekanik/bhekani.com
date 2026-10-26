@@ -27,7 +27,7 @@ BK is a civil engineer turned software engineer who likes reducing complexity. T
 ## Anti-references
 
 - Generic dev-portfolio templates. Hero with a gradient blob, identical project cards, tag pills, "Hi, I'm X 👋".
-- Cream or beige "literary" body backgrounds with a display serif. That is the current site and the current AI default.
+- A new cream or beige "literary" body default with a display serif. Panels is the current default; the existing Route edition remains supported, and replacing it requires a separate product choice.
 - Terminal cosplay. Green-on-black, monospace body text, fake prompts.
 - Glassmorphism, gradient text, bento grids, tracked uppercase eyebrows above every heading.
 - Anything that slows down reading a post.

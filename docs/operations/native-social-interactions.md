@@ -12,7 +12,7 @@ Tested disposable-local command:
 bun scripts/migrate-social-schema.ts --local .astro/micro-social.db
 ```
 
-The coordinator must deliberately choose `--remote` in the established Astro DB environment before deploying the application route. `--remote` requires both `ASTRO_DB_REMOTE_URL` and `ASTRO_DB_APP_TOKEN`, and prints neither value. `--local <file>` creates a missing parent directory and always uses that file even if remote environment variables exist; commands without exactly one target fail closed. Do not use `--force-reset`, point this command at a views-test database, or create a new DB/account. Astro 7.3.3 in this checkout does not expose the older `astro db push` subcommand, so the tested script is the deployment mechanism for these two additive tables.
+Choose `--remote` only in the intended, authorized Astro DB environment. It requires both `ASTRO_DB_REMOTE_URL` and `ASTRO_DB_APP_TOKEN`, and prints neither value. `--local <file>` creates a missing parent directory and always uses that file even if remote environment variables exist; commands without exactly one target fail closed. Use a separate disposable local file for rehearsal, not the views database or `.astro/verify.db`, which offline verification resets. Do not use `--force-reset` or create a new DB/account. Astro 7.3.3 in this checkout does not expose the older `astro db push` subcommand, so the tested script is the deployment mechanism for these two additive tables.
 
 ## API contract
 
@@ -30,7 +30,11 @@ Use `unlike` for an idempotent removal. The browser uses `likeStatus` with the s
 {"action":"comment","contentType":"post","contentId":"test","browserId":"<first-party-random-id>","receipt":"<uuid>","displayName":"Reader","body":"Plain text only"}
 ```
 
-Comments accept a display name of up to 60 characters and body of up to 1,000 Unicode code points. The response contains the same unguessable receipt and `pending` status. Replaying the same receipt is idempotent. `receipt` checks require both receipt and browser marker and return no record to other markers; no public route enumerates private comments.
+Comments accept a display name of up to 60 Unicode code points and body of up to 1,000 Unicode code points. A newly stored comment returns `201` with `{ "comment": { "id": "<receipt>", "displayName": "...", "body": "...", "createdAt": "<ISO date>", "status": "pending" } }`. Replaying the same receipt is idempotent and returns the stored comment's current status: pending replies use `201`, while an already approved or rejected record uses `200`. It does not create another comment or reset moderation.
+
+To look up your own receipt, send `POST /api/social` with `action: "receipt"`, the same content identity, receipt and browser marker. The response has the same `comment` shape. A wrong marker or mismatched content identity returns `404`; no public route enumerates pending bodies. `likeStatus` uses the content identity and browser marker and returns `{ "liked": true|false }` without changing the vote.
+
+Other failure responses include `400` for invalid input or action, `403` for a mismatched browser Origin, `404` for unpublished/unknown content, `409` for a receipt already used by another content identity, `429` for rate limiting and `503` for unavailable interaction storage. Treat an unconfirmed write as uncertain; retry with the same receipt rather than generating another submission identity.
 
 The server flags likely profanity in names and bodies, including simple punctuation and leetspeak obfuscation, but it never auto-publishes or rejects. It is a narrow maintenance aid, not a guarantee that text is safe or profanity-free. All comments, including clean machine submissions, start pending. Plain text is rendered with `textContent`, never as HTML.
 
@@ -50,9 +54,11 @@ bun scripts/moderate-comments.ts list --local .astro/micro-social.db
 
 Approve or reject by receipt:
 
+These commands mutate moderation state and have no dry-run flag or interactive confirmation. Run `list` first and inspect the intended receipt and database before executing either operation.
+
 ```sh
 bun scripts/moderate-comments.ts approve <receipt> --local .astro/micro-social.db
 bun scripts/moderate-comments.ts reject <receipt> --local .astro/micro-social.db
 ```
 
-In the coordinator's established remote environment, replace the target with `--remote`; it uses the existing `ASTRO_DB_REMOTE_URL` and `ASTRO_DB_APP_TOKEN`. Approval can change a pending or rejected row to approved. Rejection can change a pending or already-approved row to rejected, immediately hiding it from public reads while preserving the author receipt's rejected status. There is no public endpoint, account, or new secret. Treat terminal output as private moderation material; do not copy comment bodies, browser markers, receipts, or flags into issue evidence or logs.
+In the maintainer's authorized remote environment, replace the target with `--remote`; it uses the existing `ASTRO_DB_REMOTE_URL` and `ASTRO_DB_APP_TOKEN`. Approval can change a pending or rejected row to approved. Rejection can change a pending or already-approved row to rejected, immediately hiding it from public reads while preserving the author receipt's rejected status. There is no public moderation endpoint, account, or new secret. Treat terminal output as private moderation material; do not copy comment bodies, browser markers, receipts, or flags into issue evidence or logs.

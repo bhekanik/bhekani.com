@@ -1,6 +1,6 @@
 # Maintain bounded view counts and collection settings
 
-Use this page when changing `/api/views` or the browser telemetry setup. It records the limited repair approved in D-033: keep anonymous aggregate article views and basic Sentry error reporting, while disabling replay and automatic interaction collection. It does not describe a consent system or make a zero-tracking claim.
+Use this page when changing `/api/views` or browser collection. Keep anonymous aggregate article views and basic Sentry error reporting, with replay and automatic interaction collection disabled. This is not a consent system or a zero-tracking claim.
 
 ## View-count contract
 
@@ -44,9 +44,12 @@ This is an implementation inventory, not a privacy policy.
 | Sentry | Browser initialization when its existing DSN is supplied | Errors and configured traces remain available; replay is disabled. |
 | PostHog | Every `BaseLayout` page | Existing ingestion host and pageviews remain; replay and automatic interaction/error collection are disabled. The project ingestion ID is public configuration, not an administration secret. |
 | Aggregate views | Published article counter on `client:load` | One anonymous aggregate increment per page mount after published-ID validation. |
+| Native hearts and comments | Published post/Micro interaction controls | Loads public counts/comments and restores browser-specific status. A browser marker accompanies private status/receipt reads and explicit heart/comment writes; successful pending submissions have a browser-local copy. These are first-party interaction records, not analytics events. |
 | Giscus | Article and book comment mounts | Loads Giscus from `giscus.app`, maps discussions by title, and stores comments in GitHub Discussions. |
 | Book covers | Book pages/cards that have an ISBN | The browser requests cover images from `covers.openlibrary.org`; ordinary local post images are processed and served by the site. |
 
 Booking and newsletter links are destinations rather than page-running scripts: `/unoffice-hours` links to `cal.com`, while the newsletter links to `justreflections.bhekani.com`. Following either link starts a visit on that external destination; this site does not embed either service.
+
+For the native interaction tables, receipt scope, browser storage limits and owner moderation, use [native interactions](native-social-interactions.md). Do not infer a retention period or verified identity from the existence of a browser marker.
 
 Do not add provider credentials, manual capture events, a DSN, provider account settings, retention claims, or a consent/legal claim as part of this repair. Review those separately with a named decision and a current provider configuration check.

@@ -2,10 +2,7 @@
 
 ## Scope
 
-This repair keeps the established blog RSS subscription stable while correcting
-the published canonical host and Markdown fidelity. It does not approve a new
-Micro or combined feed (Q9 remains open), add syndication providers, or expose
-book bodies.
+Preserve the established blog RSS subscription and faithful published-writing exports. The scrolling Micro page is not an RSS feed: `/rss.xml` contains blog posts only. This contract adds neither a separate Micro/combined RSS feed nor book-body exports.
 
 ## RSS compatibility
 
@@ -20,19 +17,20 @@ book bodies.
 
 ## Markdown exports
 
-Post `.md` routes and `llms-full.txt` transform only parsed MDX imports and
-components. Code fences and inline code retain their authored whitespace.
-Known Quote and HTTP(S) YouTube/iframe wrappers become Markdown.
+Published posts use `/posts/<slug>.md`; published Micro notes use `/micro/<slug>.md`. Both exclude drafts. `/llms-full.txt` remains a published-post aggregate, not a combined writing export.
 
-`llms.txt` exposes only public bibliographic fields and calls 111 entries
-“catalogued,” not “read.” It does not include book bodies or private notes.
+The shared syntax-aware helper selects actual MDX imports and components by parsed source range. Code fences and inline code retain their authored whitespace. Known Quote and HTTP(S) YouTube/iframe wrappers become Markdown. A parse failure preserves the trimmed original text rather than guessing with a broad HTML regex.
+
+`/llms.txt` labels the whole book collection as “catalogued,” not “read”, and lists selected public titles, authors and ratings. It does not include book bodies or private notes.
+
+Post and Micro details advertise their own `text/markdown` alternate and a `/llms.txt` `describedby` link. Other pages do not advertise a per-entry Markdown alternate. Copy controls fetch the actual export; their lifecycle and the separate optional feedback guide are documented in [machine-readable writing](machine-readable-writing-feedback.md).
 
 ## Verification
 
 Run the focused tests during edits:
 
 ```sh
-bun run test --run test/utils/llms.test.ts test/utils/rss.test.ts
+bun run test --run test/utils/llms.test.ts test/utils/rss.test.ts test/utils/markdownExports.test.ts test/scripts/markdownCopy.test.ts test/content/machine-feedback-contract.test.ts
 ```
 
 Then run the repository’s offline verification command:
@@ -43,17 +41,10 @@ bun run verify:offline
 
 In emitted output, parse `dist/client/rss.xml`; its GUIDs must match the fixture while
 its item links, sitemap, canonical links, and export URLs use `www`. A rendered
-post must contain one title, `/favicon.ico`, and a `text/markdown` alternate;
-non-post pages must not advertise a Markdown alternate.
+post must contain one title and `/favicon.ico`. Both post and Micro details must advertise their matching Markdown file; archive, book and project pages must not invent a per-entry Markdown alternate.
 
-## Handoff
+## Check the published destinations
 
-The Micro index currently points its “Subscribe via RSS” control to `/rss.xml`,
-which is blog-only. The separate Micro consistency owner should retain that URL
-but rename the visible label to **Subscribe to the blog RSS feed** (or remove
-the control). Do not call it a Micro RSS feed until Q9 approves a separate or
-combined feed.
+Open `/micro/` and find **Blog RSS** below the note stream. It must still link to `/rss.xml` and describe blog-only delivery. A future Micro RSS feed requires a separate product decision.
 
-Article sharing URLs still use the apex host in `src/pages/posts/[...slug].astro`.
-The article-route owner should replace each generated `https://bhekani.com/posts/${post.id}`
-share URL with the shared `www` origin, preserving the existing path shape.
+Post sharing URLs already use `https://www.bhekani.com` as the canonical origin; the current template writes that origin directly. Preserve the existing post path shape and the exceptional historical apex RSS GUIDs; do not normalize those GUIDs along with navigation links.
