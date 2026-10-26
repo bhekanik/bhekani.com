@@ -1,15 +1,14 @@
 import { createClient } from "@libsql/client"
 import { execFileSync } from "node:child_process"
-import { existsSync, rmSync } from "node:fs"
-import { resolve } from "node:path"
-import { afterEach, describe, expect, it } from "vitest"
+import { existsSync, mkdtempSync, rmSync } from "node:fs"
+import { tmpdir } from "node:os"
+import { dirname, join } from "node:path"
+import { afterAll, describe, expect, it } from "vitest"
 
-const files: string[] = []
+const fixtureDirectory = mkdtempSync(join(tmpdir(), "social-operations-"))
 
-function fixture(name: string) {
-  const file = resolve(`.astro/${name}-${Date.now()}-${Math.random().toString(16).slice(2)}.db`)
-  files.push(file)
-  return file
+function fixture(name: string, parent = "") {
+  return join(fixtureDirectory, parent, `${name}-${Date.now()}-${Math.random().toString(16).slice(2)}.db`)
 }
 
 function runScript(script: string, args: string[], environment: Record<string, string>) {
@@ -20,7 +19,7 @@ function runScript(script: string, args: string[], environment: Record<string, s
   })
 }
 
-afterEach(() => files.splice(0).forEach((file) => rmSync(file, { force: true })) )
+afterAll(() => rmSync(fixtureDirectory, { recursive: true, force: true }))
 
 describe("social operations against disposable SQLite", () => {
   it("uses an explicit local target despite remote environment, preserves Views, and is idempotent", async () => {
@@ -43,8 +42,10 @@ describe("social operations against disposable SQLite", () => {
   })
 
   it("keeps concurrent/replayed SQL hearts idempotent and permits bounded moderation reversals", async () => {
-    const local = fixture("social-operations-moderation")
+    const local = fixture("social-operations-moderation", "first-use")
+    expect(existsSync(dirname(local))).toBe(false)
     runScript("scripts/migrate-social-schema.ts", ["--local", local], {})
+    expect(existsSync(local)).toBe(true)
     const client = createClient({ url: `file:${local}` })
     const like = "micro:back-to-vscode:7d6542fb-8d83-4f42-a968-fc6944d733b1"
     await Promise.all(Array.from({ length: 8 }, () => client.execute({

@@ -1,5 +1,6 @@
 import { createClient, type Client } from "@libsql/client"
-import { resolve } from "node:path"
+import { mkdirSync } from "node:fs"
+import { dirname, resolve } from "node:path"
 
 type Environment = Record<string, string | undefined>
 
@@ -26,6 +27,10 @@ export function openSocialDatabase(target: SocialDatabaseTarget): Client {
   return createClient(target.kind === "local"
     ? { url: `file:${target.path}` }
     : { url: target.url, authToken: target.authToken })
+}
+
+export function ensureLocalSocialDatabaseParent(target: SocialDatabaseTarget) {
+  if (target.kind === "local") mkdirSync(dirname(target.path), { recursive: true })
 }
 
 export async function ensureSocialSchema(client: Client) {

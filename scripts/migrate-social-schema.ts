@@ -1,6 +1,8 @@
-import { ensureSocialSchema, openSocialDatabase, resolveSocialDatabaseTarget } from "./social-db"
+import { ensureLocalSocialDatabaseParent, ensureSocialSchema, openSocialDatabase, resolveSocialDatabaseTarget } from "./social-db"
 
-const client = openSocialDatabase(resolveSocialDatabaseTarget(process.argv.slice(2)))
+const target = resolveSocialDatabaseTarget(process.argv.slice(2))
+ensureLocalSocialDatabaseParent(target)
+const client = openSocialDatabase(target)
 await ensureSocialSchema(client)
 
 console.log("Social interaction tables and indexes are present.")

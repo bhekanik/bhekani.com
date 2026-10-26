@@ -12,7 +12,7 @@ Tested disposable-local command:
 bun scripts/migrate-social-schema.ts --local .astro/micro-social.db
 ```
 
-The coordinator must deliberately choose `--remote` in the established Astro DB environment before deploying the application route. `--remote` requires both `ASTRO_DB_REMOTE_URL` and `ASTRO_DB_APP_TOKEN`, and prints neither value. `--local <file>` always uses that file even if remote environment variables exist; commands without exactly one target fail closed. Do not use `--force-reset`, point this command at a views-test database, or create a new DB/account. Astro 7.3.3 in this checkout does not expose the older `astro db push` subcommand, so the tested script is the deployment mechanism for these two additive tables.
+The coordinator must deliberately choose `--remote` in the established Astro DB environment before deploying the application route. `--remote` requires both `ASTRO_DB_REMOTE_URL` and `ASTRO_DB_APP_TOKEN`, and prints neither value. `--local <file>` creates a missing parent directory and always uses that file even if remote environment variables exist; commands without exactly one target fail closed. Do not use `--force-reset`, point this command at a views-test database, or create a new DB/account. Astro 7.3.3 in this checkout does not expose the older `astro db push` subcommand, so the tested script is the deployment mechanism for these two additive tables.
 
 ## API contract
 
