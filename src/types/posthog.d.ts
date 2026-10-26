@@ -2,8 +2,12 @@ interface PostHogConfig {
   api_host?: string
   person_profiles?: 'identified_only' | 'always' | 'never'
   autocapture?: boolean
-  capture_pageview?: boolean
-  capture_pageleave?: boolean
+  capture_pageview?: boolean | 'history_change'
+  capture_pageleave?: boolean | 'if_capture_pageview'
+  capture_dead_clicks?: boolean
+  rageclick?: boolean
+  capture_heatmaps?: boolean
+  capture_exceptions?: boolean
   cross_subdomain_cookie?: boolean
   persistence?: 'localStorage' | 'cookie' | 'memory'
   disable_session_recording?: boolean
