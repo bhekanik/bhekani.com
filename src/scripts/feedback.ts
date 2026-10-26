@@ -11,11 +11,11 @@
  * what the browser autoplay policy requires. One stored flag mutes both.
  */
 import { WebHaptics, type HapticInput } from "web-haptics"
+import { bindPreferenceOnce, getFeedbackEnabled, setFeedbackEnabled } from "./preferences"
 
 export type HapticName = "tap" | "success"
 export type SoundName = "tick" | "tock" | "double"
 
-const STORAGE_KEY = "bk:feedback"
 const CHANGE_EVENT = "bk:feedback-change"
 const INTERACTIVE =
   'a[href], button, [role="button"], summary, input[type="checkbox"], input[type="radio"], select'
@@ -42,14 +42,6 @@ let context: AudioContext | undefined
 let noise: AudioBuffer | undefined
 let haptics: WebHaptics | undefined
 let lastPlayedAt = 0
-
-function readEnabled(): boolean {
-  try {
-    return localStorage.getItem(STORAGE_KEY) !== "off"
-  } catch {
-    return true
-  }
-}
 
 function getContext(): AudioContext | undefined {
   if (typeof AudioContext === "undefined") return undefined
@@ -82,23 +74,22 @@ function burst(ac: AudioContext, frequency: number, gainValue: number, at: numbe
 }
 
 export const feedback = {
-  isEnabled: readEnabled,
+  isEnabled: getFeedbackEnabled,
 
   setEnabled(enabled: boolean) {
-    try {
-      localStorage.setItem(STORAGE_KEY, enabled ? "on" : "off")
-    } catch {}
+    setFeedbackEnabled(enabled)
     document.dispatchEvent(new CustomEvent(CHANGE_EVENT, { detail: { enabled } }))
   },
 
   onChange(handler: (enabled: boolean) => void) {
+    // SAFETY: this module dispatches this event only from setEnabled with a boolean enabled detail.
     const listener = (event: Event) => handler((event as CustomEvent<{ enabled: boolean }>).detail.enabled)
     document.addEventListener(CHANGE_EVENT, listener)
     return () => document.removeEventListener(CHANGE_EVENT, listener)
   },
 
   play(name: SoundName) {
-    if (!readEnabled() || document.hidden) return
+    if (!getFeedbackEnabled() || document.hidden) return
     const now = performance.now()
     if (now - lastPlayedAt < MIN_GAP_MS) return
     lastPlayedAt = now
@@ -117,7 +108,7 @@ export const feedback = {
   },
 
   haptic(name: HapticName) {
-    if (!readEnabled()) return
+    if (!getFeedbackEnabled()) return
     haptics ??= new WebHaptics()
     void haptics.trigger(HAPTIC_PATTERNS[name])
   },
@@ -154,6 +145,8 @@ function onKeyDown(event: KeyboardEvent) {
 // Document-level delegation survives Astro view-transition swaps, so bind once.
 // The module is also imported by a Svelte island, so it must be inert during SSR.
 if (typeof document !== "undefined") {
-  document.addEventListener("pointerdown", onPointerDown, { passive: true })
-  document.addEventListener("keydown", onKeyDown)
+  bindPreferenceOnce("feedback-delegation", () => {
+    document.addEventListener("pointerdown", onPointerDown, { passive: true })
+    document.addEventListener("keydown", onKeyDown)
+  })
 }

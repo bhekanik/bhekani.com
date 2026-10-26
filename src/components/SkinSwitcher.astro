@@ -117,44 +117,41 @@ const editions = [
 
 <script>
   import { feedback } from "../scripts/feedback"
-
-  const STORAGE_KEY = "bk:skin"
-
-  function current(): string {
-    return document.documentElement.dataset.skin ?? "panels"
-  }
+  import { bindPreferenceOnce, getSkin, renderOnPageLoad, setSkin } from "../scripts/preferences"
 
   function render() {
-    const active = current()
+    const active = getSkin()
     document.querySelectorAll<HTMLButtonElement>("[data-skin-option]").forEach((button) => {
       button.setAttribute("aria-pressed", String(button.dataset.skinOption === active))
     })
   }
 
-  function setSkin(skin: string) {
-    document.documentElement.dataset.skin = skin
-    try {
-      localStorage.setItem(STORAGE_KEY, skin)
-    } catch {}
+  function applySkin(skin: "panels" | "route") {
+    setSkin(skin)
     render()
   }
 
-  document.addEventListener("astro:page-load", () => {
-    render()
-    document.querySelectorAll<HTMLButtonElement>("[data-skin-option]").forEach((button) => {
-      button.addEventListener("click", () => {
-        const skin = button.dataset.skinOption
-        if (!skin || skin === current()) return
-        feedback.play("double")
-        feedback.haptic("success")
-        const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches
-        if (!reduced && "startViewTransition" in document) {
-          document.startViewTransition(() => setSkin(skin))
-        } else {
-          setSkin(skin)
-        }
-        document.getElementById("skin-menu")?.hidePopover()
-      })
+  function selectSkin(skin: string | undefined) {
+    if (skin !== "panels" && skin !== "route") return
+    if (skin === getSkin()) return
+    feedback.play("double")
+    feedback.haptic("success")
+    const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches
+    if (!reduced && "startViewTransition" in document) {
+      document.startViewTransition(() => applySkin(skin))
+    } else {
+      applySkin(skin)
+    }
+    document.getElementById("skin-menu")?.hidePopover()
+  }
+
+  renderOnPageLoad("skin-switcher", render)
+  bindPreferenceOnce("skin-switcher", () => {
+    document.addEventListener("click", (event) => {
+      const target = event.target
+      if (!(target instanceof Element)) return
+      const option = target.closest<HTMLButtonElement>("[data-skin-option]")
+      selectSkin(option?.dataset.skinOption)
     })
   })
 </script>
