@@ -44,28 +44,36 @@ const markdownUrl = /^\/posts\/[^/]+\/$/.test(Astro.url.pathname)
     <title>{getDocumentTitle(pageTitle)}</title>
 
     {/* Runs before first paint so the stored theme and edition never flash. Re-applied after view-transition swaps. */}
-    <script is:inline>
-      ;(() => {
-        const apply = () => {
-          let theme = null
-          let skin = null
-          try {
-            theme = localStorage.getItem("theme")
-            skin = localStorage.getItem("bk:skin")
-          } catch {}
-          if (theme !== "light" && theme !== "dark") {
-            theme = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
+      <script is:inline>
+        ;(() => {
+          const validTheme = (value) => value === "light" || value === "dark"
+          const validSkin = (value) => value === "panels" || value === "route"
+          const preferences = (window.__bkPreferences ??= {})
+          const apply = () => {
+            if (!validTheme(preferences.theme)) {
+              try {
+                preferences.theme = window.localStorage.getItem("theme")
+              } catch {}
+            }
+            if (!validTheme(preferences.theme)) preferences.theme = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
+            if (!validSkin(preferences.skin)) {
+              try {
+                preferences.skin = window.localStorage.getItem("bk:skin")
+              } catch {}
+            }
+            if (!validSkin(preferences.skin)) preferences.skin = "panels"
+            const root = document.documentElement
+            root.classList.toggle("dark", preferences.theme === "dark")
+            root.classList.toggle("light", preferences.theme === "light")
+            root.dataset.skin = preferences.skin
           }
-          if (skin !== "panels" && skin !== "route") skin = "panels"
-          const root = document.documentElement
-          root.classList.toggle("dark", theme === "dark")
-          root.classList.toggle("light", theme === "light")
-          root.dataset.skin = skin
-        }
-        apply()
-        document.addEventListener("astro:after-swap", apply)
-      })()
-    </script>
+          apply()
+          if (!preferences.bootstrapBound) {
+            preferences.bootstrapBound = true
+            document.addEventListener("astro:after-swap", apply)
+          }
+        })()
+      </script>
 
     <ClientRouter />
     <PostHog />

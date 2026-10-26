@@ -37,6 +37,7 @@
 
 <script>
   import { feedback } from "../scripts/feedback"
+  import { bindPreferenceOnce, renderOnPageLoad } from "../scripts/preferences"
 
   function render(enabled: boolean) {
     const button = document.getElementById("feedbackToggle")
@@ -55,10 +56,12 @@
     }
   }
 
-  feedback.onChange(render)
-
-  document.addEventListener("astro:page-load", () => {
-    render(feedback.isEnabled())
-    document.getElementById("feedbackToggle")?.addEventListener("click", toggle)
+  renderOnPageLoad("feedback-toggle", () => render(feedback.isEnabled()))
+  bindPreferenceOnce("feedback-toggle-change", () => feedback.onChange(render))
+  bindPreferenceOnce("feedback-toggle", () => {
+    document.addEventListener("click", (event) => {
+      const target = event.target
+      if (target instanceof Element && target.closest("#feedbackToggle")) toggle()
+    })
   })
 </script>

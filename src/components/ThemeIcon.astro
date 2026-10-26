@@ -40,19 +40,15 @@
 
 <script>
   import { feedback } from "../scripts/feedback"
-
-  const isDark = () => document.documentElement.classList.contains("dark")
+  import { bindPreferenceOnce, getTheme, renderOnPageLoad, setTheme } from "../scripts/preferences"
 
   function syncLabel() {
     const button = document.getElementById("themeToggle")
-    button?.setAttribute("aria-label", isDark() ? "Switch to light theme" : "Switch to dark theme")
+    button?.setAttribute("aria-label", getTheme() === "dark" ? "Switch to light theme" : "Switch to dark theme")
   }
 
-  function setTheme(theme: "light" | "dark") {
-    const root = document.documentElement
-    root.classList.toggle("dark", theme === "dark")
-    root.classList.toggle("light", theme === "light")
-    localStorage.setItem("theme", theme)
+  function applyTheme(theme: "light" | "dark") {
+    setTheme(theme)
     syncLabel()
 
     // Giscus listens for a postMessage rather than reloading the iframe
@@ -61,20 +57,23 @@
   }
 
   function toggleTheme() {
-    const next = isDark() ? "light" : "dark"
+    const next = getTheme() === "dark" ? "light" : "dark"
     feedback.play("tock")
     feedback.haptic("tap")
 
     const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches
     if (!reduced && "startViewTransition" in document) {
-      document.startViewTransition(() => setTheme(next))
+      document.startViewTransition(() => applyTheme(next))
     } else {
-      setTheme(next)
+      applyTheme(next)
     }
   }
 
-  document.addEventListener("astro:page-load", () => {
-    syncLabel()
-    document.getElementById("themeToggle")?.addEventListener("click", toggleTheme)
+  renderOnPageLoad("theme-toggle", syncLabel)
+  bindPreferenceOnce("theme-toggle", () => {
+    document.addEventListener("click", (event) => {
+      const target = event.target
+      if (target instanceof Element && target.closest("#themeToggle")) toggleTheme()
+    })
   })
 </script>
