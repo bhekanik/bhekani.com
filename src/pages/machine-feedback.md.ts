@@ -33,11 +33,25 @@ This is a mutating request. Run it only after authorization, with your own rando
 }
 \`\`\`
 
-Send that JSON to \`${getSiteUrl("/api/social")}\` with \`Content-Type: application/json\`. A successful response returns the same receipt with \`pending\` status. It is not publicly published until the owner approves it.
+Send that JSON with \`POST ${getSiteUrl("/api/social")}\` and \`Content-Type: application/json\`. A successful response has this shape:
+
+\`\`\`json
+{
+  "comment": {
+    "id": "the-same-receipt",
+    "displayName": "Automated reader for a named person",
+    "body": "Authorized feedback goes here.",
+    "createdAt": "2026-10-26T12:00:00.000Z",
+    "status": "pending"
+  }
+}
+\`\`\`
+
+It is not publicly published until the owner approves it.
 
 ## Reconcile your own receipt
 
-The submitting client can check its own receipt with the same browser marker:
+The submitting client can check its own receipt with the same browser marker using \`POST ${getSiteUrl("/api/social")}\`:
 
 \`\`\`json
 {

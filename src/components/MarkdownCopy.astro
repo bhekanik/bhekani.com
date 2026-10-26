@@ -10,7 +10,7 @@ const { markdownUrl, compact = false } = Astro.props
 <div class:list={["markdown-copy", { compact }]} data-markdown-copy>
   <button type="button" class="btn-ghost" data-markdown-copy-button data-markdown-url={markdownUrl}>Copy as Markdown</button>
   <a href={markdownUrl} type="text/markdown" class="markdown-copy-link">Open Markdown</a>
-  <span class="sr-only" data-markdown-copy-status aria-live="polite"></span>
+  <span class="markdown-copy-status" data-markdown-copy-status aria-live="polite"></span>
 </div>
 
 <script>
@@ -20,6 +20,7 @@ const { markdownUrl, compact = false } = Astro.props
 <style>
   .markdown-copy { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); font-family: var(--font-sans); }
   .markdown-copy-link { font-size: 0.875rem; font-weight: 600; }
+  .markdown-copy-status { color: var(--muted-foreground); font-size: 0.8125rem; }
   .compact { gap: var(--space-2); }
   .compact :global(.btn-ghost) { min-height: auto; padding: var(--space-1) var(--space-2); font-size: 0.8125rem; }
   .compact .markdown-copy-link { font-size: 0.8125rem; }
