@@ -6,7 +6,11 @@ import { createSocialHandlers, type CommentStatus, type SocialContentType } from
 
 export const prerender = false
 
-const socialRateLimiter = new RateLimiter(60, 60_000)
+const socialRateLimiters = {
+  comments: new RateLimiter(20, 60_000),
+  hearts: new RateLimiter(60, 60_000),
+  reads: new RateLimiter(180, 60_000),
+}
 let publishedIds: Promise<{ micro: ReadonlySet<string>; post: ReadonlySet<string> }> | undefined
 
 function loadPublishedIds(): Promise<{ micro: ReadonlySet<string>; post: ReadonlySet<string> }> {
@@ -72,7 +76,7 @@ async function getPrivateComment(id: string, browserId: string) {
 }
 
 const handler = createSocialHandlers({
-  rateLimiter: socialRateLimiter,
+  rateLimiters: socialRateLimiters,
   loadPublishedIds,
   getLikeCount,
   async isLiked(contentType, contentId, browserId) {

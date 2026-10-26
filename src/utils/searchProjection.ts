@@ -1,4 +1,5 @@
 import { createBookSearchRoutes, type BookSearchEntry } from "./bookSearchRoutes"
+import { getMicroLabel } from "./micro"
 import {
   isSafeExternalUrl,
   normalizeSearchText,
@@ -86,7 +87,7 @@ export function createSearchProjection(collections: SearchCollections): SearchPr
     index.push(item(
       `micro-${micro.id}`,
       "micro",
-      micro.data.title ?? `Micro note — ${micro.data.date.toISOString().slice(0, 10)}`,
+      getMicroLabel(micro.data.title, micro.data.date),
       `/micro/${micro.id}`,
       undefined,
       [micro.data.title, micro.data.date.toISOString(), micro.body],

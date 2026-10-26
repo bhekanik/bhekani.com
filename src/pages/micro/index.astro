@@ -1,8 +1,10 @@
 ---
+import { Image } from "astro:assets"
 import { getCollection, render } from "astro:content"
 import MainContainer from "../../components/MainContainer.astro"
 import Prose from "../../components/Prose.astro"
 import SocialInteractions from "../../components/SocialInteractions.astro"
+import BK from "../../images/BK.webp"
 import BaseLayout from "../../layouts/BaseLayout.astro"
 
 const allMicro = await getCollection("micro")
@@ -37,23 +39,27 @@ const formatUtcDate = (date: Date) =>
 
       <section class="panel land micro-notes" style="--i: 1">
         <span class="cap">Newest first</span>
-        <ol class="rule-list">
+          <ol class="micro-stream">
         {
           sortedMicro.map(async (micro) => {
             const { Content } = await render(micro)
             return (
               <li>
                 <article class="micro-note">
-                  <header>
-                    <time datetime={micro.data.date.toISOString()} class="meta">
-                      {formatUtcDate(micro.data.date)}
-                    </time>
+                  <header class="micro-author">
+                    <Image src={BK} alt="" width={40} height={40} loading="lazy" />
+                    <div>
+                      <strong>Bhekani Khumalo</strong>
+                      <time datetime={micro.data.date.toISOString()} class="meta">
+                        {formatUtcDate(micro.data.date)}
+                      </time>
+                    </div>
                     <a href={`/micro/${micro.id}/`} class="permalink">
                       Permalink
                     </a>
                   </header>
 
-                  {micro.data.title && <h2><a href={`/micro/${micro.id}/`} class="link-quiet">{micro.data.title}</a></h2>}
+                  {micro.data.title?.trim() && <h2><a href={`/micro/${micro.id}/`} class="link-quiet">{micro.data.title.trim()}</a></h2>}
 
                   <Prose>
                     <Content />
@@ -98,10 +104,14 @@ const formatUtcDate = (date: Date) =>
     padding: var(--space-10) var(--space-6) var(--space-4);
   }
 
-  .micro-notes ol {
+  .micro-stream {
     margin: 0;
     padding: 0;
     list-style: none;
+  }
+
+  .micro-stream > li + li .micro-note {
+    border-top: 1px solid var(--border);
   }
 
   .micro-note {
@@ -109,13 +119,24 @@ const formatUtcDate = (date: Date) =>
     padding: var(--space-6) 0 var(--space-8);
   }
 
-  .micro-note header {
+  .micro-author {
     display: flex;
     flex-wrap: wrap;
-    align-items: baseline;
-    justify-content: space-between;
+    align-items: center;
     gap: var(--space-2) var(--space-4);
   }
+
+  .micro-author img {
+    width: 2.5rem;
+    height: 2.5rem;
+    object-fit: cover;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+  }
+
+  .micro-author div { display: grid; gap: 0.125rem; }
+
+  .micro-author .permalink { margin-left: auto; }
 
   .permalink {
     font-family: var(--font-sans);

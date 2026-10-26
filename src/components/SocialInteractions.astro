@@ -9,229 +9,44 @@ const { contentType, contentId } = Astro.props
 
 <section class="social-interactions" data-social-interactions data-content-type={contentType} data-content-id={contentId} aria-label="Reader responses">
   <div class="social-actions">
-    <button class="social-heart" type="button" data-social-heart aria-pressed="false">
+    <button class="social-heart" type="button" data-social-heart aria-pressed="false" aria-label="Heart this note" disabled>
       <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor" focusable="false">
         <path d="M12 21.35 10.55 20C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09A6.02 6.02 0 0 1 16.5 3C19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.51L12 21.35Z" />
       </svg>
       <span data-social-like-count>0</span>
-      <span class="visually-hidden">hearts</span>
+      <span class="sr-only" data-social-heart-label>Heart this note</span>
     </button>
     <details class="social-comments" data-social-comments>
       <summary>Comments <span data-social-comment-count>0</span></summary>
       <div class="social-comment-list" data-social-comment-list aria-live="polite"></div>
-      <p class="social-note">Native comments are reviewed before anyone else can see them.</p>
-      <form class="social-comment-form" data-social-comment-form>
-        <label>
-          Name
-          <input name="displayName" maxlength="60" autocomplete="name" required />
-        </label>
-        <label>
-          Comment
-          <textarea name="body" maxlength="1000" rows="4" required></textarea>
-        </label>
-        <button type="submit">Submit for review</button>
+      <p class="social-note">Comments are reviewed before they appear here.</p>
+      <form class="social-comment-form" data-social-comment-form action="/api/social" method="post">
+        <fieldset data-social-inputs disabled>
+          <label>
+            Name
+            <input name="displayName" maxlength="60" autocomplete="name" required />
+          </label>
+          <label>
+            Comment
+            <textarea name="body" maxlength="1000" rows="4" required></textarea>
+          </label>
+          <button type="submit">Submit for review</button>
+        </fieldset>
         <p class="social-form-status" data-social-form-status aria-live="polite"></p>
       </form>
+      <noscript><p class="social-note">Comments need JavaScript. You can still read the notes here.</p></noscript>
     </details>
   </div>
+  <p class="social-status" data-social-status aria-live="polite">Loading responses…</p>
+  <button class="social-retry" type="button" data-social-retry hidden>Retry responses</button>
 </section>
 
 <script>
-  type Comment = { id: string; displayName: string; body: string; createdAt: string; status?: "pending" | "approved" | "rejected" }
-  type PendingComment = Comment & { status: "pending" | "approved" }
-  type SocialData = { likeCount: number; comments: Comment[] }
+  import { cleanupSocialInteractions, initializeAllSocialInteractions } from "../utils/socialClient"
 
-  const browserKey = "bk:social:browser"
-  const receiptPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
-  const browserPattern = /^[a-z0-9-]{16,80}$/
-
-  function storage(): Storage | undefined {
-    try {
-      return window.localStorage
-    } catch {
-      return undefined
-    }
-  }
-
-  function browserId(): string {
-    const saved = storage()?.getItem(browserKey)
-    if (saved && browserPattern.test(saved)) return saved
-    const id = crypto.randomUUID().toLowerCase()
-    try { storage()?.setItem(browserKey, id) } catch {}
-    return id
-  }
-
-  function pendingKey(contentType: string, contentId: string) {
-    return `bk:social:pending:${contentType}:${contentId}`
-  }
-
-  function pendingComments(contentType: string, contentId: string): PendingComment[] {
-    try {
-      const raw = storage()?.getItem(pendingKey(contentType, contentId))
-      if (!raw) return []
-      const parsed: unknown = JSON.parse(raw)
-      if (!Array.isArray(parsed)) return []
-      return parsed.filter((item): item is PendingComment => {
-        if (!item || typeof item !== "object") return false
-        const comment = item as Partial<PendingComment>
-        return typeof comment.id === "string" && receiptPattern.test(comment.id)
-          && typeof comment.displayName === "string" && typeof comment.body === "string"
-          && typeof comment.createdAt === "string" && (comment.status === "pending" || comment.status === "approved")
-      }).slice(-10)
-    } catch {
-      return []
-    }
-  }
-
-  function savePending(contentType: string, contentId: string, comments: PendingComment[]) {
-    try { storage()?.setItem(pendingKey(contentType, contentId), JSON.stringify(comments.slice(-10))) } catch {}
-  }
-
-  function renderComment(comment: Comment, privateStatus?: string) {
-    const article = document.createElement("article")
-    article.className = "social-comment"
-    const byline = document.createElement("p")
-    const name = document.createElement("strong")
-    name.textContent = comment.displayName
-    byline.append(name)
-    if (privateStatus) {
-      const status = document.createElement("span")
-      status.className = "social-comment-status"
-      status.textContent = ` ${privateStatus}`
-      byline.append(status)
-    }
-    const body = document.createElement("p")
-    body.textContent = comment.body
-    article.append(byline, body)
-    return article
-  }
-
-  async function request<T>(payload: Record<string, unknown>): Promise<T> {
-    const response = await fetch("/api/social", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    })
-    if (!response.ok) throw new Error("Social request failed")
-    const value: unknown = await response.json()
-    if (!value || typeof value !== "object") throw new Error("Malformed social response")
-    return value as T
-  }
-
-  function initialize(root: HTMLElement) {
-    if (root.dataset.socialReady) return
-    root.dataset.socialReady = "true"
-    const contentType = root.dataset.contentType
-    const contentId = root.dataset.contentId
-    const heart = root.querySelector<HTMLButtonElement>("[data-social-heart]")
-    const likes = root.querySelector<HTMLElement>("[data-social-like-count]")
-    const comments = root.querySelector<HTMLElement>("[data-social-comment-list]")
-    const commentCount = root.querySelector<HTMLElement>("[data-social-comment-count]")
-    const form = root.querySelector<HTMLFormElement>("[data-social-comment-form]")
-    const formStatus = root.querySelector<HTMLElement>("[data-social-form-status]")
-    if (!contentType || !contentId || !heart || !likes || !comments || !commentCount || !form || !formStatus) return
-
-    const id = browserId()
-    let publicComments: Comment[] = []
-    let localComments = pendingComments(contentType, contentId)
-    let liked = false
-
-    const render = () => {
-      comments.replaceChildren(...publicComments.map((comment) => renderComment(comment)))
-      const publicIds = new Set(publicComments.map((comment) => comment.id))
-      localComments = localComments.filter((comment) => !publicIds.has(comment.id))
-      savePending(contentType, contentId, localComments)
-      for (const comment of localComments) comments.append(renderComment(comment, comment.status === "approved" ? "approved" : "private · pending review"))
-      commentCount.textContent = String(publicComments.length)
-      heart.setAttribute("aria-pressed", String(liked))
-    }
-
-    fetch(`/api/social?${new URLSearchParams({ contentType, contentId })}`, { headers: { Accept: "application/json" } })
-      .then(async (response) => {
-        if (!response.ok) throw new Error("Social feed unavailable")
-        return response.json() as Promise<SocialData>
-      })
-      .then((data) => {
-        if (!Number.isSafeInteger(data.likeCount) || data.likeCount < 0 || !Array.isArray(data.comments)) throw new Error("Malformed social feed")
-        likes.textContent = String(data.likeCount)
-        publicComments = data.comments
-        render()
-      })
-      .catch(() => { formStatus.textContent = "Comments are temporarily unavailable. Try again shortly." })
-
-    request<{ liked: boolean }>({ action: "likeStatus", contentType, contentId, browserId: id })
-      .then((result) => {
-        if (typeof result.liked !== "boolean") throw new Error("Malformed heart status")
-        liked = result.liked
-        render()
-      })
-      .catch(() => undefined)
-
-    for (const comment of localComments) {
-      request<{ comment: Comment }>({ action: "receipt", contentType, contentId, browserId: id, receipt: comment.id })
-        .then(({ comment: current }) => {
-          if (current.status === "rejected") {
-            localComments = localComments.filter((candidate) => candidate.id !== current.id)
-            savePending(contentType, contentId, localComments)
-            formStatus.textContent = "Your comment was not published."
-          } else {
-            localComments = localComments.map((candidate) => candidate.id === current.id ? { ...current, status: current.status === "approved" ? "approved" : "pending" } : candidate)
-          }
-          render()
-        })
-        .catch(() => undefined)
-    }
-
-    heart.addEventListener("click", async () => {
-      heart.disabled = true
-      try {
-        const result = await request<{ likeCount: number; liked: boolean }>({ action: liked ? "unlike" : "like", contentType, contentId, browserId: id })
-        if (!Number.isSafeInteger(result.likeCount) || result.likeCount < 0 || typeof result.liked !== "boolean") throw new Error("Malformed heart response")
-        liked = result.liked
-        likes.textContent = String(result.likeCount)
-        render()
-      } catch {
-        formStatus.textContent = "Your heart could not be saved. Try again."
-      } finally {
-        heart.disabled = false
-      }
-    })
-
-    form.addEventListener("submit", async (event) => {
-      event.preventDefault()
-      const submit = form.querySelector<HTMLButtonElement>("button[type=submit]")
-      const displayName = new FormData(form).get("displayName")
-      const body = new FormData(form).get("body")
-      if (typeof displayName !== "string" || typeof body !== "string") return
-      const receipt = form.dataset.receipt || crypto.randomUUID()
-      form.dataset.receipt = receipt
-      submit && (submit.disabled = true)
-      formStatus.textContent = "Submitting for review…"
-      try {
-        const { comment } = await request<{ comment: PendingComment }>({ action: "comment", contentType, contentId, browserId: id, receipt, displayName, body })
-        if (!comment || !receiptPattern.test(comment.id) || comment.status !== "pending") throw new Error("Malformed comment response")
-        localComments = [...localComments.filter((candidate) => candidate.id !== comment.id), comment]
-        savePending(contentType, contentId, localComments)
-        form.reset()
-        delete form.dataset.receipt
-        formStatus.textContent = "Saved privately. It will appear publicly after review."
-        render()
-      } catch {
-        formStatus.textContent = "We could not confirm this submission. Retry to use the same private receipt."
-      } finally {
-        submit && (submit.disabled = false)
-      }
-    })
-
-    render()
-  }
-
-  function initializeAll() {
-    document.querySelectorAll<HTMLElement>("[data-social-interactions]").forEach(initialize)
-  }
-
-  initializeAll()
-  document.addEventListener("astro:page-load", initializeAll)
+  initializeAllSocialInteractions()
+  document.addEventListener("astro:before-swap", cleanupSocialInteractions)
+  document.addEventListener("astro:page-load", initializeAllSocialInteractions)
 </script>
 
 <style>
@@ -246,8 +61,11 @@ const { contentType, contentId } = Astro.props
   .social-comment { padding-top: var(--space-3); border-top: 1px solid var(--border); overflow-wrap: anywhere; }
   .social-comment p { margin: 0; }
   .social-comment-status { color: var(--muted-foreground); font-size: 0.875rem; }
-  .social-note, .social-form-status { color: var(--muted-foreground); font-size: 0.9375rem; }
+  .social-note, .social-form-status, .social-status { color: var(--muted-foreground); font-size: 0.9375rem; }
+  .social-status { margin: var(--space-2) 0 0; }
+  .social-retry { margin-top: var(--space-2); padding: var(--space-1) var(--space-2); border: 1px solid var(--border); background: transparent; color: var(--foreground); font: inherit; }
   .social-comment-form { display: grid; gap: var(--space-3); margin-top: var(--space-4); }
+  .social-comment-form fieldset { display: grid; gap: var(--space-3); padding: 0; border: 0; margin: 0; }
   .social-comment-form label { display: grid; gap: var(--space-1); font-weight: 700; }
   .social-comment-form :is(input, textarea) { width: 100%; padding: var(--space-2); border: 1px solid var(--input); background: var(--background); color: var(--foreground); font: inherit; }
   .social-comment-form button { justify-self: start; padding: var(--space-2) var(--space-3); border: var(--rule) solid var(--border); background: var(--accent); color: var(--accent-foreground); font-weight: 700; }

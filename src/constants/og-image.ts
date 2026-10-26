@@ -1,4 +1,5 @@
 import type { OgImageOptions } from "../utils/og"
+import { getMicroLabel } from "../utils/micro"
 
 const COLORS = {
   fg: [255, 255, 255] as [number, number, number],
@@ -50,7 +51,7 @@ export function getBookOgOptions(
 export function getMicroOgOptions(title: string | undefined, date?: Date): OgImageOptions {
   return {
     ...baseOptions,
-    title: title || (date ? `Micro note — ${date.toISOString().slice(0, 10)}` : "Micro note"),
+    title: date ? getMicroLabel(title, date) : title?.trim() || "Micro note",
     font: {
       ...baseFont,
       title: {

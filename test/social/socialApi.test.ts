@@ -33,7 +33,11 @@ function dependencies(overrides: Partial<SocialApiDependencies> = {}) {
   const likes = new Set<string>()
   const key = (type: string, id: string, browser: string) => `${type}:${id}:${browser}`
   return {
-    rateLimiter: { maxRequestsLimit: 60, checkLimit: vi.fn().mockResolvedValue({ allowed: true, remaining: 59, resetTime: Date.UTC(2026, 9, 26, 12, 0, 0) }) },
+    rateLimiters: {
+      comments: { maxRequestsLimit: 20, checkLimit: vi.fn().mockResolvedValue({ allowed: true, remaining: 19, resetTime: Date.UTC(2026, 9, 26, 12, 0, 0) }) },
+      hearts: { maxRequestsLimit: 60, checkLimit: vi.fn().mockResolvedValue({ allowed: true, remaining: 59, resetTime: Date.UTC(2026, 9, 26, 12, 0, 0) }) },
+      reads: { maxRequestsLimit: 180, checkLimit: vi.fn().mockResolvedValue({ allowed: true, remaining: 179, resetTime: Date.UTC(2026, 9, 26, 12, 0, 0) }) },
+    },
     loadPublishedIds: vi.fn().mockResolvedValue({ micro: new Set([content.contentId]), post: new Set(["test"]) }),
     getLikeCount: vi.fn(async (type, id) => [...likes].filter((value) => value.startsWith(`${type}:${id}:`)).length),
     isLiked: vi.fn(async (type, id, browser) => likes.has(key(type, id, browser))),
@@ -131,7 +135,21 @@ describe("social interaction API contract", () => {
     const services = dependencies()
     const response = await createSocialHandlers(services).POST(request({ action: "like", contentType: "micro", contentId: "draft-note", browserId }))
     expect(response.status).toBe(404)
-    expect(services.rateLimiter.checkLimit).not.toHaveBeenCalled()
+    expect(services.rateLimiters.reads.checkLimit).not.toHaveBeenCalled()
     expect(services.like).not.toHaveBeenCalled()
+  })
+
+  it("rejects a replayed private receipt when its stored comment belongs to another note", async () => {
+    const services = dependencies({
+      createComment: vi.fn(async (comment) => ({
+        ...comment,
+        contentId: "another-note",
+        status: "pending" as const,
+        createdAt: "2026-10-26T12:00:00.000Z",
+      })),
+    })
+    const response = await createSocialHandlers(services).POST(request({ action: "comment", ...content, browserId, receipt, displayName: "Reader", body: "Scoped" }))
+    expect(response.status).toBe(409)
+    await expect(response.json()).resolves.toMatchObject({ code: "receipt_conflict" })
   })
 })

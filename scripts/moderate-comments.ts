@@ -1,24 +1,17 @@
-import { createClient } from "@libsql/client"
-import { resolve } from "node:path"
+import { openSocialDatabase, resolveSocialDatabaseTarget } from "./social-db"
 
-const [command, id] = process.argv.slice(2)
+const args = process.argv.slice(2)
+const [command, id] = args
+const targetArgs = command === "list" ? args.slice(1) : args.slice(2)
 
 if (command !== "list" && command !== "approve" && command !== "reject") {
-  throw new Error("Usage: bun scripts/moderate-comments.ts list | approve <receipt> | reject <receipt>")
+  throw new Error("Usage: bun scripts/moderate-comments.ts list --local <file>|--remote | approve|reject <receipt> --local <file>|--remote")
 }
 if ((command === "approve" || command === "reject") && !id) {
   throw new Error(`A comment receipt is required to ${command}.`)
 }
 
-const remoteUrl = process.env.ASTRO_DB_REMOTE_URL
-const localFile = process.env.ASTRO_DATABASE_FILE
-if (!remoteUrl && !localFile) {
-  throw new Error("Set ASTRO_DATABASE_FILE for a local database or use the coordinator-provided remote Astro DB environment.")
-}
-
-const client = createClient(remoteUrl
-  ? { url: remoteUrl, authToken: process.env.ASTRO_DB_APP_TOKEN }
-  : { url: `file:${resolve(localFile!)}` })
+const client = openSocialDatabase(resolveSocialDatabaseTarget(targetArgs))
 
 if (command === "list") {
   const result = await client.execute(`
@@ -31,10 +24,10 @@ if (command === "list") {
 } else {
   const status = command === "approve" ? "approved" : "rejected"
   const result = await client.execute({
-    sql: "UPDATE SocialComments SET status = ?, moderatedAt = ? WHERE id = ? AND status = 'pending'",
+    sql: "UPDATE SocialComments SET status = ?, moderatedAt = ? WHERE id = ? AND status IN ('pending', 'approved')",
     args: [status, new Date().toISOString(), id!],
   })
-  if (result.rowsAffected !== 1) throw new Error("No pending comment matched that receipt.")
+  if (result.rowsAffected !== 1) throw new Error(command === "approve" ? "No pending comment matched that receipt." : "No pending or approved comment matched that receipt.")
   console.log(`Comment ${status}.`)
 }
 

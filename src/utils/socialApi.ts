@@ -14,7 +14,7 @@ export type PrivateComment = PublicComment & {
   status: CommentStatus
 }
 
-type StoredPrivateComment = PrivateComment & {
+export type StoredPrivateComment = PrivateComment & {
   contentType: SocialContentType
   contentId: string
 }
@@ -25,7 +25,11 @@ export interface SocialRateLimiter {
 }
 
 export interface SocialApiDependencies {
-  rateLimiter: SocialRateLimiter
+  rateLimiters: {
+    reads: SocialRateLimiter
+    hearts: SocialRateLimiter
+    comments: SocialRateLimiter
+  }
   loadPublishedIds: () => Promise<{ micro: ReadonlySet<string>; post: ReadonlySet<string> }>
   getLikeCount: (contentType: SocialContentType, contentId: string) => Promise<number>
   isLiked: (contentType: SocialContentType, contentId: string, browserId: string) => Promise<boolean>
@@ -40,7 +44,7 @@ export interface SocialApiDependencies {
     displayName: string
     body: string
     moderationFlags: string[]
-  }) => Promise<PrivateComment>
+  }) => Promise<StoredPrivateComment>
   getPrivateComment: (id: string, browserId: string) => Promise<StoredPrivateComment | undefined>
 }
 
@@ -150,13 +154,13 @@ async function readPayload(request: Request): Promise<Payload | undefined> {
   }
 }
 
-async function checkRateLimit(dependencies: SocialApiDependencies, clientAddress: string | undefined): Promise<Response | undefined> {
+async function checkRateLimit(rateLimiter: SocialRateLimiter, clientAddress: string | undefined): Promise<Response | undefined> {
   try {
-    const result = await dependencies.rateLimiter.checkLimit(clientAddress ?? "unknown")
+    const result = await rateLimiter.checkLimit(clientAddress ?? "unknown")
     if (result.allowed) return undefined
     return json({ error: "Too many requests. Please try again later.", code: "rate_limited" }, 429, {
       "Retry-After": Math.max(1, Math.ceil((result.resetTime - Date.now()) / 1_000)).toString(),
-      "X-RateLimit-Limit": dependencies.rateLimiter.maxRequestsLimit.toString(),
+      "X-RateLimit-Limit": rateLimiter.maxRequestsLimit.toString(),
       "X-RateLimit-Remaining": "0",
       "X-RateLimit-Reset": new Date(result.resetTime).toISOString(),
     })
@@ -195,7 +199,7 @@ export function createSocialHandlers(dependencies: SocialApiDependencies) {
     async GET({ url, clientAddress }: SocialRequest): Promise<Response> {
       const content = await validateContent(dependencies, url.searchParams.get("contentType") ?? "", url.searchParams.get("contentId") ?? "")
       if (isResponse(content)) return content
-      const limited = await checkRateLimit(dependencies, clientAddress)
+      const limited = await checkRateLimit(dependencies.rateLimiters.reads, clientAddress)
       if (limited) return limited
 
       try {
@@ -218,12 +222,14 @@ export function createSocialHandlers(dependencies: SocialApiDependencies) {
       if (!payload) return json({ error: "A bounded JSON request is required.", code: "invalid_request" }, 400)
       const content = await validateContent(dependencies, payload.contentType ?? "", payload.contentId ?? "")
       if (isResponse(content)) return content
-      const limited = await checkRateLimit(dependencies, clientAddress)
-      if (limited) return limited
-
       if (payload.action === "likeStatus" || payload.action === "like" || payload.action === "unlike") {
         const browserId = payload.browserId ?? ""
         if (!isValidBrowserId(browserId)) return json({ error: "Invalid anonymous browser marker.", code: "invalid_browser" }, 400)
+        const limited = await checkRateLimit(
+          payload.action === "likeStatus" ? dependencies.rateLimiters.reads : dependencies.rateLimiters.hearts,
+          clientAddress,
+        )
+        if (limited) return limited
         try {
           if (payload.action === "likeStatus") {
             return json({ liked: await dependencies.isLiked(content.contentType, content.contentId, browserId) }, 200)
@@ -243,6 +249,8 @@ export function createSocialHandlers(dependencies: SocialApiDependencies) {
         if (!isValidReceipt(receipt) || !isValidBrowserId(browserId)) {
           return json({ error: "Invalid private receipt.", code: "invalid_receipt" }, 400)
         }
+        const limited = await checkRateLimit(dependencies.rateLimiters.reads, clientAddress)
+        if (limited) return limited
         try {
           const comment = await dependencies.getPrivateComment(receipt, browserId)
           if (!comment || comment.contentType !== content.contentType || comment.contentId !== content.contentId) {
@@ -270,6 +278,8 @@ export function createSocialHandlers(dependencies: SocialApiDependencies) {
       }
 
       try {
+        const limited = await checkRateLimit(dependencies.rateLimiters.comments, clientAddress)
+        if (limited) return limited
         const moderationFlags = [...new Set([...flagLikelyProfanity(displayName), ...flagLikelyProfanity(body)])]
         const comment = await dependencies.createComment({
           id: receipt,
@@ -280,7 +290,10 @@ export function createSocialHandlers(dependencies: SocialApiDependencies) {
           body,
           moderationFlags,
         })
-        return json({ comment: { id: comment.id, displayName: comment.displayName, body: comment.body, createdAt: comment.createdAt, status: comment.status } }, 201)
+        if (comment.contentType !== content.contentType || comment.contentId !== content.contentId) {
+          return json({ error: "This private receipt belongs to a different submission.", code: "receipt_conflict" }, 409)
+        }
+        return json({ comment: { id: comment.id, displayName: comment.displayName, body: comment.body, createdAt: comment.createdAt, status: comment.status } }, comment.status === "pending" ? 201 : 200)
       } catch {
         return json({ error: "Comments are temporarily unavailable.", code: "social_unavailable" }, 503)
       }
