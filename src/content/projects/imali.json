@@ -1,14 +1,12 @@
 {
 	"title": "Imali",
-	"description": "Personal finance tracker that aggregates all your UK bank accounts in one dashboard. AI-powered categorization, automatic duplicate detection, subscription tracking, and budget projections—no manual entry required.",
+	"description": "Personal finance tracker that imports CSV and PDF bank statements, categorizes transactions, and shows finance views.",
 	"url": "https://www.imali.cc",
 	"image": "../_images/imali.png",
 	"startDate": "2024-08-01",
 	"published": true,
 	"tech": [
 		"Next.js",
-		"Open Banking",
-		"Postgresql",
 		"AI",
 		"Vercel"
 	]

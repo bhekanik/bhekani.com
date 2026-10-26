@@ -1,6 +1,6 @@
 {
-	"title": "Dealbase.Africa",
-	"description": "The premier platform tracking investment activity in Africa's tech ecosystem. Access comprehensive data on startup funding rounds, investor profiles, and market trends. Features include custom reports, real-time deal alerts, and in-depth analysis of emerging sectors across the continent.",
+	"title": "Dealbase Africa",
+	"description": "Funding-data platform for African startups.",
 	"url": "https://dealbase.africa",
 	"image": "../_images/dealbase.png",
 	"startDate": "2022-01-01",
@@ -8,7 +8,7 @@
 	"tech": [
 		"Next.js",
 		"Postgresql",
-		"Prisma",
+		"Drizzle",
 		"AWS",
 		"Tailwind",
 		"Vercel"

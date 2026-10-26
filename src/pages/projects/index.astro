@@ -13,7 +13,7 @@ const featuredProjects = sortedProjects.filter((project) => project.data.feature
 const otherProjects = sortedProjects.filter((project) => !project.data.featured)
 
 const pageTitle = "Projects"
-const description = "Things I've built outside work. The three at the top are what I'm working on now."
+const description = "Things I've built outside work. Selected work is at the top."
 const issueNumber = (date: string) => new Date(date).getFullYear()
 ---
 
@@ -65,7 +65,7 @@ const issueNumber = (date: string) => new Date(date).getFullYear()
     {
       otherProjects.length > 0 && (
         <section class="panel back-issues land" style="--i: 3">
-          <span class="cap">Back issues</span>
+          <span class="cap">Other work</span>
           <ul class="rule-list">
             {otherProjects.map((project) => (
               <li>

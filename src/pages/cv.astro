@@ -1,6 +1,8 @@
 ---
+import { getCollection } from "astro:content"
 import MainContainer from "../components/MainContainer.astro"
 import BaseLayout from "../layouts/BaseLayout.astro"
+import { selectProjectSummaries } from "../utils/projectSummaries"
 
 const pageTitle = "CV"
 
@@ -103,10 +105,28 @@ const roles: Role[] = [
   },
 ]
 
-const products = [
-  { name: "blah.chat", href: "https://blah.chat", tag: "multi-model AI chat", what: "50+ models behind one interface, switchable mid-conversation, bring your own key or self-host. RAG over uploaded documents, memory, multi-modal input, agentic workflows. An orchestration layer routes each task on cost, capability and latency, with per-request cost shown to the user. Next.js, Convex, vector search." },
-  { name: "easydeck.app", href: "https://www.easydeck.app", tag: "AI slide generator", what: "Describe a deck, get finished slides with original generated graphics as PowerPoint or PDF. Research, structuring, visuals and layout are each a discrete step with its own validation, so one bad step doesn't poison the whole deck." },
-  { name: "mxr.sh", href: "https://mxr.sh", tag: "agent-first, local-first email client in Rust, open source", what: "A background daemon syncs Gmail, Outlook, Microsoft 365 and IMAP into SQLite, keeps a Tantivy search index, and exposes everything over a JSON-over-Unix-socket API. The terminal UI, CLI, web app, MCP server and agent skill are thin clients on that API. Every mutating command has a dry run. A deterministic pre-send pass checks for missing attachments, leaked secrets, reply-all mistakes, unknown recipients and tone drift. Search is BM25 plus local embeddings, all on-device." },
+const productTags = [
+  "multi-model AI chat",
+  "AI slide generator",
+  "agent-first, local-first email client in Rust, open source",
+]
+
+const allProjects = await getCollection("projects")
+
+const products = selectProjectSummaries(allProjects, ["blah-chat", "easydeck", "mxr"]).map((product, index) => ({
+  ...product,
+  tag: productTags[index],
+}))
+
+const additionalProducts = [
+  ...selectProjectSummaries(allProjects, [
+    "worthyourtime",
+    "interview-optimiser",
+    "reference-optimiser",
+    "dealbase",
+    "imali",
+  ]),
+  { title: "FaithBench", url: "https://faithbench.com", description: "Public benchmark for theological faithfulness in LLMs." },
 ]
 ---
 
@@ -188,16 +208,25 @@ const products = [
             products.map((product) => (
               <li>
                 <p class="product-head">
-                  <a href={product.href}>{product.name}</a>
+                  <a href={product.url}>{product.title}</a>
                   <span class="meta">{product.tag}</span>
                 </p>
-                <p>{product.what}</p>
+                <p>{product.description}</p>
               </li>
             ))
           }
         </ul>
         <p class="earlier">
-          Also: <a href="https://worthyourtime.xyz">worthyourtime.xyz</a> (film recommendations from a learned taste model that explains its verdict), <a href="https://faithbench.com">faithbench.com</a> (public LLM benchmark with a multi-stage LLM-as-judge evaluation pipeline and a held-out test split), <a href="https://www.interviewoptimiser.com">interviewoptimiser.com</a> and <a href="https://www.referenceoptimiser.com">referenceoptimiser.com</a> (real-time voice AI for mock interviews and reference checks, with Hume AI), <a href="https://dealbase.africa">dealbase.africa</a> (AI extraction of African startup funding data), <a href="https://www.imali.cc">imali.cc</a>.
+          Also:
+          {
+            additionalProducts.map((product, index) => (
+              <>
+                {index > 0 && ", "}
+                <a href={product.url}>{product.title}</a> ({product.description})
+              </>
+            ))
+          }
+          .
         </p>
       </section>
 

@@ -1,20 +1,28 @@
 ---
 import { Image } from "astro:assets"
+import { getCollection } from "astro:content"
 import MainContainer from "../components/MainContainer.astro"
 import BK from "../images/BK.webp"
 import BaseLayout from "../layouts/BaseLayout.astro"
+import { selectProjectSummaries } from "../utils/projectSummaries"
 
 const pageTitle = "About"
 
+const projectSummaries = selectProjectSummaries(await getCollection("projects"), [
+  "mxr",
+  "blah-chat",
+  "easydeck",
+  "worthyourtime",
+  "interview-optimiser",
+  "reference-optimiser",
+  "cv-optimiser",
+  "dealbase",
+])
+
 const products = [
-  { name: "mxr.sh", href: "https://mxr.sh", what: "Agent-first, local-first email client in Rust. Open source. A daemon syncs Gmail, Outlook, Microsoft 365 and IMAP into SQLite; the terminal UI, CLI, web app and MCP server are thin clients on the same API." },
-  { name: "blah.chat", href: "https://blah.chat", what: "50+ models behind one interface, switchable mid-conversation. RAG over your documents, memory, and a router that picks a model on cost, capability and latency." },
-  { name: "easydeck.app", href: "https://www.easydeck.app", what: "Describe a deck, get finished slides with generated graphics as PowerPoint or PDF. Research, structure, visuals and layout are separate validated steps, so one bad step doesn't ruin the deck." },
-  { name: "FaithBench", href: "https://faithbench.com", what: "Public benchmark for theological faithfulness in LLMs, with a multi-stage LLM-as-judge pipeline and a held-out test split." },
-  { name: "worthyourtime.xyz", href: "https://worthyourtime.xyz", what: "Film recommendations from a learned taste model that explains its verdict." },
-  { name: "Interview Optimiser and Reference Optimiser", href: "https://www.interviewoptimiser.com", what: "Real-time voice AI for mock interviews and reference checks, built on Hume AI." },
-  { name: "CV Optimiser", href: "https://www.cvoptimiser.com", what: "Tailors a CV to a specific job description." },
-  { name: "Dealbase Africa", href: "https://dealbase.africa", what: "AI extraction of African startup funding data." },
+  ...projectSummaries.slice(0, 3),
+  { title: "FaithBench", url: "https://faithbench.com", description: "Public benchmark for theological faithfulness in LLMs." },
+  ...projectSummaries.slice(3),
 ]
 ---
 
@@ -86,10 +94,10 @@ const products = [
           {
             products.map((product) => (
               <li>
-                <a href={product.href} class="product-name">
-                  {product.name}
+                <a href={product.url} class="product-name">
+                  {product.title}
                 </a>
-                <p>{product.what}</p>
+                <p>{product.description}</p>
               </li>
             ))
           }

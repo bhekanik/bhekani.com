@@ -1,6 +1,6 @@
 {
 	"title": "spotuify",
-	"description": "Spotify, built for the command line. A daemon owns playback; a keyboard-native TUI, a pipeable CLI, an MCP server for coding agents and a macOS menubar app are all just clients. Quit any of them and the music keeps playing.",
+	"description": "Spotify for the command line, with TUI, CLI, MCP, and macOS menu bar clients.",
 	"url": "https://spotuify.app",
 	"image": "../_images/spotuify.png",
 	"startDate": "2026-06-01",
