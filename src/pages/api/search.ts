@@ -1,7 +1,9 @@
 import type { APIRoute } from "astro"
+import { getCollection } from "astro:content"
 import { Index } from "@upstash/vector"
 import OpenAI from "openai"
 import * as Sentry from "@sentry/astro"
+import { canonicalizeBookSearchResults, createBookSearchRoutes } from "../../utils/bookSearchRoutes"
 import { RateLimiter } from "../../utils/rateLimiter"
 
 export const prerender = false
@@ -29,6 +31,15 @@ const searchRateLimiter = new RateLimiter(30, 60000)
 
 // Cache the search index in memory
 let searchIndex: SearchIndexItem[] | null = null
+let bookSearchRoutes: Promise<Map<string, string>> | null = null
+
+function loadBookSearchRoutes(): Promise<Map<string, string>> {
+  if (!bookSearchRoutes) {
+    bookSearchRoutes = getCollection("books").then(createBookSearchRoutes)
+  }
+
+  return bookSearchRoutes
+}
 
 async function loadSearchIndex(): Promise<SearchIndexItem[]> {
   if (searchIndex) return searchIndex
@@ -187,14 +198,14 @@ export const GET: APIRoute = async ({ url, clientAddress }) => {
       } catch (error) {
         Sentry.captureException(error, {
           tags: { api: "search", component: "vector" },
-          extra: { query },
         })
         // Fall through to keyword-only results
       }
     }
 
     // Fuse results using RRF
-    const results = vectorResults.length > 0 ? fuseResults(vectorResults, keywordResults) : keywordResults
+    const combinedResults = vectorResults.length > 0 ? fuseResults(vectorResults, keywordResults) : keywordResults
+    const results = canonicalizeBookSearchResults(combinedResults, await loadBookSearchRoutes())
 
     // Return top 10
     return new Response(
@@ -215,7 +226,6 @@ export const GET: APIRoute = async ({ url, clientAddress }) => {
   } catch (error) {
     Sentry.captureException(error, {
       tags: { api: "search", method: "GET" },
-      extra: { query },
     })
 
     return new Response(JSON.stringify({ error: "Search failed" }), {

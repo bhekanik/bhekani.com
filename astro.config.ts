@@ -8,7 +8,7 @@ import expressiveCode from "astro-expressive-code";
 import robotsTxt from "astro-robots-txt";
 import { defineConfig } from "astro/config";
 import svelte from "@astrojs/svelte";
-const isProduction = process.env.NODE_ENV === "production";
+const isProduction = process.env.NODE_ENV === "production" && process.env.VERIFY_OFFLINE !== "1";
 
 
 // https://astro.build/config
@@ -31,6 +31,7 @@ export default defineConfig({
     }
   }), mdx(), sentry({
     enabled: isProduction,
+    telemetry: false,
     sourceMapsUploadOptions: {
       project: "website",
       authToken: process.env.SENTRY_AUTH_TOKEN

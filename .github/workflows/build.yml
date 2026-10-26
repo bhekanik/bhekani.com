@@ -9,13 +9,8 @@ on:
   pull_request:
     branches: [main, dev, qa]
 
-env:
-  SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-  ASTRO_STUDIO_APP_TOKEN: ${{ secrets.ASTRO_STUDIO_APP_TOKEN }}
-
 permissions:
-  contents: write
-  pull-requests: write
+  contents: read
 
 jobs:
   build:
@@ -32,13 +27,13 @@ jobs:
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
         with:
-          bun-version: latest
+          bun-version: 1.3.14
 
       - name: Install deps
-        run: bun install
+        run: bun install --frozen-lockfile
 
-      - name: build
-        run: bun run build
+      - name: Verify offline build
+        run: bun run verify:offline
 
   auto-merge-dependabot:
     name: Auto merge dependabot PR

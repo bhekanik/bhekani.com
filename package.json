@@ -10,6 +10,7 @@
     "generate:embeddings": "bun run scripts/generate-embeddings.ts",
     "prebuild": "rm -rf node_modules/.astro && bun run generate:search-index && bun run generate:embeddings",
     "build": "bun run lint && astro sync && astro build --remote",
+    "verify:offline": "rm -f .astro/verify.db && ASTRO_TELEMETRY_DISABLED=1 VERIFY_OFFLINE=1 ASTRO_DATABASE_FILE=.astro/verify.db bun run test --run && ASTRO_TELEMETRY_DISABLED=1 VERIFY_OFFLINE=1 ASTRO_DATABASE_FILE=.astro/verify.db bun run lint && ASTRO_TELEMETRY_DISABLED=1 VERIFY_OFFLINE=1 ASTRO_DATABASE_FILE=.astro/verify.db astro sync && ASTRO_TELEMETRY_DISABLED=1 VERIFY_OFFLINE=1 ASTRO_DATABASE_FILE=.astro/verify.db astro build",
     "preview": "astro preview",
     "astro": "astro",
     "prepare": "husky",
