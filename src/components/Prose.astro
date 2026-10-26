@@ -1,3 +1,18 @@
-<div class="prose max-w-none prose-p:max-w-[70ch] prose-li:max-w-[70ch] prose-pre:max-w-[75ch]">
+<div class="prose max-w-none prose-p:max-w-[70ch] prose-li:max-w-[70ch]">
   <slot />
 </div>
+
+<style>
+  :global(.prose pre),
+  :global(.prose [data-expressive-code-figure]) {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+
+  :global(.prose table) {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+</style>

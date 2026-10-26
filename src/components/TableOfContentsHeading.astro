@@ -1,9 +1,5 @@
 ---
-import type { MarkdownHeading } from "astro"
-
-type Heading = MarkdownHeading & {
-  subheadings?: Heading[]
-}
+import type { TableOfContentsHeading as Heading } from "../utils/articleReading"
 
 export interface Props {
   heading: Heading

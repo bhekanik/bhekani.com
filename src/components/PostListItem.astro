@@ -1,9 +1,9 @@
 ---
 import type { CollectionEntry } from "astro:content"
-import { format } from "date-fns"
 import Link from "./Link.astro"
 import PostDescription from "./PostDescription.astro"
 import TagsList from "./TagsList.astro"
+import { formatPostDateUtc } from "../utils/articleReading"
 
 type Props = {
   post: CollectionEntry<"posts">
@@ -25,11 +25,11 @@ const tags = post.data.tags
 
     <time
       class="ml-2 text-sm whitespace-nowrap text-muted-foreground"
-      >{format(date, "MMMM dd, yyyy")}
+       >{formatPostDateUtc(date)}
     </time>
   </div>
 
-  <PostDescription description={title} slug={post.id} />
+  <PostDescription description={post.data.description} slug={post.id} />
 
   <TagsList tags={tags} />
 </li>

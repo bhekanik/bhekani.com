@@ -5,6 +5,7 @@ description: "Discover the power of confrontation and how to turn it into an opp
 author: "Bhekani Khumalo"
 published: true
 image: "../_images/confrontation-as-opportunity.jpg"
+imageAlt: "Two people having a tense conversation in a living room"
 tags: ["advice", "career", "just-reflections"]
 ---
 
