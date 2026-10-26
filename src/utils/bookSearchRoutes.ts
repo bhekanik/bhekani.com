@@ -11,6 +11,8 @@ interface SearchResultWithDestination {
   slug: string
 }
 
+type CanonicalizedSearchResult<T extends SearchResultWithDestination> = Omit<T, "slug"> & { slug: string }
+
 export function createBookSearchRoutes(entries: Iterable<BookSearchEntry>): Map<string, string> {
   const routes = new Map<string, string>()
   const ambiguousIds = new Set<string>()
@@ -35,10 +37,18 @@ export function createBookSearchRoutes(entries: Iterable<BookSearchEntry>): Map<
 export function canonicalizeBookSearchResults<T extends SearchResultWithDestination>(
   results: T[],
   bookRoutes: ReadonlyMap<string, string>,
-): T[] {
-  return results.map((result) => {
-    if (result.type !== "book") return result
+): CanonicalizedSearchResult<T>[] {
+  const canonicalResults: CanonicalizedSearchResult<T>[] = []
 
-    return { ...result, slug: bookRoutes.get(result.id) ?? "" }
-  })
+  for (const result of results) {
+    if (result.type !== "book") {
+      canonicalResults.push(result)
+      continue
+    }
+
+    const slug = bookRoutes.get(result.id)
+    if (slug) canonicalResults.push({ ...result, slug })
+  }
+
+  return canonicalResults
 }

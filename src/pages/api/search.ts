@@ -41,11 +41,11 @@ function loadBookSearchRoutes(): Promise<Map<string, string>> {
   return bookSearchRoutes
 }
 
-async function loadSearchIndex(origin: string): Promise<SearchIndexItem[]> {
+async function loadSearchIndex(): Promise<SearchIndexItem[]> {
   if (searchIndex) return searchIndex
 
   try {
-    const response = await fetch(new URL("/search-index.json", origin))
+    const response = await fetch(new URL("/search-index.json", import.meta.env.SITE || "http://localhost:4321"))
     if (response.ok) {
       searchIndex = await response.json()
       return searchIndex || []
@@ -153,7 +153,7 @@ export const GET: APIRoute = async ({ url, clientAddress }) => {
 
   try {
     // Load keyword search index
-    const index = await loadSearchIndex(url.origin)
+    const index = await loadSearchIndex()
     const keywordResults = keywordSearch(query, index)
 
     // Try vector search if configured

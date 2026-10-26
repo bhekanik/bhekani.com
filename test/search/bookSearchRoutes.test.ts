@@ -43,20 +43,22 @@ describe("book search routes", () => {
     ])
   })
 
-  it("does not navigate unknown or ambiguous book identities to provider supplied URLs", () => {
+  it("removes unknown or ambiguous book identities before they reach the selectable results", () => {
     const duplicateRoutes = createBookSearchRoutes([
       { id: "one", data: { id: 99 } },
       { id: "two", data: { id: 99 } },
     ])
-    const results = [
-      { id: "constructor", type: "book" as const, title: "Unknown", slug: "https://example.invalid", score: 1 },
-      { id: "book-99", type: "book" as const, title: "Duplicate", slug: "/books/one", score: 0.5 },
-    ]
+    const unknownResult = {
+      id: "book-removed",
+      type: "book" as const,
+      title: "Removed book",
+      slug: "https://example.invalid",
+      score: 1,
+    }
+    const ambiguousResult = { id: "book-99", type: "book" as const, title: "Duplicate", slug: "/books/one", score: 0.5 }
 
     expect(duplicateRoutes).toEqual(new Map())
-    expect(canonicalizeBookSearchResults(results, routes)).toEqual([
-      { ...results[0], slug: "" },
-      { ...results[1], slug: "" },
-    ])
+    expect(canonicalizeBookSearchResults([unknownResult], routes)).toEqual([])
+    expect(canonicalizeBookSearchResults([ambiguousResult], duplicateRoutes)).toEqual([])
   })
 })
