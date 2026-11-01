@@ -41,3 +41,16 @@ jobs:
           prompt: '/code-review:code-review ${{ github.repository }}/pull/${{ github.event.pull_request.number }}'
           # See https://github.com/anthropics/claude-code-action/blob/main/docs/usage.md
           # or https://code.claude.com/docs/en/cli-reference for available options
+
+      - name: Diagnose Claude review failure
+        if: ${{ failure() && steps.claude-review.outcome == 'failure' }}
+        run: |
+          # Report failure categories without publishing model messages or tool output.
+          jq '[.[] | select(.type == "result") | {
+            subtype,
+            is_error,
+            http_status: ((.result // "" | capture("(?i)(?:api error|http)[: ]+(?<code>[0-9]{3})") | .code) // null),
+            authentication_error: (.result // "" | test("(?i)authenticate|authentication|oauth|token.*(?:invalid|expired)")),
+            rate_limited: (.result // "" | test("(?i)rate.?limit|usage.?limit|credit balance")),
+            model_unavailable: (.result // "" | test("(?i)model.*(?:not found|unavailable|does not exist)"))
+          }]' "$RUNNER_TEMP/claude-execution-output.json"
