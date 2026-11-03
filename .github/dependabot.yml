@@ -11,17 +11,21 @@ updates:
     schedule:
       interval: "daily"
       time: "23:40"
+    cooldown:
+      default-days: 7
     open-pull-requests-limit: 10
     commit-message:
       prefix: "actions:"
       include: scope
 
-  # Maintain dependencies for npm
-  - package-ecosystem: "npm"
+  # Maintain dependencies for Bun
+  - package-ecosystem: "bun"
     directory: "/"
     schedule:
       interval: "daily"
       time: "23:40"
+    cooldown:
+      default-days: 7
     open-pull-requests-limit: 10
     commit-message:
       prefix: "npm:"

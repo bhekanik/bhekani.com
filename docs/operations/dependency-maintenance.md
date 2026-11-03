@@ -10,6 +10,17 @@ bun audit --json
 
 Direct dependencies are exact pins. Do not hand-edit `bun.lock`, force an incompatible major, or add an audit ignore. The current manifest has no overrides.
 
+## Dependabot requires the Bun ecosystem
+
+Inspect updater failures with:
+
+```sh
+gh run list --workflow 'Dependabot Updates' --limit 10
+gh run view <run-id> --log
+```
+
+The root update entry in `.github/dependabot.yml` uses `package-ecosystem: "bun"` to update `package.json` and `bun.lock`. The npm ecosystem rejects this repository's Bun-only lockfile, as recorded in [the failed Astro update](https://github.com/bhekanik/bhekani.com/actions/runs/41247563443). Both Bun and GitHub Actions updates have a seven-day cooldown for version updates.
+
 ## Deliberate fresh resolution
 
 `bun install` does not refresh versions already recorded in an existing lockfile. Use a fresh resolution only to investigate a verified compatible security patch, and do it in an isolated worktree so no unrelated work is removed:
